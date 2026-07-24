@@ -452,3 +452,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 .ai-hist-overlay[hidden] { display: none; }
 .ai-hist-overlay .hsb-list { margin: 0 -4px; }
+
+/* 슬라이드 패널 head — 아이콘화 (AI 아바타 글자 · SVG 아이콘) */
+.ai-panel__head .dot { display: flex; align-items: center; justify-content: center; color: #fff; font-size: 11px; font-weight: 700; letter-spacing: -0.02em; }
+.ai-panel__head .ico svg { display: block; }
