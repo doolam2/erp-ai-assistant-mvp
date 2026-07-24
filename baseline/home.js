@@ -129,7 +129,7 @@
     aiThread.appendChild(el(`<div class="date-divider"><span>오늘 · 7월 24일</span></div>`));
     const col = addAiRow().querySelector(".msg__col");
     col.appendChild(el(`<div class="bubble bubble--ai">
-      <p>안녕하세요 선영님. 오늘 아침 기준 확인이 필요한 항목 3건을 먼저 알려드릴게요.</p>
+      <p>안녕하세요 두람 님. 오늘 아침 기준 확인이 필요한 항목 3건을 먼저 알려드릴게요.</p>
       <div class="status-cards">
         <div class="status-card"><div class="status-card__label">유통기한 임박</div><div class="status-card__value" style="color:var(--neg)">7품목</div></div>
         <div class="status-card"><div class="status-card__label">재고 부족</div><div class="status-card__value" style="color:var(--orange-1)">4품목</div></div>

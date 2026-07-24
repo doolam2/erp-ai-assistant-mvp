@@ -319,8 +319,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .tag--done, .tag--ok { background: #e8f6f0; color: #1a9c6e; }
 .tag--prog { background: #fff2e8; color: var(--orange-1); }
 .tag--near { background: #ffecec; color: var(--neg); }
-.data-table tr.row-hl { background: var(--tint-blue); box-shadow: inset 3px 0 0 var(--blue-1); }
-.data-table tr.row-hl td:first-child::after { content: " 🔗"; }
+.data-table tr.row-hl { background: var(--tint-blue); }
 
 /* stock view: breadcrumb / filters / banner */
 .breadcrumb { display: flex; gap: 6px; align-items: center; font-size: 12px; }
