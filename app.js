@@ -342,7 +342,7 @@
 
   function renderInitial() {
     thread.innerHTML = "";
-    thread.appendChild(el('<div class="date-divider"><span>오늘 · 7월 23일</span></div>'));
+    thread.appendChild(el('<div class="date-divider"><span>오늘 · 7월 24일</span></div>'));
     const aiRow = addAiRow();
     const col = aiRow.querySelector(".msg__col");
     col.appendChild(el(`
