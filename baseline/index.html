@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>홈 대시보드 — 맑은물에 ERP</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css"
+  />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app" id="app">
+    <!-- ===== LNB ===== -->
+    <aside class="lnb" id="lnb">
+      <a class="lnb__brand" href="index.html">
+        <div class="lnb__brand-title">맑은물에</div>
+        <div class="lnb__brand-sub">식품제조 통합 ERP</div>
+      </a>
+      <nav class="lnb__menu">
+        <a class="lnb__item" data-nav="기초정보 관리">기초정보 관리</a>
+        <a class="lnb__item" data-nav="주문정보 관리">주문정보 관리</a>
+        <a class="lnb__item" data-nav="발주정보 관리">발주정보 관리</a>
+        <a class="lnb__item" data-nav="생산정보 관리">생산정보 관리</a>
+        <a class="lnb__item" data-nav="입출고정보 관리">입출고정보 관리</a>
+        <a class="lnb__item" data-nav="재고정보 관리">재고정보 관리</a>
+        <a class="lnb__item" data-nav="품질정보 관리">품질정보 관리</a>
+        <a class="lnb__item" data-nav="모니터링">모니터링</a>
+        <a class="lnb__item" href="chat.html" title="AI 어시스턴트 전체화면으로 이동">AI 어시스턴트</a>
+      </nav>
+    </aside>
+    <div class="scrim" id="scrim"></div>
+
+    <!-- ===== MAIN ===== -->
+    <main class="main">
+      <header class="topbar">
+        <button class="topbar__hamburger" id="hamburger" aria-label="메뉴">
+          <span></span><span></span><span></span>
+        </button>
+        <div class="topbar__title">
+          <h1 id="pageTitle">홈 대시보드</h1>
+          <p id="pageSub">맑은물에 홀딩스 · 2026년 7월 24일</p>
+        </div>
+        <div class="topbar__spacer"></div>
+        <button class="ai-launch" id="aiLaunch" title="AI 어시스턴트 슬라이드 열기">
+          <span class="spark">✨</span> AI 어시스턴트
+        </button>
+        <div class="topbar__user">
+          <span class="avatar avatar--user"></span>
+          <span class="topbar__user-name">김선영 · 물류팀</span>
+        </div>
+      </header>
+
+      <!-- ===== HOME VIEW ===== -->
+      <div class="content view" id="homeView">
+        <div class="corp-tabs">
+          <button class="corp-tab is-active">맑은물에홀딩스</button>
+          <button class="corp-tab">꿈꾸는콩</button>
+          <button class="corp-tab">더큰정성</button>
+          <button class="corp-tab">맑은동해</button>
+          <button class="corp-tab">맑은물에</button>
+          <button class="corp-tab">맑은식품</button>
+          <button class="corp-tab">참좋은콩</button>
+        </div>
+
+        <div class="kpi-row">
+          <div class="kpi-card"><div class="kpi-card__label">매출합계</div><div class="kpi-card__value">₩ 8억 4,210만</div><div class="kpi-card__delta" style="color:var(--blue-1)">전월 대비 +6.2%</div></div>
+          <div class="kpi-card"><div class="kpi-card__label">매입합계</div><div class="kpi-card__value">₩ 5억 1,880만</div><div class="kpi-card__delta" style="color:var(--g8)">전월 대비 +3.1%</div></div>
+          <div class="kpi-card"><div class="kpi-card__label">영업이익</div><div class="kpi-card__value">₩ 1억 2,540만</div><div class="kpi-card__delta" style="color:var(--pos-2)">전월 대비 +9.4%</div></div>
+          <div class="kpi-card"><div class="kpi-card__label">재고자산</div><div class="kpi-card__value">₩ 3억 6,700만</div><div class="kpi-card__delta" style="color:var(--orange-1)">유통기한 임박 7품목</div></div>
+        </div>
+
+        <div class="mid-row">
+          <div class="dash-card">
+            <div class="dash-card__title">월별 매출 추이 (최근 6개월)</div>
+            <div class="bars">
+              <div class="bar-col"><div class="bar" style="height:57%"></div><span>2월</span></div>
+              <div class="bar-col"><div class="bar" style="height:69%"></div><span>3월</span></div>
+              <div class="bar-col"><div class="bar" style="height:64%"></div><span>4월</span></div>
+              <div class="bar-col"><div class="bar" style="height:80%"></div><span>5월</span></div>
+              <div class="bar-col"><div class="bar" style="height:73%"></div><span>6월</span></div>
+              <div class="bar-col"><div class="bar is-current" style="height:95%"></div><span>7월</span></div>
+            </div>
+          </div>
+          <div class="dash-card">
+            <div class="dash-card__title">오늘의 알림</div>
+            <div class="alert-list">
+              <div class="alert-item"><span class="dot" style="background:var(--neg)"></span><span class="lbl">유통기한 임박</span><span class="val" style="color:var(--neg)">7품목</span></div>
+              <div class="alert-item"><span class="dot" style="background:var(--orange-1)"></span><span class="lbl">재고 부족</span><span class="val" style="color:var(--orange-1)">4품목</span></div>
+              <div class="alert-item"><span class="dot" style="background:var(--pos-2)"></span><span class="lbl">미검수 입고</span><span class="val" style="color:var(--pos-2)">2건</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="data-card">
+          <div class="data-card__head"><h3>최근 출고 현황</h3><a>전체 보기 →</a></div>
+          <table class="data-table">
+            <thead><tr><th>제품</th><th>로트</th><th>수량</th><th>출고처</th><th>출고일</th><th>상태</th></tr></thead>
+            <tbody>
+              <tr><td>국산 두부 200g</td><td class="muted">L-2607-18</td><td class="muted">420박스</td><td class="muted">상암점</td><td class="muted">07-24</td><td><span class="tag tag--done">완료</span></td></tr>
+              <tr><td>콩물 150g</td><td class="muted">L-2607-09</td><td class="muted">180박스</td><td class="muted">홀딩스 물류</td><td class="muted">07-24</td><td><span class="tag tag--prog">진행중</span></td></tr>
+              <tr><td>비지 500g</td><td class="muted">L-2606-31</td><td class="muted">60박스</td><td class="muted">참좋은콩</td><td class="muted">07-23</td><td><span class="tag tag--done">완료</span></td></tr>
+              <tr><td>국산 나물 1kg</td><td class="muted">L-2605-77</td><td class="muted">30박스</td><td class="muted">더큰정성</td><td class="muted">07-23</td><td><span class="tag tag--prog">진행중</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ===== STOCK VIEW (deep-link target) ===== -->
+      <div class="content view" id="stockView" hidden>
+        <div class="breadcrumb"><span class="muted" data-home>재고정보 관리</span><span class="sep">›</span><span class="cur">로트별 재고현황</span></div>
+        <div class="dl-banner" id="dlBanner" hidden>
+          <span>🔗</span><span>AI 어시스턴트가 로트 <strong>L-2607-18 (국산 두부 200g)</strong> 로 이동했습니다. 아래에서 하이라이트됩니다.</span>
+        </div>
+        <div class="filters">
+          <button class="filter-chip">법인: 맑은물에홀딩스 ▾</button>
+          <button class="filter-chip">창고: 전체 ▾</button>
+          <button class="filter-chip is-active">유통기한 D-3 이내</button>
+        </div>
+        <div class="data-card">
+          <table class="data-table">
+            <thead><tr><th>제품</th><th>로트</th><th>창고</th><th>현재고</th><th>입고일</th><th>유통기한</th><th>상태</th></tr></thead>
+            <tbody>
+              <tr id="lotL260718"><td>국산 두부 200g</td><td class="muted">L-2607-18</td><td class="muted">상암냉장</td><td class="muted">42박스</td><td class="muted">07-17</td><td class="neg">D-1</td><td><span class="tag tag--near">임박</span></td></tr>
+              <tr><td>콩물 150g</td><td class="muted">L-2607-09</td><td class="muted">상암냉장</td><td class="muted">18박스</td><td class="muted">07-16</td><td class="neg">D-2</td><td><span class="tag tag--near">임박</span></td></tr>
+              <tr><td>비지 500g</td><td class="muted">L-2606-31</td><td class="muted">제천냉장</td><td class="muted">6박스</td><td class="muted">07-19</td><td class="muted">D-5</td><td><span class="tag tag--ok">정상</span></td></tr>
+              <tr><td>국산 두부 200g</td><td class="muted">L-2607-22</td><td class="muted">상암냉장</td><td class="muted">120박스</td><td class="muted">07-21</td><td class="muted">D-6</td><td><span class="tag tag--ok">정상</span></td></tr>
+              <tr><td>낫또 80g</td><td class="muted">L-2607-05</td><td class="muted">동해냉장</td><td class="muted">54박스</td><td class="muted">07-18</td><td class="muted">D-8</td><td><span class="tag tag--ok">정상</span></td></tr>
+              <tr><td>국산 나물 1kg</td><td class="muted">L-2605-77</td><td class="muted">제천냉장</td><td class="muted">30박스</td><td class="muted">07-14</td><td class="muted">D-9</td><td><span class="tag tag--ok">정상</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ===== AI SLIDE-OVER PANEL ===== -->
+    </main>
+
+    <aside class="ai-panel" id="aiPanel">
+      <div class="ai-panel__inner">
+        <div class="ai-panel__head">
+          <span class="dot"></span>
+          <div class="t"><h2>AI 어시스턴트</h2><p>발주 · 재고 · 유통기한 질의</p></div>
+          <a class="ico" href="chat.html" title="전체화면으로 열기">⤢</a>
+          <button class="ico" id="aiClose" title="닫기">✕</button>
+        </div>
+        <div class="ai-panel__scope">
+          <button class="scope-chip is-active">법인: 맑은물에홀딩스 <span>▾</span></button>
+          <button class="scope-chip">기간: 이번 달 <span>▾</span></button>
+        </div>
+        <div class="ai-thread" id="aiThread"></div>
+        <div class="ai-input">
+          <div class="input-field" id="aiInputField">
+            <textarea id="aiInput" rows="1" placeholder="메시지를 입력하세요"></textarea>
+            <button class="btn btn--send" id="aiSend">전송</button>
+          </div>
+          <p class="input-hint">AI 답변은 참고용입니다. 발주 확정 전 담당자 확인이 필요합니다.</p>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- ===== Toast ===== -->
+  <div class="toast" id="toast" hidden></div>
+
+  <script src="home.js"></script>
+</body>
+</html>
