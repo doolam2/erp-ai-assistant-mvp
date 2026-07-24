@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI 어시스턴트 (전체화면) — 맑은물에 ERP</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css"
+  />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+    <!-- ===== LNB ===== -->
+    <aside class="lnb" id="lnb">
+      <a class="lnb__brand" href="index.html">
+        <div class="lnb__brand-title">맑은물에</div>
+        <div class="lnb__brand-sub">식품제조 통합 ERP</div>
+      </a>
+      <nav class="lnb__menu">
+        <a class="lnb__item" href="index.html">기초정보 관리</a>
+        <a class="lnb__item" href="index.html">주문정보 관리</a>
+        <a class="lnb__item" href="index.html">발주정보 관리</a>
+        <a class="lnb__item" href="index.html">생산정보 관리</a>
+        <a class="lnb__item" href="index.html">입출고정보 관리</a>
+        <a class="lnb__item" href="index.html">재고정보 관리</a>
+        <a class="lnb__item" href="index.html">품질정보 관리</a>
+        <a class="lnb__item" href="index.html">모니터링</a>
+        <a class="lnb__item lnb__item--active">AI 어시스턴트</a>
+      </nav>
+    </aside>
+    <div class="scrim" id="scrim"></div>
+
+    <!-- ===== MAIN ===== -->
+    <main class="main">
+      <header class="topbar">
+        <button class="topbar__hamburger" id="hamburger" aria-label="메뉴">
+          <span></span><span></span><span></span>
+        </button>
+        <div class="topbar__title">
+          <h1>AI 어시스턴트</h1>
+          <p>발주 · 재고 · 유통기한을 물어보세요</p>
+        </div>
+        <div class="topbar__spacer"></div>
+        <div class="scope-bar" id="scopeBar">
+          <button class="scope-chip is-active" data-scope="corp">법인: 맑은물에 <span>▾</span></button>
+          <button class="scope-chip" data-scope="period">기간: 이번 달 <span>▾</span></button>
+        </div>
+        <button class="btn btn--outline" id="newChatBtn">새 대화</button>
+        <div class="topbar__user">
+          <span class="avatar avatar--user"></span>
+          <span class="topbar__user-name">김선영 · 물류팀</span>
+        </div>
+      </header>
+
+      <div class="chat-body" id="chatBody">
+        <div class="thread" id="thread"><!-- messages injected here --></div>
+      </div>
+
+      <div class="input-area">
+        <div class="input-inner">
+          <div class="input-field" id="inputField">
+            <textarea
+              id="messageInput"
+              rows="1"
+              placeholder="메시지를 입력하세요"
+            ></textarea>
+            <button class="btn btn--send" id="sendBtn">전송</button>
+          </div>
+          <p class="input-hint">
+            AI 답변은 참고용입니다. 발주 확정 전 담당자 확인이 필요합니다.
+          </p>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- ===== Delete confirm dialog ===== -->
+  <div class="overlay" id="deleteOverlay" hidden>
+    <div class="dialog" role="dialog" aria-modal="true">
+      <h2 class="dialog__title">대화를 전체 삭제할까요?</h2>
+      <p class="dialog__desc">삭제한 대화와 생성된 발주 초안은 복구할 수 없습니다.</p>
+      <div class="dialog__actions">
+        <button class="btn btn--outline" data-dialog="cancel">취소</button>
+        <button class="btn btn--danger" data-dialog="confirm">삭제</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Toast ===== -->
+  <div class="toast" id="toast" hidden></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
