@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>웨이트 웨이브 (Pretendard)</title>
+<link rel="stylesheet" href="shared.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+  main { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2.5rem; text-align:center; }
+  .wave {
+    font-family:'Pretendard Variable', Pretendard, sans-serif;
+    font-size:clamp(2.5rem,9vw,7rem); line-height:1.25; letter-spacing:-.02em;
+  }
+  /* ── 프리텐다드 공식 페이지 원본 값 그대로 ── */
+  .wave span {
+    animation: variable-loop 4s infinite both;
+    animation-delay: calc((var(--variable-index) + 1) * 0.15s);
+  }
+  @keyframes variable-loop {
+    0%   { font-weight: 45; }
+    50%  { font-weight: 930; }
+    100% { font-weight: 45; }
+  }
+  /* 변형: 빠르고 촘촘한 파도 */
+  .wave.fast span { animation-duration: 2s; animation-delay: calc((var(--variable-index) + 1) * 0.08s); }
+  .note { color:var(--dim); font-size:.9rem; max-width:46ch; line-height:1.7; }
+  .note code { color:var(--accent); font-family:Menlo,monospace; font-size:.85em; }
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">웨이트 웨이브 — 글자 굵기가 물결치듯 순환 (Pretendard 공식 페이지 재현)</span></div>
+<main>
+  <h1 class="wave" data-wave>프리텐다드</h1>
+  <h2 class="wave fast" data-wave>Pretendard Variable</h2>
+  <p class="note">JS 애니메이션이 아니라 순수 CSS입니다. 가변 폰트는 <code>font-weight</code>를
+  45→930 연속값으로 트랜지션할 수 있어서, 글자별 <code>animation-delay</code>(0.15s×순번)만 주면
+  굵기의 파도가 옆으로 번져갑니다.</p>
+</main>
+<script>
+// 글자를 span으로 쪼개고 순번을 CSS 변수로 부여 (공백은 순번만 차지)
+document.querySelectorAll('[data-wave]').forEach(el => {
+  el.innerHTML = [...el.textContent].map((ch, i) =>
+    ch === ' ' ? ' ' : `<span style="--variable-index:${i}">${ch}</span>`
+  ).join('');
+});
+</script>
+</body>
+</html>
