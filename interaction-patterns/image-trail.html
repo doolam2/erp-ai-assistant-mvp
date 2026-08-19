@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>이미지 트레일</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  main { min-height:100vh; display:flex; align-items:center; justify-content:center; }
+  h1 { font-size:clamp(2rem,6vw,4.5rem); letter-spacing:-.02em; opacity:.9; pointer-events:none; }
+  .trail-img {
+    position:fixed; width:180px; height:240px; object-fit:cover;
+    pointer-events:none; z-index:10; border-radius:6px;
+    transform:translate(-50%,-50%);
+  }
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">이미지 트레일 — 마우스를 크게 움직여 보세요</span></div>
+<main><h1>Our Works</h1></main>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script>
+const SOURCES = Array.from({length:8}, (_,i) => `https://picsum.photos/id/${[1015,1025,1039,1043,1050,1062,1069,1080][i]}/360/480`);
+SOURCES.forEach(s => { const im = new Image(); im.src = s; }); // preload
+let last = {x:-999,y:-999}, idx = 0;
+addEventListener('mousemove', e => {
+  const dx = e.clientX-last.x, dy = e.clientY-last.y;
+  if (Math.hypot(dx,dy) < 90) return;               // 일정 거리마다 한 장씩
+  last = {x:e.clientX, y:e.clientY};
+  const img = document.createElement('img');
+  img.className = 'trail-img';
+  img.src = SOURCES[idx++ % SOURCES.length];
+  img.style.left = e.clientX+'px'; img.style.top = e.clientY+'px';
+  document.body.appendChild(img);
+  gsap.fromTo(img,
+    { scale:0.4, rotation:(Math.random()-.5)*20, opacity:0 },
+    { scale:1, opacity:1, duration:.4, ease:'power3.out' });
+  gsap.to(img, {
+    scale:0.2, opacity:0, duration:.6, delay:.5, ease:'power2.in',
+    onComplete:() => img.remove()
+  });
+});
+</script>
+</body>
+</html>

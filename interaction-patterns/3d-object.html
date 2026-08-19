@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>3D 오브젝트 씬</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  #three { position:fixed; inset:0; }
+  .sect { position:relative; height:100vh; display:flex; align-items:center; padding:0 10vw; pointer-events:none; }
+  .sect h2 { font-size:clamp(2rem,6vw,4.5rem); letter-spacing:-.02em; max-width:12ch; }
+  .sect:nth-child(even) { justify-content:flex-end; text-align:right; }
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">3D 오브젝트 (Three.js) — 마우스에 반응 + 스크롤하면 회전·이동</span></div>
+<div id="three"></div>
+<div class="sect"><h2>Scroll & Move the Mouse</h2></div>
+<div class="sect"><h2>The Object Follows Your Journey</h2></div>
+<div class="sect"><h2>Powered by Three.js</h2></div>
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+<script>
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(60, innerWidth/innerHeight, .1, 100);
+camera.position.z = 5;
+const renderer = new THREE.WebGLRenderer({ antialias:true, alpha:true });
+renderer.setSize(innerWidth, innerHeight);
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+document.getElementById('three').appendChild(renderer.domElement);
+const knot = new THREE.Mesh(
+  new THREE.TorusKnotGeometry(1.1, .35, 200, 32),
+  new THREE.MeshStandardMaterial({ color:0xe14f2a, metalness:.35, roughness:.25 })
+);
+scene.add(knot);
+scene.add(new THREE.AmbientLight(0xffffff, .4));
+const key = new THREE.DirectionalLight(0xffffff, 1.6); key.position.set(3,4,5); scene.add(key);
+const rim = new THREE.DirectionalLight(0x7db8ff, 1); rim.position.set(-4,-2,-3); scene.add(rim);
+let mx=0, my=0;
+addEventListener('mousemove', e => {
+  mx = (e.clientX/innerWidth - .5)*2;
+  my = (e.clientY/innerHeight - .5)*2;
+});
+addEventListener('resize', () => {
+  camera.aspect = innerWidth/innerHeight; camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+});
+(function loop(t){
+  const p = scrollY / (document.documentElement.scrollHeight - innerHeight || 1);
+  knot.rotation.x = t*0.0002 + p*Math.PI*2 + my*.3;   // 스크롤 진행도 → 회전
+  knot.rotation.y = t*0.0003 + mx*.5;
+  knot.position.x = Math.sin(p*Math.PI) * 1.8 * (p<.5?1:-1); // 섹션 따라 좌우 이동
+  camera.position.z = 5 - p*1.2;
+  renderer.render(scene, camera);
+  requestAnimationFrame(loop);
+})(0);
+</script>
+</body>
+</html>

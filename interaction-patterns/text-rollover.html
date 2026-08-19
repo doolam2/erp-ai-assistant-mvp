@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>텍스트 롤오버</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  main { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1.5rem; }
+  a.roll {
+    display:block; overflow:hidden; text-decoration:none; color:var(--fg);
+    font-size:clamp(2rem,6vw,4rem); font-weight:700; line-height:1.15; height:1.15em;
+  }
+  a.roll .inner { display:block; transition:transform .5s cubic-bezier(.76,0,.24,1); }
+  a.roll .inner span { display:block; height:1.15em; }
+  a.roll .inner span:last-child { color:var(--accent); }
+  a.roll:hover .inner { transform:translateY(-1.15em); }  /* 복제본이 아래에서 올라와 교체 */
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">텍스트 롤오버 — 메뉴에 호버해 보세요</span></div>
+<main>
+  <a class="roll" href="#"><span class="inner"><span>Work</span><span>Work</span></span></a>
+  <a class="roll" href="#"><span class="inner"><span>Studio</span><span>Studio</span></span></a>
+  <a class="roll" href="#"><span class="inner"><span>Journal</span><span>Journal</span></span></a>
+  <a class="roll" href="#"><span class="inner"><span>Contact</span><span>Contact</span></span></a>
+</main>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>ASCII/도트 셰이더</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  main { min-height:100vh; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:1.5rem; }
+  #out {
+    font-family:Menlo,monospace; font-size:9px; line-height:8px; letter-spacing:1.5px;
+    color:var(--accent); white-space:pre; user-select:none; cursor:crosshair;
+  }
+  .note { color:var(--dim); font-size:.9rem; }
+  button { font:inherit; padding:.5rem 1.4rem; border-radius:99px; border:1.5px solid var(--fg); background:transparent; color:var(--fg); cursor:pointer; }
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">ASCII 셰이더 — 움직이는 그래픽을 문자 밝기로 실시간 변환</span></div>
+<main>
+  <pre id="out"></pre>
+  <p class="note">오프스크린 캔버스의 픽셀 밝기 → 문자 밀도 매핑. 마우스를 올리면 반응합니다</p>
+  <button id="mode">도트 모드로</button>
+</main>
+<script>
+const W = 80, H = 40;
+const off = document.createElement('canvas'); off.width = W; off.height = H;
+const octx = off.getContext('2d', { willReadFrequently:true });
+const out = document.getElementById('out');
+const ASCII = ' .:-=+*#%@';
+const DOTS  = ' ⠁⠃⠇⡇⣇⣧⣷⣿';
+let charset = ASCII;
+let mx = .5, my = .5, hover = 0;
+out.addEventListener('mousemove', e => {
+  const r = out.getBoundingClientRect();
+  mx = (e.clientX-r.left)/r.width; my = (e.clientY-r.top)/r.height; hover = 1;
+});
+out.addEventListener('mouseleave', () => hover = 0);
+document.getElementById('mode').onclick = e => {
+  charset = charset === ASCII ? DOTS : ASCII;
+  e.target.textContent = charset === ASCII ? '도트 모드로' : 'ASCII 모드로';
+};
+(function loop(t){
+  const s = t*0.001;
+  // 오프스크린에 메타볼 3개를 그림
+  octx.fillStyle = '#000'; octx.fillRect(0,0,W,H);
+  const balls = [
+    [W/2 + Math.sin(s*.9)*22, H/2 + Math.cos(s*.7)*12, 12],
+    [W/2 + Math.cos(s*1.1)*26, H/2 + Math.sin(s*.8)*14, 9],
+    [mx*W, my*H, 8 + hover*4],
+  ];
+  balls.forEach(([bx,by,br]) => {
+    const g = octx.createRadialGradient(bx,by,0,bx,by,br);
+    g.addColorStop(0,'#fff'); g.addColorStop(1,'#000');
+    octx.globalCompositeOperation = 'lighter';
+    octx.fillStyle = g;
+    octx.beginPath(); octx.arc(bx,by,br,0,Math.PI*2); octx.fill();
+  });
+  octx.globalCompositeOperation = 'source-over';
+  // 픽셀 밝기 → 문자
+  const d = octx.getImageData(0,0,W,H).data;
+  let str = '';
+  for (let y=0;y<H;y++){
+    for (let x=0;x<W;x++){
+      const v = d[(y*W+x)*4] / 255;
+      str += charset[Math.min(charset.length-1, Math.floor(v*charset.length))];
+    }
+    str += '\n';
+  }
+  out.textContent = str;
+  requestAnimationFrame(loop);
+})(0);
+</script>
+</body>
+</html>

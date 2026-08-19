@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>유체 시뮬레이션 (간이)</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  canvas { position:fixed; inset:0; filter:blur(18px) contrast(1.6); }
+  main { position:relative; min-height:100vh; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:1rem; pointer-events:none; }
+  h1 { font-size:clamp(2.5rem,8vw,6rem); letter-spacing:-.03em; mix-blend-mode:difference; }
+  p { color:var(--dim); }
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">유체 시뮬레이션(간이) — 마우스를 휘저어 보세요. 잉크처럼 번집니다</span></div>
+<canvas id="c"></canvas>
+<main><h1>Liquid Ink</h1><p>실무용 정밀 구현은 WebGL Navier-Stokes (예: webgl-fluid 라이브러리)</p></main>
+<script>
+const cv = document.getElementById('c'), ctx = cv.getContext('2d');
+function resize(){ cv.width = innerWidth; cv.height = innerHeight; }
+resize(); addEventListener('resize', resize);
+const blobs = [];
+const HUES = [14, 200, 330, 160];
+let hueIdx = 0, lastX = null, lastY = null;
+addEventListener('mousemove', e => {
+  const speed = lastX === null ? 0 : Math.hypot(e.clientX-lastX, e.clientY-lastY);
+  lastX = e.clientX; lastY = e.clientY;
+  for (let i=0;i<2;i++) blobs.push({
+    x:e.clientX, y:e.clientY,
+    vx:(Math.random()-.5)*2, vy:(Math.random()-.5)*2,
+    r: 20 + Math.min(60, speed*1.5),
+    hue: HUES[hueIdx % HUES.length] + Math.random()*20,
+    life: 1
+  });
+  if (Math.random() < .02) hueIdx++;
+});
+(function loop(){
+  // 잔상을 서서히 지워 '번짐' 유지
+  ctx.fillStyle = 'rgba(17,17,17,.045)';
+  ctx.fillRect(0,0,cv.width,cv.height);
+  ctx.globalCompositeOperation = 'lighter';
+  for (let i=blobs.length-1;i>=0;i--){
+    const b = blobs[i];
+    b.x += b.vx; b.y += b.vy;
+    b.vx *= .985; b.vy *= .985;
+    b.r *= 1.012; b.life -= .012;                 // 퍼지면서 옅어짐
+    if (b.life <= 0){ blobs.splice(i,1); continue; }
+    const g = ctx.createRadialGradient(b.x,b.y,0,b.x,b.y,b.r);
+    g.addColorStop(0, `hsla(${b.hue},85%,55%,${b.life*.16})`);
+    g.addColorStop(1, 'transparent');
+    ctx.fillStyle = g;
+    ctx.beginPath(); ctx.arc(b.x,b.y,b.r,0,Math.PI*2); ctx.fill();
+  }
+  ctx.globalCompositeOperation = 'source-over';
+  requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>

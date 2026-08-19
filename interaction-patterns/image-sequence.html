@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>이미지 시퀀스 스크럽</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  .intro, .outro { height:60vh; display:flex; align-items:center; justify-content:center; color:var(--dim); text-align:center; line-height:1.8; }
+  .stage { height:100vh; display:flex; align-items:center; justify-content:center; }
+  canvas { width:min(80vw,600px); aspect-ratio:1; }
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">이미지 시퀀스 스크럽 — 스크롤이 곧 재생 헤드 (애플 제품 페이지 방식)</span></div>
+<div class="intro">↓ 스크롤 위치에 따라 90프레임이 재생됩니다<br><small>(실무에선 촬영·렌더된 이미지 90장을 프리로드)</small></div>
+<div class="stage" id="stage"><canvas id="c" width="600" height="600"></canvas></div>
+<div class="outro">frame = Math.round(progress × (총프레임-1)) 이 전부입니다</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+// 데모용: 이미지 90장 대신 프레임을 절차적으로 그림 (실무에선 frames[i]를 drawImage)
+const cv = document.getElementById('c'), ctx = cv.getContext('2d');
+const TOTAL = 90;
+function drawFrame(f){
+  const t = f/(TOTAL-1);
+  ctx.clearRect(0,0,600,600);
+  ctx.save(); ctx.translate(300,300); ctx.rotate(t*Math.PI*2);
+  for (let i=0;i<6;i++){
+    ctx.save(); ctx.rotate(i*Math.PI/3);
+    const r = 80+120*Math.sin(t*Math.PI);
+    ctx.fillStyle = i%2 ? '#e14f2a' : '#f5f2ec';
+    ctx.beginPath();
+    ctx.roundRect(r-40, -40, 80+t*60, 80, 18+t*22);
+    ctx.fill(); ctx.restore();
+  }
+  ctx.restore();
+  ctx.fillStyle = 'rgba(245,242,236,.5)'; ctx.font = '16px sans-serif'; ctx.textAlign='center';
+  ctx.fillText(`frame ${String(f+1).padStart(2,'0')} / ${TOTAL}`, 300, 580);
+}
+drawFrame(0);
+const state = { frame:0 };
+gsap.to(state, {
+  frame: TOTAL-1, ease:'none', snap:'frame',
+  onUpdate:() => drawFrame(Math.round(state.frame)),
+  scrollTrigger:{ trigger:'#stage', start:'top top', end:'+=2000', pin:true, scrub:true }
+});
+</script>
+</body>
+</html>

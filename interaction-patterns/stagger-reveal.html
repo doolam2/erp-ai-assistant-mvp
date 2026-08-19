@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>텍스트 스태거 리빌</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  main { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3rem; text-align:center; padding:2rem; }
+  h1 { font-size:clamp(2.5rem,8vw,6rem); font-weight:700; letter-spacing:-.03em; }
+  h2 { font-size:clamp(1.5rem,4vw,2.5rem); font-weight:700; color:var(--accent); }
+  p.lines { max-width:44ch; line-height:1.8; color:rgba(245,242,236,.85); }
+  .label { font-size:.75rem; color:var(--dim); letter-spacing:.2em; margin-bottom:-2rem; }
+  button { font:inherit; padding:.7rem 1.8rem; border-radius:99px; border:1.5px solid var(--fg); background:transparent; color:var(--fg); cursor:pointer; }
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">텍스트 스태거 리빌 — 글자/단어/줄 3가지 단위 비교</span></div>
+<main>
+  <div class="label">CHARS — 글자 단위 (ashleybrookecs 방식)</div>
+  <h1 id="byChars">Stagger Reveal</h1>
+  <div class="label">WORDS — 단어 단위</div>
+  <h2 id="byWords">단어가 하나씩 아래에서 올라옵니다</h2>
+  <div class="label">LINES — 줄 단위</div>
+  <p class="lines" id="byLines">줄 단위 리빌은 본문처럼 긴 텍스트에 어울립니다. 너무 잘게 쪼개면 산만해지므로, 큰 제목은 글자, 소제목은 단어, 본문은 줄 단위가 정석입니다.</p>
+  <button id="replay">다시 재생</button>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+<script>
+gsap.registerPlugin(SplitText);
+const tweens = [];
+document.fonts.ready.then(() => {
+  SplitText.create('#byChars', { type:'lines, chars', mask:'chars', autoSplit:false,
+    onSplit:s => { const t = gsap.from(s.chars, { yPercent:-110, duration:1.2, stagger:{each:.04, from:'center'}, ease:'expo.out' }); tweens.push(t); return t; } });
+  SplitText.create('#byWords', { type:'lines, words', mask:'lines', autoSplit:false,
+    onSplit:s => { const t = gsap.from(s.words, { yPercent:110, duration:1.2, delay:.3, stagger:{each:.06}, ease:'expo.out' }); tweens.push(t); return t; } });
+  SplitText.create('#byLines', { type:'lines', mask:'lines', autoSplit:false,
+    onSplit:s => { const t = gsap.from(s.lines, { yPercent:110, duration:1.4, delay:.6, stagger:{each:.09}, ease:'expo.out' }); tweens.push(t); return t; } });
+});
+document.getElementById('replay').onclick = () => tweens.forEach(t => t.restart(true));
+</script>
+</body>
+</html>

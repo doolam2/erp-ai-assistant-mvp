@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>이미지 패럴랙스 (내부)</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  .spacer { height:60vh; display:flex; align-items:center; justify-content:center; color:var(--dim); }
+  .figure { width:min(80vw,700px); aspect-ratio:16/10; margin:14vh auto; overflow:hidden; border-radius:12px; }
+  .figure img { width:100%; height:130%; object-fit:cover; will-change:transform; }
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">이미지 패럴랙스 — 프레임은 고정, 안의 이미지만 다른 속도로</span></div>
+<div class="spacer">↓ 스크롤. 프레임 안에서 이미지가 미끄러집니다</div>
+<div class="figure"><img src="https://picsum.photos/id/1018/1400/1140" class="pi"></div>
+<div class="figure"><img src="https://picsum.photos/id/1036/1400/1140" class="pi"></div>
+<div class="figure"><img src="https://picsum.photos/id/1039/1400/1140" class="pi"></div>
+<div class="spacer">이미지를 130% 높이로 키워두고 남는 30%만큼 움직이는 원리</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+gsap.utils.toArray('.pi').forEach(img => {
+  gsap.fromTo(img, { yPercent:-15 }, {
+    yPercent:15, ease:'none',
+    scrollTrigger:{ trigger:img.parentElement, start:'top bottom', end:'bottom top', scrub:true }
+  });
+});
+</script>
+</body>
+</html>

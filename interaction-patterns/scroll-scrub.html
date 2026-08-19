@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>스크롤 스크러빙</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  .intro, .outro { height:60vh; display:flex; align-items:center; justify-content:center; color:var(--dim); }
+  .stage { height:100vh; display:flex; align-items:center; justify-content:center; gap:4rem; }
+  .box { width:140px; height:140px; border-radius:20px; background:var(--accent); }
+  .ball { width:100px; height:100px; border-radius:50%; border:3px solid var(--fg); display:flex; align-items:center; justify-content:center; font-size:.8rem; }
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">스크롤 스크러빙 — 내리면 재생, 올리면 역재생. 진행도가 스크롤에 1:1로 묶임</span></div>
+<div class="intro">↓ 천천히 내렸다 올렸다 해보세요</div>
+<div class="stage" id="stage">
+  <div class="box" id="box"></div>
+  <div class="ball" id="ball">0%</div>
+</div>
+<div class="outro">scrub: true 하나로 만들어지는 효과입니다</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+const tl = gsap.timeline({
+  scrollTrigger:{
+    trigger:'#stage', start:'top top', end:'+=1500', pin:true, scrub:true,
+    onUpdate:self => document.getElementById('ball').textContent = Math.round(self.progress*100)+'%'
+  }
+});
+tl.to('#box', { rotation:360, scale:1.6, borderRadius:'50%', ease:'none' })
+  .to('#box', { scale:1, background:'#7db8ff', borderRadius:'20px', ease:'none' });
+</script>
+</body>
+</html>

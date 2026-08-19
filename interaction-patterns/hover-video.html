@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>호버 비디오 재생</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  main { min-height:100vh; display:flex; align-items:center; justify-content:center; gap:2rem; flex-wrap:wrap; padding:2rem; }
+  .vcard { width:min(80vw,420px); cursor:pointer; }
+  .vwrap { position:relative; aspect-ratio:16/10; border-radius:12px; overflow:hidden; background:#000; }
+  .vwrap video { width:100%; height:100%; object-fit:cover; opacity:.85; transition:transform .5s, opacity .3s; }
+  .vcard:hover video { transform:scale(1.05); opacity:1; }
+  .vwrap .tag {
+    position:absolute; top:.8rem; left:.8rem; font-size:.7rem; letter-spacing:.15em;
+    background:rgba(0,0,0,.5); padding:.3rem .7rem; border-radius:99px; backdrop-filter:blur(4px);
+  }
+  .vcard h3 { margin-top:.8rem; }
+  .vcard p { color:var(--dim); font-size:.85rem; }
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">호버 비디오 — 썸네일에 올리면 재생, 벗어나면 정지·리셋</span></div>
+<main>
+  <div class="vcard">
+    <div class="vwrap"><video muted loop playsinline preload="metadata"
+      src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"></video>
+      <span class="tag">HOVER TO PLAY</span></div>
+    <h3>Bloom</h3><p>Film · 2026</p>
+  </div>
+  <div class="vcard">
+    <div class="vwrap"><video muted loop playsinline preload="metadata"
+      src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"></video>
+      <span class="tag">HOVER TO PLAY</span></div>
+    <h3>Blaze</h3><p>Commercial · 2025</p>
+  </div>
+</main>
+<script>
+document.querySelectorAll('.vcard').forEach(card => {
+  const v = card.querySelector('video');
+  card.addEventListener('mouseenter', () => v.play());
+  card.addEventListener('mouseleave', () => { v.pause(); v.currentTime = 0; });
+});
+</script>
+</body>
+</html>

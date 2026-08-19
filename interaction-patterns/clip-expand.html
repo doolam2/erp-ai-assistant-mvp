@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>클립패스 확대</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  .intro, .outro { height:60vh; display:flex; align-items:center; justify-content:center; color:var(--dim); }
+  .stage { height:100vh; display:flex; align-items:center; justify-content:center; position:relative; }
+  .clip {
+    position:absolute; inset:0;
+    background:url('https://picsum.photos/id/1036/1600/1000') center/cover;
+    clip-path:inset(38% 38% 38% 38% round 24px);
+    will-change:clip-path;
+  }
+  .stage h2 { position:relative; z-index:2; font-size:clamp(2rem,6vw,4.5rem); mix-blend-mode:difference; }
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">클립패스 확대 — 작은 이미지가 화면 전체로 커집니다</span></div>
+<div class="intro">↓ 스크롤</div>
+<div class="stage" id="stage">
+  <div class="clip" id="clip"></div>
+  <h2>Into the Wild</h2>
+</div>
+<div class="outro">clip-path: inset()을 스크럽으로 0까지 줄이면 됩니다</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+gsap.to('#clip', {
+  clipPath:'inset(0% 0% 0% 0% round 0px)', ease:'none',
+  scrollTrigger:{ trigger:'#stage', start:'top top', end:'+=1200', pin:true, scrub:true }
+});
+</script>
+</body>
+</html>

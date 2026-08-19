@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>무한 갤러리</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  body { overflow:hidden; }
+  #stage { position:fixed; inset:0; cursor:grab; }
+  #stage.grabbing { cursor:grabbing; }
+  .tile {
+    position:absolute; width:240px; height:300px; border-radius:8px; overflow:hidden;
+    will-change:transform; pointer-events:none;
+  }
+  .tile img { width:100%; height:100%; object-fit:cover; }
+  .hint { position:fixed; bottom:1.5rem; left:50%; transform:translateX(-50%); color:var(--dim); font-size:.85rem; pointer-events:none; }
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">무한 갤러리 — 아무 방향으로나 끝없이 드래그해 보세요</span></div>
+<div id="stage"></div>
+<p class="hint">타일이 화면 밖으로 나가면 반대편으로 재배치되는 모듈로(wrap) 방식</p>
+<script>
+const stage = document.getElementById('stage');
+const IDS = [1015,1025,1036,1039,1043,1050,1062,1069,1080,1084,110,119];
+const COLS = 4, ROWS = 3, GX = 280, GY = 340;   // 셀 간격
+const WRAP_W = COLS*GX, WRAP_H = ROWS*GY;
+const tiles = [];
+for (let r=0; r<ROWS; r++) for (let c=0; c<COLS; c++){
+  const el = document.createElement('div');
+  el.className = 'tile';
+  el.innerHTML = `<img src="https://picsum.photos/id/${IDS[(r*COLS+c)%IDS.length]}/480/600" draggable="false">`;
+  stage.appendChild(el);
+  tiles.push({ el, bx:c*GX, by:r*GY });
+}
+let ox = 0, oy = 0, vx = 0, vy = 0, dragging = false, px = 0, py = 0;
+function render(){
+  tiles.forEach(t => {
+    // 오프셋을 더한 뒤 화면 범위로 wrap
+    let x = (t.bx + ox) % WRAP_W; if (x < -GX) x += WRAP_W;
+    let y = (t.by + oy) % WRAP_H; if (y < -GY) y += WRAP_H;
+    // 화면을 넉넉히 덮도록 좌상단 바깥에서 시작
+    t.el.style.transform = `translate(${x - GX/2}px, ${y - GY/2}px)`;
+  });
+}
+stage.addEventListener('pointerdown', e => {
+  dragging = true; px = e.clientX; py = e.clientY;
+  stage.classList.add('grabbing'); stage.setPointerCapture(e.pointerId);
+});
+stage.addEventListener('pointermove', e => {
+  if (!dragging) return;
+  vx = e.clientX - px; vy = e.clientY - py;
+  px = e.clientX; py = e.clientY;
+  ox += vx; oy += vy;
+});
+['pointerup','pointercancel'].forEach(ev => stage.addEventListener(ev, () => {
+  dragging = false; stage.classList.remove('grabbing');
+}));
+(function loop(){
+  if (!dragging){ ox += vx; oy += vy; vx *= 0.93; vy *= 0.93; }
+  render();
+  requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>

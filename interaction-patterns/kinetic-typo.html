@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>키네틱 타이포</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  main { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; overflow:hidden; }
+  .row { font-size:clamp(3.5rem,12vw,9rem); font-weight:700; letter-spacing:-.03em; line-height:1.02; white-space:nowrap; will-change:transform; }
+  .row.stroke { color:transparent; -webkit-text-stroke:1.5px var(--fg); }
+  .row.orange { color:var(--accent); }
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">키네틱 타이포 — 마우스를 움직이면 타이포 덩어리가 반응합니다</span></div>
+<main id="stage">
+  <div class="row" data-f="1.2">MOTION IS</div>
+  <div class="row stroke" data-f="-2">THE MESSAGE</div>
+  <div class="row orange" data-f="2.6">MOTION IS</div>
+  <div class="row" data-f="-1.4">THE MESSAGE</div>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script>
+const rows = document.querySelectorAll('.row');
+let tx = 0, ty = 0;
+addEventListener('mousemove', e => {
+  tx = (e.clientX/innerWidth - .5);   // -0.5 ~ 0.5
+  ty = (e.clientY/innerHeight - .5);
+});
+gsap.ticker.add(() => {
+  rows.forEach(row => {
+    const f = parseFloat(row.dataset.f);
+    gsap.to(row, { x: tx*120*f, rotation: tx*4*f, skewX: tx*6*f, y: ty*30*f,
+      duration:.9, ease:'power3.out', overwrite:'auto' });
+  });
+});
+</script>
+</body>
+</html>

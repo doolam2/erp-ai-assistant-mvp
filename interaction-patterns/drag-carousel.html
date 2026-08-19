@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>드래그 캐러셀</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  main { min-height:100vh; display:flex; flex-direction:column; justify-content:center; gap:1.5rem; }
+  .carousel { overflow:hidden; cursor:grab; user-select:none; }
+  .carousel.grabbing { cursor:grabbing; }
+  .rail { display:flex; gap:1.5rem; padding:0 8vw; will-change:transform; width:max-content; }
+  .slide { width:min(60vw,380px); flex-shrink:0; pointer-events:none; }
+  .slide img { width:100%; aspect-ratio:4/5; object-fit:cover; border-radius:10px; }
+  .slide p { margin-top:.6rem; color:var(--dim); font-size:.85rem; }
+  .note { text-align:center; color:var(--dim); font-size:.9rem; }
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">드래그 캐러셀 — 잡아서 던져 보세요. 관성으로 미끄러집니다</span></div>
+<main>
+  <div class="carousel" id="car">
+    <div class="rail" id="rail"></div>
+  </div>
+  <p class="note">놓는 순간의 속도를 이어받아 감속(마찰 0.94)하는 게 관성의 원리</p>
+</main>
+<script>
+const rail = document.getElementById('rail');
+rail.innerHTML = [1015,1025,1036,1039,1043,1050,1062,1069]
+  .map((id,i) => `<div class="slide"><img src="https://picsum.photos/id/${id}/760/950" draggable="false"><p>Project 0${i+1}</p></div>`).join('');
+const car = document.getElementById('car');
+let x = 0, vx = 0, dragging = false, lastPX = 0;
+function bounds(){ return Math.min(0, car.clientWidth - rail.scrollWidth); }
+car.addEventListener('pointerdown', e => {
+  dragging = true; lastPX = e.clientX; vx = 0;
+  car.classList.add('grabbing'); car.setPointerCapture(e.pointerId);
+});
+car.addEventListener('pointermove', e => {
+  if (!dragging) return;
+  const dx = e.clientX - lastPX; lastPX = e.clientX;
+  x += dx; vx = dx;
+});
+['pointerup','pointercancel'].forEach(ev => car.addEventListener(ev, () => {
+  dragging = false; car.classList.remove('grabbing');
+}));
+(function loop(){
+  if (!dragging) {
+    x += vx; vx *= 0.94;                       // 관성 + 마찰
+    const min = bounds();
+    if (x > 0)  { x += (0 - x) * 0.15; }       // 경계 스프링
+    if (x < min){ x += (min - x) * 0.15; }
+  }
+  rail.style.transform = `translateX(${x}px)`;
+  requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>

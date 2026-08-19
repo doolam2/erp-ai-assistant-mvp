@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>링크 밑줄 드로우</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  main { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2.5rem; }
+  a.draw {
+    color:var(--fg); text-decoration:none; font-size:2rem; position:relative; padding-bottom:.2em;
+  }
+  a.draw::after {
+    content:""; position:absolute; left:0; bottom:0; width:100%; height:2px;
+    background:var(--accent);
+    transform:scaleX(0); transform-origin:right;      /* 나갈 때: 오른쪽으로 빠짐 */
+    transition:transform .45s cubic-bezier(.65,0,.35,1);
+  }
+  a.draw:hover::after {
+    transform:scaleX(1); transform-origin:left;       /* 들어올 때: 왼쪽부터 그려짐 */
+  }
+  .note { color:var(--dim); font-size:.9rem; }
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">링크 밑줄 드로우 — 호버했다가 벗어나 보세요</span></div>
+<main>
+  <a class="draw" href="#">Portfolio</a>
+  <a class="draw" href="#">Case Studies</a>
+  <a class="draw" href="#">Get in Touch</a>
+  <p class="note">들어올 땐 왼쪽에서 그려지고, 나갈 땐 오른쪽으로 빠져나갑니다 (transform-origin 스위칭)</p>
+</main>
+</body>
+</html>

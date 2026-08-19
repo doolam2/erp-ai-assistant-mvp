@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>호버 디스토션</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  main { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1.5rem; }
+  #gl { width:min(70vw,640px); aspect-ratio:4/3; border-radius:8px; cursor:crosshair; }
+  .note { color:var(--dim); font-size:.9rem; }
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">호버 디스토션 — 이미지 위에서 마우스를 움직여 보세요 (WebGL)</span></div>
+<main>
+  <canvas id="gl"></canvas>
+  <p class="note">호버 강도에 따라 물결 왜곡이 살아나고, 벗어나면 잔잔해집니다</p>
+</main>
+<script>
+const cv = document.getElementById('gl');
+const gl = cv.getContext('webgl');
+const vsSrc = `attribute vec2 p; varying vec2 vUv;
+void main(){ vUv = p*0.5+0.5; vUv.y = 1.0-vUv.y; gl_Position = vec4(p,0.,1.); }`;
+const fsSrc = `precision mediump float;
+varying vec2 vUv; uniform sampler2D tex; uniform float uTime; uniform float uHover; uniform vec2 uMouse;
+void main(){
+  vec2 uv = vUv;
+  float d = distance(uv, uMouse);
+  float ripple = sin(d*30.0 - uTime*4.0) * 0.02;
+  uv += normalize(uv - uMouse + 0.0001) * ripple * uHover * smoothstep(0.5, 0.0, d);
+  uv.x += sin(uv.y*10.0 + uTime)*0.008*uHover;
+  gl_FragColor = texture2D(tex, uv);
+}`;
+function shader(type, src){ const s = gl.createShader(type); gl.shaderSource(s,src); gl.compileShader(s); return s; }
+const prog = gl.createProgram();
+gl.attachShader(prog, shader(gl.VERTEX_SHADER, vsSrc));
+gl.attachShader(prog, shader(gl.FRAGMENT_SHADER, fsSrc));
+gl.linkProgram(prog); gl.useProgram(prog);
+gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+const loc = gl.getAttribLocation(prog,'p');
+gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc,2,gl.FLOAT,false,0,0);
+const uTime = gl.getUniformLocation(prog,'uTime');
+const uHover = gl.getUniformLocation(prog,'uHover');
+const uMouse = gl.getUniformLocation(prog,'uMouse');
+const texture = gl.createTexture();
+gl.bindTexture(gl.TEXTURE_2D, texture);
+gl.texImage2D(gl.TEXTURE_2D,0,gl.RGB,1,1,0,gl.RGB,gl.UNSIGNED_BYTE,new Uint8Array([40,40,40]));
+const img = new Image();
+img.crossOrigin = 'anonymous';
+img.src = 'https://picsum.photos/id/1039/800/600';
+img.onload = () => {
+  gl.bindTexture(gl.TEXTURE_2D, texture);
+  gl.texImage2D(gl.TEXTURE_2D,0,gl.RGB,gl.RGB,gl.UNSIGNED_BYTE,img);
+  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);
+  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
+  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);
+};
+let hover = 0, targetHover = 0, mouse = [0.5,0.5];
+cv.addEventListener('mouseenter', () => targetHover = 1);
+cv.addEventListener('mouseleave', () => targetHover = 0);
+cv.addEventListener('mousemove', e => {
+  const r = cv.getBoundingClientRect();
+  mouse = [(e.clientX-r.left)/r.width, (e.clientY-r.top)/r.height];
+});
+function fit(){ cv.width = cv.clientWidth*devicePixelRatio; cv.height = cv.clientHeight*devicePixelRatio; gl.viewport(0,0,cv.width,cv.height); }
+fit(); addEventListener('resize', fit);
+(function loop(t){
+  hover += (targetHover-hover)*0.06;
+  gl.uniform1f(uTime, t*0.001);
+  gl.uniform1f(uHover, hover);
+  gl.uniform2f(uMouse, mouse[0], mouse[1]);
+  gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
+  requestAnimationFrame(loop);
+})(0);
+</script>
+</body>
+</html>

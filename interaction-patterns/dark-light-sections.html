@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>다크/라이트 섹션 전환</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  body { transition:background .8s cubic-bezier(.4,0,.2,1), color .8s cubic-bezier(.4,0,.2,1); }
+  body.light { background:#f5f2ec; color:#111; }
+  body.orange { background:#e14f2a; color:#f5f2ec; }
+  section { min-height:100vh; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:1rem; }
+  h2 { font-size:clamp(2.5rem,7vw,5rem); letter-spacing:-.02em; }
+  p { opacity:.6; }
+  .demo-bar a { mix-blend-mode:difference; }
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">다크/라이트 전환 — 섹션에 도달하면 페이지 전체 배경이 반전</span></div>
+<section data-theme=""><h2>Dark Mode</h2><p>↓ 계속 스크롤해 보세요</p></section>
+<section data-theme="light"><h2>Light Mode</h2><p>배경과 글자색이 부드럽게 교차됩니다</p></section>
+<section data-theme="orange"><h2>Brand Color</h2><p>브랜드 컬러 섹션으로도 활용</p></section>
+<section data-theme=""><h2>Back to Dark</h2><p>IntersectionObserver + body 클래스 전환 + CSS transition</p></section>
+<script>
+const io = new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if (en.isIntersecting){
+      document.body.className = en.target.dataset.theme;
+    }
+  });
+}, { threshold: 0.55 });
+document.querySelectorAll('section').forEach(s => io.observe(s));
+</script>
+</body>
+</html>

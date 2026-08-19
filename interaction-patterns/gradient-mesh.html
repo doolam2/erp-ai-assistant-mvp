@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>그라디언트 메시</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  body { background:#0a0a14; }
+  .mesh { position:fixed; inset:-20%; filter:blur(90px) saturate(1.2); }
+  .blob { position:absolute; width:45vw; height:45vw; border-radius:50%; opacity:.75; will-change:transform; }
+  .b1 { background:#e14f2a; top:5%; left:10%; animation:m1 16s ease-in-out infinite alternate; }
+  .b2 { background:#3b5bdb; top:35%; right:5%; animation:m2 20s ease-in-out infinite alternate; }
+  .b3 { background:#0ca678; bottom:0%; left:30%; animation:m3 18s ease-in-out infinite alternate; }
+  .b4 { background:#e64980; top:0%; right:30%; width:30vw; height:30vw; animation:m1 22s ease-in-out infinite alternate-reverse; }
+  @keyframes m1 { to { transform:translate(18vw,12vh) scale(1.25); } }
+  @keyframes m2 { to { transform:translate(-15vw,-10vh) scale(.85); } }
+  @keyframes m3 { to { transform:translate(10vw,-14vh) scale(1.15); } }
+  main { position:relative; min-height:100vh; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:1rem; }
+  h1 { font-size:clamp(2.5rem,8vw,6rem); letter-spacing:-.03em; }
+  p { color:rgba(255,255,255,.6); }
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">그라디언트 메시 — 블러 처리된 색 덩어리들이 유체처럼 섞임 (+마우스 반응)</span></div>
+<div class="mesh" id="mesh">
+  <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div><div class="blob b4"></div>
+</div>
+<main>
+  <h1>Fluid Colors</h1>
+  <p>큰 원 + blur(90px) + keyframes가 전부입니다</p>
+</main>
+<script>
+// 마우스에 살짝 끌려오는 보너스 레이어
+const mesh = document.getElementById('mesh');
+let tx=0, ty=0, cx=0, cy=0;
+addEventListener('mousemove', e => {
+  tx = (e.clientX/innerWidth - .5)*40;
+  ty = (e.clientY/innerHeight - .5)*40;
+});
+(function loop(){
+  cx += (tx-cx)*.03; cy += (ty-cy)*.03;
+  mesh.style.transform = `translate(${cx}px,${cy}px)`;
+  requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>

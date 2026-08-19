@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>프로그레스 인디케이터</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  #bar { position:fixed; top:0; left:0; height:3px; width:100%; background:var(--accent); transform-origin:left; transform:scaleX(0); z-index:3000; }
+  .gauge { position:fixed; bottom:1.5rem; right:1.5rem; width:60px; height:60px; z-index:100; }
+  .gauge svg { transform:rotate(-90deg); }
+  .gauge circle { fill:none; stroke-width:4; }
+  .gauge .bg { stroke:rgba(255,255,255,.15); }
+  .gauge .fg { stroke:var(--accent); stroke-dasharray:163.4; stroke-dashoffset:163.4; }
+  .gauge span { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:.7rem; }
+  article { max-width:640px; margin:0 auto; padding:8rem 1.5rem 6rem; line-height:2; color:rgba(245,242,236,.8); }
+  article h1 { color:var(--fg); font-size:2.2rem; margin-bottom:2rem; }
+  article p { margin-bottom:1.6rem; }
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">프로그레스 인디케이터 — 상단 바 + 우하단 원형 게이지</span></div>
+<div id="bar"></div>
+<div class="gauge"><svg width="60" height="60"><circle class="bg" cx="30" cy="30" r="26"/><circle class="fg" id="ring" cx="30" cy="30" r="26"/></svg><span id="pct">0%</span></div>
+<article>
+  <h1>읽기 진행도 표시</h1>
+  <script>document.write(Array.from({length:14},(_,i)=>`<p>${i+1}. 긴 글을 읽을 때 독자가 어디까지 왔는지 보여주는 인디케이터입니다. 스크롤 진행도를 0~1로 계산해 상단 바의 scaleX와 원형 게이지의 stroke-dashoffset에 연결합니다. 계산은 scrollY를 (문서 전체 높이 - 화면 높이)로 나누는 것이 전부입니다.</p>`).join(''))</script>
+</article>
+<script>
+const bar = document.getElementById('bar'), ring = document.getElementById('ring'), pct = document.getElementById('pct');
+const LEN = 163.4;
+addEventListener('scroll', () => {
+  const p = scrollY / (document.documentElement.scrollHeight - innerHeight);
+  bar.style.transform = `scaleX(${p})`;
+  ring.style.strokeDashoffset = LEN * (1-p);
+  pct.textContent = Math.round(p*100)+'%';
+}, { passive:true });
+</script>
+</body>
+</html>

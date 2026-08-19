@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>스포트라이트 호버</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  main { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4rem; padding:2rem; }
+  .reveal-text {
+    font-size:clamp(1.6rem,4vw,2.8rem); font-weight:700; line-height:1.4; max-width:20ch; text-align:center;
+    color:rgba(245,242,236,.08);
+    background:radial-gradient(circle 180px at var(--x,50%) var(--y,50%), var(--fg) 0%, transparent 100%);
+    -webkit-background-clip:text; background-clip:text;
+  }
+  .cards { display:flex; gap:1.5rem; flex-wrap:wrap; justify-content:center; }
+  .spot-card {
+    position:relative; width:250px; height:160px; border-radius:12px;
+    background:#1a1a1a; border:1px solid rgba(255,255,255,.08); overflow:hidden;
+    display:flex; align-items:center; justify-content:center; color:var(--dim);
+  }
+  .spot-card::before {
+    content:""; position:absolute; inset:0;
+    background:radial-gradient(circle 140px at var(--x,50%) var(--y,50%), rgba(225,79,42,.25), transparent 100%);
+    opacity:0; transition:opacity .3s;
+  }
+  .spot-card:hover::before { opacity:1; }
+  .spot-card span { position:relative; }
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">스포트라이트 호버 — 텍스트와 카드 위에서 마우스를 움직여 보세요</span></div>
+<main>
+  <p class="reveal-text spot">커서가 닿는 곳만 글자가 밝게 드러나는 스포트라이트 텍스트 효과입니다</p>
+  <div class="cards">
+    <div class="spot-card spot"><span>Card One</span></div>
+    <div class="spot-card spot"><span>Card Two</span></div>
+    <div class="spot-card spot"><span>Card Three</span></div>
+  </div>
+</main>
+<script>
+document.querySelectorAll('.spot').forEach(el => {
+  el.addEventListener('mousemove', e => {
+    const r = el.getBoundingClientRect();
+    el.style.setProperty('--x', (e.clientX-r.left)+'px');
+    el.style.setProperty('--y', (e.clientY-r.top)+'px');
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>숨는 헤더</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  header {
+    position:fixed; top:0; left:0; right:0; z-index:1000;
+    display:flex; justify-content:space-between; align-items:center;
+    padding:1.1rem 6rem 1.1rem 2rem; background:rgba(17,17,17,.85); backdrop-filter:blur(10px);
+    transition:transform .45s cubic-bezier(.4,0,.2,1);
+    border-bottom:1px solid rgba(255,255,255,.08);
+  }
+  header.hidden { transform:translateY(-100%); }
+  header b { letter-spacing:-.02em; }
+  header nav { display:flex; gap:1.6rem; }
+  header a { color:var(--dim); text-decoration:none; font-size:.9rem; }
+  section { min-height:90vh; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:.5rem; }
+  section:nth-child(even){ background:#181818; }
+  h2 { font-size:2.5rem; } p { color:var(--dim); }
+</style>
+</head>
+<body>
+<div class="demo-bar" style="left:auto"><a href="index.html">← 목록</a></div>
+<header id="hd"><b>STUDIO®</b><nav><a href="#">Work</a><a href="#">About</a><a href="#">Contact</a></nav></header>
+<section><h2>숨는 헤더</h2><p>아래로 스크롤하면 사라지고, 위로 올리면 즉시 돌아옵니다</p></section>
+<section><h2>Section 2</h2></section>
+<section><h2>Section 3</h2></section>
+<section><h2>Section 4</h2></section>
+<script>
+let lastY = 0;
+const hd = document.getElementById('hd');
+addEventListener('scroll', () => {
+  const y = scrollY;
+  // 아래로 스크롤 & 헤더 높이 이상 지나면 숨김, 위로는 바로 표시
+  hd.classList.toggle('hidden', y > lastY && y > 80);
+  lastY = y;
+}, { passive:true });
+</script>
+</body>
+</html>

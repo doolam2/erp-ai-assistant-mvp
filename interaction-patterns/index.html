@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interaction Pattern Library</title>
+<style>
+  :root { --bg:#111; --fg:#f5f2ec; --accent:#e14f2a; --dim:rgba(245,242,236,.45); }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--fg); font-family:"Helvetica Neue",Helvetica,"Apple SD Gothic Neo",sans-serif; }
+  .wrap { max-width:1100px; margin:0 auto; padding:5rem 2rem 8rem; }
+  header h1 { font-size:clamp(2.5rem,7vw,5.5rem); font-weight:700; letter-spacing:-.03em; line-height:1.05; text-transform:uppercase; }
+  header h1 em { font-style:normal; color:var(--accent); }
+  header p { margin-top:1.2rem; color:var(--dim); font-size:1rem; max-width:52ch; line-height:1.7; }
+  .cat { margin-top:5rem; }
+  .cat-head { display:flex; align-items:baseline; gap:1rem; border-bottom:1px solid rgba(255,255,255,.15); padding-bottom:.8rem; }
+  .cat-head .no { font-size:.85rem; color:var(--accent); }
+  .cat-head h2 { font-size:1.6rem; font-weight:700; letter-spacing:-.01em; }
+  .row {
+    display:grid; grid-template-columns: 2.5rem 15rem 1fr auto; gap:1rem; align-items:center;
+    padding:1.1rem .4rem; border-bottom:1px solid rgba(255,255,255,.07);
+    text-decoration:none; color:inherit; transition:background .2s, padding-left .25s;
+  }
+  .row:hover { background:rgba(255,255,255,.04); padding-left:1rem; }
+  .row .idx { color:var(--dim); font-size:.8rem; }
+  .row .name { font-weight:700; font-size:1.05rem; }
+  .row .desc { color:var(--dim); font-size:.9rem; line-height:1.5; }
+  .row .go { color:var(--accent); font-size:.9rem; opacity:0; transform:translateX(-6px); transition:opacity .25s, transform .25s; white-space:nowrap; }
+  .row:hover .go { opacity:1; transform:translateX(0); }
+  .badge { display:inline-block; margin-left:.5rem; font-size:.65rem; color:var(--dim); border:1px solid rgba(255,255,255,.2); border-radius:99px; padding:.1rem .5rem; vertical-align:middle; }
+  footer { margin-top:6rem; color:var(--dim); font-size:.85rem; line-height:1.8; }
+  @media (max-width:760px) {
+    .row { grid-template-columns: 2rem 1fr auto; }
+    .row .desc { display:none; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Interaction<br>Pattern <em>Library</em></h1>
+    <p>어워드(Awwwards) 수상작에서 반복적으로 쓰이는 인터랙션 정형 패턴 52종.
+    각 항목을 클릭하면 실제로 움직이는 예제를 볼 수 있습니다. WebGL 계열 일부는 개념을 보여주는 간이 구현입니다.</p>
+  </header>
+  <main id="list"></main>
+  <footer>
+    TIP. 어워드 특유의 느낌은 「스무스 스크롤 + 텍스트 스태거 리빌 + 커스텀 커서 + 프리로더」 4개 조합만으로 80%가 완성됩니다.<br>
+    전부 넣으면 과해지고 성능도 저하되므로, 시그니처 효과 1~2개에 집중하세요.
+  </footer>
+</div>
+<script>
+const DATA = [
+  ["커서 & 호버", [
+    ["커스텀 커서", "기본 커서를 원/점으로 교체, 링크 위에서 커지거나 텍스트로 변함", "custom-cursor.html"],
+    ["마그네틱 버튼", "커서가 가까이 가면 버튼이 자석처럼 커서 쪽으로 끌려옴", "magnetic-button.html"],
+    ["커서 트레일", "커서 뒤로 잔상·파티클이 따라붙음", "cursor-trail.html"],
+    ["이미지 트레일", "마우스가 지나간 자리에 이미지가 연속으로 뿌려졌다 사라짐", "image-trail.html"],
+    ["호버 디스토션", "이미지에 호버하면 WebGL로 물결처럼 일렁임", "hover-distortion.html"],
+    ["링크 밑줄 드로우", "호버 시 밑줄이 왼쪽→오른쪽으로 그려지고, 반대로 빠져나감", "link-underline.html"],
+    ["텍스트 롤오버", "호버 시 글자가 위로 굴러가며 복제본으로 교체됨", "text-rollover.html"],
+    ["스포트라이트 호버", "커서 주변만 밝아지거나 그라디언트가 따라다님", "spotlight-hover.html"],
+    ["리스트 호버 이미지", "목록 텍스트에 호버하면 미리보기 이미지가 떠서 따라옴", "list-hover-image.html"],
+    ["틸트 카드", "커서 위치에 따라 카드가 3D로 기울어짐", "tilt-card.html"],
+  ]],
+  ["스크롤 연동", [
+    ["스무스 스크롤", "스크롤에 관성·저항감을 줘서 부드럽게 미끄러짐 (Lenis)", "smooth-scroll.html"],
+    ["패럴랙스", "요소들이 서로 다른 속도로 움직여 깊이감 생성", "parallax.html"],
+    ["스크롤 리빌", "요소가 뷰포트에 들어올 때 아래에서 떠오르며 페이드인", "scroll-reveal.html"],
+    ["핀 섹션", "섹션이 화면에 고정된 채 내부 콘텐츠만 바뀜", "pin-section.html"],
+    ["호리즌탈 스크롤", "세로 스크롤로 콘텐츠가 가로로 흘러가는 섹션", "horizontal-scroll.html"],
+    ["스크롤 스크러빙", "스크롤 위치에 애니메이션 진행도가 1:1로 묶임", "scroll-scrub.html"],
+    ["이미지 시퀀스 스크럽", "스크롤에 따라 프레임이 재생돼 영상처럼 보임", "image-sequence.html"],
+    ["클립패스 확대", "작은 이미지가 스크롤하면 화면 전체로 확장됨", "clip-expand.html"],
+    ["스크롤 줌", "스크롤에 따라 확대되며 다음 씬으로 빨려 들어감", "scroll-zoom.html"],
+    ["스티키 스택 카드", "카드들이 스크롤할 때 차곡차곡 쌓이거나 덮임", "sticky-stack.html"],
+    ["프로그레스 인디케이터", "읽은 진행도를 바·원형 게이지로 표시", "progress-indicator.html"],
+    ["스크롤 벨로시티 효과", "스크롤 속도에 따라 텍스트가 기울어지고 빨라짐", "scroll-velocity.html"],
+  ]],
+  ["텍스트 & 타이포그래피", [
+    ["텍스트 스태거 리빌", "글자·단어·줄 단위로 쪼개서 순차 등장", "stagger-reveal.html"],
+    ["라인 마스크 리빌", "줄 단위로 마스크 아래에서 밀려 올라옴", "line-mask-reveal.html"],
+    ["마퀴", "텍스트가 무한히 옆으로 흐름", "marquee.html"],
+    ["텍스트 스크램블", "랜덤 문자로 지글거리다 원래 단어로 정착", "text-scramble.html"],
+    ["타이핑 효과", "한 글자씩 타이핑되듯 나타남", "typing.html"],
+    ["가변 폰트 인터랙션", "커서 거리에 따라 글자 굵기가 실시간으로 변함", "variable-font.html"],
+    ["키네틱 타이포", "거대한 타이포가 마우스·스크롤에 반응해 움직임", "kinetic-typo.html"],
+    ["하이라이트 스크럽", "문단이 스크롤에 따라 한 단어씩 켜짐", "highlight-scrub.html"],
+  ]],
+  ["페이지 전환 & 로딩", [
+    ["프리로더", "카운터(0→100%) 후 커튼이 걷히며 시작", "preloader.html"],
+    ["페이지 트랜지션", "화면을 커튼으로 덮었다 걷어내며 페이지 교체", "page-transition.html"],
+    ["뷰 트랜지션", "썸네일이 상세 히어로로 그대로 확대되며 이어짐", "view-transition.html"],
+    ["커튼 리빌", "색 블록이 지나가며 콘텐츠를 드러냄", "curtain-reveal.html"],
+  ]],
+  ["이미지 & 미디어", [
+    ["이미지 패럴랙스 (내부)", "컨테이너는 고정, 안의 이미지만 다른 속도로 움직임", "image-parallax-inner.html"],
+    ["마스크 리빌 이미지", "이미지가 커튼 벗겨지듯 등장", "mask-reveal-image.html"],
+    ["무한 갤러리", "상하좌우 끝없이 드래그되는 이미지 그리드", "infinite-gallery.html"],
+    ["드래그 캐러셀", "관성 있는 드래그 슬라이더", "drag-carousel.html"],
+    ["호버 비디오 재생", "썸네일에 호버하면 영상이 재생됨", "hover-video.html"],
+    ["이미지 그리드 → 히어로", "흩어진 이미지들이 스크롤하면 한곳으로 모임", "grid-to-hero.html"],
+  ]],
+  ["배경 & WebGL", [
+    ["그라디언트 메시", "여러 색이 유체처럼 섞이며 흐르는 배경", "gradient-mesh.html"],
+    ["파티클 배경", "입자들이 떠다니고 마우스에 반응해 흩어짐", "particles.html"],
+    ["노이즈/그레인 오버레이", "필름 그레인 질감으로 아날로그 느낌", "noise-grain.html"],
+    ["3D 오브젝트 씬", "Three.js 3D 모델이 스크롤·마우스에 따라 회전", "3d-object.html"],
+    ["유체 시뮬레이션", "마우스가 지나가면 잉크 번지듯 색이 퍼짐 (간이)", "fluid-sim.html"],
+    ["ASCII/도트 셰이더", "그래픽을 문자로 실시간 변환해 렌더링", "ascii-shader.html"],
+  ]],
+  ["내비게이션 & 기타", [
+    ["풀스크린 오버레이 메뉴", "화면 전체를 덮는 메뉴가 스태거로 펼쳐짐", "overlay-menu.html"],
+    ["숨는 헤더", "스크롤 내리면 사라지고 올리면 나타나는 헤더", "hiding-header.html"],
+    ["글래스모피즘 헤더", "스크롤하면 헤더가 반투명 블러 유리로 변함", "glass-header.html"],
+    ["다크/라이트 섹션 전환", "섹션 도달 시 페이지 배경색이 부드럽게 반전", "dark-light-sections.html"],
+    ["사운드 토글", "배경음 온오프 + 파형 아이콘", "sound-toggle.html"],
+    ["시계/위치 위젯", "코너에 현지 시간·좌표를 실시간 표시", "clock-widget.html"],
+  ]],
+];
+let n = 0;
+document.getElementById('list').innerHTML = DATA.map(([cat, items], ci) => `
+  <section class="cat">
+    <div class="cat-head"><span class="no">0${ci+1}</span><h2>${cat}</h2></div>
+    ${items.map(([t, d, f]) => `
+      <a class="row" href="${f}">
+        <span class="idx">${String(++n).padStart(2,'0')}</span>
+        <span class="name">${t}</span>
+        <span class="desc">${d}</span>
+        <span class="go">예제 보기 →</span>
+      </a>`).join('')}
+  </section>`).join('');
+</script>
+</body>
+</html>

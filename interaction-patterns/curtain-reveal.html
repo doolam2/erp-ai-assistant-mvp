@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>커튼 리빌</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  main { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2rem; }
+  .frame { position:relative; overflow:hidden; border-radius:10px; }
+  .frame img { display:block; width:min(70vw,520px); aspect-ratio:16/10; object-fit:cover; }
+  .frame .veil { position:absolute; inset:0; background:var(--accent); transform:scaleY(1); }
+  h1 { font-size:clamp(2rem,6vw,4rem); position:relative; overflow:hidden; padding:.1em 0; }
+  h1 .veil { position:absolute; inset:0; background:var(--fg); }
+  button { font:inherit; padding:.7rem 1.8rem; border-radius:99px; border:1.5px solid var(--fg); background:transparent; color:var(--fg); cursor:pointer; }
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">커튼 리빌 — 색 블록이 지나가며 콘텐츠를 드러냅니다</span></div>
+<main>
+  <h1>Reveal Me<span class="veil"></span></h1>
+  <div class="frame"><img src="https://picsum.photos/id/1069/1040/650"><div class="veil"></div></div>
+  <button id="replay">다시 재생</button>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script>
+function play(){
+  const tl = gsap.timeline();
+  document.querySelectorAll('.veil').forEach((v, i) => {
+    // 콘텐츠를 덮고 있던 커튼이 위에서부터 걷혀 내려가며 드러남
+    tl.fromTo(v, { scaleY:1 },
+                 { scaleY:0, transformOrigin:'bottom', duration:.9, ease:'power4.inOut' }, 0.2 + i*0.25);
+  });
+}
+play();
+document.getElementById('replay').onclick = play;
+</script>
+</body>
+</html>

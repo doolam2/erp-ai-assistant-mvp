@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>풀스크린 오버레이 메뉴</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  main { min-height:100vh; display:flex; align-items:center; justify-content:center; }
+  main h1 { font-size:clamp(2rem,6vw,4rem); color:var(--dim); }
+  #burger {
+    position:fixed; top:1rem; right:1.4rem; z-index:2500; width:52px; height:52px;
+    border-radius:50%; border:1.5px solid var(--fg); background:rgba(17,17,17,.6);
+    cursor:pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px;
+  }
+  #burger span { display:block; width:20px; height:2px; background:var(--fg); transition:transform .4s, opacity .3s; }
+  #burger.open span:nth-child(1){ transform:translateY(4px) rotate(45deg); }
+  #burger.open span:nth-child(2){ transform:translateY(-4px) rotate(-45deg); }
+  #menu {
+    position:fixed; inset:0; z-index:2000; background:var(--accent);
+    clip-path:circle(0% at calc(100% - 2.6rem) 2.6rem);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.5rem;
+    visibility:hidden;
+  }
+  #menu a {
+    color:#111; text-decoration:none; font-size:clamp(2.5rem,7vw,5rem); font-weight:700;
+    letter-spacing:-.02em; overflow:hidden; display:block; line-height:1.2;
+  }
+  #menu a span { display:block; }
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">오버레이 메뉴 — 우상단 버튼 클릭. 원형 확장 + 링크 스태거</span></div>
+<main><h1>우상단 메뉴 버튼을 눌러보세요</h1></main>
+<button id="burger"><span></span><span></span></button>
+<nav id="menu">
+  <a href="#"><span>Home</span></a>
+  <a href="#"><span>Work</span></a>
+  <a href="#"><span>Studio</span></a>
+  <a href="#"><span>Contact</span></a>
+</nav>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script>
+const burger = document.getElementById('burger');
+const menu = document.getElementById('menu');
+const links = menu.querySelectorAll('a span');
+let open = false, busy = false;
+burger.onclick = () => {
+  if (busy) return; busy = true;
+  open = !open;
+  burger.classList.toggle('open', open);
+  if (open){
+    gsap.timeline({ onComplete:() => busy = false })
+      .set(menu, { visibility:'visible' })
+      .to(menu, { clipPath:'circle(150% at calc(100% - 2.6rem) 2.6rem)', duration:.8, ease:'power4.inOut' })
+      .fromTo(links, { yPercent:110 }, { yPercent:0, duration:.8, stagger:.07, ease:'expo.out' }, '-=0.35');
+  } else {
+    gsap.timeline({ onComplete:() => { gsap.set(menu,{visibility:'hidden'}); busy = false; } })
+      .to(links, { yPercent:-110, duration:.4, stagger:.04, ease:'power2.in' })
+      .to(menu, { clipPath:'circle(0% at calc(100% - 2.6rem) 2.6rem)', duration:.7, ease:'power4.inOut' }, '-=0.1');
+  }
+};
+</script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>라인 마스크 리빌</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  .spacer { height:70vh; display:flex; align-items:center; justify-content:center; color:var(--dim); }
+  section { min-height:80vh; display:flex; align-items:center; justify-content:center; padding:2rem; }
+  .txt { max-width:30ch; font-size:clamp(1.8rem,4.5vw,3.2rem); font-weight:700; line-height:1.4; letter-spacing:-.01em; }
+  .txt em { font-style:normal; color:var(--accent); }
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">라인 마스크 리빌 — 줄이 마스크 아래에서 밀려 올라옵니다</span></div>
+<div class="spacer">↓ 스크롤</div>
+<section><p class="txt lm">우리는 <em>브랜드의 이야기</em>를 화면 위의 경험으로 옮기는 스튜디오입니다.</p></section>
+<section><p class="txt lm">각 줄이 <em>overflow hidden 상자</em> 안에서 올라오기 때문에 잘려 보이며 등장합니다.</p></section>
+<div class="spacer">위로 스크롤하면 역재생됩니다</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger, SplitText);
+document.fonts.ready.then(() => {
+  document.querySelectorAll('.lm').forEach(el => {
+    SplitText.create(el, { type:'lines', mask:'lines', autoSplit:false,
+      onSplit: s => gsap.from(s.lines, {
+        yPercent:110, duration:1.5, stagger:{each:.1}, ease:'expo.out',
+        scrollTrigger:{ trigger:el, start:'top 85%', toggleActions:'play none none reverse' }
+      })
+    });
+  });
+});
+</script>
+</body>
+</html>

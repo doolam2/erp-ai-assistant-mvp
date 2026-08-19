@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>글래스모피즘 헤더</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  header {
+    position:fixed; top:0; left:0; right:0; z-index:1000;
+    display:flex; justify-content:space-between; align-items:center;
+    padding:1.4rem 6rem 1.4rem 2rem;
+    background:transparent; border-bottom:1px solid transparent;
+    transition:background .5s, backdrop-filter .5s, padding .5s, border-color .5s;
+  }
+  header.glass {
+    background:rgba(255,255,255,.07);
+    backdrop-filter:blur(16px) saturate(1.6);
+    -webkit-backdrop-filter:blur(16px) saturate(1.6);
+    border-color:rgba(255,255,255,.12);
+    padding-top:.9rem; padding-bottom:.9rem;
+  }
+  header b { letter-spacing:-.02em; }
+  header nav { display:flex; gap:1.6rem; }
+  header a { color:var(--fg); opacity:.75; text-decoration:none; font-size:.9rem; }
+  .hero { min-height:100vh; background:url('https://picsum.photos/id/1018/1800/1100') center/cover; display:flex; align-items:center; justify-content:center; }
+  .hero h1 { font-size:clamp(2.5rem,8vw,6rem); text-shadow:0 4px 30px rgba(0,0,0,.5); }
+  section { min-height:80vh; display:flex; align-items:center; justify-content:center; color:var(--dim); }
+</style>
+</head>
+<body>
+<div class="demo-bar" style="left:auto"><a href="index.html">← 목록</a></div>
+<header id="hd"><b>GLASS®</b><nav><a href="#">Work</a><a href="#">About</a><a href="#">Contact</a></nav></header>
+<div class="hero"><h1>Scroll Down</h1></div>
+<section>스크롤 60px를 넘는 순간 헤더가 반투명 블러 유리로 바뀌었습니다</section>
+<section>backdrop-filter: blur() + 살짝 줄어드는 패딩이 포인트</section>
+<script>
+const hd = document.getElementById('hd');
+addEventListener('scroll', () => hd.classList.toggle('glass', scrollY > 60), { passive:true });
+</script>
+</body>
+</html>

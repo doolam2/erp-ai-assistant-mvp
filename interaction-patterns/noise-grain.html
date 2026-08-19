@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>노이즈/그레인 오버레이</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  main { min-height:100vh; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:2rem;
+    background:linear-gradient(160deg,#2b1d16,#101018); }
+  h1 { font-size:clamp(2.5rem,8vw,6rem); letter-spacing:-.03em; }
+  img.photo { width:min(70vw,480px); border-radius:10px; }
+  #grain { position:fixed; inset:0; pointer-events:none; z-index:500; opacity:.5; mix-blend-mode:overlay; }
+  button { font:inherit; padding:.6rem 1.6rem; border-radius:99px; border:1.5px solid var(--fg); background:rgba(0,0,0,.3); color:var(--fg); cursor:pointer; z-index:600; }
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">노이즈 그레인 — 화면 전체에 필름 질감. 버튼으로 켜고 꺼서 비교</span></div>
+<main>
+  <h1>Analog Feel</h1>
+  <img class="photo" src="https://picsum.photos/id/1080/960/640">
+  <button id="tg">그레인 끄기</button>
+</main>
+<canvas id="grain"></canvas>
+<script>
+const cv = document.getElementById('grain'), ctx = cv.getContext('2d');
+function resize(){ cv.width = innerWidth/2; cv.height = innerHeight/2; }  // 절반 해상도로 성능 확보
+resize(); addEventListener('resize', resize);
+cv.style.width = '100vw'; cv.style.height = '100vh';
+let on = true, frame = 0;
+(function loop(){
+  if (on && frame++ % 2 === 0){                    // 30fps면 충분
+    const img = ctx.createImageData(cv.width, cv.height);
+    const d = img.data;
+    for (let i=0;i<d.length;i+=4){
+      const v = Math.random()*255;
+      d[i]=d[i+1]=d[i+2]=v; d[i+3]=40;
+    }
+    ctx.putImageData(img,0,0);
+  }
+  requestAnimationFrame(loop);
+})();
+document.getElementById('tg').onclick = e => {
+  on = !on;
+  cv.style.display = on ? 'block' : 'none';
+  e.target.textContent = on ? '그레인 끄기' : '그레인 켜기';
+};
+</script>
+</body>
+</html>

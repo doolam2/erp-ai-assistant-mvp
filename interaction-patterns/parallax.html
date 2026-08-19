@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>패럴랙스</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  .hero { height:130vh; position:relative; overflow:hidden; display:flex; align-items:center; justify-content:center; }
+  .layer { position:absolute; will-change:transform; }
+  .l-back  { inset:-10% -5%; background:url('https://picsum.photos/id/1018/1600/1000') center/cover; filter:brightness(.5); }
+  .l-title { font-size:clamp(3rem,10vw,8rem); font-weight:700; letter-spacing:-.03em; z-index:2; }
+  .l-imgA { top:15%; left:8%; width:220px; aspect-ratio:3/4; background:url('https://picsum.photos/id/1043/440/600') center/cover; border-radius:8px; z-index:3; }
+  .l-imgB { bottom:12%; right:10%; width:260px; aspect-ratio:4/3; background:url('https://picsum.photos/id/1062/600/440') center/cover; border-radius:8px; z-index:3; }
+  section.after { min-height:80vh; display:flex; align-items:center; justify-content:center; color:var(--dim); }
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">패럴랙스 — 스크롤하면 각 레이어가 다른 속도로 움직입니다</span></div>
+<div class="hero">
+  <div class="layer l-back" data-speed="0.25"></div>
+  <h1 class="layer l-title" data-speed="0.6">DEPTH</h1>
+  <div class="layer l-imgA" data-speed="0.9"></div>
+  <div class="layer l-imgB" data-speed="1.4"></div>
+</div>
+<section class="after">배경 0.25배 · 타이틀 0.6배 · 이미지 0.9~1.4배 속도로 움직였습니다</section>
+<script>
+const layers = document.querySelectorAll('.layer');
+addEventListener('scroll', () => {
+  const y = scrollY;
+  layers.forEach(el => {
+    el.style.transform = `translateY(${y * (parseFloat(el.dataset.speed) - 1) * 0.4}px)`;
+  });
+}, { passive:true });
+</script>
+</body>
+</html>

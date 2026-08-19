@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>틸트 카드</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  main { min-height:100vh; display:flex; align-items:center; justify-content:center; gap:3rem; flex-wrap:wrap; perspective:1000px; }
+  .tilt {
+    width:280px; height:380px; border-radius:16px; position:relative;
+    background:linear-gradient(160deg,#232323,#161616);
+    border:1px solid rgba(255,255,255,.1);
+    transform-style:preserve-3d; will-change:transform;
+    display:flex; flex-direction:column; justify-content:flex-end; padding:1.5rem; overflow:hidden;
+  }
+  .tilt img { position:absolute; inset:0; width:100%; height:65%; object-fit:cover; }
+  .tilt .glare {
+    position:absolute; inset:0; pointer-events:none;
+    background:radial-gradient(circle at var(--gx,50%) var(--gy,50%), rgba(255,255,255,.18), transparent 60%);
+    opacity:0; transition:opacity .3s;
+  }
+  .tilt:hover .glare { opacity:1; }
+  .tilt h3 { font-size:1.3rem; transform:translateZ(40px); }
+  .tilt p { color:var(--dim); font-size:.85rem; transform:translateZ(30px); }
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">틸트 카드 — 카드 위에서 마우스를 움직여 보세요</span></div>
+<main>
+  <div class="tilt">
+    <img src="https://picsum.photos/id/1050/560/500"><div class="glare"></div>
+    <h3>Neon City</h3><p>Photography · 2026</p>
+  </div>
+  <div class="tilt">
+    <img src="https://picsum.photos/id/1069/560/500"><div class="glare"></div>
+    <h3>Still Life</h3><p>Art Direction · 2025</p>
+  </div>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script>
+document.querySelectorAll('.tilt').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const r = card.getBoundingClientRect();
+    const px = (e.clientX-r.left)/r.width - .5;   // -0.5 ~ 0.5
+    const py = (e.clientY-r.top)/r.height - .5;
+    gsap.to(card, { rotationY:px*18, rotationX:-py*18, scale:1.03, duration:.5, ease:'power2.out' });
+    card.style.setProperty('--gx', ((px+.5)*100)+'%');
+    card.style.setProperty('--gy', ((py+.5)*100)+'%');
+  });
+  card.addEventListener('mouseleave', () => {
+    gsap.to(card, { rotationY:0, rotationX:0, scale:1, duration:.8, ease:'elastic.out(1,.5)' });
+  });
+});
+</script>
+</body>
+</html>

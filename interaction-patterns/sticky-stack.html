@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>스티키 스택 카드</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  .intro, .outro { height:50vh; display:flex; align-items:center; justify-content:center; color:var(--dim); }
+  .stack { max-width:760px; margin:0 auto; padding:0 1.5rem; }
+  .s-card {
+    position:sticky; top:12vh; height:70vh; border-radius:20px;
+    display:flex; flex-direction:column; justify-content:center; align-items:center; gap:1rem;
+    margin-bottom:10vh; border:1px solid rgba(255,255,255,.1);
+    transform-origin:top center;
+  }
+  .s-card h2 { font-size:clamp(2rem,6vw,4rem); }
+  .s-card p { opacity:.7; }
+  .s-card:nth-child(1){ background:#20242e; }
+  .s-card:nth-child(2){ background:#3a2a24; top:14vh; }
+  .s-card:nth-child(3){ background:#24382c; top:16vh; }
+  .s-card:nth-child(4){ background:#e14f2a; top:18vh; }
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">스티키 스택 카드 — 스크롤하면 카드가 겹겹이 쌓입니다</span></div>
+<div class="intro">↓ 스크롤</div>
+<div class="stack">
+  <div class="s-card"><h2>Plan</h2><p>01 — position: sticky만으로 쌓이는 구조</p></div>
+  <div class="s-card"><h2>Design</h2><p>02 — 아래 카드가 위 카드를 덮으며 올라옴</p></div>
+  <div class="s-card"><h2>Build</h2><p>03 — top 값을 조금씩 다르게 주면 계단식</p></div>
+  <div class="s-card"><h2>Ship</h2><p>04 — 이전 카드는 살짝 축소되며 깊이감</p></div>
+</div>
+<div class="outro">끝. 이전 카드 scale 축소는 GSAP로 얹은 것</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+const cards = gsap.utils.toArray('.s-card');
+cards.forEach((card, i) => {
+  if (i === cards.length-1) return;
+  gsap.to(card, {
+    scale:0.92, filter:'brightness(0.6)', ease:'none',
+    scrollTrigger:{ trigger:cards[i+1], start:'top bottom', end:'top 15vh', scrub:true }
+  });
+});
+</script>
+</body>
+</html>

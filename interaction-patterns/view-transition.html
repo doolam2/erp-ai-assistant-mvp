@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>뷰 트랜지션</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  main { min-height:100vh; display:flex; align-items:center; justify-content:center; }
+  .grid { display:grid; grid-template-columns:repeat(3,minmax(140px,220px)); gap:1.2rem; padding:2rem; }
+  .thumb { aspect-ratio:3/4; border-radius:10px; overflow:hidden; cursor:pointer; }
+  .thumb img { width:100%; height:100%; object-fit:cover; transition:transform .4s; }
+  .thumb:hover img { transform:scale(1.06); }
+  #overlay { position:fixed; inset:0; z-index:1200; visibility:hidden; }
+  #overlay .bg { position:absolute; inset:0; background:rgba(10,10,10,.9); opacity:0; }
+  #hero { position:absolute; border-radius:10px; overflow:hidden; will-change:transform; }
+  #hero img { width:100%; height:100%; object-fit:cover; }
+  #detail { position:absolute; left:50%; bottom:8vh; transform:translateX(-50%); text-align:center; opacity:0; }
+  #detail h2 { font-size:2rem; }
+  #detail p { color:var(--dim); cursor:pointer; margin-top:.5rem; }
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">뷰 트랜지션 — 썸네일을 클릭하면 그대로 히어로로 확대 (FLIP)</span></div>
+<main>
+  <div class="grid" id="grid">
+    <div class="thumb"><img src="https://picsum.photos/id/1015/450/600"></div>
+    <div class="thumb"><img src="https://picsum.photos/id/1043/450/600"></div>
+    <div class="thumb"><img src="https://picsum.photos/id/1062/450/600"></div>
+  </div>
+</main>
+<div id="overlay">
+  <div class="bg"></div>
+  <div id="hero"><img id="heroImg"></div>
+  <div id="detail"><h2>Project Detail</h2><p>닫기 ✕</p></div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script>
+const overlay = document.getElementById('overlay');
+const hero = document.getElementById('hero');
+const heroImg = document.getElementById('heroImg');
+let fromRect = null, busy = false;
+
+document.querySelectorAll('.thumb').forEach(t => t.onclick = () => {
+  if (busy) return; busy = true;
+  fromRect = t.getBoundingClientRect();
+  heroImg.src = t.querySelector('img').src;
+  // FLIP: 시작 위치(썸네일)에서 목표(중앙 히어로)로
+  gsap.set(hero, { left:fromRect.left, top:fromRect.top, width:fromRect.width, height:fromRect.height });
+  gsap.set(overlay, { visibility:'visible' });
+  const W = Math.min(innerWidth*.6, 560), H = Math.min(innerHeight*.75, 700);
+  gsap.timeline({ onComplete:() => busy = false })
+    .to('#overlay .bg', { opacity:1, duration:.4 }, 0)
+    .to(hero, { left:(innerWidth-W)/2, top:(innerHeight-H)/2 - 20, width:W, height:H,
+                duration:.7, ease:'expo.inOut' }, 0)
+    .to('#detail', { opacity:1, duration:.4 }, '-=0.2');
+});
+document.getElementById('detail').querySelector('p').onclick = () => {
+  if (busy) return; busy = true;
+  gsap.timeline({ onComplete:() => { gsap.set(overlay,{visibility:'hidden'}); busy = false; } })
+    .to('#detail', { opacity:0, duration:.25 }, 0)
+    .to(hero, { left:fromRect.left, top:fromRect.top, width:fromRect.width, height:fromRect.height,
+                duration:.6, ease:'expo.inOut' }, 0)
+    .to('#overlay .bg', { opacity:0, duration:.4 }, '-=0.3');
+};
+</script>
+</body>
+</html>

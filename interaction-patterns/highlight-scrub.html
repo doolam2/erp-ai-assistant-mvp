@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>하이라이트 스크럽</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  .spacer { height:70vh; display:flex; align-items:center; justify-content:center; color:var(--dim); }
+  section { min-height:120vh; display:flex; align-items:flex-start; justify-content:center; padding:20vh 2rem; }
+  .para { max-width:26ch; font-size:clamp(1.8rem,4.5vw,3.4rem); font-weight:700; line-height:1.5; letter-spacing:-.01em; }
+  .para .word { color:rgba(245,242,236,.15); }
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">하이라이트 스크럽 — 스크롤에 따라 한 단어씩 켜집니다</span></div>
+<div class="spacer">↓ 천천히 스크롤</div>
+<section>
+  <p class="para" id="para">읽는 속도에 맞춰 문장이 한 단어씩 밝아지면 시선이 자연스럽게 글을 따라가게 됩니다 어워드 어바웃 페이지의 단골 패턴입니다</p>
+</section>
+<div class="spacer">올리면 다시 어두워집니다</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+const para = document.getElementById('para');
+para.innerHTML = para.textContent.split(' ').map(w => `<span class="word">${w}</span>`).join(' ');
+gsap.to(para.querySelectorAll('.word'), {
+  color:'rgba(245,242,236,1)', ease:'none', stagger:0.5,
+  scrollTrigger:{ trigger:para, start:'top 70%', end:'bottom 45%', scrub:true }
+});
+</script>
+</body>
+</html>

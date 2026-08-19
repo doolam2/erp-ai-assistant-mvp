@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>커서 트레일</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  canvas { position:fixed; inset:0; }
+  main { min-height:100vh; display:flex; align-items:center; justify-content:center; position:relative; pointer-events:none; }
+  h1 { font-size:clamp(2rem,6vw,4.5rem); letter-spacing:-.02em; opacity:.9; }
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">커서 트레일 — 마우스를 움직여 보세요</span></div>
+<canvas id="c"></canvas>
+<main><h1>Move Your Cursor</h1></main>
+<script>
+const cv = document.getElementById('c'), ctx = cv.getContext('2d');
+function resize(){ cv.width = innerWidth; cv.height = innerHeight; }
+resize(); addEventListener('resize', resize);
+const parts = [];
+addEventListener('mousemove', e => {
+  for (let i=0;i<3;i++) parts.push({
+    x:e.clientX, y:e.clientY,
+    vx:(Math.random()-.5)*2, vy:(Math.random()-.5)*2 - 0.5,
+    life:1, r:Math.random()*5+2
+  });
+});
+(function loop(){
+  ctx.clearRect(0,0,cv.width,cv.height);
+  for (let i=parts.length-1;i>=0;i--){
+    const p = parts[i];
+    p.x += p.vx; p.y += p.vy; p.life -= 0.02;
+    if (p.life <= 0) { parts.splice(i,1); continue; }
+    ctx.globalAlpha = p.life;
+    ctx.fillStyle = '#e14f2a';
+    ctx.beginPath(); ctx.arc(p.x, p.y, p.r*p.life, 0, Math.PI*2); ctx.fill();
+  }
+  ctx.globalAlpha = 1;
+  requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>

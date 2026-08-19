@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>마퀴</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  main { min-height:100vh; display:flex; flex-direction:column; justify-content:center; gap:4rem; }
+  .mq { overflow:hidden; white-space:nowrap; }
+  .mq-inner { display:inline-flex; will-change:transform; }
+  .mq span { font-size:clamp(2.5rem,7vw,5.5rem); font-weight:700; letter-spacing:-.02em; padding-right:2rem; }
+  .mq.stroke span { color:transparent; -webkit-text-stroke:1.5px var(--fg); }
+  .mq.pausable:hover .mq-inner { animation-play-state:paused; }
+  .css-mq .mq-inner { animation:slide 18s linear infinite; }
+  .css-mq.rev .mq-inner { animation-direction:reverse; animation-duration:24s; }
+  @keyframes slide { to { transform:translateX(-50%); } }
+  .note { text-align:center; color:var(--dim); font-size:.85rem; }
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">마퀴 — CSS 무한 루프 + 호버 일시정지 + 역방향</span></div>
+<main>
+  <div class="mq css-mq pausable"><div class="mq-inner" id="a"></div></div>
+  <div class="mq css-mq rev stroke pausable"><div class="mq-inner" id="b"></div></div>
+  <p class="note">호버하면 멈춥니다. 콘텐츠를 2벌 복제하고 -50%까지 이동시키는 것이 무한 루프의 핵심</p>
+</main>
+<script>
+function fill(id, text, n){
+  const el = document.getElementById(id);
+  el.innerHTML = Array.from({length:n}, () => `<span>${text}</span>`).join('');
+}
+// 절반(-50%) 지점이 시작과 동일해지도록 동일 콘텐츠 2세트
+fill('a', 'CREATIVE STUDIO ✦ ', 8);
+fill('b', 'GET IN TOUCH — ', 8);
+</script>
+</body>
+</html>

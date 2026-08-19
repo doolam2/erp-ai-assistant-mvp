@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>마그네틱 버튼</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  main { min-height:100vh; display:flex; align-items:center; justify-content:center; gap:4rem; flex-wrap:wrap; }
+  .magnetic {
+    padding:1.4rem 3rem; border-radius:99px; border:1.5px solid var(--fg);
+    background:transparent; color:var(--fg); font-size:1.1rem; cursor:pointer;
+    will-change:transform;
+  }
+  .magnetic.fill { background:var(--accent); border-color:var(--accent); }
+  .magnetic span { display:inline-block; will-change:transform; }
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">마그네틱 버튼 — 커서를 버튼 근처로 가져가 보세요</span></div>
+<main>
+  <button class="magnetic"><span>Let's Talk</span></button>
+  <button class="magnetic fill"><span>View Project</span></button>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script>
+document.querySelectorAll('.magnetic').forEach(btn => {
+  const label = btn.querySelector('span');
+  btn.addEventListener('mousemove', e => {
+    const r = btn.getBoundingClientRect();
+    const x = e.clientX - (r.left + r.width/2);
+    const y = e.clientY - (r.top + r.height/2);
+    gsap.to(btn,   { x: x*0.45, y: y*0.45, duration:0.4, ease:'power3.out' });
+    gsap.to(label, { x: x*0.2,  y: y*0.2,  duration:0.4, ease:'power3.out' }); // 안쪽 텍스트는 더 약하게 → 입체감
+  });
+  btn.addEventListener('mouseleave', () => {
+    gsap.to([btn,label], { x:0, y:0, duration:0.8, ease:'elastic.out(1, 0.35)' }); // 탄성 복귀
+  });
+});
+</script>
+</body>
+</html>
