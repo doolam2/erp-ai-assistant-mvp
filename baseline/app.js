@@ -345,7 +345,7 @@
     col.appendChild(el(`<span class="msg__stamp">${now()}</span>`));
     scrollDown();
   }
-  newChatBtn.addEventListener("click", renderEmptyState);
+  if (newChatBtn) newChatBtn.addEventListener("click", renderEmptyState); // 새 대화 버튼 제거됨(계정당 대화 1개 정책)
 
   /* ---------- mobile drawer ---------- */
   function toggleDrawer(open) { lnb.classList.toggle("is-open", open); scrim.classList.toggle("is-open", open); }
