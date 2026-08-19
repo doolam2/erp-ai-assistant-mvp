@@ -390,3 +390,6 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 /* 슬라이드 패널 head — 아이콘화 (AI 아바타 글자 · SVG 아이콘) */
 .ai-panel__head .dot { display: flex; align-items: center; justify-content: center; color: #fff; font-size: 11px; font-weight: 700; letter-spacing: -0.02em; }
 .ai-panel__head .ico svg { display: block; }
+
+/* AI 패널 열림 시 GNB CTA 숨김 — 좁은 폭에서 상단 메뉴 겹침 방지. X로 닫으면 복귀 */
+.app.ai-open .ai-launch { display: none; }

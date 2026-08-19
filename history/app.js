@@ -127,8 +127,8 @@
     if (kind === "waste") {
       return `
         <div class="bubble bubble--ai">
-          <p>지난주 상암점 폐기율은 <strong>4.2%</strong>로 전주 대비 0.8%p 상승했습니다. 주요 원인은 <span class="dl-inline" data-screen="재고정보 관리">두부·콩물</span> 재고 과다입니다.</p>
-          <p style="font-size:12px;color:var(--g8);margin-top:8px;">두부·콩물 발주량을 10% 줄이면 다음 주 폐기율을 3%대로 낮출 수 있을 것으로 예상됩니다.</p>
+          <p>지난주 상암점 안전재고은 <strong>4.2%</strong>로 전주 대비 0.8%p 상승했습니다. 주요 원인은 <span class="dl-inline" data-screen="재고정보 관리">두부·콩물</span> 재고 과다입니다.</p>
+          <p style="font-size:12px;color:var(--g8);margin-top:8px;">두부·콩물 발주량을 10% 줄이면 다음 주 안전재고을 3%대로 낮출 수 있을 것으로 예상됩니다.</p>
           ${evidence(["생산 DB", "재고 DB"], "high")}
         </div>`;
     }
@@ -155,8 +155,8 @@
     }
     return `
       <div class="bubble bubble--ai">
-        <p>질문을 이해했어요. 발주·재고·유통기한·폐기율·로트 추적 등 ERP 데이터를 조회해 답변할 수 있습니다.</p>
-        <p style="font-size:12px;color:var(--g8);margin-top:8px;">예: “상암점 내일 발주 짜줘”, “두부 로트 추적”, “지난주 폐기율”처럼 물어봐 주세요.</p>
+        <p>질문을 이해했어요. 발주·재고·유통기한·안전재고·로트 추적 등 ERP 데이터를 조회해 답변할 수 있습니다.</p>
+        <p style="font-size:12px;color:var(--g8);margin-top:8px;">예: “상암점 내일 발주 짜줘”, “두부 로트 추적”, “창고별 두부 재고”처럼 물어봐 주세요.</p>
       </div>`;
   }
 
@@ -290,8 +290,6 @@
     if (cta === "excel" || cta === "redownload") runExcel(e.target);
     else if (cta === "order") toast("발주서 초안을 생성했어요");
     else if (cta === "apply") toast("발주 시스템에 반영했어요");
-    const chip = e.target.closest(".chip--suggest");
-    if (chip) sendMessage(chip.textContent);
   });
 
   /* ---------- delete dialog ---------- */
@@ -326,18 +324,6 @@
   /* ---------- new chat / empty ---------- */
   function renderEmptyState() {
     thread.innerHTML = "";
-    thread.appendChild(el(`
-      <div class="empty-state">
-        <div class="empty-state__mark">AI</div>
-        <div class="empty-state__title">무엇을 도와드릴까요?</div>
-        <div class="empty-state__sub">발주 · 재고 · 유통기한 · 로트 추적을 물어보세요</div>
-        <div class="suggested">
-          <button class="chip chip--suggest">오늘 유통기한 임박 품목</button>
-          <button class="chip chip--suggest">상암점 내일 발주 짜줘</button>
-          <button class="chip chip--suggest">두부 로트 추적</button>
-          <button class="chip chip--suggest">지난주 폐기율 알려줘</button>
-        </div>
-      </div>`));
   }
 
   function renderInitial() {
@@ -357,12 +343,6 @@
       </div>`));
     col.appendChild(actionBar());
     col.appendChild(el(`<span class="msg__stamp">${now()}</span>`));
-    thread.appendChild(el(`
-      <div class="suggested">
-        <button class="chip chip--suggest">상암점 내일 발주 짜줘</button>
-        <button class="chip chip--suggest">두부 로트 추적</button>
-        <button class="chip chip--suggest">지난주 폐기율 알려줘</button>
-      </div>`));
     scrollDown();
   }
   newChatBtn.addEventListener("click", renderEmptyState);

@@ -75,7 +75,7 @@
     }
     if (kind === "waste") {
       return `<div class="bubble bubble--ai">
-        <p>지난주 상암점 폐기율은 <strong>4.2%</strong>로 전주 대비 0.8%p 상승했습니다. 주요 원인은 <span class="dl-inline" data-screen="재고정보 관리 · 로트">두부·콩물</span> 재고 과다입니다.</p>
+        <p>지난주 상암점 안전재고은 <strong>4.2%</strong>로 전주 대비 0.8%p 상승했습니다. 주요 원인은 <span class="dl-inline" data-screen="재고정보 관리 · 로트">두부·콩물</span> 재고 과다입니다.</p>
         ${evidence(["생산 DB", "재고 DB"], "high")}</div>`;
     }
     if (kind === "lot") {
@@ -96,7 +96,7 @@
         ${deepLinks(["재고정보 관리 · 로트"])}</div>`;
     }
     return `<div class="bubble bubble--ai">
-      <p>질문을 이해했어요. 발주·재고·유통기한·폐기율·로트 추적 등 ERP 데이터를 조회해 답변할 수 있습니다.</p>
+      <p>질문을 이해했어요. 발주·재고·유통기한·안전재고·로트 추적 등 ERP 데이터를 조회해 답변할 수 있습니다.</p>
       <p style="font-size:12px;color:var(--g8);margin-top:8px;">예: “상암점 내일 발주 짜줘”, “두부 로트 추적”처럼 물어봐 주세요.</p></div>`;
   }
 
@@ -138,10 +138,6 @@
       ${evidence(["재고 DB", "품질 DB"], "high")}
       ${deepLinks(["재고정보 관리 · 로트"])}</div>`));
     col.appendChild(el(`<span class="msg__stamp">${now()}</span>`));
-    aiThread.appendChild(el(`<div class="suggested">
-      <button class="chip chip--suggest">상암점 내일 발주 짜줘</button>
-      <button class="chip chip--suggest">두부 로트 추적</button>
-      <button class="chip chip--suggest">지난주 폐기율 알려줘</button></div>`));
     scrollDown();
   }
 
@@ -192,8 +188,6 @@
     const cta = e.target.dataset.cta;
     if (cta === "order") toast("발주서 초안을 생성했어요");
     else if (cta === "excel") toast("엑셀 파일을 저장했어요");
-    const chip = e.target.closest(".chip--suggest");
-    if (chip) sendMessage(chip.textContent);
   });
 
   /* ---------- LNB nav ---------- */
