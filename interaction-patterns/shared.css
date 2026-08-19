@@ -19,6 +19,8 @@ body {
   transition:background .25s, border-color .25s;
 }
 .demo-bar a:hover { background:var(--accent); border-color:var(--accent); }
+.demo-bar a.ref { border-color:rgba(225,79,42,.6); color:var(--accent); }
+.demo-bar a.ref:hover { color:#fff; }
 .demo-bar .t {
   opacity:.75; background:rgba(17,17,17,.55); border-radius:99px;
   padding:.35rem .95rem; backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
