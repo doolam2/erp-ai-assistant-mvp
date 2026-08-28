@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>주문 목록 · Smart SYNCWORKS</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/style.css?v=2">
+<link rel="stylesheet" href="vendor/flatpickr.min.css">
+</head>
+<body>
+
+<header class="gnb">
+  <a class="logo" href="dashboard.html"><em>Smart</em><b>SYNCWORKS</b></a>
+  <nav>
+    <a href="dashboard.html">기초정보</a>
+    <a href="lab.html">연구소</a>
+    <a class="on" href="orders.html">주문</a>
+    <a href="confirm.html">생산량 확정</a>
+    <a href="purchase.html">발주</a>
+    <a href="production.html">생산</a>
+    <a href="warehouse.html">입출고</a>
+    <a href="inventory.html">재고</a>
+    <a href="quality.html">품질</a>
+    <a href="monitoring.html">모니터링</a>
+    <a href="prints.html">출력물</a>
+    <a href="reports.html">보고서</a>
+    <a href="bpm.html">BPM</a>
+  </nav>
+  <span class="user">홍길동 님</span>
+</header>
+
+<div class="app">
+<aside class="lnb">
+  <div class="grp">주문 관리</div>
+  <a class="on" href="orders.html">주문 목록</a>
+  <a href="order_new.html">주문 등록</a>
+  <a href="#">반품 관리</a>
+  <a href="#">거래처별 주문</a>
+  <a href="#">배송 조회</a>
+  <a href="#">정산 내역</a>
+</aside>
+
+<main class="main">
+  <div class="page-head">
+    <h1>주문 목록</h1>
+    <span class="sub">전체 법인 · 2026. 08. 26</span>
+    <div class="actions">
+      <a class="btn btn-primary" href="order_new.html"><svg class="ic-plus" viewBox="0 0 10 10"><path d="M5 1v8M1 5h8"/></svg>주문 등록</a>
+      <button class="btn btn-outline">CSV</button>
+    </div>
+  </div>
+
+  <div class="kpis" style="grid-template-columns:repeat(4,1fr)">
+    <div class="kpi"><div class="lb">금일 주문</div><div class="num">84<small>건</small></div><div class="meta">전일비 +12건</div></div>
+    <div class="kpi"><div class="lb">출고 대기</div><div class="num">23<small>건</small></div><div class="meta">금일 출고 예정 18건</div></div>
+    <div class="kpi"><div class="lb">배송 중</div><div class="num">41<small>건</small></div><div class="meta">평균 리드타임 1.4일</div></div>
+    <div class="kpi tint-red"><div class="lb">납기 지연</div><div class="num t-neg">2<small>건</small></div><div class="meta">즉시 확인 필요</div></div>
+  </div>
+
+  <div class="filter-bar">
+    <div class="period-wrap">
+      <button type="button" class="chip" id="periodBtn"
+        onclick="document.getElementById('periodPop').hidden=!document.getElementById('periodPop').hidden">
+        <span id="periodLabel">최근 30일</span>
+        <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M3.5 6l4.5 4.5L12.5 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="popover" id="periodPop" hidden>
+        <div class="pop-presets">
+          <span class="pop-item" data-preset="오늘">오늘</span>
+          <span class="pop-item" data-preset="최근 7일">최근 7일</span>
+          <span class="pop-item on" data-preset="최근 30일">최근 30일</span>
+          <span class="pop-item" data-preset="이번 달">이번 달</span>
+          <span class="pop-item" data-preset="지난달">지난달</span>
+          <span class="pop-item" data-preset="custom">직접 지정</span>
+        </div>
+        <div class="pop-cal">
+          <div class="cal-cols">
+            <div class="cal-col">
+              <div class="cal-label">시작일 <b id="lblStart">선택하세요</b></div>
+              <input type="text" class="fp-cal-input" id="fpStart" tabindex="-1">
+            </div>
+            <div class="cal-col">
+              <div class="cal-label">종료일 <b id="lblEnd">선택하세요</b></div>
+              <input type="text" class="fp-cal-input" id="fpEnd" tabindex="-1">
+            </div>
+          </div>
+          <div class="cal-foot">
+            <span class="cal-note" id="rangeNote">시작일과 종료일을 선택하세요 — 미래 날짜 선택 불가</span>
+            <span class="cal-actions">
+              <button type="button" class="btn btn-outline" onclick="document.getElementById('periodPop').hidden=true">취소</button>
+              <button type="button" class="btn btn-primary" id="applyBtn">적용</button>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <select class="sel"><option>전체 법인</option></select>
+    <input class="search" placeholder="거래처·주문번호 검색">
+    <button class="chip on">전체</button>
+    <button class="chip">접수</button>
+    <button class="chip">확정</button>
+    <button class="chip">출고 대기</button>
+    <button class="chip">배송 중</button>
+    <button class="chip">완료</button>
+    <button class="chip">지연</button>
+    <span class="count">1,248건</span>
+  </div>
+
+  <section class="panel">
+    <table class="grid">
+      <tr><th>주문번호</th><th>거래처</th><th>제품</th><th class="r">수량</th><th>납기일</th><th>법인</th><th class="r">금액(천원)</th><th>상태</th><th></th></tr>
+      <tr><td class="link">SO-260826-014</td><td><b>대상마트 성수점</b></td><td>두부 300g 외 3종</td><td class="r">1,240</td><td>08-28</td><td>법인A</td><td class="r"><b>8,420</b></td><td><span class="badge bg-blue">배송 중</span></td><td class="more">상세 →</td></tr>
+      <tr><td class="link">SO-260826-013</td><td><b>한솔유통</b></td><td>순두부 350g</td><td class="r">860</td><td>08-27</td><td>법인C</td><td class="r"><b>4,120</b></td><td><span class="badge bg-orange">출고 대기</span></td><td class="more">상세 →</td></tr>
+      <tr><td class="link">SO-260826-012</td><td><b>성심식자재</b></td><td>콩나물 380g 외 1종</td><td class="r">2,150</td><td>08-27</td><td>법인B</td><td class="r"><b>9,880</b></td><td><span class="badge bg-blue">확정</span></td><td class="more">상세 →</td></tr>
+      <tr><td class="link">SO-260826-011</td><td><b>늘푸른급식</b></td><td>두부 800g(10입)</td><td class="r">640</td><td class="t-neg">08-26</td><td>법인A</td><td class="r"><b>6,240</b></td><td><span class="badge bg-red">지연</span></td><td class="more">상세 →</td></tr>
+      <tr><td class="link">SO-260826-010</td><td><b>대상마트 왕십리점</b></td><td>촌두부 550g</td><td class="r">980</td><td>08-29</td><td>법인D</td><td class="r"><b>5,110</b></td><td><span class="badge bg-gray">접수</span></td><td class="more">상세 →</td></tr>
+      <tr><td class="link">SO-260825-042</td><td><b>제일식품</b></td><td>숙주나물 380g</td><td class="r">1,720</td><td>08-27</td><td>법인B</td><td class="r"><b>7,360</b></td><td><span class="badge bg-blue">배송 중</span></td><td class="more">상세 →</td></tr>
+      <tr><td class="link">SO-260825-041</td><td><b>바른유통</b></td><td>두부 300g</td><td class="r">3,400</td><td>08-26</td><td>법인E</td><td class="r"><b>11,900</b></td><td><span class="badge bg-teal">완료</span></td><td class="more">상세 →</td></tr>
+      <tr><td class="link">SO-260825-040</td><td><b>해맑은식자재</b></td><td>순두부 350g 외 2종</td><td class="r">1,260</td><td>08-26</td><td>법인C</td><td class="r"><b>6,880</b></td><td><span class="badge bg-teal">완료</span></td><td class="more">상세 →</td></tr>
+      <tr><td class="link">SO-260825-039</td><td><b>늘푸른급식</b></td><td>콩나물 380g</td><td class="r">890</td><td>08-25</td><td>법인A</td><td class="r"><b>3,120</b></td><td><span class="badge bg-teal">완료</span></td><td class="more">상세 →</td></tr>
+      <tr><td class="link">SO-260825-038</td><td><b>성심식자재</b></td><td>두부 800g(10입)</td><td class="r">420</td><td>08-25</td><td>법인F</td><td class="r"><b>4,090</b></td><td><span class="badge bg-teal">완료</span></td><td class="more">상세 →</td></tr>
+    </table>
+  </section>
+
+  <div class="paging">
+    <a class="nav" href="#">← 이전</a>
+    <a class="on" href="#">1</a><a href="#">2</a><a href="#">3</a><a href="#">4</a><a href="#">5</a>
+    <a class="nav" href="#">다음 →</a>
+  </div>
+</main>
+</div>
+
+<script src="vendor/flatpickr.min.js"></script>
+<script src="vendor/flatpickr.ko.js"></script>
+<script>
+(function(){
+  var start = '', end = '';
+  var lblS = document.getElementById('lblStart'), lblE = document.getElementById('lblEnd');
+  var note = document.getElementById('rangeNote'), label = document.getElementById('periodLabel');
+  var btn = document.getElementById('periodBtn');
+  function upd(){
+    lblS.textContent = start || '선택하세요';
+    lblE.textContent = end || '선택하세요';
+    if (start && end) {
+      var days = Math.round(Math.abs(new Date(end) - new Date(start)) / 86400000) + 1;
+      note.textContent = '선택 기간 ' + days + '일 — 적용 시 주문 목록·합계에 반영';
+    }
+  }
+  function koHeader(_d, _s, inst){
+    var el = inst.monthNav && inst.monthNav.querySelector('.flatpickr-current-month');
+    if (el) el.textContent = inst.currentYear + '년 ' + (inst.currentMonth + 1) + '월';
+  }
+  var opts = { locale: 'ko', inline: true, maxDate: 'today', dateFormat: 'Y-m-d', monthSelectorType: 'static',
+               onReady: koHeader, onMonthChange: koHeader, onYearChange: koHeader };
+  flatpickr('#fpStart', Object.assign({}, opts, { onChange: function(_, s){ start = s; setCustom(); upd(); } }));
+  flatpickr('#fpEnd',   Object.assign({}, opts, { defaultDate: 'today',
+    onChange: function(_, s){ end = s; setCustom(); upd(); } }));
+  end = flatpickr.formatDate(new Date(), 'Y-m-d');
+  upd();
+  function setCustom(){
+    document.querySelectorAll('.pop-item').forEach(function(el){
+      el.classList.toggle('on', el.dataset.preset === 'custom');
+    });
+  }
+  document.querySelectorAll('.pop-item').forEach(function(el){
+    el.addEventListener('click', function(){
+      if (el.dataset.preset === 'custom') { setCustom(); return; }
+      document.querySelectorAll('.pop-item').forEach(function(e){ e.classList.remove('on'); });
+      el.classList.add('on');
+      label.textContent = el.dataset.preset;
+      btn.classList.remove('period-on');
+      document.getElementById('periodPop').hidden = true;   /* 프리셋은 즉시 적용 */
+    });
+  });
+  document.getElementById('applyBtn').addEventListener('click', function(){
+    if (!start || !end) { note.textContent = '시작일과 종료일을 모두 선택해야 적용됩니다'; return; }
+    label.textContent = start + ' ~ ' + end.slice(5);
+    btn.classList.add('period-on');
+    document.getElementById('periodPop').hidden = true;
+  });
+  document.addEventListener('click', function(e){
+    var pop = document.getElementById('periodPop');
+    if (!pop || pop.hidden) return;
+    if (!e.target.closest('.period-wrap')) pop.hidden = true;
+  });
+})();
+</script>
+<script src="assets/ui.js"></script>
+</body>
+</html>

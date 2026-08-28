@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>검사 등록 · Smart SYNCWORKS</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/style.css?v=2">
+</head>
+<body>
+
+<header class="gnb">
+  <a class="logo" href="dashboard.html"><em>Smart</em><b>SYNCWORKS</b></a>
+  <nav>
+    <a href="dashboard.html">기초정보</a>
+    <a href="lab.html">연구소</a>
+    <a href="orders.html">주문</a>
+    <a href="confirm.html">생산량 확정</a>
+    <a href="purchase.html">발주</a>
+    <a href="production.html">생산</a>
+    <a href="warehouse.html">입출고</a>
+    <a href="inventory.html">재고</a>
+    <a class="on" href="quality.html">품질</a>
+    <a href="monitoring.html">모니터링</a>
+    <a href="prints.html">출력물</a>
+    <a href="reports.html">보고서</a>
+    <a href="bpm.html">BPM</a>
+  </nav>
+  <span class="user">홍길동 님</span>
+</header>
+
+<div class="app">
+<aside class="lnb">
+  <div class="grp">품질 관리</div>
+  <a href="quality.html">품질 현황</a>
+  <a class="on" href="quality_new.html">검사 등록</a>
+  <a href="#">부적합 관리</a>
+  <a href="#">검사 항목 설정</a>
+  <a href="#">품질검사 그룹</a>
+  <a href="#">성적서 발행</a>
+</aside>
+
+<main class="main">
+  <div class="page-head">
+    <h1>검사 등록</h1>
+    <span class="sub">품질 현황 › 신규 검사</span>
+    <div class="actions">
+      <button class="btn btn-primary">저장</button>
+      <a class="btn btn-outline" href="quality.html">취소</a>
+    </div>
+  </div>
+
+  <div class="row" style="grid-template-columns: 2fr 1fr">
+    <div>
+      <section class="panel">
+        <div class="panel-head"><h2>검사 대상</h2></div>
+        <div class="form-grid">
+          <div class="field"><label>로트 번호 <b>*</b></label><select class="ctl"><option>L-260826-040</option></select></div>
+          <div class="field"><label>제품</label><input class="ctl" readonly value="순두부 350g (자동)"></div>
+          <div class="field"><label>생산 정보</label><input class="ctl" readonly value="3호 라인 · 20:15 (자동)"></div>
+          <div class="field"><label>검사 구분 <b>*</b></label><select class="ctl"><option>정기 검사</option><option>수시 검사</option></select></div>
+          <div class="field"><label>검사자 <b>*</b></label><select class="ctl"><option>정품질 · 품질관리팀</option></select></div>
+          <div class="field"><label>검사 시각</label><input class="ctl" readonly value="2026-08-26 21:05"></div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head"><h2>검사 항목 — 순두부 350g 기준</h2><span class="badge bg-blue">검사 그룹 QG-03</span></div>
+        <table class="grid line-items">
+          <tr><th>항목</th><th>기준</th><th>측정값</th><th>판정</th><th>비고</th></tr>
+          <tr><td><b>중량</b></td><td>350g ± 3%</td><td><input class="ctl" style="width:140px" value="352.4 g"></td><td><span class="badge bg-teal">적합</span></td><td class="more"></td></tr>
+          <tr><td><b>품온</b></td><td>10℃ 이하</td><td><input class="ctl" style="width:140px" value="6.8 ℃"></td><td><span class="badge bg-teal">적합</span></td><td class="more"></td></tr>
+          <tr><td><b>pH</b></td><td>5.6 ~ 6.4</td><td><input class="ctl" style="width:140px" value="5.9"></td><td><span class="badge bg-teal">적합</span></td><td class="more"></td></tr>
+          <tr><td><b>일반세균</b></td><td>1×10⁵ 이하</td><td><input class="ctl" style="width:140px" placeholder="(입력)"></td><td><span class="badge bg-gray">—</span></td><td class="more">배양 24h 후</td></tr>
+          <tr><td><b>대장균군</b></td><td>음성</td><td><input class="ctl" style="width:140px" value="음성"></td><td><span class="badge bg-teal">적합</span></td><td class="more"></td></tr>
+          <tr><td><b>이물</b></td><td>불검출</td><td><input class="ctl" style="width:140px" value="불검출"></td><td><span class="badge bg-teal">적합</span></td><td class="more"></td></tr>
+          <tr><td><b>포장 상태</b></td><td>실링 완전</td><td><input class="ctl" style="width:140px;border-color:var(--neg)" value="실링 미세 들뜸"></td><td><span class="badge bg-red">부적합</span></td><td class="more">재실링 후 재검</td></tr>
+        </table>
+        <p style="font-size:11px;color:var(--g05);margin-top:12px">판정은 기준 대비 자동 — 수동 변경 시 사유 필수</p>
+      </section>
+    </div>
+
+    <div>
+      <section class="panel">
+        <div class="panel-head"><h2>종합 판정</h2></div>
+        <div style="background:var(--tint-red);border-radius:10px;padding:16px">
+          <b style="font-size:16px;color:var(--neg)">부적합 1건 — 보류</b>
+          <p style="font-size:12px;color:var(--g08);margin-top:6px">포장 상태 부적합 · 일반세균 결과 대기</p>
+        </div>
+        <div class="field" style="margin-top:16px">
+          <label>조치 입력 <b>*</b></label>
+          <textarea class="ctl" style="height:90px;padding:12px 14px;resize:vertical;font-weight:400">해당 로트 재실링 후 재검사 예정. 실링기 온도 점검 지시.</textarea>
+        </div>
+        <label style="display:flex;align-items:center;gap:8px;margin-top:12px;font-size:12px;color:var(--g08)">
+          <input type="checkbox" checked style="width:15px;height:15px;accent-color:var(--brand)"> 부적합 관리 대장에 자동 등록
+        </label>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head"><h2>이 로트 이력</h2></div>
+        <table class="grid fit">
+          <tr><td class="t-mut" style="width:90px">생산</td><td>08-26 20:15 · 3호 라인 · 9,600개</td></tr>
+          <tr><td class="t-mut">생산량 확정</td><td>08-26 20:40 · 8,830개 (-8.0%)</td></tr>
+          <tr><td class="t-mut">이전 검사</td><td>없음 — 최초 검사</td></tr>
+          <tr><td class="t-mut">같은 제품 최근</td><td>08-25 합격 · 08-24 합격</td></tr>
+          <tr><td class="t-mut">3호 라인 주간</td><td>합격률 96.4% (기준 미달)</td></tr>
+        </table>
+        <p style="font-size:11px;color:var(--orange);margin-top:10px">3호 라인 중량 편차 추세 — 충전기 점검 권장 (품질 현황 참고)</p>
+      </section>
+    </div>
+  </div>
+</main>
+</div>
+
+<script src="assets/ui.js"></script>
+</body>
+</html>

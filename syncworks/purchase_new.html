@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>발주 등록 · Smart SYNCWORKS</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/style.css?v=2">
+<link rel="stylesheet" href="vendor/flatpickr.min.css">
+</head>
+<body>
+
+<header class="gnb">
+  <a class="logo" href="dashboard.html"><em>Smart</em><b>SYNCWORKS</b></a>
+  <nav>
+    <a href="dashboard.html">기초정보</a>
+    <a href="lab.html">연구소</a>
+    <a href="orders.html">주문</a>
+    <a href="confirm.html">생산량 확정</a>
+    <a class="on" href="purchase.html">발주</a>
+    <a href="production.html">생산</a>
+    <a href="warehouse.html">입출고</a>
+    <a href="inventory.html">재고</a>
+    <a href="quality.html">품질</a>
+    <a href="monitoring.html">모니터링</a>
+    <a href="prints.html">출력물</a>
+    <a href="reports.html">보고서</a>
+    <a href="bpm.html">BPM</a>
+  </nav>
+  <span class="user">홍길동 님</span>
+</header>
+
+<div class="app">
+<aside class="lnb">
+  <div class="grp">발주 관리</div>
+  <a href="purchase.html">발주 현황</a>
+  <a class="on" href="purchase_new.html">발주 등록</a>
+  <a href="#">공급처 관리</a>
+  <a href="#">입고 검수</a>
+  <a href="#">단가 이력</a>
+</aside>
+
+<main class="main">
+  <div class="page-head">
+    <h1>발주 등록</h1>
+    <span class="sub">발주 현황 › 신규 발주</span>
+    <div class="actions">
+      <button class="btn btn-outline">임시저장</button>
+      <button class="btn btn-primary">발주 요청</button>
+      <a class="btn btn-outline" href="purchase.html">취소</a>
+    </div>
+  </div>
+
+  <div class="row" style="grid-template-columns: 2fr 1fr">
+    <div>
+      <section class="panel">
+        <div class="panel-head"><h2>기본 정보</h2></div>
+        <div class="form-grid">
+          <div class="field"><label>공급처 <b>*</b></label><select class="ctl"><option>대두상사</option></select></div>
+          <div class="field"><label>입고 창고 <b>*</b></label><select class="ctl"><option>제1공장 창고</option></select></div>
+          <div class="field"><label>입고 예정일 <b>*</b></label><input class="ctl fp-date" type="text" value="2026-08-30" readonly></div>
+          <div class="field"><label>결제 조건</label><select class="ctl"><option>입고 후 30일</option></select></div>
+          <div class="field"><label>발주 구분</label><select class="ctl"><option>정기 발주</option><option>긴급 발주</option></select></div>
+          <div class="field"><label>요청자</label><input class="ctl" readonly value="홍길동 · 구매팀"></div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <h2>발주 품목</h2>
+          <button class="btn btn-brand-line btn-sm" style="margin-left:auto"><svg class="ic-plus" viewBox="0 0 10 10"><path d="M5 1v8M1 5h8"/></svg>품목 추가</button>
+        </div>
+        <table class="grid line-items">
+          <tr><th>원자재</th><th>규격</th><th class="r">수량</th><th class="r">단가(원/kg)</th><th class="r">금액(천원)</th><th></th></tr>
+          <tr>
+            <td style="width:32%"><select class="ctl"><option>수입 대두(가공용)</option></select></td>
+            <td>25kg/포</td>
+            <td class="r"><input class="ctl" style="width:110px;text-align:right" value="24,000 kg"></td>
+            <td class="r">1,180</td><td class="r"><b>28,320</b></td><td class="more">✕</td>
+          </tr>
+          <tr>
+            <td><select class="ctl"><option>국산 백태</option></select></td>
+            <td>20kg/포</td>
+            <td class="r"><input class="ctl" style="width:110px;text-align:right" value="4,000 kg"></td>
+            <td class="r">3,240</td><td class="r"><b>12,960</b></td><td class="more">✕</td>
+          </tr>
+        </table>
+        <button class="add-row">+ 원자재 검색으로 품목 추가</button>
+        <div class="sum-bar">
+          <span>품목 2건 · 총 28,000kg</span>
+          <span class="total">합계 41,280천원 (VAT 별도)</span>
+        </div>
+      </section>
+    </div>
+
+    <div>
+      <section class="panel">
+        <div class="panel-head"><h2>단가 참고 — 수입 대두(가공용)</h2></div>
+        <table class="grid fit">
+          <tr><th>발주일</th><th>공급처</th><th class="r">단가</th></tr>
+          <tr><td>08-22</td><td>대두상사</td><td class="r"><b>1,180원/kg</b></td></tr>
+          <tr><td>08-08</td><td>대두상사</td><td class="r"><b>1,165원/kg</b></td></tr>
+          <tr><td>07-25</td><td>미강물산</td><td class="r"><b>1,210원/kg</b></td></tr>
+          <tr><td>07-11</td><td>대두상사</td><td class="r"><b>1,152원/kg</b></td></tr>
+        </table>
+        <p style="font-size:11px;color:var(--g05);margin-top:10px">3개월 평균 1,177원/kg — 이번 발주 +0.3%</p>
+      </section>
+
+      <section class="panel" style="background:var(--tint-orange);border-color:transparent">
+        <div class="panel-head"><h2 class="t-orange">발주 근거</h2></div>
+        <p style="font-weight:600;margin-bottom:6px">수입 대두(가공용)</p>
+        <p style="font-size:12px;color:var(--g08);line-height:1.6">현재고 2,799,305g · 일평균 소진 45만g<br>
+        잔여 6.2일 — 리드타임(3일) 감안 시 적정 발주 시점입니다.</p>
+        <p style="margin-top:12px"><span class="badge" style="background:#fff;color:var(--orange)">재고 연동 제안</span>
+        <span style="font-size:10px;color:var(--g05);margin-left:8px">발주 현황의 제안에서 넘어옴</span></p>
+      </section>
+    </div>
+  </div>
+</main>
+</div>
+
+<script src="vendor/flatpickr.min.js"></script>
+<script src="vendor/flatpickr.ko.js"></script>
+<script src="assets/ui.js"></script>
+</body>
+</html>

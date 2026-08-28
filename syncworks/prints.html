@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>서식 출력 · Smart SYNCWORKS</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/style.css?v=2">
+</head>
+<body>
+
+<header class="gnb">
+  <a class="logo" href="dashboard.html"><em>Smart</em><b>SYNCWORKS</b></a>
+  <nav>
+    <a href="dashboard.html">기초정보</a>
+    <a href="lab.html">연구소</a>
+    <a href="orders.html">주문</a>
+    <a href="confirm.html">생산량 확정</a>
+    <a href="purchase.html">발주</a>
+    <a href="production.html">생산</a>
+    <a href="warehouse.html">입출고</a>
+    <a href="inventory.html">재고</a>
+    <a href="quality.html">품질</a>
+    <a href="monitoring.html">모니터링</a>
+    <a class="on" href="prints.html">출력물</a>
+    <a href="reports.html">보고서</a>
+    <a href="bpm.html">BPM</a>
+  </nav>
+  <span class="user">홍길동 님</span>
+</header>
+
+<div class="app">
+<aside class="lnb">
+  <div class="grp">출력물</div>
+  <a class="on" href="prints.html">서식 출력</a>
+  <a href="#">라벨 · 바코드</a>
+  <a href="#">출력 이력</a>
+  <a href="#">서식 관리</a>
+</aside>
+
+<main class="main">
+  <div class="page-head">
+    <h1>서식 출력</h1>
+    <span class="sub">문서·라벨 인쇄 센터</span>
+    <div class="actions"><input class="search" placeholder="서식 이름 검색"></div>
+  </div>
+
+  <div class="filter-bar" style="border:none;background:transparent;padding:0">
+    <button class="chip on">전체</button><button class="chip">거래 서류</button><button class="chip">품질 서류</button>
+    <button class="chip">물류 · 라벨</button><button class="chip">생산 서류</button>
+  </div>
+
+  <div class="row" style="grid-template-columns:repeat(3,1fr)"><section class="panel" style="margin-bottom:0">
+      <div style="display:flex;gap:16px">
+        <div style="width:74px;height:98px;background:var(--g01);border:1px solid var(--g03);border-radius:6px;padding:10px 9px;flex-shrink:0">
+          <div style="height:5px;background:var(--g03);border-radius:2px;margin-bottom:5px"></div>
+          <div style="height:4px;width:70%;background:var(--g02);border-radius:2px;margin-bottom:4px"></div>
+          <div style="height:4px;width:85%;background:var(--g02);border-radius:2px;margin-bottom:4px"></div>
+          <div style="height:4px;width:60%;background:var(--g02);border-radius:2px"></div>
+          <div style="height:10px;background:var(--brand);border-radius:2px;margin-top:26px"></div>
+        </div>
+        <div style="min-width:0">
+          <b style="font-size:14px">거래명세서</b>
+          <div style="margin:6px 0"><span class="badge bg-gray">거래 서류</span></div>
+          <p style="font-size:12px;color:var(--g08)">주문·출고 건 선택 후 일괄 출력</p>
+          <p style="font-size:10px;color:var(--g05);margin-top:6px">이번 달 1,240회</p>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:14px">
+        <button class="btn btn-primary" style="flex:1">인쇄</button>
+        <button class="btn btn-outline" style="flex:1">PDF 저장</button>
+        <button class="btn btn-outline" style="flex:1">미리보기</button>
+      </div>
+    </section><section class="panel" style="margin-bottom:0">
+      <div style="display:flex;gap:16px">
+        <div style="width:74px;height:98px;background:var(--g01);border:1px solid var(--g03);border-radius:6px;padding:10px 9px;flex-shrink:0">
+          <div style="height:5px;background:var(--g03);border-radius:2px;margin-bottom:5px"></div>
+          <div style="height:4px;width:70%;background:var(--g02);border-radius:2px;margin-bottom:4px"></div>
+          <div style="height:4px;width:85%;background:var(--g02);border-radius:2px;margin-bottom:4px"></div>
+          <div style="height:4px;width:60%;background:var(--g02);border-radius:2px"></div>
+          <div style="height:10px;background:var(--pos);border-radius:2px;margin-top:26px"></div>
+        </div>
+        <div style="min-width:0">
+          <b style="font-size:14px">품질 성적서</b>
+          <div style="margin:6px 0"><span class="badge bg-gray">품질 서류</span></div>
+          <p style="font-size:12px;color:var(--g08)">로트별 시험 결과 · 국영문</p>
+          <p style="font-size:10px;color:var(--g05);margin-top:6px">이번 달 820회</p>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:14px">
+        <button class="btn btn-primary" style="flex:1">인쇄</button>
+        <button class="btn btn-outline" style="flex:1">PDF 저장</button>
+        <button class="btn btn-outline" style="flex:1">미리보기</button>
+      </div>
+    </section><section class="panel" style="margin-bottom:0">
+      <div style="display:flex;gap:16px">
+        <div style="width:74px;height:98px;background:var(--g01);border:1px solid var(--g03);border-radius:6px;padding:10px 9px;flex-shrink:0">
+          <div style="height:5px;background:var(--g03);border-radius:2px;margin-bottom:5px"></div>
+          <div style="height:4px;width:70%;background:var(--g02);border-radius:2px;margin-bottom:4px"></div>
+          <div style="height:4px;width:85%;background:var(--g02);border-radius:2px;margin-bottom:4px"></div>
+          <div style="height:4px;width:60%;background:var(--g02);border-radius:2px"></div>
+          <div style="height:10px;background:var(--orange);border-radius:2px;margin-top:26px"></div>
+        </div>
+        <div style="min-width:0">
+          <b style="font-size:14px">제품 라벨 · 바코드</b>
+          <div style="margin:6px 0"><span class="badge bg-gray">물류 · 라벨</span></div>
+          <p style="font-size:12px;color:var(--g08)">소비기한·로트 자동 인자</p>
+          <p style="font-size:10px;color:var(--g05);margin-top:6px">이번 달 8,400매</p>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:14px">
+        <button class="btn btn-primary" style="flex:1">인쇄</button>
+        <button class="btn btn-outline" style="flex:1">PDF 저장</button>
+        <button class="btn btn-outline" style="flex:1">미리보기</button>
+      </div>
+    </section><section class="panel" style="margin-bottom:0">
+      <div style="display:flex;gap:16px">
+        <div style="width:74px;height:98px;background:var(--g01);border:1px solid var(--g03);border-radius:6px;padding:10px 9px;flex-shrink:0">
+          <div style="height:5px;background:var(--g03);border-radius:2px;margin-bottom:5px"></div>
+          <div style="height:4px;width:70%;background:var(--g02);border-radius:2px;margin-bottom:4px"></div>
+          <div style="height:4px;width:85%;background:var(--g02);border-radius:2px;margin-bottom:4px"></div>
+          <div style="height:4px;width:60%;background:var(--g02);border-radius:2px"></div>
+          <div style="height:10px;background:var(--brand);border-radius:2px;margin-top:26px"></div>
+        </div>
+        <div style="min-width:0">
+          <b style="font-size:14px">출고증 · 인수증</b>
+          <div style="margin:6px 0"><span class="badge bg-gray">물류 · 라벨</span></div>
+          <p style="font-size:12px;color:var(--g08)">배차별 출고 내역 서명란 포함</p>
+          <p style="font-size:10px;color:var(--g05);margin-top:6px">이번 달 640회</p>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:14px">
+        <button class="btn btn-primary" style="flex:1">인쇄</button>
+        <button class="btn btn-outline" style="flex:1">PDF 저장</button>
+        <button class="btn btn-outline" style="flex:1">미리보기</button>
+      </div>
+    </section><section class="panel" style="margin-bottom:0">
+      <div style="display:flex;gap:16px">
+        <div style="width:74px;height:98px;background:var(--g01);border:1px solid var(--g03);border-radius:6px;padding:10px 9px;flex-shrink:0">
+          <div style="height:5px;background:var(--g03);border-radius:2px;margin-bottom:5px"></div>
+          <div style="height:4px;width:70%;background:var(--g02);border-radius:2px;margin-bottom:4px"></div>
+          <div style="height:4px;width:85%;background:var(--g02);border-radius:2px;margin-bottom:4px"></div>
+          <div style="height:4px;width:60%;background:var(--g02);border-radius:2px"></div>
+          <div style="height:10px;background:var(--pos);border-radius:2px;margin-top:26px"></div>
+        </div>
+        <div style="min-width:0">
+          <b style="font-size:14px">생산 지시서</b>
+          <div style="margin:6px 0"><span class="badge bg-gray">생산 서류</span></div>
+          <p style="font-size:12px;color:var(--g08)">계획 확정 건 작업장 게시용</p>
+          <p style="font-size:10px;color:var(--g05);margin-top:6px">이번 달 380회</p>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:14px">
+        <button class="btn btn-primary" style="flex:1">인쇄</button>
+        <button class="btn btn-outline" style="flex:1">PDF 저장</button>
+        <button class="btn btn-outline" style="flex:1">미리보기</button>
+      </div>
+    </section><section class="panel" style="margin-bottom:0">
+      <div style="display:flex;gap:16px">
+        <div style="width:74px;height:98px;background:var(--g01);border:1px solid var(--g03);border-radius:6px;padding:10px 9px;flex-shrink:0">
+          <div style="height:5px;background:var(--g03);border-radius:2px;margin-bottom:5px"></div>
+          <div style="height:4px;width:70%;background:var(--g02);border-radius:2px;margin-bottom:4px"></div>
+          <div style="height:4px;width:85%;background:var(--g02);border-radius:2px;margin-bottom:4px"></div>
+          <div style="height:4px;width:60%;background:var(--g02);border-radius:2px"></div>
+          <div style="height:10px;background:var(--orange);border-radius:2px;margin-top:26px"></div>
+        </div>
+        <div style="min-width:0">
+          <b style="font-size:14px">팔레트 태그</b>
+          <div style="margin:6px 0"><span class="badge bg-gray">물류 · 라벨</span></div>
+          <p style="font-size:12px;color:var(--g08)">창고 로케이션 QR 포함</p>
+          <p style="font-size:10px;color:var(--g05);margin-top:6px">이번 달 2,150매</p>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:14px">
+        <button class="btn btn-primary" style="flex:1">인쇄</button>
+        <button class="btn btn-outline" style="flex:1">PDF 저장</button>
+        <button class="btn btn-outline" style="flex:1">미리보기</button>
+      </div>
+    </section></div>
+
+  <section class="panel">
+    <div class="panel-head"><h2>최근 출력 이력</h2></div>
+    <table class="grid">
+      <tr><th>시각</th><th>서식</th><th>대상</th><th class="r">부수</th><th>출력자</th><th>프린터</th><th>상태</th></tr>
+      <tr><td>08-27 09:12</td><td><b>제품 라벨 · 바코드</b></td><td>두부 300g L-260827-001</td><td class="r">1,200매</td><td>김생산</td><td>라벨프린터 #2</td><td><span class="badge bg-teal">완료</span></td></tr>
+      <tr><td>08-27 08:40</td><td><b>생산 지시서</b></td><td>금일 계획 42건</td><td class="r">42부</td><td>박제조</td><td>사무실 A</td><td><span class="badge bg-teal">완료</span></td></tr>
+      <tr><td>08-26 18:20</td><td><b>거래명세서</b></td><td>SO-260826-014 외 12건</td><td class="r">13부</td><td>홍길동</td><td>사무실 A</td><td><span class="badge bg-teal">완료</span></td></tr>
+      <tr><td>08-26 17:55</td><td><b>품질 성적서</b></td><td>L-260825-035 (국문)</td><td class="r">2부</td><td>정품질</td><td>사무실 B</td><td><span class="badge bg-orange">재출력</span></td></tr>
+    </table>
+  </section>
+
+</main>
+</div>
+
+<script src="assets/ui.js"></script>
+</body>
+</html>

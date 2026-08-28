@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>받은 결재 · Smart SYNCWORKS</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/style.css?v=2">
+</head>
+<body>
+
+<header class="gnb">
+  <a class="logo" href="dashboard.html"><em>Smart</em><b>SYNCWORKS</b></a>
+  <nav>
+    <a href="dashboard.html">기초정보</a>
+    <a href="lab.html">연구소</a>
+    <a href="orders.html">주문</a>
+    <a href="confirm.html">생산량 확정</a>
+    <a href="purchase.html">발주</a>
+    <a href="production.html">생산</a>
+    <a href="warehouse.html">입출고</a>
+    <a href="inventory.html">재고</a>
+    <a href="quality.html">품질</a>
+    <a href="monitoring.html">모니터링</a>
+    <a href="prints.html">출력물</a>
+    <a href="reports.html">보고서</a>
+    <a class="on" href="bpm.html">BPM</a>
+  </nav>
+  <span class="user">홍길동 님</span>
+</header>
+
+<div class="app">
+<aside class="lnb">
+  <div class="grp">BPM</div>
+  <a class="on" href="bpm.html">받은 결재</a>
+  <a href="#">올린 결재</a>
+  <a href="#">참조 문서</a>
+  <a href="#">결재선 관리</a>
+  <a href="#">양식 관리</a>
+</aside>
+
+<main class="main">
+  <div class="page-head">
+    <h1>받은 결재</h1>
+    <span class="sub">홍길동 · 운영팀장 결재함</span>
+    <div class="actions"><button class="btn btn-primary"><svg class="ic-plus" viewBox="0 0 10 10"><path d="M5 1v8M1 5h8"/></svg>기안 작성</button></div>
+  </div>
+
+  <div class="kpis" style="grid-template-columns:repeat(4,1fr)">
+    <div class="kpi tint-orange"><div class="lb">결재 대기</div><div class="num t-orange">5<small>건</small></div><div class="meta">내 차례 문서</div></div>
+    <div class="kpi"><div class="lb">진행 중</div><div class="num t-brand">3<small>건</small></div><div class="meta">내 결재 완료 · 후결 대기</div></div>
+    <div class="kpi"><div class="lb">이번 달 처리</div><div class="num">128<small>건</small></div><div class="meta">평균 처리 4.2시간</div></div>
+    <div class="kpi tint-red"><div class="lb">반려</div><div class="num t-neg">2<small>건</small></div><div class="meta">사유 회신됨</div></div>
+  </div>
+
+  <div class="row grid-64">
+    <section class="panel">
+      <div class="panel-head"><h2>결재 대기 문서</h2></div>
+      <div style="display:grid;gap:10px"><div style="background:var(--g01);border-radius:10px;padding:14px 16px">
+      <div style="display:flex;align-items:center;gap:10px"><b style="font-size:13px;flex:1">생산계획 승인 요청 — 08-28 두부 800g 9,100개</b><span class="badge bg-red">긴급</span></div>
+      <p style="font-size:11px;color:var(--g05);margin:5px 0 8px">박제조 · 생산1팀 · 08-27 08:40</p>
+      <div style="display:flex;align-items:center;gap:12px">
+        <span class="badge" style="background:var(--surface);color:var(--g08)">생산</span>
+        <span style="font-size:10px;color:var(--g05);margin-left:auto">결재 단계</span><span style="display:inline-flex;align-items:center;gap:3px"><span style="width:10px;height:10px;border-radius:50%;background:var(--pos)"></span><span style="width:14px;height:2px;background:var(--pos)"></span><span style="width:10px;height:10px;border-radius:50%;background:var(--orange)"></span><span style="width:14px;height:2px;background:var(--g03)"></span><span style="width:10px;height:10px;border-radius:50%;background:var(--g03)"></span></span>
+        <b style="font-size:10px;color:var(--orange)">팀장 차례</b>
+        <button class="btn btn-primary btn-sm">결재하기</button>
+      </div>
+    </div><div style="background:var(--g01);border-radius:10px;padding:14px 16px">
+      <div style="display:flex;align-items:center;gap:10px"><b style="font-size:13px;flex:1">발주 승인 요청 — 수입 대두 24,000kg (41,280천원)</b></div>
+      <p style="font-size:11px;color:var(--g05);margin:5px 0 8px">홍구매 · 구매팀 · 08-27 08:12</p>
+      <div style="display:flex;align-items:center;gap:12px">
+        <span class="badge" style="background:var(--surface);color:var(--g08)">구매</span>
+        <span style="font-size:10px;color:var(--g05);margin-left:auto">결재 단계</span><span style="display:inline-flex;align-items:center;gap:3px"><span style="width:10px;height:10px;border-radius:50%;background:var(--pos)"></span><span style="width:14px;height:2px;background:var(--pos)"></span><span style="width:10px;height:10px;border-radius:50%;background:var(--orange)"></span><span style="width:14px;height:2px;background:var(--g03)"></span><span style="width:10px;height:10px;border-radius:50%;background:var(--g03)"></span></span>
+        <b style="font-size:10px;color:var(--orange)">팀장 차례</b>
+        <button class="btn btn-primary btn-sm">결재하기</button>
+      </div>
+    </div><div style="background:var(--g01);border-radius:10px;padding:14px 16px">
+      <div style="display:flex;align-items:center;gap:10px"><b style="font-size:13px;flex:1">부적합 처리 품의 — 순두부 L-0812 폐기</b></div>
+      <p style="font-size:11px;color:var(--g05);margin:5px 0 8px">정품질 · 품질관리팀 · 08-26 21:30</p>
+      <div style="display:flex;align-items:center;gap:12px">
+        <span class="badge" style="background:var(--surface);color:var(--g08)">품질</span>
+        <span style="font-size:10px;color:var(--g05);margin-left:auto">결재 단계</span><span style="display:inline-flex;align-items:center;gap:3px"><span style="width:10px;height:10px;border-radius:50%;background:var(--pos)"></span><span style="width:14px;height:2px;background:var(--pos)"></span><span style="width:10px;height:10px;border-radius:50%;background:var(--pos)"></span><span style="width:14px;height:2px;background:var(--pos)"></span><span style="width:10px;height:10px;border-radius:50%;background:var(--orange)"></span></span>
+        <b style="font-size:10px;color:var(--orange)">공장장 차례</b>
+        <button class="btn btn-primary btn-sm">결재하기</button>
+      </div>
+    </div><div style="background:var(--g01);border-radius:10px;padding:14px 16px">
+      <div style="display:flex;align-items:center;gap:10px"><b style="font-size:13px;flex:1">설비 수리비 집행 — 5호 라인 실링기 (2,400천원)</b></div>
+      <p style="font-size:11px;color:var(--g05);margin:5px 0 8px">정설비 · 설비팀 · 08-26 15:20</p>
+      <div style="display:flex;align-items:center;gap:12px">
+        <span class="badge" style="background:var(--surface);color:var(--g08)">설비</span>
+        <span style="font-size:10px;color:var(--g05);margin-left:auto">결재 단계</span><span style="display:inline-flex;align-items:center;gap:3px"><span style="width:10px;height:10px;border-radius:50%;background:var(--pos)"></span><span style="width:14px;height:2px;background:var(--pos)"></span><span style="width:10px;height:10px;border-radius:50%;background:var(--orange)"></span><span style="width:14px;height:2px;background:var(--g03)"></span><span style="width:10px;height:10px;border-radius:50%;background:var(--g03)"></span></span>
+        <b style="font-size:10px;color:var(--orange)">팀장 차례</b>
+        <button class="btn btn-primary btn-sm">결재하기</button>
+      </div>
+    </div><div style="background:var(--g01);border-radius:10px;padding:14px 16px">
+      <div style="display:flex;align-items:center;gap:10px"><b style="font-size:13px;flex:1">신규 거래처 등록 승인 — 바른유통 (여신 30,000천원)</b></div>
+      <p style="font-size:11px;color:var(--g05);margin:5px 0 8px">김영업 · 영업팀 · 08-26 11:05</p>
+      <div style="display:flex;align-items:center;gap:12px">
+        <span class="badge" style="background:var(--surface);color:var(--g08)">영업</span>
+        <span style="font-size:10px;color:var(--g05);margin-left:auto">결재 단계</span><span style="display:inline-flex;align-items:center;gap:3px"><span style="width:10px;height:10px;border-radius:50%;background:var(--pos)"></span><span style="width:14px;height:2px;background:var(--pos)"></span><span style="width:10px;height:10px;border-radius:50%;background:var(--pos)"></span><span style="width:14px;height:2px;background:var(--pos)"></span><span style="width:10px;height:10px;border-radius:50%;background:var(--orange)"></span></span>
+        <b style="font-size:10px;color:var(--orange)">공장장 차례</b>
+        <button class="btn btn-primary btn-sm">결재하기</button>
+      </div>
+    </div></div>
+    </section>
+    <section class="panel">
+      <div class="panel-head"><h2>BPM-26-0841 · 생산계획 승인 요청</h2><span class="badge bg-red">긴급</span></div>
+      <p style="font-size:11px;color:var(--g05);margin-top:-8px">박제조 · 생산1팀 · 08-27 08:40 기안</p>
+      <div style="background:var(--g01);border-radius:8px;padding:16px;margin-top:12px">
+        <b style="font-size:12px;color:var(--g08)">요청 내용</b>
+        <p style="font-size:12px;margin-top:8px;line-height:1.7">AI 수요 예측에 따라 08-28 두부 800g(10입) 계획을 8,400 → 9,100개로 상향 요청드립니다. 금주 주문분 9,100개 대비 700개 부족 예상.</p>
+        <p style="font-size:10px;color:var(--g05);margin-top:10px">첨부: 생산계획 PL-260826-041 · 주문 집계 12건</p>
+        <p style="margin-top:8px"><span class="badge bg-blue">근거: AI 어시스턴트 제안</span></p>
+      </div>
+      <b style="display:block;font-size:13px;margin:16px 0 10px">결재선</b>
+      <table class="grid fit" style="font-size:12px">
+        <tr><td style="width:20px"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:var(--pos)"></span></td><td>기안</td><td>박제조</td><td class="r t-mut">완료 08:40</td></tr>
+        <tr><td><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:var(--orange)"></span></td><td>팀장 승인</td><td class="t-orange"><b>홍길동 (나)</b></td><td class="r t-orange">내 차례</td></tr>
+        <tr><td><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:var(--g03)"></span></td><td>공장장 승인</td><td>최공장</td><td class="r t-mut">대기</td></tr>
+      </table>
+      <textarea class="ctl" placeholder="결재 의견 (선택)" style="height:64px;margin-top:14px;padding:12px 14px;font-weight:400;resize:vertical"></textarea>
+      <div style="display:flex;gap:8px;margin-top:12px">
+        <button class="btn btn-primary" style="flex:2">승인</button>
+        <button class="btn btn-outline" style="flex:1;color:var(--neg)">반려</button>
+        <button class="btn btn-outline" style="flex:1">보류</button>
+      </div>
+    </section>
+  </div>
+
+</main>
+</div>
+
+<script src="assets/ui.js"></script>
+</body>
+</html>

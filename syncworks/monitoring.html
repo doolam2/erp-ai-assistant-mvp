@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>설비 관제 · Smart SYNCWORKS</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/style.css?v=2">
+<style>.gcard{margin-bottom:0;padding:14px 16px}</style>
+</head>
+<body>
+
+<header class="gnb">
+  <a class="logo" href="dashboard.html"><em>Smart</em><b>SYNCWORKS</b></a>
+  <nav>
+    <a href="dashboard.html">기초정보</a>
+    <a href="lab.html">연구소</a>
+    <a href="orders.html">주문</a>
+    <a href="confirm.html">생산량 확정</a>
+    <a href="purchase.html">발주</a>
+    <a href="production.html">생산</a>
+    <a href="warehouse.html">입출고</a>
+    <a href="inventory.html">재고</a>
+    <a href="quality.html">품질</a>
+    <a class="on" href="monitoring.html">모니터링</a>
+    <a href="prints.html">출력물</a>
+    <a href="reports.html">보고서</a>
+    <a href="bpm.html">BPM</a>
+  </nav>
+  <span class="user">홍길동 님</span>
+</header>
+
+<div class="app">
+<aside class="lnb">
+  <div class="grp">설비 (PLC)</div>
+  <a class="on" href="monitoring.html">살균냉각 컨트롤</a>
+  <a href="#">알람 이력</a>
+  <a href="#">온습도 현황</a>
+  <div class="grp">생산</div>
+  <a href="monitoring_live.html">실시간 관제</a>
+  <a href="monitoring_analytics.html">지표 분석</a>
+  <a href="#">완제품 불량</a>
+  <div class="grp">물류</div>
+  <a href="#">재고 현황</a>
+  <a href="#">출하 현황</a>
+</aside>
+
+<main class="main">
+  <div class="page-head">
+    <h1>설비 관제 — 살균냉각 컨트롤</h1>
+    <span class="sub">LIVE · PLC 수집 5초 · 측정시간 21:04:35</span>
+    <div class="actions"><select class="sel"><option>제1공장</option></select></div>
+  </div>
+
+  <div class="kpis" style="grid-template-columns:repeat(4,1fr)">
+    <div class="kpi tint-orange"><div class="lb">설비 알람</div><div class="num t-orange">1<small>건</small></div><div class="meta">냉각#2 상한 근접</div></div>
+    <div class="kpi"><div class="lb">평균 SV 편차</div><div class="num">±1.2℃</div><div class="meta">24시간 기준</div></div>
+    <div class="kpi"><div class="lb">센서 수집률</div><div class="num t-pos">99.8%</div><div class="meta">결측 2 / 1,440</div></div>
+    <div class="kpi"><div class="lb">가동 설비</div><div class="num">11 / 12</div><div class="meta">5호 라인 점검</div></div>
+  </div>
+
+  <section class="panel">
+    <div class="panel-head"><h2>살균냉각 컨트롤 — 네트바 A</h2><span class="meta">PV = 현재값 · SV = 설정값</span></div>
+    <div class="row" style="grid-template-columns:repeat(4,1fr);margin-bottom:0">
+<div class="panel gcard" >
+      <div style="display:flex;justify-content:space-between;align-items:center"><b style="font-size:13px">살균온도</b><span class="badge bg-teal">정상</span></div>
+      <div style="display:flex;gap:14px;align-items:center;margin-top:10px">
+        <div style="position:relative;flex-shrink:0"><svg viewBox="0 0 42 42" style="width:84px;height:84px;transform:rotate(-90deg)"><circle cx="21" cy="21" r="15.9" fill="none" stroke="var(--g01)" stroke-width="8"></circle><circle cx="21" cy="21" r="15.9" fill="none" stroke="var(--pos)" stroke-width="8" stroke-dasharray="72.0 100" stroke-linecap="butt"></circle></svg>
+          <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center">
+            <b style="font-size:15px">86.2</b><span style="font-size:9px;color:var(--g05)">℃</span></div></div>
+        <table class="grid fit" style="font-size:11px">
+          <tr><td class="t-mut">SV 설정</td><td class="r"><b>85.0℃</b></td></tr>
+          <tr><td class="t-mut">편차</td><td class="r"><b class="">+1.2℃</b></td></tr>
+          <tr><td class="t-mut">범위</td><td class="r">0~120℃</td></tr>
+        </table>
+      </div>
+    </div><div class="panel gcard" >
+      <div style="display:flex;justify-content:space-between;align-items:center"><b style="font-size:13px">냉각온도 #1</b><span class="badge bg-teal">정상</span></div>
+      <div style="display:flex;gap:14px;align-items:center;margin-top:10px">
+        <div style="position:relative;flex-shrink:0"><svg viewBox="0 0 42 42" style="width:84px;height:84px;transform:rotate(-90deg)"><circle cx="21" cy="21" r="15.9" fill="none" stroke="var(--g01)" stroke-width="8"></circle><circle cx="21" cy="21" r="15.9" fill="none" stroke="var(--pos)" stroke-width="8" stroke-dasharray="37.0 100" stroke-linecap="butt"></circle></svg>
+          <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center">
+            <b style="font-size:15px">4.8</b><span style="font-size:9px;color:var(--g05)">℃</span></div></div>
+        <table class="grid fit" style="font-size:11px">
+          <tr><td class="t-mut">SV 설정</td><td class="r"><b>5.0℃</b></td></tr>
+          <tr><td class="t-mut">편차</td><td class="r"><b class="">-0.2℃</b></td></tr>
+          <tr><td class="t-mut">범위</td><td class="r">-10~30℃</td></tr>
+        </table>
+      </div>
+    </div><div class="panel gcard" style="border-color:var(--orange)">
+      <div style="display:flex;justify-content:space-between;align-items:center"><b style="font-size:13px">냉각온도 #2</b><span class="badge bg-orange">상한 근접</span></div>
+      <div style="display:flex;gap:14px;align-items:center;margin-top:10px">
+        <div style="position:relative;flex-shrink:0"><svg viewBox="0 0 42 42" style="width:84px;height:84px;transform:rotate(-90deg)"><circle cx="21" cy="21" r="15.9" fill="none" stroke="var(--g01)" stroke-width="8"></circle><circle cx="21" cy="21" r="15.9" fill="none" stroke="var(--orange)" stroke-width="8" stroke-dasharray="54.0 100" stroke-linecap="butt"></circle></svg>
+          <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center">
+            <b style="font-size:15px">11.4</b><span style="font-size:9px;color:var(--g05)">℃</span></div></div>
+        <table class="grid fit" style="font-size:11px">
+          <tr><td class="t-mut">SV 설정</td><td class="r"><b>5.0℃</b></td></tr>
+          <tr><td class="t-mut">편차</td><td class="r"><b class="t-orange">+6.4℃</b></td></tr>
+          <tr><td class="t-mut">범위</td><td class="r">-10~30℃</td></tr>
+        </table>
+      </div>
+    </div><div class="panel gcard" >
+      <div style="display:flex;justify-content:space-between;align-items:center"><b style="font-size:13px">열탕온도</b><span class="badge bg-teal">정상</span></div>
+      <div style="display:flex;gap:14px;align-items:center;margin-top:10px">
+        <div style="position:relative;flex-shrink:0"><svg viewBox="0 0 42 42" style="width:84px;height:84px;transform:rotate(-90deg)"><circle cx="21" cy="21" r="15.9" fill="none" stroke="var(--g01)" stroke-width="8"></circle><circle cx="21" cy="21" r="15.9" fill="none" stroke="var(--pos)" stroke-width="8" stroke-dasharray="77.0 100" stroke-linecap="butt"></circle></svg>
+          <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center">
+            <b style="font-size:15px">92.1</b><span style="font-size:9px;color:var(--g05)">℃</span></div></div>
+        <table class="grid fit" style="font-size:11px">
+          <tr><td class="t-mut">SV 설정</td><td class="r"><b>90.0℃</b></td></tr>
+          <tr><td class="t-mut">편차</td><td class="r"><b class="t-orange">+2.1℃</b></td></tr>
+          <tr><td class="t-mut">범위</td><td class="r">0~120℃</td></tr>
+        </table>
+      </div>
+    </div>
+    </div>
+    <div class="row" style="grid-template-columns:1fr 1fr 2fr;margin:14px 0 0">
+<div class="panel gcard" >
+      <div style="display:flex;justify-content:space-between;align-items:center"><b style="font-size:13px">공정 B 온도</b><span class="badge bg-teal">정상</span></div>
+      <div style="display:flex;gap:14px;align-items:center;margin-top:10px">
+        <div style="position:relative;flex-shrink:0"><svg viewBox="0 0 42 42" style="width:84px;height:84px;transform:rotate(-90deg)"><circle cx="21" cy="21" r="15.9" fill="none" stroke="var(--g01)" stroke-width="8"></circle><circle cx="21" cy="21" r="15.9" fill="none" stroke="var(--pos)" stroke-width="8" stroke-dasharray="71.0 100" stroke-linecap="butt"></circle></svg>
+          <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center">
+            <b style="font-size:15px">71.3</b><span style="font-size:9px;color:var(--g05)">℃</span></div></div>
+        <table class="grid fit" style="font-size:11px">
+          <tr><td class="t-mut">SV 설정</td><td class="r"><b>72.0℃</b></td></tr>
+          <tr><td class="t-mut">편차</td><td class="r"><b class="">-0.7℃</b></td></tr>
+          <tr><td class="t-mut">범위</td><td class="r">0~100℃</td></tr>
+        </table>
+      </div>
+    </div><div class="panel gcard" >
+      <div style="display:flex;justify-content:space-between;align-items:center"><b style="font-size:13px">공정 C 온도</b><span class="badge bg-teal">정상</span></div>
+      <div style="display:flex;gap:14px;align-items:center;margin-top:10px">
+        <div style="position:relative;flex-shrink:0"><svg viewBox="0 0 42 42" style="width:84px;height:84px;transform:rotate(-90deg)"><circle cx="21" cy="21" r="15.9" fill="none" stroke="var(--g01)" stroke-width="8"></circle><circle cx="21" cy="21" r="15.9" fill="none" stroke="var(--pos)" stroke-width="8" stroke-dasharray="69.0 100" stroke-linecap="butt"></circle></svg>
+          <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center">
+            <b style="font-size:15px">68.9</b><span style="font-size:9px;color:var(--g05)">℃</span></div></div>
+        <table class="grid fit" style="font-size:11px">
+          <tr><td class="t-mut">SV 설정</td><td class="r"><b>70.0℃</b></td></tr>
+          <tr><td class="t-mut">편차</td><td class="r"><b class="">-1.1℃</b></td></tr>
+          <tr><td class="t-mut">범위</td><td class="r">0~100℃</td></tr>
+        </table>
+      </div>
+    </div>
+      <div class="panel" style="background:var(--tint-orange);border-color:transparent">
+        <b class="t-orange" style="font-size:14px">알람 — 냉각온도 #2</b>
+        <p style="font-size:12px;color:var(--g08);margin-top:8px;line-height:1.6">SV 5.0℃ 대비 +6.4℃ · 20:41부터 상승 추세.<br>상한(10℃) 초과 시 해당 로트 품질검사 자동 플래그.</p>
+        <p style="margin-top:12px"><button class="btn btn-sm" style="background:var(--orange);color:#fff">알람 상세 →</button>
+        <span style="font-size:10px;color:var(--g05);margin-left:8px">품질정보 · 로트 L-260826-040 연동</span></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-head"><h2>살균냉각 컨트롤 — 네트바 B</h2><span class="badge bg-teal">전체 정상</span></div>
+    <div class="row" style="grid-template-columns:repeat(6,1fr);margin-bottom:0">
+      <div><div style="font-size:12px;color:var(--g08)">살균온도</div>
+      <div style="font-size:20px;font-weight:700;margin:4px 0">85.8℃</div>
+      <div style="font-size:10px;color:var(--g05)">SV 85.0 · +0.8</div>
+      <div class="hbar" style="margin-top:8px;height:6px"><i style="width:27%;background:var(--pos)"></i></div></div><div><div style="font-size:12px;color:var(--g08)">냉각 #1</div>
+      <div style="font-size:20px;font-weight:700;margin:4px 0">5.1℃</div>
+      <div style="font-size:10px;color:var(--g05)">SV 5.0 · +0.1</div>
+      <div class="hbar" style="margin-top:8px;height:6px"><i style="width:3%;background:var(--pos)"></i></div></div><div><div style="font-size:12px;color:var(--g08)">냉각 #2</div>
+      <div style="font-size:20px;font-weight:700;margin:4px 0">4.9℃</div>
+      <div style="font-size:10px;color:var(--g05)">SV 5.0 · -0.1</div>
+      <div class="hbar" style="margin-top:8px;height:6px"><i style="width:3%;background:var(--pos)"></i></div></div><div><div style="font-size:12px;color:var(--g08)">열탕온도</div>
+      <div style="font-size:20px;font-weight:700;margin:4px 0">90.4℃</div>
+      <div style="font-size:10px;color:var(--g05)">SV 90.0 · +0.4</div>
+      <div class="hbar" style="margin-top:8px;height:6px"><i style="width:13%;background:var(--pos)"></i></div></div><div><div style="font-size:12px;color:var(--g08)">공정 B</div>
+      <div style="font-size:20px;font-weight:700;margin:4px 0">72.2℃</div>
+      <div style="font-size:10px;color:var(--g05)">SV 72.0 · +0.2</div>
+      <div class="hbar" style="margin-top:8px;height:6px"><i style="width:7%;background:var(--pos)"></i></div></div><div><div style="font-size:12px;color:var(--g08)">공정 C</div>
+      <div style="font-size:20px;font-weight:700;margin:4px 0">69.6℃</div>
+      <div style="font-size:10px;color:var(--g05)">SV 70.0 · -0.4</div>
+      <div class="hbar" style="margin-top:8px;height:6px"><i style="width:13%;background:var(--pos)"></i></div></div>
+    </div>
+  </section>
+
+  <div class="row grid-64">
+    <section class="panel">
+      <div class="panel-head"><h2>냉각온도 #2 — 4시간 추이</h2></div>
+      <div style="position:relative">
+        <svg viewBox="0 0 630 90" preserveAspectRatio="none" style="width:100%;height:110px;overflow:visible">
+          <line x1="0" y1="0" x2="630" y2="0" stroke="var(--g02)"/>
+          <line x1="0" y1="45" x2="630" y2="45" stroke="var(--g02)"/>
+          <line x1="0" y1="90" x2="630" y2="90" stroke="var(--g02)"/>
+          <line x1="0" y1="30" x2="630" y2="30" stroke="var(--neg)" stroke-dasharray="5 4" opacity=".4"/>
+          <polyline fill="none" stroke="var(--orange)" stroke-width="2.5"
+            points="0,59 57,60 114,59 171,61 229,58 286,56 343,53 400,47 457,42 514,35 571,28 628,22"/>
+        </svg>
+        <span style="position:absolute;right:4px;top:14px;font-size:10px;color:var(--neg)">상한 10℃</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--g05)"><span>17시</span><span>21시</span></div>
+    </section>
+    <section class="panel">
+      <div class="panel-head"><h2>설비 알람 이력</h2></div>
+      <table class="grid fit">
+        <tr><td class="t-mut" style="width:52px">20:41</td><td>냉각#2 상한 근접 (9.2℃)</td><td class="r"><span class="badge bg-orange">활성</span></td></tr>
+        <tr><td class="t-mut">14:20</td><td>5호 라인 설비 점검 시작</td><td class="r"><span class="badge bg-red">점검</span></td></tr>
+        <tr><td class="t-mut">09:12</td><td>살균온도 순간 편차 +2.4℃</td><td class="r"><span class="badge bg-gray">해소</span></td></tr>
+      </table>
+    </section>
+  </div>
+
+</main>
+</div>
+
+<script src="assets/ui.js"></script>
+</body>
+</html>

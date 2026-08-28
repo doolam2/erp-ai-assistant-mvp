@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>재고 현황 · Smart SYNCWORKS</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/style.css?v=2">
+</head>
+<body>
+
+<header class="gnb">
+  <a class="logo" href="dashboard.html"><em>Smart</em><b>SYNCWORKS</b></a>
+  <nav>
+    <a href="dashboard.html">기초정보</a>
+    <a href="lab.html">연구소</a>
+    <a href="orders.html">주문</a>
+    <a href="confirm.html">생산량 확정</a>
+    <a href="purchase.html">발주</a>
+    <a href="production.html">생산</a>
+    <a href="warehouse.html">입출고</a>
+    <a class="on" href="inventory.html">재고</a>
+    <a href="quality.html">품질</a>
+    <a href="monitoring.html">모니터링</a>
+    <a href="prints.html">출력물</a>
+    <a href="reports.html">보고서</a>
+    <a href="bpm.html">BPM</a>
+  </nav>
+  <span class="user">홍길동 님</span>
+</header>
+
+<div class="app">
+<aside class="lnb">
+  <div class="grp">재고 관리</div>
+  <a class="on" href="inventory.html">재고 현황</a>
+  <a href="#">창고별 재고</a>
+  <a href="#">안전/적정재고 설정</a>
+  <a href="#">재고 실사</a>
+  <a href="#">소비기한 관리</a>
+  <a href="#">수불 이력</a>
+</aside>
+
+<main class="main">
+  <div class="page-head">
+    <h1>재고 현황</h1>
+    <span class="sub">전체 창고 · 2026. 08. 26 06:00 동기화</span>
+    <div class="actions">
+      <select class="sel"><option>전체 창고</option></select>
+      <select class="sel"><option>제품 (P)</option><option>원자재 (M)</option><option>부자재 (S)</option></select>
+    </div>
+  </div>
+
+  <div class="kpis" style="grid-template-columns:repeat(4,1fr)">
+    <div class="kpi"><div class="lb">재고 품목</div><div class="num">9,475</div><div class="meta">품목 · 전 창고</div></div>
+    <div class="kpi"><div class="lb">재고 금액</div><div class="num">6,754,780</div><div class="meta">천원 환산</div></div>
+    <div class="kpi tint-red"><div class="lb">안전재고 미달</div><div class="num t-neg">14<small>건</small></div><div class="meta">발주 검토 필요</div></div>
+    <div class="kpi tint-orange"><div class="lb">소비기한 임박</div><div class="num t-orange">6<small>건</small></div><div class="meta">7일 이내 · 우선 출고</div></div>
+  </div>
+
+  <div class="row grid-2">
+    <section class="panel">
+      <div class="panel-head"><h2>창고별 재고량</h2><span class="meta">단위: 천개</span></div>
+      <div class="hbar-row" style="grid-template-columns:110px 1fr 60px"><span class="nm">중앙물류센터</span><div class="hbar"><i style="width:100%"></i></div><span class="val">5,263</span></div>
+      <div class="hbar-row" style="grid-template-columns:110px 1fr 60px"><span class="nm">제천 물류센터</span><div class="hbar"><i style="width:26%"></i></div><span class="val">1,354</span></div>
+      <div class="hbar-row" style="grid-template-columns:110px 1fr 60px"><span class="nm">제1공장 창고</span><div class="hbar"><i style="width:9.5%"></i></div><span class="val">498</span></div>
+      <div class="hbar-row" style="grid-template-columns:110px 1fr 60px"><span class="nm">제2공장 창고</span><div class="hbar"><i style="width:7.6%"></i></div><span class="val">399</span></div>
+      <div class="hbar-row" style="grid-template-columns:110px 1fr 60px"><span class="nm">냉장센터</span><div class="hbar"><i style="width:6.5%"></i></div><span class="val">343</span></div>
+      <div class="hbar-row" style="grid-template-columns:110px 1fr 60px"><span class="nm">수도권 배송거점</span><div class="hbar"><i style="width:2.5%"></i></div><span class="val">132</span></div>
+      <p style="font-size:11px;color:var(--g05);margin-top:6px">중앙물류센터가 전체의 66% — 분산 배치 검토 대상</p>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head"><h2>안전재고 미달 품목</h2><span class="badge bg-red">14건</span><span class="meta">부족량 큰 순</span></div>
+      <table class="grid">
+        <tr><th>품목</th><th>창고</th><th class="r">현재고</th><th class="r">안전재고</th><th class="r">부족</th></tr>
+        <tr><td><b>두부 800g(10입)</b></td><td>중앙물류</td><td class="r">1,240</td><td class="r">4,000</td><td class="r t-neg"><b>-2,760</b></td></tr>
+        <tr><td><b>순두부 350g</b></td><td>제1공장</td><td class="r">860</td><td class="r">2,500</td><td class="r t-neg"><b>-1,640</b></td></tr>
+        <tr><td><b>콩나물 380g</b></td><td>냉장센터</td><td class="r">420</td><td class="r">1,800</td><td class="r t-neg"><b>-1,380</b></td></tr>
+        <tr><td><b>촌두부 550g</b></td><td>중앙물류</td><td class="r">980</td><td class="r">2,000</td><td class="r t-neg"><b>-1,020</b></td></tr>
+        <tr><td><b>숙주나물 380g</b></td><td>냉장센터</td><td class="r">640</td><td class="r">1,500</td><td class="r t-neg"><b>-860</b></td></tr>
+        <tr><td><b>두부 300g</b></td><td>제2공장</td><td class="r">1,120</td><td class="r">1,800</td><td class="r t-neg"><b>-680</b></td></tr>
+        <tr><td><b>유부 초밥용</b></td><td>제1공장</td><td class="r">310</td><td class="r">900</td><td class="r t-neg"><b>-590</b></td></tr>
+      </table>
+      <p style="text-align:right;margin-top:10px"><a class="link t-brand" href="#" style="font-size:11px;font-weight:600">전체 보기 →</a></p>
+    </section>
+  </div>
+
+  <div class="row grid-2">
+    <section class="panel">
+      <div class="panel-head"><h2>재고 구성비</h2></div>
+      <div style="display:flex;align-items:center;gap:36px;padding:6px 0">
+        <div style="position:relative;width:170px;height:170px;flex-shrink:0">
+          <svg viewBox="0 0 42 42" style="width:100%;height:100%;transform:rotate(-90deg)">
+            <circle cx="21" cy="21" r="15.9" fill="none" stroke="#2c7fdf" stroke-width="6"
+              stroke-dasharray="62 38" stroke-dashoffset="0"></circle>
+            <circle cx="21" cy="21" r="15.9" fill="none" stroke="#38acba" stroke-width="6"
+              stroke-dasharray="24 76" stroke-dashoffset="-62"></circle>
+            <circle cx="21" cy="21" r="15.9" fill="none" stroke="#ff7802" stroke-width="6"
+              stroke-dasharray="14 86" stroke-dashoffset="-86"></circle>
+          </svg>
+          <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center">
+            <b style="font-size:22px">9,475</b><span style="font-size:10px;color:var(--g05)">품목</span>
+          </div>
+        </div>
+        <table class="grid fit" style="flex:1">
+          <tr><td><span class="legend"><span class="sw" style="background:var(--brand)"></span>제품 (P)</span></td><td class="r"><b>62%</b></td></tr>
+          <tr><td><span class="legend"><span class="sw" style="background:var(--pos)"></span>원자재 (M)</span></td><td class="r"><b>24%</b></td></tr>
+          <tr><td><span class="legend"><span class="sw" style="background:var(--orange)"></span>부자재 (S)</span></td><td class="r"><b>14%</b></td></tr>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head"><h2>소비기한 임박 (7일 이내)</h2></div>
+      <table class="grid">
+        <tr><td><span class="badge bg-red">D-3</span></td><td><b>낫또 국산백태 90g</b></td><td>냉장센터</td><td>2026-08-29</td><td class="r"><a class="link t-brand" href="#" style="font-size:11px">우선 출고</a></td></tr>
+        <tr><td><span class="badge bg-orange">D-4</span></td><td><b>순두부 350g (L-0812)</b></td><td>중앙물류</td><td>2026-08-30</td><td class="r"><a class="link t-brand" href="#" style="font-size:11px">우선 출고</a></td></tr>
+        <tr><td><span class="badge bg-orange">D-5</span></td><td><b>콩나물 380g (L-0815)</b></td><td>냉장센터</td><td>2026-08-31</td><td class="r"><a class="link t-brand" href="#" style="font-size:11px">우선 출고</a></td></tr>
+        <tr><td><span class="badge bg-orange">D-6</span></td><td><b>두부 300g (L-0811)</b></td><td>제1공장</td><td>2026-09-01</td><td class="r"><a class="link t-brand" href="#" style="font-size:11px">우선 출고</a></td></tr>
+        <tr><td><span class="badge bg-gray">D-7</span></td><td><b>숙주나물 380g</b></td><td>냉장센터</td><td>2026-09-02</td><td class="r"><a class="link t-brand" href="#" style="font-size:11px">우선 출고</a></td></tr>
+        <tr><td><span class="badge bg-gray">D-7</span></td><td><b>유부 초밥용</b></td><td>제2공장</td><td>2026-09-02</td><td class="r"><a class="link t-brand" href="#" style="font-size:11px">우선 출고</a></td></tr>
+      </table>
+    </section>
+  </div>
+</main>
+</div>
+
+<script src="assets/ui.js"></script>
+</body>
+</html>

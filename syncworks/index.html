@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Smart SYNCWORKS 퍼블리싱 색인</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/style.css?v=2">
+</head>
+<body>
+<main class="main" style="max-width:760px;margin:40px auto">
+  <div class="page-head"><h1>Smart SYNCWORKS 퍼블리싱</h1><span class="sub">v0.2 · 2026-08-27 · 피그마 B안 기준</span>
+    <div class="actions"><button class="btn btn-outline" id="copyLink">링크 복사</button></div>
+  </div>
+  <script>
+  document.getElementById('copyLink').addEventListener('click', function(){
+    var url = 'http://100.103.190.75:8890/';
+    var btn = this;
+    function done(ok){ btn.textContent = ok ? '복사됨 ✓' : url; setTimeout(function(){ btn.textContent='링크 복사'; }, 1600); }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(function(){ done(true); }, function(){ fallback(); });
+    } else { fallback(); }
+    function fallback(){
+      var ta = document.createElement('textarea'); ta.value = url; ta.style.position='fixed'; ta.style.opacity='0';
+      document.body.appendChild(ta); ta.select();
+      var ok = false; try { ok = document.execCommand('copy'); } catch(e){}
+      document.body.removeChild(ta); done(ok);
+    }
+  });
+  </script>
+  <section class="panel">
+    <div class="panel-head"><h2>화면 목록</h2></div>
+    <table class="grid">
+      <tr><th>#</th><th>화면</th><th>패턴</th><th>비고</th></tr>
+      <tr><td>1</td><td><a class="link" href="dashboard.html">매출 대시보드</a></td><td>대시보드</td><td>KPI 6 · 콤보 차트 · 법인 랭킹</td></tr>
+      <tr><td>2</td><td><a class="link" href="orders.html">주문 목록</a></td><td>목록</td><td><b>AF-10 기간 데이트피커 실장</b> (flatpickr)</td></tr>
+      <tr><td>3</td><td><a class="link" href="order_new.html">주문 등록</a></td><td>등록</td><td>라인아이템 · 여신·재고 확인 패널</td></tr>
+      <tr><td>4</td><td><a class="link" href="inventory.html">재고 현황</a></td><td>현황</td><td>창고 바 · 미달 목록 · 구성비 도넛</td></tr>
+      <tr><td>5</td><td><a class="link" href="purchase.html">발주 현황</a></td><td>목록+제안</td><td>안전재고 연동 발주 제안</td></tr>
+      <tr><td>6</td><td><a class="link" href="purchase_new.html">발주 등록</a></td><td>등록</td><td>단가 이력 · 발주 근거</td></tr>
+      <tr><td>7</td><td><a class="link" href="production.html">생산 현황</a></td><td>진행</td><td>라인 프로그레스 · 주간 그룹 막대</td></tr>
+      <tr><td>8</td><td><a class="link" href="plan_new.html">생산계획 등록</a></td><td>등록</td><td>BOM 자동 소요 · AI 제안 카드</td></tr>
+      <tr><td>9</td><td><a class="link" href="confirm.html">생산량 확정</a></td><td>승인</td><td>인라인 입력 · ±5% 사유 게이트</td></tr>
+      <tr><td>10</td><td><a class="link" href="warehouse.html">입출고 현황</a></td><td>수불</td><td>시간대 막대 · 실시간 피드 · 수불표</td></tr>
+      <tr><td>11</td><td><a class="link" href="quality.html">품질 현황</a></td><td>검사</td><td>항목 합격률 · 추이 · 대기 로트</td></tr>
+      <tr><td>12</td><td><a class="link" href="quality_new.html">검사 등록</a></td><td>등록</td><td>자동 판정 체크리스트 · 종합 보류</td></tr>
+      <tr><td>13</td><td><a class="link" href="monitoring.html">설비 관제 (PLC)</a></td><td>관제·필수</td><td>링 게이지 · PV/SV · 알람 연동</td></tr>
+      <tr><td>14</td><td><a class="link" href="monitoring_live.html">실시간 관제</a></td><td>관제</td><td>스트림 차트 · 알림 타임라인</td></tr>
+      <tr><td>15</td><td><a class="link" href="monitoring_analytics.html">운영 지표 분석</a></td><td>분석 · 3뷰</td><td>지표(히트맵) ↔ 흐름(산키) ↔ 경영(도넛) 전환</td></tr>
+      <tr><td>16</td><td><a class="link" href="lab.html">연구소 — 시험 성적</a></td><td>목록+도넛</td><td>진행률 · 부적합 연동</td></tr>
+      <tr><td>17</td><td><a class="link" href="prints.html">출력물 — 서식 출력</a></td><td>카드 그리드</td><td>인쇄/PDF · 출력 이력</td></tr>
+      <tr><td>18</td><td><a class="link" href="reports.html">보고서 — 정기 리포트</a></td><td>목록+미리보기</td><td>자동 발행 · 구독</td></tr>
+      <tr><td>19</td><td><a class="link" href="bpm.html">BPM — 전자결재</a></td><td>결재함</td><td>단계 도트 · 결재선 · AI 근거</td></tr>
+    </table>
+  </section>
+  <p style="font-size:11px;color:var(--g05)">디자인 토큰: assets/style.css · 데이트피커 정본: orders.html (AF-10 패턴) · 폰 확인: Tailscale 100.103.190.75:8890</p>
+</main>
+</body>
+</html>

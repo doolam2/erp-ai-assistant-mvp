@@ -1,0 +1,8 @@
+<!DOCTYPE html><meta charset="utf-8"><body style="margin:0;background:#fff">
+<iframe id="f" style="width:375px;border:0;display:block"></iframe>
+<script>
+var q=new URLSearchParams(location.search);
+var f=document.getElementById('f');
+f.style.height=q.get('h')+'px';
+f.src='/'+q.get('p')+'.html';
+</script>

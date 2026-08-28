@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>시험 성적 관리 · Smart SYNCWORKS</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/style.css?v=2">
+</head>
+<body>
+
+<header class="gnb">
+  <a class="logo" href="dashboard.html"><em>Smart</em><b>SYNCWORKS</b></a>
+  <nav>
+    <a href="dashboard.html">기초정보</a>
+    <a class="on" href="lab.html">연구소</a>
+    <a href="orders.html">주문</a>
+    <a href="confirm.html">생산량 확정</a>
+    <a href="purchase.html">발주</a>
+    <a href="production.html">생산</a>
+    <a href="warehouse.html">입출고</a>
+    <a href="inventory.html">재고</a>
+    <a href="quality.html">품질</a>
+    <a href="monitoring.html">모니터링</a>
+    <a href="prints.html">출력물</a>
+    <a href="reports.html">보고서</a>
+    <a href="bpm.html">BPM</a>
+  </nav>
+  <span class="user">홍길동 님</span>
+</header>
+
+<div class="app">
+<aside class="lnb">
+  <div class="grp">연구소</div>
+  <a class="on" href="lab.html">시험 성적 관리</a>
+  <a href="#">배합(레시피) 연구</a>
+  <a href="#">샘플 관리</a>
+  <a href="#">시험 의뢰</a>
+  <a href="#">성적서 발행</a>
+</aside>
+
+<main class="main">
+  <div class="page-head">
+    <h1>시험 성적 관리</h1>
+    <span class="sub">품질연구팀 · 2026. 08. 27</span>
+    <div class="actions"><button class="btn btn-primary"><svg class="ic-plus" viewBox="0 0 10 10"><path d="M5 1v8M1 5h8"/></svg>시험 의뢰</button><button class="btn btn-outline">CSV</button></div>
+  </div>
+
+  <div class="kpis" style="grid-template-columns:repeat(4,1fr)">
+    <div class="kpi"><div class="lb">진행 중 시험</div><div class="num">12<small>건</small></div><div class="meta">미생물 5 · 보존성 4 · 영양 3</div></div>
+    <div class="kpi"><div class="lb">이번 달 완료</div><div class="num t-pos">46<small>건</small></div><div class="meta">평균 소요 3.2일</div></div>
+    <div class="kpi tint-red"><div class="lb">부적합 판정</div><div class="num t-neg">2<small>건</small></div><div class="meta">재시험 진행 중</div></div>
+    <div class="kpi tint-orange"><div class="lb">성적서 발행 대기</div><div class="num t-orange">4<small>건</small></div><div class="meta">승인 후 자동 발행</div></div>
+  </div>
+
+  <div class="row grid-64">
+    <section class="panel">
+      <div class="panel-head"><h2>시험 목록</h2></div>
+      <table class="grid">
+        <tr><th>의뢰번호</th><th>시험명</th><th>대상</th><th>의뢰일</th><th>담당</th><th>진행</th><th>상태</th></tr>
+        <tr><td class="link">LB-26-084</td><td><b>미생물 (일반세균·대장균)</b></td><td>순두부 350g</td><td>08-26</td><td>김연구</td>
+      <td><div class="hbar" style="width:60px;height:8px"><i style="width:70%;background:var(--brand)"></i></div></td>
+      <td><span class="badge bg-blue">진행 중</span></td></tr><tr><td class="link">LB-26-083</td><td><b>보존성 (소비기한 검증)</b></td><td>두부 300g 리뉴얼</td><td>08-25</td><td>박실험</td>
+      <td><div class="hbar" style="width:60px;height:8px"><i style="width:40%;background:var(--brand)"></i></div></td>
+      <td><span class="badge bg-blue">진행 중</span></td></tr><tr><td class="link">LB-26-082</td><td><b>영양성분 (9종)</b></td><td>유부 초밥용</td><td>08-25</td><td>김연구</td>
+      <td><div class="hbar" style="width:60px;height:8px"><i style="width:90%;background:var(--brand)"></i></div></td>
+      <td><span class="badge bg-blue">검토 중</span></td></tr><tr><td class="link">LB-26-081</td><td><b>미생물 (일반세균)</b></td><td>콩나물 380g</td><td>08-24</td><td>이분석</td>
+      <td><div class="hbar" style="width:60px;height:8px"><i style="width:100%;background:var(--brand)"></i></div></td>
+      <td><span class="badge bg-teal">적합</span></td></tr><tr><td class="link">LB-26-080</td><td><b>이화학 (pH·수분)</b></td><td>촌두부 550g</td><td>08-22</td><td>박실험</td>
+      <td><div class="hbar" style="width:60px;height:8px"><i style="width:100%;background:var(--brand)"></i></div></td>
+      <td><span class="badge bg-teal">적합</span></td></tr><tr><td class="link">LB-26-079</td><td><b>미생물 (대장균군)</b></td><td>순두부 350g L-0812</td><td>08-21</td><td>이분석</td>
+      <td><div class="hbar" style="width:60px;height:8px"><i style="width:100%;background:var(--neg)"></i></div></td>
+      <td><span class="badge bg-red">부적합</span></td></tr><tr><td class="link">LB-26-078</td><td><b>보존성 (가속 시험)</b></td><td>신제품 P-04</td><td>08-20</td><td>김연구</td>
+      <td><div class="hbar" style="width:60px;height:8px"><i style="width:55%;background:var(--brand)"></i></div></td>
+      <td><span class="badge bg-blue">진행 중</span></td></tr>
+      </table>
+    </section>
+    <div>
+      <section class="panel">
+        <div class="panel-head"><h2>이번 달 시험 구성</h2></div>
+        <div style="display:flex;align-items:center;gap:24px">
+          <div style="position:relative;flex-shrink:0">
+            <svg viewBox="0 0 42 42" style="width:130px;height:130px;transform:rotate(-90deg)">
+              <circle cx="21" cy="21" r="15.9" fill="none" stroke="var(--brand)" stroke-width="7" stroke-dasharray="45 55"></circle>
+              <circle cx="21" cy="21" r="15.9" fill="none" stroke="var(--pos)" stroke-width="7" stroke-dasharray="30 70" stroke-dashoffset="-45"></circle>
+              <circle cx="21" cy="21" r="15.9" fill="none" stroke="var(--orange)" stroke-width="7" stroke-dasharray="25 75" stroke-dashoffset="-75"></circle>
+            </svg>
+            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center"><b style="font-size:17px">58건</b></div>
+          </div>
+          <div style="display:grid;gap:10px;font-size:12px">
+            <span><span class="legend"><span class="sw" style="background:var(--brand)"></span></span>미생물 · 45%</span>
+            <span><span class="legend"><span class="sw" style="background:var(--pos)"></span></span>이화학·영양 · 30%</span>
+            <span><span class="legend"><span class="sw" style="background:var(--orange)"></span></span>보존성 · 25%</span>
+          </div>
+        </div>
+        <p style="font-size:11px;color:var(--g05);margin-top:12px">부적합률 3.4% — 전월 4.1%</p>
+      </section>
+      <section class="panel" style="background:var(--tint-red);border-color:transparent">
+        <div class="panel-head"><h2 class="t-neg">부적합 — 즉시 확인</h2></div>
+        <b style="font-size:13px">LB-26-079 · 순두부 350g (L-0812)</b>
+        <p style="font-size:12px;color:var(--g08);margin-top:8px;line-height:1.6">대장균군 양성 — 해당 로트 출고 보류 처리됨.<br>품질정보 부적합 대장 자동 등록 · 재시험 LB-26-084 진행 중</p>
+        <p style="margin-top:12px"><button class="btn btn-sm" style="background:var(--neg);color:#fff">부적합 상세 →</button>
+        <span style="font-size:10px;color:var(--g05);margin-left:8px">로트 추적 · 품질정보 연동</span></p>
+      </section>
+    </div>
+  </div>
+
+</main>
+</div>
+
+<script src="assets/ui.js"></script>
+</body>
+</html>

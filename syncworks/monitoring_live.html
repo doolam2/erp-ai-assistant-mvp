@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>실시간 관제 · Smart SYNCWORKS</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/style.css?v=2">
+</head>
+<body>
+
+<header class="gnb">
+  <a class="logo" href="dashboard.html"><em>Smart</em><b>SYNCWORKS</b></a>
+  <nav>
+    <a href="dashboard.html">기초정보</a>
+    <a href="lab.html">연구소</a>
+    <a href="orders.html">주문</a>
+    <a href="confirm.html">생산량 확정</a>
+    <a href="purchase.html">발주</a>
+    <a href="production.html">생산</a>
+    <a href="warehouse.html">입출고</a>
+    <a href="inventory.html">재고</a>
+    <a href="quality.html">품질</a>
+    <a class="on" href="monitoring.html">모니터링</a>
+    <a href="prints.html">출력물</a>
+    <a href="reports.html">보고서</a>
+    <a href="bpm.html">BPM</a>
+  </nav>
+  <span class="user">홍길동 님</span>
+</header>
+
+<div class="app">
+<aside class="lnb">
+  <div class="grp">설비 (PLC)</div>
+  <a href="monitoring.html">살균냉각 컨트롤</a>
+  <a href="#">알람 이력</a>
+  <a href="#">온습도 현황</a>
+  <div class="grp">생산</div>
+  <a class="on" href="monitoring_live.html">실시간 관제</a>
+  <a href="monitoring_analytics.html">지표 분석</a>
+  <a href="#">완제품 불량</a>
+  <div class="grp">물류</div>
+  <a href="#">재고 현황</a>
+  <a href="#">출하 현황</a>
+</aside>
+
+<main class="main">
+  <div class="page-head">
+    <h1>실시간 관제</h1>
+    <span class="sub"><span class="badge bg-red">LIVE · 5초 갱신</span> &nbsp;제1공장 · 21:04:35</span>
+    <div class="actions"><select class="sel"><option>제1공장</option></select></div>
+  </div>
+
+  <div class="kpis" style="grid-template-columns:repeat(5,1fr)">
+    <div class="kpi"><div class="lb">현재 생산 속도</div><div class="num t-brand">142</div><div class="meta">개/분 · 계획 대비 +4%</div></div>
+    <div class="kpi"><div class="lb">금일 누적 생산</div><div class="num">91,240</div><div class="meta">개 · 목표 128,400</div></div>
+    <div class="kpi"><div class="lb">라인 가동률</div><div class="num t-pos">83%</div><div class="meta">6개 중 5개 가동</div></div>
+    <div class="kpi tint-orange"><div class="lb">활성 알림</div><div class="num t-orange">3<small>건</small></div><div class="meta">경고 2 · 주의 1</div></div>
+    <div class="kpi"><div class="lb">검사 대기</div><div class="num">7<small>건</small></div><div class="meta">최장 40분</div></div>
+  </div>
+
+  <div class="row grid-64">
+    <section class="panel">
+      <div class="panel-head"><h2>생산 속도 스트림 — 최근 60분</h2>
+        <div class="legend" style="margin:0 0 0 auto"><span><span class="sw" style="background:var(--brand)"></span>실제</span><span><span class="ln" style="background:var(--g05)"></span>계획 페이스</span></div></div>
+      <div style="position:relative">
+        <svg viewBox="0 0 680 270" preserveAspectRatio="none" style="width:100%;height:260px;overflow:visible">
+          <line x1="0" y1="0" x2="680" y2="0" stroke="var(--g02)"/><line x1="0" y1="90" x2="680" y2="90" stroke="var(--g02)"/>
+          <line x1="0" y1="180" x2="680" y2="180" stroke="var(--g02)"/><line x1="0" y1="270" x2="680" y2="270" stroke="var(--g02)"/>
+          <polygon fill="var(--tint-blue)" points="0,78 32,68 65,58 97,64 130,45 162,51 194,42 227,59 259,90 292,126 324,138 356,72 389,48 421,38 454,45 486,51 518,63 551,54 583,42 616,33 648,47 680,57 680,270 0,270"/>
+          <polyline fill="none" stroke="var(--brand)" stroke-width="2.5" points="0,78 32,68 65,58 97,64 130,45 162,51 194,42 227,59 259,90 292,126 324,138 356,72 389,48 421,38 454,45 486,51 518,63 551,54 583,42 616,33 648,47 680,57"/>
+          <line x1="0" y1="60" x2="680" y2="60" stroke="var(--g05)" stroke-width="2" stroke-dasharray="6 4"/>
+          <circle cx="292" cy="126" r="5" fill="var(--orange)"/>
+        </svg>
+        <span style="position:absolute;left:36%;top:34%;font-size:10px;font-weight:600;color:var(--orange)">20:31 4호 원료 대기</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--g05)"><span>-60분</span><span>-40분</span><span>-20분</span><span>현재</span></div>
+      <p style="font-size:12px;font-weight:600;color:var(--brand);margin-top:8px">현재 142개/분 — 계획 페이스(140) 상회 중</p>
+    </section>
+    <section class="panel">
+      <div class="panel-head"><h2>라인 상태</h2></div>
+      <div style="margin-bottom:13px">
+      <div style="display:flex;align-items:center;gap:8px"><b style="font-size:12px;flex:1">1호 · 두부 300g</b>
+      <span class="badge bg-teal">정상</span><b style="font-size:12px">92%</b></div>
+      <div class="hbar" style="margin-top:6px;height:8px"><i style="width:92%;background:var(--brand)"></i></div></div><div style="margin-bottom:13px">
+      <div style="display:flex;align-items:center;gap:8px"><b style="font-size:12px;flex:1">2호 · 두부 800g</b>
+      <span class="badge bg-teal">정상</span><b style="font-size:12px">78%</b></div>
+      <div class="hbar" style="margin-top:6px;height:8px"><i style="width:78%;background:var(--brand)"></i></div></div><div style="margin-bottom:13px">
+      <div style="display:flex;align-items:center;gap:8px"><b style="font-size:12px;flex:1">3호 · 순두부</b>
+      <span class="badge bg-teal">정상</span><b style="font-size:12px">64%</b></div>
+      <div class="hbar" style="margin-top:6px;height:8px"><i style="width:64%;background:var(--brand)"></i></div></div><div style="margin-bottom:13px">
+      <div style="display:flex;align-items:center;gap:8px"><b style="font-size:12px;flex:1">4호 · 콩나물</b>
+      <span class="badge bg-orange">원료 대기</span><b style="font-size:12px">45%</b></div>
+      <div class="hbar" style="margin-top:6px;height:8px"><i style="width:45%;background:var(--orange)"></i></div></div><div style="margin-bottom:13px">
+      <div style="display:flex;align-items:center;gap:8px"><b style="font-size:12px;flex:1">5호 · 촌두부</b>
+      <span class="badge bg-red">설비 점검</span><b style="font-size:12px" class="t-neg">점검</b></div>
+      <div class="hbar" style="margin-top:6px;height:8px"><i style="width:0%;background:var(--neg)"></i></div></div><div style="margin-bottom:13px">
+      <div style="display:flex;align-items:center;gap:8px"><b style="font-size:12px;flex:1">6호 · 유부</b>
+      <span class="badge bg-teal">정상</span><b style="font-size:12px">88%</b></div>
+      <div class="hbar" style="margin-top:6px;height:8px"><i style="width:88%;background:var(--brand)"></i></div></div>
+    </section>
+  </div>
+
+  <section class="panel">
+    <div class="panel-head"><h2>알림 타임라인 — 금일</h2><span class="badge bg-blue">알림 규칙 관리 →</span></div>
+    <div style="position:relative;height:64px;margin:10px 8px 0">
+      <div style="position:absolute;left:0;right:0;top:34px;height:2px;background:var(--g02)"></div>
+      <div style="position:absolute;left:15.7%;top:0;transform:translateX(-50%);text-align:center">
+      <div style="font-size:10px;font-weight:600;color:var(--orange);white-space:nowrap">입고 지연</div>
+      <div style="width:12px;height:12px;border-radius:50%;background:var(--orange);margin:8px auto 0"></div></div><div style="position:absolute;left:32.1%;top:0;transform:translateX(-50%);text-align:center">
+      <div style="font-size:10px;font-weight:600;color:var(--g05);white-space:nowrap">피크 부하</div>
+      <div style="width:12px;height:12px;border-radius:50%;background:var(--g05);margin:8px auto 0"></div></div><div style="position:absolute;left:50.7%;top:0;transform:translateX(-50%);text-align:center">
+      <div style="font-size:10px;font-weight:600;color:var(--orange);white-space:nowrap">검사 지연</div>
+      <div style="width:12px;height:12px;border-radius:50%;background:var(--orange);margin:8px auto 0"></div></div><div style="position:absolute;left:67.1%;top:0;transform:translateX(-50%);text-align:center">
+      <div style="font-size:10px;font-weight:600;color:var(--neg);white-space:nowrap">5호 점검</div>
+      <div style="width:12px;height:12px;border-radius:50%;background:var(--neg);margin:8px auto 0"></div></div><div style="position:absolute;left:90.7%;top:0;transform:translateX(-50%);text-align:center">
+      <div style="font-size:10px;font-weight:600;color:var(--orange);white-space:nowrap">재고 안전선</div>
+      <div style="width:12px;height:12px;border-radius:50%;background:var(--orange);margin:8px auto 0"></div></div><div style="position:absolute;left:103.6%;top:0;transform:translateX(-50%);text-align:center">
+      <div style="font-size:10px;font-weight:600;color:var(--orange);white-space:nowrap">원료 대기</div>
+      <div style="width:12px;height:12px;border-radius:50%;background:var(--orange);margin:8px auto 0"></div></div><span style="position:absolute;left:0.0%;top:50px;font-size:10px;color:var(--g05);transform:translateX(-50%)">06:00</span><span style="position:absolute;left:14.3%;top:50px;font-size:10px;color:var(--g05);transform:translateX(-50%)">08:00</span><span style="position:absolute;left:28.6%;top:50px;font-size:10px;color:var(--g05);transform:translateX(-50%)">10:00</span><span style="position:absolute;left:42.9%;top:50px;font-size:10px;color:var(--g05);transform:translateX(-50%)">12:00</span><span style="position:absolute;left:57.1%;top:50px;font-size:10px;color:var(--g05);transform:translateX(-50%)">14:00</span><span style="position:absolute;left:71.4%;top:50px;font-size:10px;color:var(--g05);transform:translateX(-50%)">16:00</span><span style="position:absolute;left:85.7%;top:50px;font-size:10px;color:var(--g05);transform:translateX(-50%)">18:00</span><span style="position:absolute;left:100.0%;top:50px;font-size:10px;color:var(--g05);transform:translateX(-50%)">20:00</span>
+    </div>
+    <p style="font-size:12px;color:var(--g08)">금일 알림 12건 · 해결 9건 · 활성 3건</p>
+  </section>
+
+  <section class="panel">
+    <div class="panel-head"><h2>구간 요약 (최근 1시간)</h2></div>
+    <div class="row" style="grid-template-columns:repeat(6,1fr);margin-bottom:0">
+      <div><div style="font-size:11px;color:var(--g05)">생산</div><div style="font-size:16px;font-weight:600;margin-top:4px">8,520개</div></div><div><div style="font-size:11px;color:var(--g05)">검사 통과</div><div style="font-size:16px;font-weight:600;margin-top:4px">8,190개</div></div><div><div style="font-size:11px;color:var(--g05)">입고</div><div style="font-size:16px;font-weight:600;margin-top:4px">2건</div></div><div><div style="font-size:11px;color:var(--g05)">출고</div><div style="font-size:16px;font-weight:600;margin-top:4px">9건</div></div><div><div style="font-size:11px;color:var(--g05)">평균 속도</div><div style="font-size:16px;font-weight:600;margin-top:4px">142개/분</div></div><div><div style="font-size:11px;color:var(--g05)">정지 시간</div><div style="font-size:16px;font-weight:600;margin-top:4px">4분 12초</div></div>
+    </div>
+  </section>
+
+</main>
+</div>
+
+<script src="assets/ui.js"></script>
+</body>
+</html>

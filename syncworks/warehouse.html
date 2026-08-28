@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>입출고 현황 · Smart SYNCWORKS</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/style.css?v=2">
+<style>
+.hr-chart { display:flex; align-items:flex-end; gap:20px; height:200px; padding:0 8px; border-bottom:1px solid var(--g03); }
+.hr-chart .hr { flex:1; display:flex; align-items:flex-end; gap:4px; height:100%; }
+.hr-chart .hr i { flex:1; border-radius:3px 3px 0 0; }
+.hr-chart .in { background: var(--pos); }
+.hr-chart .out { background: var(--brand); }
+.hr-lab { display:flex; gap:20px; padding:8px 8px 0; }
+.hr-lab span { flex:1; text-align:center; font-size:11px; color:var(--g08); }
+.feed { display:flex; gap:10px; align-items:flex-start; padding:9px 0; border-bottom:1px solid var(--g02); font-size:12px; }
+.feed:last-child { border-bottom:none; }
+.feed .tm { color:var(--g05); font-weight:500; width:38px; flex-shrink:0; }
+</style>
+</head>
+<body>
+
+<header class="gnb">
+  <a class="logo" href="dashboard.html"><em>Smart</em><b>SYNCWORKS</b></a>
+  <nav>
+    <a href="dashboard.html">기초정보</a>
+    <a href="lab.html">연구소</a>
+    <a href="orders.html">주문</a>
+    <a href="confirm.html">생산량 확정</a>
+    <a href="purchase.html">발주</a>
+    <a href="production.html">생산</a>
+    <a class="on" href="warehouse.html">입출고</a>
+    <a href="inventory.html">재고</a>
+    <a href="quality.html">품질</a>
+    <a href="monitoring.html">모니터링</a>
+    <a href="prints.html">출력물</a>
+    <a href="reports.html">보고서</a>
+    <a href="bpm.html">BPM</a>
+  </nav>
+  <span class="user">홍길동 님</span>
+</header>
+
+<div class="app">
+<aside class="lnb">
+  <div class="grp">입출고 관리</div>
+  <a class="on" href="warehouse.html">입출고 현황</a>
+  <a href="#">입고 관리</a>
+  <a href="#">출고 관리</a>
+  <a href="#">검수 관리</a>
+  <a href="#">배차 관리</a>
+  <a href="#">수불 이력</a>
+</aside>
+
+<main class="main">
+  <div class="page-head">
+    <h1>입출고 현황</h1>
+    <span class="sub">중앙물류센터 · 2026. 08. 26</span>
+    <div class="actions">
+      <select class="sel"><option>중앙물류</option></select>
+      <select class="sel"><option>금일</option></select>
+    </div>
+  </div>
+
+  <div class="kpis" style="grid-template-columns:repeat(4,1fr)">
+    <div class="kpi"><div class="lb">금일 입고</div><div class="num t-pos">32<small>건</small></div><div class="meta">원자재 18 · 제품 이관 14</div></div>
+    <div class="kpi"><div class="lb">금일 출고</div><div class="num t-brand">87<small>건</small></div><div class="meta">거래처 74 · 계열사 13</div></div>
+    <div class="kpi tint-orange"><div class="lb">검수 대기</div><div class="num t-orange">5<small>건</small></div><div class="meta">평균 대기 22분</div></div>
+    <div class="kpi"><div class="lb">금일 배차</div><div class="num">6<small>대</small></div><div class="meta">상차 완료 4 · 대기 2</div></div>
+  </div>
+
+  <div class="row grid-64">
+    <section class="panel">
+      <div class="panel-head">
+        <h2>시간대별 입출고</h2>
+        <div class="legend" style="margin:0 0 0 auto">
+          <span><span class="sw" style="background:var(--pos)"></span>입고</span>
+          <span><span class="sw" style="background:var(--brand)"></span>출고</span>
+        </div>
+      </div>
+      <div class="hr-chart">
+        <div class="hr"><i class="in" style="height:10%"></i><i class="out" style="height:20%"></i></div>
+        <div class="hr"><i class="in" style="height:30%"></i><i class="out" style="height:70%"></i></div>
+        <div class="hr"><i class="in" style="height:40%"></i><i class="out" style="height:90%"></i></div>
+        <div class="hr"><i class="in" style="height:15%"></i><i class="out" style="height:45%"></i></div>
+        <div class="hr"><i class="in" style="height:25%"></i><i class="out" style="height:80%"></i></div>
+        <div class="hr"><i class="in" style="height:20%"></i><i class="out" style="height:70%"></i></div>
+        <div class="hr"><i class="in" style="height:15%"></i><i class="out" style="height:45%"></i></div>
+        <div class="hr"><i class="in" style="height:5%"></i><i class="out" style="height:15%"></i></div>
+      </div>
+      <div class="hr-lab"><span>06시</span><span>08시</span><span>10시</span><span>12시</span><span>14시</span><span>16시</span><span>18시</span><span>20시</span></div>
+      <p style="font-size:11px;color:var(--g05);margin-top:10px">피크 10시 — 상차 인력 집중 배치</p>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head"><h2>실시간 이력</h2></div>
+      <div class="feed"><span class="tm">20:52</span><span class="badge bg-blue">출고</span><span>두부 300g × 1,240 → 대상마트 성수점</span></div>
+      <div class="feed"><span class="tm">20:41</span><span class="badge bg-teal">입고</span><span>수입 대두 8,000kg ← 대두상사</span></div>
+      <div class="feed"><span class="tm">20:33</span><span class="badge bg-blue">출고</span><span>순두부 350g × 860 → 한솔유통</span></div>
+      <div class="feed"><span class="tm">20:18</span><span class="badge bg-orange">검수</span><span>PP 용기 60,000개 — 수량 확인 중</span></div>
+      <div class="feed"><span class="tm">19:57</span><span class="badge bg-blue">출고</span><span>콩나물 380g × 2,150 → 성심식자재</span></div>
+      <div class="feed"><span class="tm">19:40</span><span class="badge bg-teal">입고</span><span>제품 이관 · 제1공장 → 중앙물류 4,220개</span></div>
+      <div class="feed"><span class="tm">19:22</span><span class="badge bg-blue">출고</span><span>두부 800g(10입) × 640 → 늘푸른급식</span></div>
+    </section>
+  </div>
+
+  <section class="panel">
+    <div class="panel-head"><h2>창고별 금일 수불 요약</h2></div>
+    <table class="grid">
+      <tr><th>창고</th><th class="r">기초 재고</th><th class="r">입고</th><th class="r">출고</th><th class="r">조정</th><th class="r">기말 재고</th><th class="r">전일비</th><th class="r">검수 대기</th></tr>
+      <tr><td><b>중앙물류센터</b></td><td class="r">5,263,424</td><td class="r t-pos"><b>+38,200</b></td><td class="r t-brand"><b>-52,140</b></td><td class="r t-mut">—</td><td class="r"><b>5,249,484</b></td><td class="r t-neg"><b>-0.3%</b></td><td class="r t-orange">2건</td></tr>
+      <tr><td><b>제천 물류센터</b></td><td class="r">1,354,262</td><td class="r t-pos"><b>+12,400</b></td><td class="r t-brand"><b>-9,850</b></td><td class="r t-mut">—</td><td class="r"><b>1,356,812</b></td><td class="r t-pos"><b>+0.2%</b></td><td class="r t-mut">—</td></tr>
+      <tr><td><b>제1공장 창고</b></td><td class="r">498,120</td><td class="r t-pos"><b>+91,240</b></td><td class="r t-brand"><b>-84,300</b></td><td class="r t-neg">-120</td><td class="r"><b>504,940</b></td><td class="r t-pos"><b>+1.4%</b></td><td class="r t-orange">1건</td></tr>
+      <tr><td><b>제2공장 창고</b></td><td class="r">399,080</td><td class="r t-pos"><b>+42,180</b></td><td class="r t-brand"><b>-38,900</b></td><td class="r t-mut">—</td><td class="r"><b>402,360</b></td><td class="r t-pos"><b>+0.8%</b></td><td class="r t-mut">—</td></tr>
+      <tr><td><b>냉장센터</b></td><td class="r">343,660</td><td class="r t-pos"><b>+8,400</b></td><td class="r t-brand"><b>-11,260</b></td><td class="r t-neg">-85</td><td class="r"><b>340,715</b></td><td class="r t-neg"><b>-0.9%</b></td><td class="r t-orange">2건</td></tr>
+      <tr><td><b>수도권 배송거점</b></td><td class="r">132,410</td><td class="r t-pos"><b>+22,000</b></td><td class="r t-brand"><b>-19,400</b></td><td class="r t-mut">—</td><td class="r"><b>135,010</b></td><td class="r t-pos"><b>+2.0%</b></td><td class="r t-mut">—</td></tr>
+    </table>
+  </section>
+</main>
+</div>
+
+<script src="assets/ui.js"></script>
+</body>
+</html>

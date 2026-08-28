@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>주문 등록 · Smart SYNCWORKS</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/style.css?v=2">
+<link rel="stylesheet" href="vendor/flatpickr.min.css">
+</head>
+<body>
+
+<header class="gnb">
+  <a class="logo" href="dashboard.html"><em>Smart</em><b>SYNCWORKS</b></a>
+  <nav>
+    <a href="dashboard.html">기초정보</a>
+    <a href="lab.html">연구소</a>
+    <a class="on" href="orders.html">주문</a>
+    <a href="confirm.html">생산량 확정</a>
+    <a href="purchase.html">발주</a>
+    <a href="production.html">생산</a>
+    <a href="warehouse.html">입출고</a>
+    <a href="inventory.html">재고</a>
+    <a href="quality.html">품질</a>
+    <a href="monitoring.html">모니터링</a>
+    <a href="prints.html">출력물</a>
+    <a href="reports.html">보고서</a>
+    <a href="bpm.html">BPM</a>
+  </nav>
+  <span class="user">홍길동 님</span>
+</header>
+
+<div class="app">
+<aside class="lnb">
+  <div class="grp">주문 관리</div>
+  <a href="orders.html">주문 목록</a>
+  <a class="on" href="order_new.html">주문 등록</a>
+  <a href="#">반품 관리</a>
+  <a href="#">거래처별 주문</a>
+  <a href="#">배송 조회</a>
+  <a href="#">정산 내역</a>
+</aside>
+
+<main class="main">
+  <div class="page-head">
+    <h1>주문 등록</h1>
+    <span class="sub">주문 목록 › 신규 등록</span>
+    <div class="actions">
+      <button class="btn btn-outline">임시저장</button>
+      <button class="btn btn-primary">등록</button>
+      <a class="btn btn-outline" href="orders.html">취소</a>
+    </div>
+  </div>
+
+  <div class="row" style="grid-template-columns: 2fr 1fr">
+    <div>
+      <section class="panel">
+        <div class="panel-head"><h2>기본 정보</h2></div>
+        <div class="form-grid">
+          <div class="field"><label>거래처 <b>*</b></label><select class="ctl"><option>대상마트 성수점</option></select></div>
+          <div class="field"><label>납품 법인 <b>*</b></label><select class="ctl"><option>법인A</option></select></div>
+          <div class="field"><label>납기일 <b>*</b></label><input class="ctl fp-date" type="text" value="2026-08-29" readonly></div>
+          <div class="field"><label>배송지</label><select class="ctl"><option>본점 물류창고 (기본)</option></select></div>
+          <div class="field"><label>결제 조건</label><input class="ctl" readonly value="월말 정산 (기본)"></div>
+          <div class="field"><label>담당자</label><input class="ctl" readonly value="홍길동"></div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <h2>주문 품목</h2>
+          <button class="btn btn-brand-line btn-sm" style="margin-left:auto"><svg class="ic-plus" viewBox="0 0 10 10"><path d="M5 1v8M1 5h8"/></svg>품목 추가</button>
+        </div>
+        <table class="grid line-items">
+          <tr><th>제품</th><th>단위</th><th class="r">수량</th><th class="r">단가(원)</th><th class="r">금액(천원)</th><th></th></tr>
+          <tr>
+            <td style="width:34%"><select class="ctl"><option>두부 300g</option></select></td>
+            <td>EA</td>
+            <td class="r"><input class="ctl" style="width:100px;text-align:right" value="2,400"></td>
+            <td class="r">1,250</td><td class="r"><b>3,000</b></td><td class="more">✕</td>
+          </tr>
+          <tr>
+            <td><select class="ctl"><option>순두부 350g</option></select></td>
+            <td>EA</td>
+            <td class="r"><input class="ctl" style="width:100px;text-align:right" value="1,800"></td>
+            <td class="r">1,100</td><td class="r"><b>1,980</b></td><td class="more">✕</td>
+          </tr>
+          <tr>
+            <td><select class="ctl"><option>콩나물 380g</option></select></td>
+            <td>EA</td>
+            <td class="r"><input class="ctl" style="width:100px;text-align:right" value="1,200"></td>
+            <td class="r">980</td><td class="r"><b>1,176</b></td><td class="more">✕</td>
+          </tr>
+        </table>
+        <button class="add-row">+ 제품 검색으로 품목 추가 (제품명·제품코드)</button>
+        <div class="sum-bar">
+          <span>품목 3건</span>
+          <span>공급가 6,156 · VAT 615</span>
+          <span class="total">합계 6,771천원</span>
+        </div>
+      </section>
+    </div>
+
+    <div>
+      <section class="panel">
+        <div class="panel-head"><h2>거래처 정보</h2></div>
+        <p style="font-size:15px;font-weight:600;margin-bottom:4px">대상마트 성수점
+          <span class="badge bg-teal" style="margin-left:8px">여신 정상</span></p>
+        <table class="grid fit" style="margin-top:10px">
+          <tr><td class="t-mut" style="width:90px">사업자번호</td><td>214-88-01234</td></tr>
+          <tr><td class="t-mut">담당</td><td>김유통 · 010-****-1234</td></tr>
+          <tr><td class="t-mut">여신 한도</td><td>50,000 / 사용 12,400 천원</td></tr>
+          <tr><td class="t-mut">최근 주문</td><td>08-22 · 두부 300g 외 2종</td></tr>
+          <tr><td class="t-mut">평균 리드타임</td><td>1.2일</td></tr>
+        </table>
+        <p style="font-size:11px;color:var(--g05);margin-top:10px">최근 3개월 주문 12건 · 반품 0건</p>
+      </section>
+
+      <section class="panel" style="background:var(--tint-blue);border-color:transparent">
+        <div class="panel-head"><h2 class="t-brand">재고 확인</h2></div>
+        <table class="grid fit" style="background:transparent">
+          <tr><td><b>두부 300g</b><br><span class="t-mut" style="font-size:11px">재고 충분 (41,200)</span></td>
+              <td class="r"><span class="badge bg-teal">가능</span></td></tr>
+          <tr><td><b>순두부 350g</b><br><span class="t-mut" style="font-size:11px">재고 충분 (18,400)</span></td>
+              <td class="r"><span class="badge bg-teal">가능</span></td></tr>
+          <tr><td><b>콩나물 380g</b><br><span class="t-orange" style="font-size:11px">안전재고 미달 — 생산 확인</span></td>
+              <td class="r"><span class="badge bg-orange">확인</span></td></tr>
+        </table>
+      </section>
+    </div>
+  </div>
+</main>
+</div>
+
+<script src="vendor/flatpickr.min.js"></script>
+<script src="vendor/flatpickr.ko.js"></script>
+<script src="assets/ui.js"></script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>생산계획 등록 · Smart SYNCWORKS</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/style.css?v=2">
+<link rel="stylesheet" href="vendor/flatpickr.min.css">
+</head>
+<body>
+
+<header class="gnb">
+  <a class="logo" href="dashboard.html"><em>Smart</em><b>SYNCWORKS</b></a>
+  <nav>
+    <a href="dashboard.html">기초정보</a>
+    <a href="lab.html">연구소</a>
+    <a href="orders.html">주문</a>
+    <a href="confirm.html">생산량 확정</a>
+    <a href="purchase.html">발주</a>
+    <a class="on" href="production.html">생산</a>
+    <a href="warehouse.html">입출고</a>
+    <a href="inventory.html">재고</a>
+    <a href="quality.html">품질</a>
+    <a href="monitoring.html">모니터링</a>
+    <a href="prints.html">출력물</a>
+    <a href="reports.html">보고서</a>
+    <a href="bpm.html">BPM</a>
+  </nav>
+  <span class="user">홍길동 님</span>
+</header>
+
+<div class="app">
+<aside class="lnb">
+  <div class="grp">생산 관리</div>
+  <a href="production.html">생산 현황</a>
+  <a class="on" href="plan_new.html">생산계획 관리</a>
+  <a href="confirm.html">생산량 확정</a>
+  <a href="#">작업 지시</a>
+  <a href="#">라인 관리</a>
+  <a href="#">생산 실적 리포트</a>
+</aside>
+
+<main class="main">
+  <div class="page-head">
+    <h1>생산계획 등록</h1>
+    <span class="sub">생산계획 관리 › 신규 계획</span>
+    <div class="actions">
+      <button class="btn btn-outline">임시저장</button>
+      <button class="btn btn-primary">등록</button>
+      <a class="btn btn-outline" href="production.html">취소</a>
+    </div>
+  </div>
+
+  <div class="row" style="grid-template-columns: 2fr 1fr">
+    <div>
+      <section class="panel">
+        <div class="panel-head"><h2>계획 정보</h2></div>
+        <div class="form-grid">
+          <div class="field span2"><label>제품 <b>*</b></label><select class="ctl"><option>CJ 단단한큰두부 800g(10입)</option></select></div>
+          <div class="field"><label>생산 라인 <b>*</b></label><select class="ctl"><option>2호 라인</option></select></div>
+          <div class="field"><label>생산일 <b>*</b></label><input class="ctl fp-date" type="text" value="2026-08-28" readonly></div>
+          <div class="field"><label>교대 <b>*</b></label><select class="ctl"><option>2교대</option></select></div>
+          <div class="field"><label>계획 수량 <b>*</b></label><input class="ctl" style="text-align:right" value="8,400"></div>
+          <div class="field span2"><label>납품 연계 주문</label><select class="ctl"><option>SO-260826-014 외 2건 (자동 연결)</option></select></div>
+          <div class="field"><label>담당</label><input class="ctl" readonly value="박제조 · 생산1팀"></div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <h2>소요 자재 (BOM 자동 계산)</h2>
+          <span class="badge bg-blue">활성 레시피 v3</span>
+          <span class="meta">계획 수량 8,400개 기준</span>
+        </div>
+        <table class="grid">
+          <tr><th>자재</th><th class="r">개당 소요</th><th class="r">총 소요량</th><th class="r">현재고</th><th>판정</th></tr>
+          <tr><td><b>수입 대두(가공용)</b></td><td class="r">222 g</td><td class="r"><b>1,864,800 g</b></td><td class="r">2,799,305 g</td><td><span class="badge bg-teal">충분</span></td></tr>
+          <tr><td><b>황산칼슘(응고제)</b></td><td class="r">1.8 g</td><td class="r"><b>15,120 g</b></td><td class="r">812,400 g</td><td><span class="badge bg-teal">충분</span></td></tr>
+          <tr><td><b>PP 용기 800g</b></td><td class="r">1 개</td><td class="r"><b>8,400 개</b></td><td class="r">6,200 개</td><td><span class="badge bg-red">부족 -2,200</span></td></tr>
+          <tr><td><b>라벨 스티커</b></td><td class="r">1 매</td><td class="r"><b>8,400 매</b></td><td class="r">122,000 매</td><td><span class="badge bg-teal">충분</span></td></tr>
+        </table>
+        <p class="note-banner warn" style="margin:14px 0 0">PP 용기 800g 부족 — 발주정보에 미입고 1건(08-27 예정) 있음. 입고 지연 시 생산일 조정 필요</p>
+      </section>
+    </div>
+
+    <div>
+      <section class="panel">
+        <div class="panel-head"><h2>라인 가용 현황 — 08-28</h2></div>
+        <div class="hbar-row" style="grid-template-columns:66px 1fr 64px">
+          <span class="nm">1호 라인</span><div class="hbar"><i style="width:82%"></i></div><span class="val" style="font-size:10px;color:var(--g05)">두부 300g</span></div>
+        <div class="hbar-row" style="grid-template-columns:66px 1fr 64px">
+          <span class="nm t-pos"><b>2호 라인</b></span><div class="hbar"><i class="pos" style="width:24%"></i></div><span class="val t-pos" style="font-size:10px">배정 가능</span></div>
+        <div class="hbar-row" style="grid-template-columns:66px 1fr 64px">
+          <span class="nm">3호 라인</span><div class="hbar"><i style="width:68%"></i></div><span class="val" style="font-size:10px;color:var(--g05)">순두부</span></div>
+        <div class="hbar-row" style="grid-template-columns:66px 1fr 64px">
+          <span class="nm">4호 라인</span><div class="hbar"><i style="width:55%"></i></div><span class="val" style="font-size:10px;color:var(--g05)">콩나물</span></div>
+        <div class="hbar-row" style="grid-template-columns:66px 1fr 64px">
+          <span class="nm">5호 라인</span><div class="hbar"><i class="neg" style="width:100%"></i></div><span class="val t-neg" style="font-size:10px">설비 점검</span></div>
+        <div class="hbar-row" style="grid-template-columns:66px 1fr 64px">
+          <span class="nm">6호 라인</span><div class="hbar"><i style="width:44%"></i></div><span class="val" style="font-size:10px;color:var(--g05)">유부</span></div>
+        <p style="font-size:11px;font-weight:600;color:var(--brand);margin-top:8px">2호 라인 선택됨 — 잔여 캐파 76%</p>
+      </section>
+
+      <section class="panel" style="background:var(--tint-blue);border-color:transparent">
+        <div class="panel-head"><h2 class="t-brand">AI 어시스턴트 제안</h2></div>
+        <p style="font-size:12px;line-height:1.7;color:var(--ink)">"이번 주 두부 800g 주문이 평주 대비 18% 많습니다.
+        08-28 계획 8,400개로는 금주 주문분(9,100개)에 700개 부족 —
+        계획 수량 상향 또는 08-29 추가 계획을 권장합니다."</p>
+        <p style="margin:14px 0 8px">
+          <button class="btn btn-primary btn-sm">9,100개로 변경</button>
+          <button class="btn btn-brand-line btn-sm">무시하기</button>
+        </p>
+        <p style="font-size:10px;color:var(--g05)">근거: 주문정보 SO-2608** 12건 집계</p>
+      </section>
+    </div>
+  </div>
+</main>
+</div>
+
+<script src="vendor/flatpickr.min.js"></script>
+<script src="vendor/flatpickr.ko.js"></script>
+<script src="assets/ui.js"></script>
+</body>
+</html>
