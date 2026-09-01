@@ -5,12 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>입출고 현황 · Smart SYNCWORKS</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
-<link rel="stylesheet" href="assets/style.css?v=2">
+<link rel="stylesheet" href="assets/style.css?v=3">
+<script src="assets/theme.js"></script>
 <style>
 .hr-chart { display:flex; align-items:flex-end; gap:20px; height:200px; padding:0 8px; border-bottom:1px solid var(--g03); }
 .hr-chart .hr { flex:1; display:flex; align-items:flex-end; gap:4px; height:100%; }
 .hr-chart .hr i { flex:1; border-radius:3px 3px 0 0; }
-.hr-chart .in { background: var(--pos); }
+.hr-chart .in { background:var(--pos-fill); }
 .hr-chart .out { background: var(--brand); }
 .hr-lab { display:flex; gap:20px; padding:8px 8px 0; }
 .hr-lab span { flex:1; text-align:center; font-size:11px; color:var(--g08); }
@@ -74,7 +75,7 @@
       <div class="panel-head">
         <h2>시간대별 입출고</h2>
         <div class="legend" style="margin:0 0 0 auto">
-          <span><span class="sw" style="background:var(--pos)"></span>입고</span>
+          <span><span class="sw" style="background:var(--pos-fill)"></span>입고</span>
           <span><span class="sw" style="background:var(--brand)"></span>출고</span>
         </div>
       </div>

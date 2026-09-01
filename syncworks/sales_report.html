@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>매출 분석 · Smart SYNCWORKS</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/style.css?v=3">
+<script src="assets/theme.js"></script>
+<style>
+.spark{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.spark .cell{background:var(--g01);border-radius:8px;padding:12px 14px}
+.spark .cell b{font-size:12px}
+.spark .cell .pct{float:right;font-size:12px;font-weight:700}
+</style>
+</head>
+<body>
+
+<header class="gnb">
+  <a class="logo" href="dashboard.html"><em>Smart</em><b>SYNCWORKS</b></a>
+  <nav>
+    <a href="dashboard.html">기초정보</a>
+    <a href="lab.html">연구소</a>
+    <a href="orders.html">주문</a>
+    <a href="confirm.html">생산량 확정</a>
+    <a href="purchase.html">발주</a>
+    <a href="production.html">생산</a>
+    <a href="warehouse.html">입출고</a>
+    <a href="inventory.html">재고</a>
+    <a href="quality.html">품질</a>
+    <a href="monitoring.html">모니터링</a>
+    <a href="prints.html">출력물</a>
+    <a class="on" href="reports.html">보고서</a>
+    <a href="bpm.html">BPM</a>
+  </nav>
+  <span class="user">홍길동 님</span>
+</header>
+
+<div class="app">
+<aside class="lnb">
+  <div class="grp">보고서</div>
+  <a href="reports.html">정기 보고서</a>
+  <a class="on" href="sales_report.html">매출 분석</a>
+  <a href="production_report.html">생산 실적 분석</a>
+  <a href="stock_report.html">재고 분석</a>
+  <div class="grp">관리</div>
+  <a href="#">보고서 만들기</a>
+  <a href="#">구독 설정</a>
+  <a href="#">보관함</a>
+</aside>
+
+<main class="main">
+  <div class="page-head">
+    <h1>매출 분석</h1>
+    <span class="sub">전체 법인 · 2026. 08 (진행 중) · 단위: 천원</span>
+    <div class="actions">
+      <button class="dd-btn sel" type="button">최근 3개월 ▾</button>
+      <button class="dd-btn sel" type="button">전체 법인 ▾</button>
+      <button class="btn btn-outline">CSV</button>
+    </div>
+  </div>
+
+  <div class="kpis">
+    <div class="kpi"><div class="lb">당월 매출</div><div class="num">12,232,412</div><div class="delta t-pos">+8.2% 전년비</div></div>
+    <div class="kpi"><div class="lb">매출총이익률</div><div class="num">23.4<small>%</small></div><div class="delta t-pos">+0.8%p 전월비</div></div>
+    <div class="kpi tint-blue"><div class="lb">목표 달성률</div><div class="num t-brand">95.6<small>%</small></div><div class="delta t-orange">-4.4%p 미달</div></div>
+    <div class="kpi"><div class="lb">상위 5개 거래처 비중</div><div class="num">41.2<small>%</small></div><div class="meta">집중도 — 전월 43.1%</div></div>
+  </div>
+
+  <div class="row grid-64">
+    <section class="panel">
+      <div class="panel-head"><h2>매출처별 파레토 — 상위 10</h2><span class="sub">막대 = 매출 · 선 = 누적 비중</span></div>
+      <div class="combo" style="height:260px">
+        <div class="grid-lines"><i style="top:0"></i><i style="top:25%"></i><i style="top:50%"></i><i style="top:75%"></i><i style="bottom:0"></i></div>
+        <span class="ylab" style="top:0">2,400</span><span class="ylab" style="top:25%">1,800</span><span class="ylab" style="top:50%">1,200</span><span class="ylab" style="top:75%">600</span><span class="ylab" style="top:100%">0</span>
+        <div class="bars">
+          <i style="height:92%"></i><i style="height:71%"></i><i style="height:58%"></i><i style="height:47%"></i><i style="height:39%"></i>
+          <i style="height:31%" class="miss"></i><i style="height:26%" class="miss"></i><i style="height:21%" class="miss"></i><i style="height:17%" class="miss"></i><i style="height:13%" class="miss"></i>
+        </div>
+        <svg class="line" viewBox="0 0 100 100" preserveAspectRatio="none">
+          <polyline fill="none" style="stroke:var(--orange)" stroke-width="1.2" vector-effect="non-scaling-stroke"
+            points="5,78 15,61 25,47 35,36 45,27 55,20 65,14 75,9 85,5 95,2"/>
+        </svg>
+        <div class="xlab">
+          <span>대상마트</span><span>한솔유통</span><span>성심식자재</span><span>늘푸른급식</span><span>제일식품</span>
+          <span>바른유통</span><span>해맑은</span><span>참들찬</span><span>동원식자재</span><span>기타</span>
+        </div>
+      </div>
+      <div class="legend">
+        <span><span class="sw" style="background:var(--brand)"></span>매출액</span>
+        <span><span class="ln" style="background:var(--orange)"></span>누적 비중 (상위 5개 = 41.2%)</span>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head"><h2>제품군 구성</h2><span class="sub">당월</span></div>
+      <div style="display:flex;align-items:center;gap:22px;padding:8px 0 4px">
+        <svg width="140" height="140" viewBox="0 0 42 42" style="flex-shrink:0">
+          <circle cx="21" cy="21" r="15.9" fill="none" style="stroke:var(--g02)" stroke-width="8"/>
+          <circle cx="21" cy="21" r="15.9" fill="none" style="stroke:var(--brand)" stroke-width="8" stroke-dasharray="46 54" stroke-dashoffset="25"/>
+          <circle cx="21" cy="21" r="15.9" fill="none" style="stroke:var(--chart-aux)" stroke-width="8" stroke-dasharray="24 76" stroke-dashoffset="-21"/>
+          <circle cx="21" cy="21" r="15.9" fill="none" style="stroke:var(--orange)" stroke-width="8" stroke-dasharray="18 82" stroke-dashoffset="-45"/>
+          <text x="21" y="20" text-anchor="middle" style="font-size:6px;font-weight:700;fill:var(--ink)">12.2M</text>
+          <text x="21" y="26" text-anchor="middle" style="font-size:3.2px;fill:var(--g05)">당월 매출</text>
+        </svg>
+        <div style="flex:1;display:grid;gap:9px;font-size:12px">
+          <div><span class="sw" style="display:inline-block;width:11px;height:11px;border-radius:3px;background:var(--brand);margin-right:8px;vertical-align:-1px"></span>두부류 <b style="float:right">46%</b></div>
+          <div><span class="sw" style="display:inline-block;width:11px;height:11px;border-radius:3px;background:var(--chart-aux);margin-right:8px;vertical-align:-1px"></span>콩물·음료 <b style="float:right">24%</b></div>
+          <div><span class="sw" style="display:inline-block;width:11px;height:11px;border-radius:3px;background:var(--orange);margin-right:8px;vertical-align:-1px"></span>나물·반찬 <b style="float:right">18%</b></div>
+          <div><span class="sw" style="display:inline-block;width:11px;height:11px;border-radius:3px;background:var(--g03);margin-right:8px;vertical-align:-1px"></span>기타 (낫또·에너지바) <b style="float:right">12%</b></div>
+        </div>
+      </div>
+      <div style="height:1px;background:var(--g02);margin:14px 0"></div>
+      <div class="hbar-row"><span class="nm">두부 300g</span><div class="hbar"><i style="width:88%"></i></div><span class="val">2,140</span></div>
+      <div class="hbar-row"><span class="nm">순두부 350g</span><div class="hbar"><i style="width:64%"></i></div><span class="val">1,560</span></div>
+      <div class="hbar-row"><span class="nm">두부 800g</span><div class="hbar"><i style="width:52%"></i></div><span class="val">1,270</span></div>
+      <div class="hbar-row" style="margin-bottom:0"><span class="nm">콩물 1L</span><div class="hbar"><i style="width:41%"></i></div><span class="val">998</span></div>
+    </section>
+  </div>
+
+  <div class="row grid-64">
+    <section class="panel">
+      <div class="panel-head"><h2>법인별 월 매출 추이 — 6개월</h2><span class="sub">스몰 멀티플</span></div>
+      <div class="spark">
+        <div class="cell"><b>법인A</b><span class="pct t-pos">+12%</span>
+          <svg width="100%" height="44" viewBox="0 0 100 40" preserveAspectRatio="none"><polyline fill="none" style="stroke:var(--brand)" stroke-width="2" vector-effect="non-scaling-stroke" points="0,30 20,27 40,24 60,25 80,16 100,10"/></svg></div>
+        <div class="cell"><b>법인B</b><span class="pct t-pos">+7%</span>
+          <svg width="100%" height="44" viewBox="0 0 100 40" preserveAspectRatio="none"><polyline fill="none" style="stroke:var(--brand)" stroke-width="2" vector-effect="non-scaling-stroke" points="0,28 20,26 40,28 60,22 80,20 100,16"/></svg></div>
+        <div class="cell"><b>법인C</b><span class="pct t-mut">+1%</span>
+          <svg width="100%" height="44" viewBox="0 0 100 40" preserveAspectRatio="none"><polyline fill="none" style="stroke:var(--g05)" stroke-width="2" vector-effect="non-scaling-stroke" points="0,22 20,24 40,21 60,23 80,22 100,21"/></svg></div>
+        <div class="cell"><b>법인D</b><span class="pct t-neg">-6%</span>
+          <svg width="100%" height="44" viewBox="0 0 100 40" preserveAspectRatio="none"><polyline fill="none" style="stroke:var(--neg)" stroke-width="2" vector-effect="non-scaling-stroke" points="0,14 20,17 40,16 60,21 80,24 100,27"/></svg></div>
+        <div class="cell"><b>법인E</b><span class="pct t-pos">+4%</span>
+          <svg width="100%" height="44" viewBox="0 0 100 40" preserveAspectRatio="none"><polyline fill="none" style="stroke:var(--brand)" stroke-width="2" vector-effect="non-scaling-stroke" points="0,26 20,25 40,23 60,24 80,21 100,19"/></svg></div>
+        <div class="cell"><b>법인F</b><span class="pct t-mut">0%</span>
+          <svg width="100%" height="44" viewBox="0 0 100 40" preserveAspectRatio="none"><polyline fill="none" style="stroke:var(--g05)" stroke-width="2" vector-effect="non-scaling-stroke" points="0,20 20,22 40,19 60,22 80,20 100,20"/></svg></div>
+        <div class="cell"><b>법인G</b><span class="pct t-neg">-9%</span>
+          <svg width="100%" height="44" viewBox="0 0 100 40" preserveAspectRatio="none"><polyline fill="none" style="stroke:var(--neg)" stroke-width="2" vector-effect="non-scaling-stroke" points="0,12 20,15 40,18 60,17 80,23 100,28"/></svg></div>
+        <div class="cell"><b>법인H</b><span class="pct t-pos">+15%</span>
+          <svg width="100%" height="44" viewBox="0 0 100 40" preserveAspectRatio="none"><polyline fill="none" style="stroke:var(--brand)" stroke-width="2" vector-effect="non-scaling-stroke" points="0,33 20,29 40,26 60,20 80,15 100,7"/></svg></div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head"><h2>채널별 매출 비중</h2><span class="sub">당월 vs 전월</span></div>
+      <div class="hbar-row" style="grid-template-columns:70px 1fr 52px"><span class="nm">대리점</span><div class="hbar"><i style="width:44%"></i></div><span class="val">44%</span></div>
+      <div class="hbar-row" style="grid-template-columns:70px 1fr 52px"><span class="nm">급식</span><div class="hbar"><i style="width:27%"></i></div><span class="val">27%</span></div>
+      <div class="hbar-row" style="grid-template-columns:70px 1fr 52px"><span class="nm">온라인</span><div class="hbar"><i class="pos" style="width:17%"></i></div><span class="val t-pos">17%</span></div>
+      <div class="hbar-row" style="grid-template-columns:70px 1fr 52px"><span class="nm">OEM</span><div class="hbar"><i class="orange" style="width:12%"></i></div><span class="val">12%</span></div>
+      <p style="font-size:11px;color:var(--g05);margin-top:10px">온라인 채널 +3.2%p — 3개월 연속 확대</p>
+      <div style="height:1px;background:var(--g02);margin:14px 0"></div>
+      <table class="grid fit" style="font-size:11px">
+        <tr><th>구분</th><th class="r">당월</th><th class="r">전월비</th></tr>
+        <tr><td>신규 거래처 매출</td><td class="r"><b>412,800</b></td><td class="r t-pos">+18.4%</td></tr>
+        <tr><td>반품·에누리</td><td class="r"><b>-96,200</b></td><td class="r t-neg">+1.1%p</td></tr>
+        <tr><td>미수 잔액</td><td class="r"><b>842,110</b></td><td class="r t-neg">+2건</td></tr>
+      </table>
+    </section>
+  </div>
+
+</main>
+</div>
+
+<script src="assets/ui.js"></script>
+</body>
+</html>

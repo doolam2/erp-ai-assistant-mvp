@@ -16,8 +16,25 @@
   --tint-blue: #e7f0fb; --tint-teal: #e6f5f7;
   --tint-orange: #fff1e3; --tint-red: #fff5f5;
   --nav-muted: #8e9ab0; --on-nav: #c7ceda;
+  --pos-fill: #38acba;   /* 게이지·바·도트 fill (텍스트용 --pos와 분리) */
+  --chart-aux: #38acba;  /* 차트 보조 시리즈 — 전 테마 공통 teal */
+  --chart-soft: #8cb8ee; /* 차트 연한 시리즈 */
   --radius: 12px;
   --shadow-pop: 0 16px 48px rgba(0,0,0,.22);
+}
+
+/* ── 테마: 맑은물에 그린 (?theme=malgeunmule) ──
+   피그마 확정 레시피(2631:223): 본문 그린 + LNB 차콜, teal은 차트 보조로 유지 */
+[data-theme="malgeunmule"] {
+  --brand: #4a9e2f;
+  --brand-2: #35761f;
+  --nav: #38393b;
+  --nav-muted: #8a8b8d; --on-nav: #c5c6c8;
+  --pos: #4a9e2f;        /* positive 텍스트·칩 글자 */
+  --pos-fill: #4dd18c;   /* 게이지·진행바 fill */
+  --tint-blue: #eaf6e4;  /* 브랜드 틴트 → 그린 틴트 */
+  --tint-teal: #e4f8ee;  /* pos 틴트 → 민트 틴트 */
+  --chart-soft: #a8d695;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
@@ -141,7 +158,7 @@ table.grid .more { color: var(--g05); font-size: 11px; }
 .hbar-row .val { font-size: 12px; font-weight: 600; text-align: right; }
 .hbar { height: 10px; background: var(--g01); border-radius: 5px; overflow: hidden; }
 .hbar i { display: block; height: 100%; border-radius: 5px; background: var(--brand); }
-.hbar i.pos { background: var(--pos); } .hbar i.neg { background: var(--neg); } .hbar i.orange { background: var(--orange); }
+.hbar i.pos { background: var(--pos-fill); } .hbar i.neg { background: var(--neg); } .hbar i.orange { background: var(--orange); }
 
 /* ── 콤보 차트 ────────────────────────── */
 .combo { position: relative; height: 300px; margin-top: 10px; }

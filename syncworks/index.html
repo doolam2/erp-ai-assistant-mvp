@@ -5,13 +5,26 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Smart SYNCWORKS 퍼블리싱 색인</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
-<link rel="stylesheet" href="assets/style.css?v=2">
+<link rel="stylesheet" href="assets/style.css?v=3">
+<script src="assets/theme.js"></script>
 </head>
 <body>
 <main class="main" style="max-width:760px;margin:40px auto">
   <div class="page-head"><h1>Smart SYNCWORKS 퍼블리싱</h1><span class="sub">v0.2 · 2026-08-27 · 피그마 B안 기준</span>
     <div class="actions"><button class="btn btn-outline" id="copyLink">링크 복사</button></div>
   </div>
+  <div style="display:flex;gap:8px;margin:-8px 0 20px">
+    <a class="btn btn-outline" href="index.html?theme=blue" id="thBlue">블루 (SyncWorks)</a>
+    <a class="btn btn-outline" href="index.html?theme=malgeunmule" id="thGreen">그린 (맑은물에)</a>
+  </div>
+  <script>
+  (function(){
+    var cur = null;
+    try { cur = localStorage.getItem('sw_theme'); } catch(e){}
+    var on = document.getElementById(cur === 'malgeunmule' ? 'thGreen' : 'thBlue');
+    if (on) { on.classList.remove('btn-outline'); on.classList.add('btn-primary'); }
+  })();
+  </script>
   <script>
   document.getElementById('copyLink').addEventListener('click', function(){
     var url = 'http://100.103.190.75:8890/';
@@ -51,6 +64,12 @@
       <tr><td>17</td><td><a class="link" href="prints.html">출력물 — 서식 출력</a></td><td>카드 그리드</td><td>인쇄/PDF · 출력 이력</td></tr>
       <tr><td>18</td><td><a class="link" href="reports.html">보고서 — 정기 리포트</a></td><td>목록+미리보기</td><td>자동 발행 · 구독</td></tr>
       <tr><td>19</td><td><a class="link" href="bpm.html">BPM — 전자결재</a></td><td>결재함</td><td>단계 도트 · 결재선 · AI 근거</td></tr>
+      <tr><td>20</td><td><a class="link" href="sales_report.html">매출 분석</a></td><td>분석 · 신규</td><td>파레토 · 제품군 도넛 · 법인 스몰멀티플</td></tr>
+      <tr><td>21</td><td><a class="link" href="production_report.html">생산 실적 분석</a></td><td>분석 · 신규</td><td>계획대비 그룹바 · 수율 추이 · 가동 히트맵 · 불량 파레토</td></tr>
+      <tr><td>22</td><td><a class="link" href="stock_report.html">재고 분석</a></td><td>분석 · 신규</td><td>회전율 콤보 · 에이징 스택바 · 소비기한 도래</td></tr>
+      <tr><td>23</td><td><a class="link" href="process.html">공정 관리 (두부 5단계)</a></td><td>공정 · 신규</td><td>단계 스텝퍼 · 진행 게이지 · 표준시간 대비</td></tr>
+      <tr><td>24</td><td><a class="link" href="lots.html">로트별 재고 · 추적</a></td><td>추적 · 신규</td><td>로트 타임라인 · 원료 소급</td></tr>
+      <tr><td>25</td><td><a class="link" href="pnl.html">손익계산서</a></td><td>재무 · 신규</td><td>워터폴 차트 · 비용 구성 · 법인별 이익</td></tr>
     </table>
   </section>
   <p style="font-size:11px;color:var(--g05)">디자인 토큰: assets/style.css · 데이트피커 정본: orders.html (AF-10 패턴) · 폰 확인: Tailscale 100.103.190.75:8890</p>

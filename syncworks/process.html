@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>공정 관리 · Smart SYNCWORKS</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/style.css?v=3">
+<script src="assets/theme.js"></script>
+<style>
+.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:0;position:relative}
+.step{position:relative;padding:16px 14px 14px;border:1px solid var(--g02);border-radius:10px;background:var(--surface);margin-right:26px}
+.step:last-child{margin-right:0}
+.step .arr{position:absolute;right:-20px;top:50%;transform:translateY(-50%);width:14px;height:2px;background:var(--g03)}
+.step .arr::after{content:'';position:absolute;right:-1px;top:-3px;border:4px solid transparent;border-left-color:var(--g03)}
+.step .no{width:22px;height:22px;border-radius:50%;background:var(--g02);color:var(--g08);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-bottom:8px}
+.step.done .no{background:var(--pos-fill);color:#fff}
+.step.run{border:1.5px solid var(--brand);background:var(--tint-blue)}
+.step.run .no{background:var(--brand);color:#fff}
+.step b{font-size:13px;display:block}
+.step .tm{font-size:10px;color:var(--g05);margin-top:3px}
+.step .st{font-size:10px;font-weight:600;margin-top:8px}
+.param{display:flex;justify-content:space-between;font-size:11px;margin-top:8px}
+.param .v{font-weight:700}
+</style>
+</head>
+<body>
+
+<header class="gnb">
+  <a class="logo" href="dashboard.html"><em>Smart</em><b>SYNCWORKS</b></a>
+  <nav>
+    <a href="dashboard.html">기초정보</a>
+    <a href="lab.html">연구소</a>
+    <a href="orders.html">주문</a>
+    <a href="confirm.html">생산량 확정</a>
+    <a href="purchase.html">발주</a>
+    <a class="on" href="production.html">생산</a>
+    <a href="warehouse.html">입출고</a>
+    <a href="inventory.html">재고</a>
+    <a href="quality.html">품질</a>
+    <a href="monitoring.html">모니터링</a>
+    <a href="prints.html">출력물</a>
+    <a href="reports.html">보고서</a>
+    <a href="bpm.html">BPM</a>
+  </nav>
+  <span class="user">홍길동 님</span>
+</header>
+
+<div class="app">
+<aside class="lnb">
+  <div class="grp">생산정보 관리</div>
+  <a href="production.html">생산 현황</a>
+  <a href="plan_new.html">생산계획 등록</a>
+  <a class="on" href="process.html">공정 관리</a>
+  <a href="#">원자재 이동</a>
+  <a href="#">부자재 이동</a>
+  <div class="grp">확정</div>
+  <a href="confirm.html">생산량 확정</a>
+</aside>
+
+<main class="main">
+  <div class="page-head">
+    <h1>공정 관리 — 두부</h1>
+    <span class="sub">제1공장 1호 라인 · 로트 L-260827-012 · 시작 06:20</span>
+    <div class="actions">
+      <button class="dd-btn sel" type="button">1호 라인 ▾</button>
+      <button class="btn btn-outline">공정 이력</button>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:8px;margin-bottom:20px">
+    <span class="chip on">두부</span><span class="chip">콩물</span><span class="chip">비지</span><span class="chip">나물</span><span class="chip">낫또</span><span class="chip">에너지바</span>
+  </div>
+
+  <section class="panel">
+    <div class="panel-head"><h2>공정 단계 — 5 STEP</h2><span class="badge bg-blue">진행 중 · STEP 3</span></div>
+    <div class="steps">
+      <div class="step done"><span class="arr"></span><span class="no">1</span><b>침지</b><p class="tm">원료콩 세척·불림</p><p class="st t-pos">완료 · 06:20–08:40</p></div>
+      <div class="step done"><span class="arr"></span><span class="no">2</span><b>마쇄 · 증자</b><p class="tm">분쇄 후 가열</p><p class="st t-pos">완료 · 08:40–09:55</p></div>
+      <div class="step run"><span class="arr"></span><span class="no">3</span><b>응고 · 성형</b><p class="tm">응고제 투입 · 압착</p>
+        <div class="gauge" style="margin-top:8px"><i style="width:64%"></i></div>
+        <div class="param"><span class="t-mut">진행률</span><span class="v t-brand">64%</span></div>
+        <div class="param"><span class="t-mut">응고 온도</span><span class="v">82.4°C</span></div>
+        <div class="param"><span class="t-mut">예상 완료</span><span class="v">11:10</span></div>
+      </div>
+      <div class="step"><span class="arr"></span><span class="no">4</span><b>절단 · 포장</b><p class="tm">규격 절단 · 실링</p><p class="st t-mut">대기</p></div>
+      <div class="step"><span class="no">5</span><b>냉각 · 출하대기</b><p class="tm">급냉 후 창고 이관</p><p class="st t-mut">대기</p></div>
+    </div>
+  </section>
+
+  <div class="row grid-64">
+    <section class="panel">
+      <div class="panel-head"><h2>단계별 소요시간 — 표준 대비</h2><span class="sub">금일 로트 평균 · 분</span></div>
+      <div class="hbar-row" style="grid-template-columns:110px 1fr 90px"><span class="nm">1. 침지</span><div class="hbar"><i style="width:93%"></i></div><span class="val">140 / 표준 150</span></div>
+      <div class="hbar-row" style="grid-template-columns:110px 1fr 90px"><span class="nm">2. 마쇄·증자</span><div class="hbar"><i style="width:83%"></i></div><span class="val">75 / 표준 90</span></div>
+      <div class="hbar-row" style="grid-template-columns:110px 1fr 90px"><span class="nm">3. 응고·성형</span><div class="hbar"><i class="orange" style="width:100%"></i></div><span class="val t-orange">88 / 표준 80</span></div>
+      <div class="hbar-row" style="grid-template-columns:110px 1fr 90px"><span class="nm">4. 절단·포장</span><div class="hbar"><i style="width:78%"></i></div><span class="val">47 / 표준 60</span></div>
+      <div class="hbar-row" style="grid-template-columns:110px 1fr 90px;margin-bottom:0"><span class="nm">5. 냉각</span><div class="hbar"><i style="width:90%"></i></div><span class="val">54 / 표준 60</span></div>
+      <p style="font-size:11px;color:var(--g05);margin-top:12px">응고·성형 +8분 초과 — 응고제 교반 속도 저하. 설비 점검 항목에 추가됨</p>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head"><h2>진행 중 로트</h2><span class="sub">전 라인 · 금일</span></div>
+      <table class="grid">
+        <tr><th>로트</th><th>제품</th><th>단계</th><th class="r">진행</th><th class="r">예상 완료</th></tr>
+        <tr style="background:var(--tint-blue)"><td><b class="t-brand">L-260827-012</b></td><td>두부 300g</td><td>3. 응고·성형</td><td class="r"><b>64%</b></td><td class="r">14:30</td></tr>
+        <tr><td>L-260827-013</td><td>두부 800g</td><td>2. 마쇄·증자</td><td class="r">41%</td><td class="r">15:20</td></tr>
+        <tr><td>L-260827-009</td><td>순두부 350g</td><td>4. 절단·포장</td><td class="r">87%</td><td class="r">12:10</td></tr>
+        <tr><td>L-260827-010</td><td>콩물 1L</td><td>3. 살균·충전</td><td class="r">55%</td><td class="r">13:40</td></tr>
+        <tr><td>L-260827-007</td><td>콩나물 380g</td><td>5. 냉각</td><td class="r">96%</td><td class="r">11:05</td></tr>
+      </table>
+      <p style="font-size:11px;color:var(--g05);margin-top:10px">완료 시 생산량 확정 대기열로 자동 이동합니다</p>
+      <a class="link" style="font-size:11px" href="confirm.html">생산량 확정으로 이동 →</a>
+    </section>
+  </div>
+
+</main>
+</div>
+
+<script src="assets/ui.js"></script>
+</body>
+</html>

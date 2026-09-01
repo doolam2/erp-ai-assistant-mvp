@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>생산 실적 분석 · Smart SYNCWORKS</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/style.css?v=3">
+<script src="assets/theme.js"></script>
+<style>
+.gbar{display:flex;align-items:flex-end;gap:10%;height:100%;padding:0 3%}
+.gbar .grpx{flex:1;display:flex;align-items:flex-end;gap:4px;height:100%}
+.gbar .grpx i{flex:1;border-radius:3px 3px 0 0}
+.combo .bars .grpx{height:100%}
+.hm{display:grid;grid-template-columns:52px repeat(8,1fr);gap:5px;font-size:10px}
+.hm .cell{height:30px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-weight:600}
+.hm .rl{display:flex;align-items:center;color:var(--g05)}
+</style>
+</head>
+<body>
+
+<header class="gnb">
+  <a class="logo" href="dashboard.html"><em>Smart</em><b>SYNCWORKS</b></a>
+  <nav>
+    <a href="dashboard.html">기초정보</a>
+    <a href="lab.html">연구소</a>
+    <a href="orders.html">주문</a>
+    <a href="confirm.html">생산량 확정</a>
+    <a href="purchase.html">발주</a>
+    <a href="production.html">생산</a>
+    <a href="warehouse.html">입출고</a>
+    <a href="inventory.html">재고</a>
+    <a href="quality.html">품질</a>
+    <a href="monitoring.html">모니터링</a>
+    <a href="prints.html">출력물</a>
+    <a class="on" href="reports.html">보고서</a>
+    <a href="bpm.html">BPM</a>
+  </nav>
+  <span class="user">홍길동 님</span>
+</header>
+
+<div class="app">
+<aside class="lnb">
+  <div class="grp">보고서</div>
+  <a href="reports.html">정기 보고서</a>
+  <a href="sales_report.html">매출 분석</a>
+  <a class="on" href="production_report.html">생산 실적 분석</a>
+  <a href="stock_report.html">재고 분석</a>
+  <div class="grp">관리</div>
+  <a href="#">보고서 만들기</a>
+  <a href="#">구독 설정</a>
+  <a href="#">보관함</a>
+</aside>
+
+<main class="main">
+  <div class="page-head">
+    <h1>생산 실적 분석</h1>
+    <span class="sub">제1공장 · 최근 7일 · 단위: 개</span>
+    <div class="actions">
+      <button class="dd-btn sel" type="button">최근 7일 ▾</button>
+      <button class="dd-btn sel" type="button">전 라인 ▾</button>
+      <button class="btn btn-outline">CSV</button>
+    </div>
+  </div>
+
+  <div class="kpis">
+    <div class="kpi"><div class="lb">계획 대비 실적</div><div class="num">91.4<small>%</small></div><div class="meta">628,400 / 687,200</div></div>
+    <div class="kpi"><div class="lb">평균 수율</div><div class="num">96.2<small>%</small></div><div class="delta t-pos">+0.4%p 전주비</div></div>
+    <div class="kpi"><div class="lb">라인 가동률</div><div class="num">87.0<small>%</small></div><div class="meta">비가동 5.2h — 점검 3.1h</div></div>
+    <div class="kpi tint-red"><div class="lb">불량률</div><div class="num t-neg">1.6<small>%</small></div><div class="delta t-neg">+0.3%p — 3호 라인 집중</div></div>
+  </div>
+
+  <div class="row grid-64">
+    <section class="panel">
+      <div class="panel-head"><h2>일별 계획 대비 실적</h2><span class="sub">계획(연한색) vs 실적(진한색)</span></div>
+      <div class="combo" style="height:250px">
+        <div class="grid-lines"><i style="top:0"></i><i style="top:25%"></i><i style="top:50%"></i><i style="top:75%"></i><i style="bottom:0"></i></div>
+        <span class="ylab" style="top:0">120k</span><span class="ylab" style="top:25%">90k</span><span class="ylab" style="top:50%">60k</span><span class="ylab" style="top:75%">30k</span><span class="ylab" style="top:100%">0</span>
+        <div class="bars" style="gap:5.5%">
+          <div class="grpx" style="display:flex;flex:1;align-items:flex-end;gap:4px"><i style="flex:1;height:82%;background:var(--g03);border-radius:3px 3px 0 0"></i><i style="flex:1;height:78%;background:var(--brand);border-radius:3px 3px 0 0"></i></div>
+          <div class="grpx" style="display:flex;flex:1;align-items:flex-end;gap:4px"><i style="flex:1;height:80%;background:var(--g03);border-radius:3px 3px 0 0"></i><i style="flex:1;height:74%;background:var(--brand);border-radius:3px 3px 0 0"></i></div>
+          <div class="grpx" style="display:flex;flex:1;align-items:flex-end;gap:4px"><i style="flex:1;height:85%;background:var(--g03);border-radius:3px 3px 0 0"></i><i style="flex:1;height:84%;background:var(--brand);border-radius:3px 3px 0 0"></i></div>
+          <div class="grpx" style="display:flex;flex:1;align-items:flex-end;gap:4px"><i style="flex:1;height:83%;background:var(--g03);border-radius:3px 3px 0 0"></i><i style="flex:1;height:61%;background:var(--neg);border-radius:3px 3px 0 0"></i></div>
+          <div class="grpx" style="display:flex;flex:1;align-items:flex-end;gap:4px"><i style="flex:1;height:86%;background:var(--g03);border-radius:3px 3px 0 0"></i><i style="flex:1;height:82%;background:var(--brand);border-radius:3px 3px 0 0"></i></div>
+          <div class="grpx" style="display:flex;flex:1;align-items:flex-end;gap:4px"><i style="flex:1;height:64%;background:var(--g03);border-radius:3px 3px 0 0"></i><i style="flex:1;height:62%;background:var(--brand);border-radius:3px 3px 0 0"></i></div>
+          <div class="grpx" style="display:flex;flex:1;align-items:flex-end;gap:4px"><i style="flex:1;height:70%;background:var(--g03);border-radius:3px 3px 0 0"></i><i style="flex:1;height:69%;background:var(--brand);border-radius:3px 3px 0 0"></i></div>
+        </div>
+        <div class="xlab" style="gap:5.5%"><span>08-21</span><span>08-22</span><span>08-23</span><span>08-24</span><span>08-25</span><span>08-26</span><span>08-27</span></div>
+      </div>
+      <div class="legend">
+        <span><span class="sw" style="background:var(--g03)"></span>계획</span>
+        <span><span class="sw" style="background:var(--brand)"></span>실적</span>
+        <span><span class="sw" style="background:var(--neg)"></span>미달일 (08-24 — 5호 라인 점검)</span>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head"><h2>수율 추이 — 4주</h2><span class="sub">기준 95%</span></div>
+      <div style="position:relative;height:150px;margin-top:8px">
+        <svg width="100%" height="100%" viewBox="0 0 100 60" preserveAspectRatio="none">
+          <line x1="0" y1="36" x2="100" y2="36" style="stroke:var(--g03)" stroke-width="1" stroke-dasharray="3 3" vector-effect="non-scaling-stroke"/>
+          <polyline fill="none" style="stroke:var(--brand)" stroke-width="2" vector-effect="non-scaling-stroke" points="4,30 22,26 40,32 58,21 76,17 96,13"/>
+          <circle cx="96" cy="13" r="2.4" style="fill:var(--brand)"/>
+        </svg>
+        <span style="position:absolute;right:0;top:26%;font-size:11px;font-weight:700;color:var(--brand)">96.2%</span>
+        <span style="position:absolute;left:0;top:56%;font-size:9px;color:var(--g05)">기준 95%</span>
+      </div>
+      <div style="height:1px;background:var(--g02);margin:12px 0"></div>
+      <div class="hbar-row" style="grid-template-columns:76px 1fr 48px"><span class="nm">두부</span><div class="hbar"><i style="width:97%"></i></div><span class="val">97.1%</span></div>
+      <div class="hbar-row" style="grid-template-columns:76px 1fr 48px"><span class="nm">콩물</span><div class="hbar"><i style="width:96%"></i></div><span class="val">96.4%</span></div>
+      <div class="hbar-row" style="grid-template-columns:76px 1fr 48px"><span class="nm">나물</span><div class="hbar"><i class="orange" style="width:93%"></i></div><span class="val t-orange">93.2%</span></div>
+      <div class="hbar-row" style="grid-template-columns:76px 1fr 48px;margin-bottom:0"><span class="nm">낫또</span><div class="hbar"><i style="width:95%"></i></div><span class="val">95.8%</span></div>
+    </section>
+  </div>
+
+  <div class="row grid-64">
+    <section class="panel">
+      <div class="panel-head"><h2>라인 × 시간대 가동률</h2><span class="sub">금일 · %</span></div>
+      <div class="hm">
+        <span class="rl"></span><span style="text-align:center;color:var(--g05)">06시</span><span style="text-align:center;color:var(--g05)">08시</span><span style="text-align:center;color:var(--g05)">10시</span><span style="text-align:center;color:var(--g05)">12시</span><span style="text-align:center;color:var(--g05)">14시</span><span style="text-align:center;color:var(--g05)">16시</span><span style="text-align:center;color:var(--g05)">18시</span><span style="text-align:center;color:var(--g05)">20시</span>
+        <span class="rl">1호</span><span class="cell" style="background:color-mix(in srgb, var(--brand) 78%, #fff);color:#fff">88</span><span class="cell" style="background:color-mix(in srgb, var(--brand) 87%, #fff);color:#fff">95</span><span class="cell" style="background:color-mix(in srgb, var(--brand) 82%, #fff);color:#fff">91</span><span class="cell" style="background:color-mix(in srgb, var(--brand) 56%, #fff);color:#fff">72</span><span class="cell" style="background:color-mix(in srgb, var(--brand) 82%, #fff);color:#fff">90</span><span class="cell" style="background:color-mix(in srgb, var(--brand) 78%, #fff);color:#fff">88</span><span class="cell" style="background:color-mix(in srgb, var(--brand) 69%, #fff);color:#fff">81</span><span class="cell" style="background:color-mix(in srgb, var(--brand) 60%, #fff);color:#fff">75</span>
+        <span class="rl">2호</span><span class="cell" style="background:color-mix(in srgb, var(--brand) 60%, #fff);color:#fff">76</span><span class="cell" style="background:color-mix(in srgb, var(--brand) 69%, #fff);color:#fff">82</span><span class="cell" style="background:color-mix(in srgb, var(--brand) 73%, #fff);color:#fff">86</span><span class="cell" style="background:color-mix(in srgb, var(--brand) 56%, #fff);color:#fff">70</span><span class="cell" style="background:color-mix(in srgb, var(--brand) 65%, #fff);color:#fff">79</span><span class="cell" style="background:color-mix(in srgb, var(--brand) 73%, #fff);color:#fff">85</span><span class="cell" style="background:color-mix(in srgb, var(--brand) 65%, #fff);color:#fff">78</span><span class="cell" style="background:color-mix(in srgb, var(--brand) 56%, #fff);color:#fff">71</span>
+        <span class="rl">3호</span><span class="cell" style="background:color-mix(in srgb, var(--brand) 38%, #fff)">60</span><span class="cell" style="background:color-mix(in srgb, var(--brand) 56%, #fff);color:#fff">70</span><span class="cell" style="background:color-mix(in srgb, var(--brand) 60%, #fff);color:#fff">76</span><span class="cell" style="background:color-mix(in srgb, var(--brand) 56%, #fff);color:#fff">72</span><span class="cell" style="background:color-mix(in srgb, var(--brand) 46%, #fff);color:#fff">68</span><span class="cell" style="background:color-mix(in srgb, var(--brand) 38%, #fff)">66</span><span class="cell" style="background:color-mix(in srgb, var(--brand) 46%, #fff);color:#fff">69</span><span class="cell" style="background:color-mix(in srgb, var(--brand) 34%, #fff)">62</span>
+        <span class="rl">5호</span><span class="cell" style="background:var(--tint-red);color:var(--neg)">0</span><span class="cell" style="background:var(--tint-red);color:var(--neg)">12</span><span class="cell" style="background:color-mix(in srgb, var(--brand) 34%, #fff)">58</span><span class="cell" style="background:color-mix(in srgb, var(--brand) 60%, #fff);color:#fff">74</span><span class="cell" style="background:color-mix(in srgb, var(--brand) 69%, #fff);color:#fff">83</span><span class="cell" style="background:color-mix(in srgb, var(--brand) 73%, #fff);color:#fff">86</span><span class="cell" style="background:color-mix(in srgb, var(--brand) 69%, #fff);color:#fff">82</span><span class="cell" style="background:color-mix(in srgb, var(--brand) 60%, #fff);color:#fff">77</span>
+      </div>
+      <p style="font-size:11px;color:var(--g05);margin-top:10px">5호 라인 오전 점검(실링기 교체) 후 정상 복귀 · 12시 전후 저하는 식사 교대</p>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head"><h2>불량 유형 — 파레토</h2><span class="sub">주간 누적 · 건</span></div>
+      <div class="hbar-row" style="grid-template-columns:90px 1fr 40px"><span class="nm">포장 실링</span><div class="hbar"><i class="neg" style="width:86%"></i></div><span class="val">43</span></div>
+      <div class="hbar-row" style="grid-template-columns:90px 1fr 40px"><span class="nm">중량 미달</span><div class="hbar"><i class="neg" style="width:52%"></i></div><span class="val">26</span></div>
+      <div class="hbar-row" style="grid-template-columns:90px 1fr 40px"><span class="nm">외관 파손</span><div class="hbar"><i class="orange" style="width:36%"></i></div><span class="val">18</span></div>
+      <div class="hbar-row" style="grid-template-columns:90px 1fr 40px"><span class="nm">이물</span><div class="hbar"><i class="orange" style="width:14%"></i></div><span class="val">7</span></div>
+      <div class="hbar-row" style="grid-template-columns:90px 1fr 40px;margin-bottom:0"><span class="nm">기타</span><div class="hbar"><i style="width:10%;background:var(--g05)"></i></div><span class="val">5</span></div>
+      <div style="height:1px;background:var(--g02);margin:14px 0"></div>
+      <p style="font-size:11px;color:var(--g08);line-height:1.6">상위 2개 유형(실링·중량)이 전체의 <b>69.7%</b> — 3호 라인 실링기 압력 편차가 주 원인으로 추정. 설비 점검 요청이 BPM 결재 진행 중입니다.</p>
+      <a class="link" style="font-size:11px" href="bpm.html">설비 수리비 집행 결재 보기 →</a>
+    </section>
+  </div>
+
+</main>
+</div>
+
+<script src="assets/ui.js"></script>
+</body>
+</html>

@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>재고 현황 · Smart SYNCWORKS</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
-<link rel="stylesheet" href="assets/style.css?v=2">
+<link rel="stylesheet" href="assets/style.css?v=3">
+<script src="assets/theme.js"></script>
 </head>
 <body>
 
@@ -33,6 +34,7 @@
 <aside class="lnb">
   <div class="grp">재고 관리</div>
   <a class="on" href="inventory.html">재고 현황</a>
+  <a href="lots.html">로트별 재고 · 추적</a>
   <a href="#">창고별 재고</a>
   <a href="#">안전/적정재고 설정</a>
   <a href="#">재고 실사</a>
@@ -91,11 +93,11 @@
       <div style="display:flex;align-items:center;gap:36px;padding:6px 0">
         <div style="position:relative;width:170px;height:170px;flex-shrink:0">
           <svg viewBox="0 0 42 42" style="width:100%;height:100%;transform:rotate(-90deg)">
-            <circle cx="21" cy="21" r="15.9" fill="none" stroke="#2c7fdf" stroke-width="6"
+            <circle cx="21" cy="21" r="15.9" fill="none" style="stroke:var(--brand)" stroke-width="6"
               stroke-dasharray="62 38" stroke-dashoffset="0"></circle>
-            <circle cx="21" cy="21" r="15.9" fill="none" stroke="#38acba" stroke-width="6"
+            <circle cx="21" cy="21" r="15.9" fill="none" style="stroke:var(--chart-aux)" stroke-width="6"
               stroke-dasharray="24 76" stroke-dashoffset="-62"></circle>
-            <circle cx="21" cy="21" r="15.9" fill="none" stroke="#ff7802" stroke-width="6"
+            <circle cx="21" cy="21" r="15.9" fill="none" style="stroke:var(--orange)" stroke-width="6"
               stroke-dasharray="14 86" stroke-dashoffset="-86"></circle>
           </svg>
           <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center">
@@ -104,7 +106,7 @@
         </div>
         <table class="grid fit" style="flex:1">
           <tr><td><span class="legend"><span class="sw" style="background:var(--brand)"></span>제품 (P)</span></td><td class="r"><b>62%</b></td></tr>
-          <tr><td><span class="legend"><span class="sw" style="background:var(--pos)"></span>원자재 (M)</span></td><td class="r"><b>24%</b></td></tr>
+          <tr><td><span class="legend"><span class="sw" style="background:var(--pos-fill)"></span>원자재 (M)</span></td><td class="r"><b>24%</b></td></tr>
           <tr><td><span class="legend"><span class="sw" style="background:var(--orange)"></span>부자재 (S)</span></td><td class="r"><b>14%</b></td></tr>
         </table>
       </div>
