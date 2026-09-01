@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>원/부자재 이동 · Smart SYNCWORKS</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/style.css?v=3">
+<script src="assets/theme.js"></script>
+</head>
+<body>
+<header class="gnb">
+  <a class="logo" href="dashboard.html"><em>Smart</em><b>SYNCWORKS</b></a>
+  <nav><a href="dashboard.html">기초정보</a><a href="lab.html">연구소</a><a href="orders.html">주문</a><a href="confirm.html">생산량 확정</a><a href="purchase.html">발주</a><a class=on href="production.html">생산</a><a href="warehouse.html">입출고</a><a href="inventory.html">재고</a><a href="quality.html">품질</a><a href="monitoring.html">모니터링</a><a href="prints.html">출력물</a><a href="reports.html">보고서</a><a href="bpm.html">BPM</a></nav>
+  <span class="user">홍길동 님</span>
+</header>
+<div class="app">
+<aside class="lnb">
+  <div class="grp">생산정보 관리</div>
+  <a href="production.html">생산 현황</a>
+  <a href="plan_new.html">생산계획 등록</a>
+  <a href="process.html">공정 관리</a>
+  <a href="workorders.html">작업 지시</a>
+  <a class="on" href="material_moves.html">원/부자재 이동</a>
+  <a href="lines.html">라인 관리</a>
+</aside>
+<main class="main">
+<div class="page-head"><h1>원/부자재 이동</h1><span class="sub">창고 → 라인 투입 이동 전표 · 금일 14건</span><div class="actions"><button class="btn btn-outline">CSV</button><button class="btn btn-primary">+ 이동 등록</button></div></div><section class="panel"><div class="filter-bar" style="margin-bottom:14px"><span class="chip on">전체</span><span class="chip">원자재</span><span class="chip">부자재</span><span class="chip">승인 대기</span></div><table class="grid"><tr><th>전표번호</th><th>구분</th><th>품목</th><th>로트</th><th class=r>수량</th><th>출발</th><th>도착</th><th>용도</th><th>일시</th><th>상태</th></tr><tr><td>MV-0901-014</td><td><span class="t-mut">원자재</span></td><td>국산 백태</td><td><span class="t-mut">M-…-018</span></td><td class=r>840kg</td><td>중앙물류</td><td>1호 라인</td><td><span class="t-mut">두부 배합</span></td><td><span class="t-mut">06:10</span></td><td><span class="badge bg-teal">이동 완료</span></td></tr><tr><td>MV-0901-013</td><td><span class="t-mut">원자재</span></td><td>응고제(간수)</td><td><span class="t-mut">M-…-011</span></td><td class=r>4.2kg</td><td>제1공장</td><td>1호 라인</td><td><span class="t-mut">두부 배합</span></td><td><span class="t-mut">06:12</span></td><td><span class="badge bg-teal">이동 완료</span></td></tr><tr><td>MV-0901-012</td><td><span class="t-mut">부자재</span></td><td>포장 필름 300g</td><td><span class="t-mut">S-…-020</span></td><td class=r>3,450매</td><td>제1공장</td><td>포장 4</td><td><span class="t-mut">두부 300g</span></td><td><span class="t-mut">09:30</span></td><td><span class="badge bg-teal">이동 완료</span></td></tr><tr><td>MV-0901-011</td><td><span class="t-mut">원자재</span></td><td>수입 대두</td><td><span class="t-mut">M-…-016</span></td><td class=r>600kg</td><td>제2공장</td><td>3호 라인</td><td><span class="t-mut">콩물</span></td><td><span class="t-mut">07:00</span></td><td><span class="badge bg-blue">이동 중</span></td></tr><tr><td>MV-0901-010</td><td><span class="t-mut">부자재</span></td><td>라벨 스티커</td><td><span class="t-mut">S-…-023</span></td><td class=r>5,000</td><td>중앙물류</td><td>제1공장</td><td><span class="t-mut">보충</span></td><td><span class="t-mut">10:10</span></td><td><span class="badge bg-blue">이동 중</span></td></tr><tr><td>MV-0901-008</td><td><span class="t-mut">원자재</span></td><td>비타민 강화제</td><td><span class="t-mut">M-…-014</span></td><td class=r>12kg</td><td>제1공장</td><td>5호 라인</td><td><span class="t-mut">에너지바</span></td><td><span class="t-mut">—</span></td><td><span class="badge bg-orange">승인 대기</span></td></tr><tr><td>MV-0901-007</td><td><span class="t-mut">부자재</span></td><td>박스 (12입)</td><td><span class="t-mut">S-…-022</span></td><td class=r>800</td><td>중앙물류</td><td>출하장</td><td><span class="t-mut">두부 출고</span></td><td><span class="t-mut">05:40</span></td><td><span class="badge bg-teal">이동 완료</span></td></tr></table><div style="display:flex;justify-content:space-between;margin-top:12px"><b style="font-size:11px;color:var(--g08)">금일 14건 — 완료 11 · 이동 중 2 · 승인 대기 1 · 이동분은 수불 이력에 자동 기록</b><span class="paging" style="margin:0"><a>← 이전</a><a class="on">1</a><a>2</a><a>다음 →</a></span></div></section>
+</main>
+</div>
+<script src="assets/ui.js"></script>
+</body>
+</html>

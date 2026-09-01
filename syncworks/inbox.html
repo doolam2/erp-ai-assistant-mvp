@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>개선 제안함 · Smart SYNCWORKS</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/style.css?v=3">
+<script src="assets/theme.js"></script>
+<style>
+.sug-card{border:1px solid var(--g02);border-radius:10px;padding:16px 18px;margin-bottom:12px}
+.sug-card.hot{background:var(--tint-blue);border:1.5px solid var(--brand)}
+.sug-card .hd{display:flex;align-items:center;gap:10px}
+.sug-card .hd b{font-size:13px;flex:1}
+.sug-card .src{font-size:10px;color:var(--g05);margin-top:5px}
+.sug-card .ds{font-size:11px;color:var(--g08);margin-top:7px;line-height:1.55}
+.sug-card .acts{display:flex;gap:8px;margin-top:12px}
+.sug-card .meta2{font-size:10px;color:var(--g05);margin-top:10px}
+.fnd{display:flex;gap:10px;margin-bottom:16px}
+.fnd i{width:8px;height:8px;border-radius:2px;background:var(--brand);flex-shrink:0;margin-top:4px}
+.fnd b{font-size:11px;display:block}
+.fnd p{font-size:10px;color:var(--g08);margin-top:3px}
+.mini{display:flex;align-items:flex-end;gap:18px;height:110px;padding:0 6px;border-bottom:1px solid var(--g03)}
+.mini .grp{flex:1;display:flex;align-items:flex-end;gap:5px;height:100%}
+.mini .grp i{flex:1;border-radius:3px 3px 0 0}
+</style>
+</head>
+<body>
+
+<header class="gnb">
+  <a class="logo" href="dashboard.html"><em>Smart</em><b>SYNCWORKS</b></a>
+  <nav>
+    <a href="dashboard.html">기초정보</a>
+    <a href="lab.html">연구소</a>
+    <a href="orders.html">주문</a>
+    <a href="confirm.html">생산량 확정</a>
+    <a href="purchase.html">발주</a>
+    <a href="production.html">생산</a>
+    <a href="warehouse.html">입출고</a>
+    <a href="inventory.html">재고</a>
+    <a href="quality.html">품질</a>
+    <a href="monitoring.html">모니터링</a>
+    <a href="prints.html">출력물</a>
+    <a href="reports.html">보고서</a>
+    <a href="bpm.html">BPM</a>
+  </nav>
+  <span class="user">홍길동 님</span>
+</header>
+
+<div class="app">
+<aside class="lnb">
+  <div class="grp">AI 관리</div>
+  <a href="#">토큰 사용량 대시보드</a>
+  <a class="on" href="inbox.html">개선 제안함</a>
+  <a href="#">회고 리포트</a>
+  <a href="#">응답 로그</a>
+  <a href="#">QA 검증 리스트</a>
+</aside>
+
+<main class="main">
+  <div class="page-head">
+    <h1>개선 제안함</h1>
+    <span class="sub">AI가 채팅·회고에서 발견한 개선점 — 승인하면 반영 후보로 등록됩니다</span>
+  </div>
+
+  <div class="kpis">
+    <div class="kpi"><div class="lb">이번 달 제안</div><div class="num">12<small>건</small></div><div class="meta">채팅 8 · 회고 4</div></div>
+    <div class="kpi"><div class="lb">승낙</div><div class="num">7<small>건</small></div><div class="delta t-pos">사용자 승낙률 58%</div></div>
+    <div class="kpi" style="background:var(--tint-teal);border-color:transparent"><div class="lb">반영 완료</div><div class="num t-pos">4<small>건</small></div><div class="meta">대시보드 위젯 2 · 알림 2</div></div>
+    <div class="kpi tint-orange"><div class="lb">검토 대기</div><div class="num t-orange">3<small>건</small></div><div class="delta t-orange">관리자 확인 필요</div></div>
+  </div>
+
+  <div class="row grid-64">
+    <section class="panel">
+      <div class="panel-head"><h2>제안 목록</h2><span class="sub">최신순</span></div>
+
+      <div class="sug-card hot">
+        <div class="hd"><b class="t-brand">재고 임계치 알림 자동화</b><span class="badge bg-orange">검토 대기</span></div>
+        <p class="src">채팅 · 홍길동 승낙 · 09-01</p>
+        <p class="ds">같은 재고 질문 주 5회 반복 — 안전재고 이하 자동 알림 제안</p>
+        <div class="acts"><button class="btn btn-primary btn-sm js-ok">승인</button><button class="btn btn-outline btn-sm js-no">반려</button></div>
+      </div>
+
+      <div class="sug-card">
+        <div class="hd"><b>주간 발주 제안 리포트 구독</b><span class="badge bg-orange">검토 대기</span></div>
+        <p class="src">회고 · 정산 배치 · 08-31</p>
+        <p class="ds">발주 화면 진입 후 수기 계산 패턴 감지 — 안전재고 연동 제안서 자동 발행</p>
+        <div class="acts"><button class="btn btn-primary btn-sm js-ok">승인</button><button class="btn btn-outline btn-sm js-no">반려</button></div>
+      </div>
+
+      <div class="sug-card">
+        <div class="hd"><b>품질 실패 로트 자동 격리</b><span class="badge bg-teal">반영 완료</span></div>
+        <p class="src">채팅 · 김품질 승낙 · 08-29</p>
+        <p class="ds">검사 부적합 후 출고 가능 상태로 남는 사례 2건 — 자동 보류 처리 제안</p>
+        <p class="meta2">반영 위치: 대시보드 위젯 · 수불 자동 플래그</p>
+      </div>
+
+      <div class="sug-card">
+        <div class="hd"><b>5호 라인 점검 주기 단축</b><span class="badge bg-blue">승낙됨</span></div>
+        <p class="src">회고 · 정산 배치 · 08-28</p>
+        <p class="ds">냉각 알람의 71%가 5호 라인 집중 — 점검 주기 2주→1주 제안</p>
+        <p class="meta2">개발 백로그 등록됨 — 다음 스프린트</p>
+      </div>
+
+      <div class="sug-card">
+        <div class="hd"><b>소비기한 D-3 우선출고 자동 지정</b><span class="badge bg-teal">반영 완료</span></div>
+        <p class="src">채팅 · 박물류 승낙 · 08-26</p>
+        <p class="ds">임박 재고 수동 지정 반복 — 자동 우선출고 플래그 제안</p>
+        <p class="meta2">반영 위치: 재고 현황 · 출고 자동 플래그</p>
+      </div>
+    </section>
+
+    <div>
+      <section class="panel">
+        <div class="panel-head"><h2>최근 회고 — 8월 정산 후</h2><span class="sub">상위 모델 · 08-31 23:00</span></div>
+        <p style="font-size:12px;font-weight:700;margin-bottom:6px">이번 사이클 요약</p>
+        <p style="font-size:11px;color:var(--g08);margin-bottom:14px">질문 1,240건 · 실패 질의 3.2% · 반복 조회 패턴 6건</p>
+        <div style="height:1px;background:var(--g02);margin-bottom:14px"></div>
+        <div class="fnd"><i></i><div><b>반복 패턴</b><p>재고 질문이 매주 월요일 오전 집중 — 대시보드 위젯화 여지</p></div></div>
+        <div class="fnd"><i></i><div><b>실패 유형</b><p>로트 단위 환산 질문에서 낮은 신뢰도 반복</p></div></div>
+        <div class="fnd"><i></i><div><b>제안 3건</b><p>임계치 알림 · 발주 리포트 · 환산 규칙 프롬프트 보강</p></div></div>
+        <div style="height:1px;background:var(--g02);margin:4px 0 14px"></div>
+        <p style="font-size:12px;font-weight:700">제안 → 승낙 → 반영 흐름</p>
+        <p style="font-size:10px;color:var(--g05);margin-top:6px;line-height:1.6">승낙된 제안은 마스터 프롬프트·개발 백로그의 반영 후보가 되고, 반영되면 대시보드에 쌓입니다.</p>
+        <a class="link" style="font-size:11px" href="#">회고 리포트 전체 보기 →</a>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head"><h2>월별 제안 · 반영 추이</h2></div>
+        <div class="mini">
+          <div class="grp"><i style="height:33%;background:var(--g03)"></i><i style="height:17%;background:var(--brand)"></i></div>
+          <div class="grp"><i style="height:58%;background:var(--g03)"></i><i style="height:25%;background:var(--brand)"></i></div>
+          <div class="grp"><i style="height:75%;background:var(--g03)"></i><i style="height:33%;background:var(--brand)"></i></div>
+          <div class="grp"><i style="height:100%;background:var(--g03)"></i><i style="height:58%;background:var(--brand)"></i></div>
+        </div>
+        <div style="display:flex;gap:18px;font-size:10px;color:var(--g05);padding:4px 6px 0">
+          <span style="flex:1;text-align:center">5월</span><span style="flex:1;text-align:center">6월</span><span style="flex:1;text-align:center">7월</span><span style="flex:1;text-align:center">8월</span>
+        </div>
+        <div class="legend"><span><span class="sw" style="background:var(--g03)"></span>제안</span><span><span class="sw" style="background:var(--brand)"></span>승낙·반영</span></div>
+        <p style="font-size:10px;color:var(--g05);margin-top:10px">제안 품질이 좋아질수록 승낙률이 올라갑니다</p>
+      </section>
+    </div>
+  </div>
+
+</main>
+</div>
+
+<script>
+document.querySelectorAll('.js-ok').forEach(function(b){
+  b.addEventListener('click',function(){
+    var card=b.closest('.sug-card');
+    card.querySelector('.badge').outerHTML='<span class="badge bg-blue">승낙됨</span>';
+    card.querySelector('.acts').innerHTML='<p style="font-size:10px;color:var(--g05)">개발 백로그 등록됨 — 다음 스프린트</p>';
+    card.classList.remove('hot');
+  });
+});
+document.querySelectorAll('.js-no').forEach(function(b){
+  b.addEventListener('click',function(){
+    var card=b.closest('.sug-card');
+    card.style.opacity='.45';
+    card.querySelector('.badge').outerHTML='<span class="badge bg-gray">반려됨</span>';
+    card.querySelector('.acts').remove();
+  });
+});
+</script>
+<script src="assets/ui.js"></script>
+<script src="assets/motion.js"></script>
+</body>
+</html>

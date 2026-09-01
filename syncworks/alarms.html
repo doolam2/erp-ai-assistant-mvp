@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>알람 이력 · Smart SYNCWORKS</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/style.css?v=3">
+<script src="assets/theme.js"></script>
+<style>
+.atl{position:relative;padding-left:28px}
+.atl::before{content:'';position:absolute;left:9px;top:8px;bottom:8px;width:2px;background:var(--g02)}
+.aev{position:relative;padding-bottom:22px;display:flex;gap:12px;align-items:flex-start}
+.aev::before{content:'';position:absolute;left:-25px;top:3px;width:12px;height:12px;border-radius:50%}
+.aev.crit::before{background:var(--neg)}
+.aev.warn::before{background:var(--orange)}
+.aev.info::before{background:var(--brand)}
+.aev .tm{font-size:11px;font-weight:700;color:var(--g08);width:40px;flex-shrink:0;padding-top:2px}
+.aev .bx{flex:1}
+.aev .bx b{font-size:12px}
+.aev .bx p{font-size:10px;color:var(--g05);margin-top:3px}
+</style>
+</head>
+<body>
+
+<header class="gnb">
+  <a class="logo" href="dashboard.html"><em>Smart</em><b>SYNCWORKS</b></a>
+  <nav>
+    <a href="dashboard.html">기초정보</a>
+    <a href="lab.html">연구소</a>
+    <a href="orders.html">주문</a>
+    <a href="confirm.html">생산량 확정</a>
+    <a href="purchase.html">발주</a>
+    <a href="production.html">생산</a>
+    <a href="warehouse.html">입출고</a>
+    <a href="inventory.html">재고</a>
+    <a href="quality.html">품질</a>
+    <a class="on" href="monitoring.html">모니터링</a>
+    <a href="prints.html">출력물</a>
+    <a href="reports.html">보고서</a>
+    <a href="bpm.html">BPM</a>
+  </nav>
+  <span class="user">홍길동 님</span>
+</header>
+
+<div class="app">
+<aside class="lnb">
+  <div class="grp">모니터링</div>
+  <a href="monitoring.html">설비 관제 (PLC)</a>
+  <a href="monitoring_live.html">실시간 관제</a>
+  <a href="monitoring_analytics.html">운영 지표 분석</a>
+  <a class="on" href="alarms.html">알람 이력</a>
+  <a href="temperature.html">온습도 현황</a>
+  <a href="finished_defects.html">완제품 불량</a>
+  <a href="shipping_mon.html">출하 현황</a>
+</aside>
+
+<main class="main">
+  <div class="page-head">
+    <h1>알람 이력</h1>
+    <span class="sub">전 설비 · 최근 7일</span>
+    <div class="actions"><button class="btn btn-outline">CSV</button></div>
+  </div>
+
+  <div class="kpis">
+    <div class="kpi"><div class="lb">총 알람</div><div class="num">47<small>건</small></div><div class="delta t-pos">전주 대비 -12건</div></div>
+    <div class="kpi tint-red"><div class="lb">미조치</div><div class="num t-neg">3<small>건</small></div><div class="delta t-neg">즉시 확인 필요</div></div>
+    <div class="kpi"><div class="lb">평균 조치 시간</div><div class="num">8.4<small>분</small></div><div class="delta t-pos">목표 10분 이내</div></div>
+    <div class="kpi"><div class="lb">최다 발생</div><div class="num">냉각온도</div><div class="meta">5호 라인 · 14건</div></div>
+  </div>
+
+  <div class="row grid-64">
+    <section class="panel">
+      <div class="panel-head"><h2>알람 타임라인</h2><span class="sub">금일</span></div>
+      <div class="filter-bar" style="margin-bottom:16px">
+        <span class="chip on">전체</span><span class="chip">긴급</span><span class="chip">경고</span><span class="chip">알림</span><span class="chip">미조치만</span>
+      </div>
+      <div class="atl">
+        <div class="aev crit"><span class="tm">21:04</span><div class="bx"><b>냉각온도 #2 상한 근접 (+6.4°C)</b> <span class="badge bg-red">긴급</span><p>5호 라인 · SV 5.0 대비 상승 추세</p></div><span class="badge bg-red">조치 중</span></div>
+        <div class="aev warn"><span class="tm">20:41</span><div class="bx"><b>냉장센터 B 온도 상승 추세</b> <span class="badge bg-orange">경고</span><p>도어 개폐 빈도 초과 — 입고 작업 중</p></div><span class="badge bg-red">미조치</span></div>
+        <div class="aev info"><span class="tm">19:12</span><div class="bx"><b>5호 라인 정기 점검 시작</b> <span class="badge bg-blue">알림</span><p>실링기 교체 · 예상 45분</p></div><span class="badge bg-teal">완료</span></div>
+        <div class="aev warn"><span class="tm">17:36</span><div class="bx"><b>숙성실 습도 상한 초과 (82%)</b> <span class="badge bg-orange">경고</span><p>제습기 자동 가동됨</p></div><span class="badge bg-teal">자동 조치</span></div>
+        <div class="aev crit"><span class="tm">14:20</span><div class="bx"><b>3호 라인 실링 압력 편차</b> <span class="badge bg-red">긴급</span><p>불량 유형 연동 — 품질검사 자동 플래그</p></div><span class="badge bg-teal">완료</span></div>
+        <div class="aev info"><span class="tm">11:52</span><div class="bx"><b>센서 S-22 무응답</b> <span class="badge bg-blue">알림</span><p>상온 창고 · 점검 요청 발행</p></div><span class="badge bg-red">조치 중</span></div>
+        <div class="aev warn"><span class="tm">09:15</span><div class="bx"><b>원료 투입량 계량 편차 1.8%</b> <span class="badge bg-orange">경고</span><p>1호 라인 · 허용 2% 이내 — 관찰</p></div><span class="badge bg-gray">관찰</span></div>
+      </div>
+      <div class="paging"><a>← 이전</a><a class="on">1</a><a>2</a><a>3</a><a>다음 →</a></div>
+    </section>
+
+    <div>
+      <section class="panel">
+        <div class="panel-head"><h2>유형별 분포 — 7일</h2><span class="sub">건</span></div>
+        <div class="hbar-row" style="grid-template-columns:80px 1fr 30px"><span class="nm">냉각 온도</span><div class="hbar"><i class="neg" style="width:93%"></i></div><span class="val">14</span></div>
+        <div class="hbar-row" style="grid-template-columns:80px 1fr 30px"><span class="nm">실링 압력</span><div class="hbar"><i class="neg" style="width:60%"></i></div><span class="val">9</span></div>
+        <div class="hbar-row" style="grid-template-columns:80px 1fr 30px"><span class="nm">온습도</span><div class="hbar"><i class="orange" style="width:53%"></i></div><span class="val">8</span></div>
+        <div class="hbar-row" style="grid-template-columns:80px 1fr 30px"><span class="nm">계량 편차</span><div class="hbar"><i class="orange" style="width:40%"></i></div><span class="val">6</span></div>
+        <div class="hbar-row" style="grid-template-columns:80px 1fr 30px"><span class="nm">센서 통신</span><div class="hbar"><i style="width:33%"></i></div><span class="val">5</span></div>
+        <div class="hbar-row" style="grid-template-columns:80px 1fr 30px;margin-bottom:0"><span class="nm">기타</span><div class="hbar"><i style="width:33%;background:var(--g05)"></i></div><span class="val">5</span></div>
+        <p style="font-size:10px;color:var(--g05);margin-top:12px">냉각 온도 알람의 71%가 5호 라인 — 설비 점검 결재 진행 중</p>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head"><h2>설비별 발생</h2><span class="sub">7일</span></div>
+        <div class="hbar-row" style="grid-template-columns:80px 1fr 30px"><span class="nm">5호 라인</span><div class="hbar"><i class="neg" style="width:100%"></i></div><span class="val">14</span></div>
+        <div class="hbar-row" style="grid-template-columns:80px 1fr 30px"><span class="nm">3호 라인</span><div class="hbar"><i class="orange" style="width:64%"></i></div><span class="val">9</span></div>
+        <div class="hbar-row" style="grid-template-columns:80px 1fr 30px"><span class="nm">냉장센터</span><div class="hbar"><i style="width:57%"></i></div><span class="val">8</span></div>
+        <div class="hbar-row" style="grid-template-columns:80px 1fr 30px"><span class="nm">1호 라인</span><div class="hbar"><i class="orange" style="width:43%"></i></div><span class="val">6</span></div>
+        <div class="hbar-row" style="grid-template-columns:80px 1fr 30px;margin-bottom:0"><span class="nm">숙성실</span><div class="hbar"><i style="width:36%"></i></div><span class="val">5</span></div>
+        <div style="height:1px;background:var(--g02);margin:14px 0"></div>
+        <p style="font-size:11px;color:var(--g08)">시간대 집중: 09시(교대) · 14시(피크) · 21시(야간 입고)</p>
+        <a class="link" style="font-size:11px" href="#">알람 규칙 설정 →</a>
+      </section>
+    </div>
+  </div>
+
+</main>
+</div>
+
+<script src="assets/ui.js"></script>
+<script src="assets/motion.js"></script>
+</body>
+</html>

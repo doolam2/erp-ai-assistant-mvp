@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>입고 관리 · Smart SYNCWORKS</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/style.css?v=3">
+<script src="assets/theme.js"></script>
+</head>
+<body>
+<header class="gnb">
+  <a class="logo" href="dashboard.html"><em>Smart</em><b>SYNCWORKS</b></a>
+  <nav><a href="dashboard.html">기초정보</a><a href="lab.html">연구소</a><a href="orders.html">주문</a><a href="confirm.html">생산량 확정</a><a href="purchase.html">발주</a><a href="production.html">생산</a><a class=on href="warehouse.html">입출고</a><a href="inventory.html">재고</a><a href="quality.html">품질</a><a href="monitoring.html">모니터링</a><a href="prints.html">출력물</a><a href="reports.html">보고서</a><a href="bpm.html">BPM</a></nav>
+  <span class="user">홍길동 님</span>
+</header>
+<div class="app">
+<aside class="lnb">
+  <div class="grp">입출고 관리</div>
+  <a href="warehouse.html">입출고 현황</a>
+  <a class="on" href="goods_in.html">입고 관리</a>
+  <a href="goods_out.html">출고 관리</a>
+  <a href="dispatch.html">배차 관리</a>
+  <a href="inspections.html">검수 관리</a>
+  <a href="ledger.html">수불 이력</a>
+</aside>
+<main class="main">
+<div class="page-head"><h1>입고 관리</h1><span class="sub">2026. 09. 01 · 금일 입고 18건 · 검수 대기 3건</span><div class="actions"><button class="btn btn-outline">CSV</button><button class="btn btn-primary">+ 입고 등록</button></div></div><section class="panel"><div class="filter-bar" style="margin-bottom:14px"><span class="chip on">전체</span><span class="chip">원자재</span><span class="chip">부자재</span><span class="chip">완제품(OEM)</span><span class="chip">계열사</span><span class="chip">검수 대기만</span></div><table class="grid"><tr><th>전표번호</th><th>구분</th><th>품목</th><th>로트</th><th class=r>수량</th><th class=r>단가</th><th class=r>금액(천원)</th><th>창고</th><th>매입처</th><th>검수</th><th>상태</th></tr><tr><td>IN-260901-018</td><td><span class="t-mut">원자재</span></td><td>국산 백태 1등급</td><td><span class="t-mut">M-…-018</span></td><td class=r>1,200kg</td><td class=r>3.2</td><td class=r><b>3,840</b></td><td>중앙물류</td><td>참들농산</td><td><span class="t-mut">합격</span></td><td><span class="badge bg-teal">입고 완료</span></td></tr><tr><td>IN-260901-017</td><td><span class="t-mut">부자재</span></td><td>포장 필름 300g</td><td><span class="t-mut">S-…-024</span></td><td class=r>30,000매</td><td class=r>0.04</td><td class=r><b>1,200</b></td><td>제1공장</td><td>대한포장</td><td><span class="t-mut">—</span></td><td><span class="badge bg-teal">입고 완료</span></td></tr><tr><td>IN-260901-016</td><td><span class="t-mut">원자재</span></td><td>응고제(간수)</td><td><span class="t-mut">M-…-017</span></td><td class=r>120kg</td><td class=r>8.5</td><td class=r><b>1,020</b></td><td>제1공장</td><td>해양바이오</td><td><b class="t-neg">대기</b></td><td><span class="badge bg-orange">검수 대기</span></td></tr><tr><td>IN-260901-015</td><td><span class="t-mut">계열사</span></td><td>두부 800g(10입)</td><td><span class="t-mut">L-…-038</span></td><td class=r>640</td><td class=r>—</td><td class=r><b>—</b></td><td>중앙물류</td><td>꿈꾸는콩</td><td><span class="t-mut">합격</span></td><td><span class="badge bg-teal">입고 완료</span></td></tr><tr><td>IN-260901-014</td><td><span class="t-mut">원자재</span></td><td>수입 대두 (비상용)</td><td><span class="t-mut">M-…-016</span></td><td class=r>2,000kg</td><td class=r>2.1</td><td class=r><b>4,200</b></td><td>제2공장</td><td>한빛무역</td><td><b class="t-neg">대기</b></td><td><span class="badge bg-orange">검수 대기</span></td></tr><tr><td>IN-260901-013</td><td><span class="t-mut">부자재</span></td><td>라벨 스티커 대</td><td><span class="t-mut">S-…-023</span></td><td class=r>20,000</td><td class=r>0.012</td><td class=r><b>240</b></td><td>제1공장</td><td>명진인쇄</td><td><span class="t-mut">—</span></td><td><span class="badge bg-teal">입고 완료</span></td></tr><tr><td>IN-260901-012</td><td><span class="t-mut">완제품</span></td><td>에너지바 40g</td><td><span class="t-mut">L-…-037</span></td><td class=r>5,000</td><td class=r>0.42</td><td class=r><b>2,100</b></td><td>중앙물류</td><td>건강푸드</td><td><span class="t-mut">합격</span></td><td><span class="badge bg-teal">입고 완료</span></td></tr><tr><td>IN-260901-011</td><td><span class="t-mut">원자재</span></td><td>국산 백태 1등급</td><td><span class="t-mut">M-…-015</span></td><td class=r>800kg</td><td class=r>3.2</td><td class=r><b>2,560</b></td><td>제2공장</td><td>참들농산</td><td><b class="t-neg">불합격</b></td><td><span class="badge bg-red">반품 처리</span></td></tr><tr><td>IN-260831-041</td><td><span class="t-mut">원자재</span></td><td>정제염</td><td><span class="t-mut">M-…-013</span></td><td class=r>300kg</td><td class=r>1.8</td><td class=r><b>540</b></td><td>제1공장</td><td>서해염전</td><td><span class="t-mut">합격</span></td><td><span class="badge bg-teal">입고 완료</span></td></tr></table><div style="display:flex;justify-content:space-between;margin-top:12px"><b style="font-size:11px;color:var(--g08)">금일 합계 — 원자재 12건 13,360천원 · 부자재 4건 2,840천원 · 계열사 2건 (내부 이관)</b><span class="paging" style="margin:0"><a>← 이전</a><a class="on">1</a><a>2</a><a>다음 →</a></span></div></section>
+</main>
+</div>
+<script src="assets/ui.js"></script>
+</body>
+</html>

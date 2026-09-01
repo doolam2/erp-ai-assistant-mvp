@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>사용자 · 권한 · Smart SYNCWORKS</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/style.css?v=3">
+<script src="assets/theme.js"></script>
+</head>
+<body>
+<header class="gnb">
+  <a class="logo" href="dashboard.html"><em>Smart</em><b>SYNCWORKS</b></a>
+  <nav><a class=on href="dashboard.html">기초정보</a><a href="lab.html">연구소</a><a href="orders.html">주문</a><a href="confirm.html">생산량 확정</a><a href="purchase.html">발주</a><a href="production.html">생산</a><a href="warehouse.html">입출고</a><a href="inventory.html">재고</a><a href="quality.html">품질</a><a href="monitoring.html">모니터링</a><a href="prints.html">출력물</a><a href="reports.html">보고서</a><a href="bpm.html">BPM</a></nav>
+  <span class="user">홍길동 님</span>
+</header>
+<div class="app">
+<aside class="lnb">
+  <div class="grp">매출 관리</div>
+  <a href="dashboard.html">매출 대시보드</a>
+  <a href="targets.html">매출목표 및 계획</a>
+  <a href="pnl.html">손익계산서</a>
+  <a href="corp.html">법인별 실적</a>
+  <div class="grp">기초 정보</div>
+  <a href="clients.html">거래처 관리</a>
+  <a href="products.html">제품정보 관리</a>
+  <a href="warehouses.html">창고 관리</a>
+  <a class="on" href="users.html">사용자 · 권한</a>
+  <a href="changelog.html">업데이트 로그</a>
+</aside>
+<main class="main">
+<div class="page-head"><h1>사용자 · 권한</h1><span class="sub">계정 64명 · 역할 5종</span><div class="actions"><button class="btn btn-primary">+ 계정 등록</button></div></div><div class="kpis"><div class="kpi"><div class="lb">활성 계정</div><div class="num">64<small>명</small></div><div class="meta">8개 법인</div></div><div class="kpi"><div class="lb">관리자</div><div class="num">4<small>명</small></div><div class="meta">슈퍼 1 · 일반 3</div></div><div class="kpi"><div class="lb">AI 사용 권한</div><div class="num">58<small>명</small></div><div class="delta t-pos">한도 초과 0명</div></div><div class="kpi tint-red"><div class="lb">잠금 계정</div><div class="num" class="t-neg">1<small>명</small></div><div class="delta t-neg">비밀번호 5회 오류</div></div></div><div class="row grid-64"><section class="panel"><div class="panel-head"><h2>사용자 목록</h2></div><table class="grid"><tr><th>이름</th><th>부서</th><th>법인</th><th>역할</th><th>AI 권한</th><th>최근 접속</th><th>상태</th></tr><tr><td>홍길동</td><td><span class="t-mut">운영팀</span></td><td>홀딩스</td><td>슈퍼관리자</td><td><span class="t-mut">전체</span></td><td><span class="t-mut">09-01 10:42</span></td><td><span class="badge bg-teal">활성</span></td></tr><tr><td>박제조</td><td><span class="t-mut">생산본부</span></td><td>법인A</td><td>관리자</td><td><span class="t-mut">전체</span></td><td><span class="t-mut">09-01 09:20</span></td><td><span class="badge bg-teal">활성</span></td></tr><tr><td>정품질</td><td><span class="t-mut">품질관리팀</span></td><td>법인A</td><td>관리자</td><td><span class="t-mut">전체</span></td><td><span class="t-mut">09-01 10:10</span></td><td><span class="badge bg-teal">활성</span></td></tr><tr><td>김영업</td><td><span class="t-mut">영업팀</span></td><td>법인B</td><td>일반</td><td><span class="t-mut">조회+제안</span></td><td><span class="t-mut">09-01 08:55</span></td><td><span class="badge bg-teal">활성</span></td></tr><tr><td>박물류</td><td><span class="t-mut">물류팀</span></td><td>홀딩스</td><td>일반</td><td><span class="t-mut">조회+제안</span></td><td><span class="t-mut">09-01 07:30</span></td><td><span class="badge bg-teal">활성</span></td></tr><tr><td>김일호</td><td><span class="t-mut">1호 라인</span></td><td>법인A</td><td>현장</td><td><span class="t-mut">현장 앱만</span></td><td><span class="t-mut">09-01 06:05</span></td><td><span class="badge bg-teal">활성</span></td></tr><tr><td>한신입</td><td><span class="t-mut">영업팀</span></td><td>법인C</td><td>일반</td><td><span class="t-mut">조회</span></td><td><span class="t-mut">08-29 17:40</span></td><td><span class="badge bg-red">잠금</span></td></tr><tr><td>외부감사</td><td><span class="t-mut">—</span></td><td>—</td><td>열람 전용</td><td><span class="t-mut">불가</span></td><td><span class="t-mut">08-25</span></td><td><span class="badge bg-gray">휴면</span></td></tr></table><p style="font-size:10px;color:var(--g05);margin-top:12px">권한 변경은 슈퍼관리자만 — 모든 변경이 감사 로그에 기록됩니다</p></section><div><section class="panel"><div class="panel-head"><h2>역할별 권한 요약</h2></div><div style="display:flex;gap:10px;margin-bottom:12px"><i style="width:8px;height:8px;border-radius:2px;background:var(--brand);flex-shrink:0;margin-top:4px"></i><div><b style="font-size:11px">슈퍼관리자</b><p style="font-size:10px;color:var(--g08);margin-top:3px">전 화면 + 권한·마스터 프롬프트 편집</p></div></div><div style="display:flex;gap:10px;margin-bottom:12px"><i style="width:8px;height:8px;border-radius:2px;background:var(--brand);flex-shrink:0;margin-top:4px"></i><div><b style="font-size:11px">관리자</b><p style="font-size:10px;color:var(--g08);margin-top:3px">부서 화면 편집 + AI 관리 열람</p></div></div><div style="display:flex;gap:10px;margin-bottom:12px"><i style="width:8px;height:8px;border-radius:2px;background:var(--brand);flex-shrink:0;margin-top:4px"></i><div><b style="font-size:11px">일반</b><p style="font-size:10px;color:var(--g08);margin-top:3px">담당 화면 편집 · AI 조회+제안 승낙</p></div></div><div style="display:flex;gap:10px;margin-bottom:12px"><i style="width:8px;height:8px;border-radius:2px;background:var(--brand);flex-shrink:0;margin-top:4px"></i><div><b style="font-size:11px">현장</b><p style="font-size:10px;color:var(--g08);margin-top:3px">현장 앱(공정·실사 입력)만</p></div></div><div style="display:flex;gap:10px;margin-bottom:12px"><i style="width:8px;height:8px;border-radius:2px;background:var(--brand);flex-shrink:0;margin-top:4px"></i><div><b style="font-size:11px">열람 전용</b><p style="font-size:10px;color:var(--g08);margin-top:3px">대시보드·보고서 조회만</p></div></div></section><section class="panel"><div class="panel-head"><h2>보안 정책</h2></div><table class="grid fit" style="font-size:11px"><tr><td class="t-mut">비밀번호</td><td class="r"><b>90일 주기 · 5회 오류 잠금</b></td></tr><tr><td class="t-mut">세션</td><td class="r"><b>4시간 · 이중 로그인 차단</b></td></tr><tr><td class="t-mut">개인정보 열람</td><td class="r"><b>마스킹 + 사유 입력</b></td></tr></table></section></div></div>
+</main>
+</div>
+<script src="assets/ui.js"></script>
+</body>
+</html>

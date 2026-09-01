@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>수불 이력 · Smart SYNCWORKS</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/style.css?v=3">
+<script src="assets/theme.js"></script>
+</head>
+<body>
+<header class="gnb">
+  <a class="logo" href="dashboard.html"><em>Smart</em><b>SYNCWORKS</b></a>
+  <nav><a href="dashboard.html">기초정보</a><a href="lab.html">연구소</a><a href="orders.html">주문</a><a href="confirm.html">생산량 확정</a><a href="purchase.html">발주</a><a href="production.html">생산</a><a href="warehouse.html">입출고</a><a class=on href="inventory.html">재고</a><a href="quality.html">품질</a><a href="monitoring.html">모니터링</a><a href="prints.html">출력물</a><a href="reports.html">보고서</a><a href="bpm.html">BPM</a></nav>
+  <span class="user">홍길동 님</span>
+</header>
+<div class="app">
+<aside class="lnb">
+  <div class="grp">재고 관리</div>
+  <a href="inventory.html">재고 현황</a>
+  <a href="lots.html">로트별 재고 · 추적</a>
+  <a href="wh_stock.html">창고별 재고</a>
+  <a href="safety_stock.html">안전/적정재고 설정</a>
+  <a href="stocktake.html">재고 실사</a>
+  <a href="expiry.html">소비기한 관리</a>
+  <a href="repack.html">세트/소분 재구성</a>
+  <a href="stock_report.html">재고 분석</a>
+  <a class="on" href="ledger.html">수불 이력</a>
+</aside>
+<main class="main">
+<div class="page-head"><h1>수불 이력</h1><span class="sub">전 창고 · 최근 7일 · 단위: 개</span><div class="actions"><button class="btn btn-outline">CSV</button></div></div><section class="panel"><div class="panel-head"><h2>일별 입고 · 출고 흐름</h2></div><div style="position:relative;padding:10px 0 0"><div style="display:flex;gap:3%;align-items:flex-end;height:120px"><div style="flex:1;display:flex;gap:4px;align-items:flex-end;height:100%"><i style="flex:1;height:62%;background:var(--brand);border-radius:3px 3px 0 0" title="입고 15k"></i></div><div style="flex:1;display:flex;gap:4px;align-items:flex-end;height:100%"><i style="flex:1;height:70%;background:var(--brand);border-radius:3px 3px 0 0" title="입고 17k"></i></div><div style="flex:1;display:flex;gap:4px;align-items:flex-end;height:100%"><i style="flex:1;height:85%;background:var(--brand);border-radius:3px 3px 0 0" title="입고 20k"></i></div><div style="flex:1;display:flex;gap:4px;align-items:flex-end;height:100%"><i style="flex:1;height:55%;background:var(--brand);border-radius:3px 3px 0 0" title="입고 13k"></i></div><div style="flex:1;display:flex;gap:4px;align-items:flex-end;height:100%"><i style="flex:1;height:30%;background:var(--brand);border-radius:3px 3px 0 0" title="입고 7k"></i></div><div style="flex:1;display:flex;gap:4px;align-items:flex-end;height:100%"><i style="flex:1;height:78%;background:var(--brand);border-radius:3px 3px 0 0" title="입고 19k"></i></div><div style="flex:1;display:flex;gap:4px;align-items:flex-end;height:100%"><i style="flex:1;height:66%;background:var(--brand);border-radius:3px 3px 0 0" title="입고 16k"></i></div></div><div style="height:2px;background:var(--g03)"></div><div style="display:flex;gap:3%;height:120px"><div style="flex:1;display:flex;gap:4px"><i style="flex:1;height:75%;background:var(--pos-fill);border-radius:0 0 3px 3px" title="출고 18k"></i></div><div style="flex:1;display:flex;gap:4px"><i style="flex:1;height:68%;background:var(--pos-fill);border-radius:0 0 3px 3px" title="출고 16k"></i></div><div style="flex:1;display:flex;gap:4px"><i style="flex:1;height:80%;background:var(--pos-fill);border-radius:0 0 3px 3px" title="출고 19k"></i></div><div style="flex:1;display:flex;gap:4px"><i style="flex:1;height:90%;background:var(--pos-fill);border-radius:0 0 3px 3px" title="출고 22k"></i></div><div style="flex:1;display:flex;gap:4px"><i style="flex:1;height:42%;background:var(--pos-fill);border-radius:0 0 3px 3px" title="출고 10k"></i></div><div style="flex:1;display:flex;gap:4px"><i style="flex:1;height:72%;background:var(--pos-fill);border-radius:0 0 3px 3px" title="출고 17k"></i></div><div style="flex:1;display:flex;gap:4px"><i style="flex:1;height:58%;background:var(--pos-fill);border-radius:0 0 3px 3px" title="출고 14k"></i></div></div><div style="display:flex;gap:3%;font-size:10px;color:var(--g05);padding-top:6px"><span style="flex:1;text-align:center">08-26</span><span style="flex:1;text-align:center">08-27</span><span style="flex:1;text-align:center">08-28</span><span style="flex:1;text-align:center">08-29</span><span style="flex:1;text-align:center">08-30</span><span style="flex:1;text-align:center">08-31</span><span style="flex:1;text-align:center">09-01</span></div><div class="legend"><span><span class="sw" style="background:var(--brand)"></span>입고 (위)</span><span><span class="sw" style="background:var(--pos-fill)"></span>출고 (아래)</span><span style="color:var(--g05)">08-29 출고 초과 · 08-30 일요일 감소 — 정상 패턴</span></div></div></section><section class="panel"><div class="panel-head"><h2>수불표 — 품목별</h2><span class="sub">기초 + 입고 − 출고 = 기말</span></div><div class="filter-bar" style="margin-bottom:14px"><span class="chip on">전체</span><span class="chip">제품</span><span class="chip">원자재</span><span class="chip">부자재</span></div><table class="grid"><tr><th>품목</th><th>구분</th><th class=r>기초</th><th class=r>입고</th><th class=r>출고</th><th class=r>조정</th><th class=r>기말</th><th class=r>회전</th></tr><tr><td>두부 300g</td><td><span class="t-mut">제품</span></td><td class=r>1,820</td><td class=r>24,600</td><td class=r>24,280</td><td class=r><b class="t-neg">-12</b></td><td class=r><b>2,128</b></td><td class=r>12.1</td></tr><tr><td>순두부 350g</td><td><span class="t-mut">제품</span></td><td class=r>1,140</td><td class=r>15,800</td><td class=r>15,080</td><td class=r>0</td><td class=r><b>1,860</b></td><td class=r>9.8</td></tr><tr><td>두부 800g(10입)</td><td><span class="t-mut">제품</span></td><td class=r>420</td><td class=r>5,200</td><td class=r>4,980</td><td class=r>0</td><td class=r><b>640</b></td><td class=r>8.4</td></tr><tr><td>콩물 1L</td><td><span class="t-mut">제품</span></td><td class=r>310</td><td class=r>4,100</td><td class=r>4,130</td><td class=r>0</td><td class=r><b>280</b></td><td class=r>10.6</td></tr><tr><td>국산 백태</td><td><span class="t-mut">원자재</span></td><td class=r>8,400kg</td><td class=r>12,000kg</td><td class=r>11,160kg</td><td class=r><b class="t-neg">-240kg</b></td><td class=r><b>9,000kg</b></td><td class=r>—</td></tr><tr><td>응고제(간수)</td><td><span class="t-mut">원자재</span></td><td class=r>86kg</td><td class=r>120kg</td><td class=r>101kg</td><td class=r>0</td><td class=r><b>105kg</b></td><td class=r>—</td></tr><tr><td>포장 필름 300g</td><td><span class="t-mut">부자재</span></td><td class=r>41,000매</td><td class=r>30,000매</td><td class=r>24,300매</td><td class=r>0</td><td class=r><b>46,700매</b></td><td class=r>—</td></tr></table><p style="font-size:10px;color:var(--g05);margin-top:12px">조정(−) = 실사 차이·폐기 반영분 — 재고 실사 화면에서 사유 확인 가능</p></section>
+</main>
+</div>
+<script src="assets/ui.js"></script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>제품정보 관리 · Smart SYNCWORKS</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/style.css?v=3">
+<script src="assets/theme.js"></script>
+</head>
+<body>
+<header class="gnb">
+  <a class="logo" href="dashboard.html"><em>Smart</em><b>SYNCWORKS</b></a>
+  <nav><a class=on href="dashboard.html">기초정보</a><a href="lab.html">연구소</a><a href="orders.html">주문</a><a href="confirm.html">생산량 확정</a><a href="purchase.html">발주</a><a href="production.html">생산</a><a href="warehouse.html">입출고</a><a href="inventory.html">재고</a><a href="quality.html">품질</a><a href="monitoring.html">모니터링</a><a href="prints.html">출력물</a><a href="reports.html">보고서</a><a href="bpm.html">BPM</a></nav>
+  <span class="user">홍길동 님</span>
+</header>
+<div class="app">
+<aside class="lnb">
+  <div class="grp">매출 관리</div>
+  <a href="dashboard.html">매출 대시보드</a>
+  <a href="targets.html">매출목표 및 계획</a>
+  <a href="pnl.html">손익계산서</a>
+  <a href="corp.html">법인별 실적</a>
+  <div class="grp">기초 정보</div>
+  <a href="clients.html">거래처 관리</a>
+  <a class="on" href="products.html">제품정보 관리</a>
+  <a href="warehouses.html">창고 관리</a>
+  <a href="users.html">사용자 · 권한</a>
+  <a href="changelog.html">업데이트 로그</a>
+</aside>
+<main class="main">
+<div class="page-head"><h1>제품정보 관리</h1><span class="sub">판매 품목 28종 · 원부자재 46종</span><div class="actions"><button class="btn btn-primary">+ 품목 등록</button></div></div><div class="kpis"><div class="kpi"><div class="lb">판매 품목</div><div class="num">28<small>종</small></div><div class="meta">제품군 6개</div></div><div class="kpi"><div class="lb">이달 신규</div><div class="num">1<small>종</small></div><div class="meta">에너지바 12입</div></div><div class="kpi tint-orange"><div class="lb">단종 예정</div><div class="num" class="t-orange">2<small>종</small></div><div class="delta t-orange">재고 소진 시</div></div><div class="kpi"><div class="lb">바코드 등록률</div><div class="num">100<small>%</small></div><div class="delta t-pos">GS1 표준</div></div></div><div class="row grid-64"><section class="panel"><div class="panel-head"><h2>품목 목록</h2></div><table class="grid"><tr><th>품목</th><th>제품군</th><th>규격</th><th>소비기한</th><th>보관</th><th class=r>표준원가</th><th>상태</th></tr><tr><td>두부 300g</td><td><span class="t-mut">두부류</span></td><td>300g</td><td><span class="t-mut">제조+7일</span></td><td><span class="t-mut">냉장 0~5°C</span></td><td class=r>820원</td><td><span class="badge bg-teal">활성</span></td></tr><tr><td>두부 800g(10입)</td><td><span class="t-mut">두부류</span></td><td>800g</td><td><span class="t-mut">제조+6일</span></td><td><span class="t-mut">냉장 0~5°C</span></td><td class=r>2,100원</td><td><span class="badge bg-teal">활성</span></td></tr><tr><td>순두부 350g</td><td><span class="t-mut">연식품</span></td><td>350g</td><td><span class="t-mut">제조+6일</span></td><td><span class="t-mut">냉장 0~5°C</span></td><td class=r>760원</td><td><span class="badge bg-teal">활성</span></td></tr><tr><td>콩물 1L</td><td><span class="t-mut">음료</span></td><td>1L</td><td><span class="t-mut">제조+9일</span></td><td><span class="t-mut">냉장 0~5°C</span></td><td class=r>1,120원</td><td><span class="badge bg-teal">활성</span></td></tr><tr><td>콩나물 380g</td><td><span class="t-mut">나물류</span></td><td>380g</td><td><span class="t-mut">제조+7일</span></td><td><span class="t-mut">냉장 0~5°C</span></td><td class=r>540원</td><td><span class="badge bg-teal">활성</span></td></tr><tr><td>낫또 45g</td><td><span class="t-mut">발효</span></td><td>45g×2</td><td><span class="t-mut">제조+30일</span></td><td><span class="t-mut">냉장 0~10°C</span></td><td class=r>680원</td><td><span class="badge bg-teal">활성</span></td></tr><tr><td>에너지바 40g</td><td><span class="t-mut">가공</span></td><td>40g</td><td><span class="t-mut">제조+180일</span></td><td><span class="t-mut">상온</span></td><td class=r>420원</td><td><span class="badge bg-teal">활성</span></td></tr><tr><td>두유 190ml</td><td><span class="t-mut">음료</span></td><td>190ml</td><td><span class="t-mut">제조+14일</span></td><td><span class="t-mut">냉장</span></td><td class=r>—</td><td><span class="badge bg-gray">단종 예정</span></td></tr></table><p style="font-size:10px;color:var(--g05);margin-top:12px">소비기한·보관 조건은 로트 생성 시 자동 계산에 사용됩니다</p></section><div><section class="panel"><div class="panel-head"><h2>선택 품목 — 두부 300g</h2></div><table class="grid fit" style="font-size:11px"><tr><td class="t-mut">바코드</td><td class="r"><b>880 1234 567890</b></td></tr><tr><td class="t-mut">배합 기준</td><td class="r"><b>R-두부-03 v4</b></td></tr><tr><td class="t-mut">검사 그룹</td><td class="r"><b>두부류 완제품 (8항목)</b></td></tr><tr><td class="t-mut">표준원가 · 판가</td><td class="r"><b>820원 · 1,250원</b></td></tr><tr><td class="t-mut">월 판매량</td><td class="r"><b>24,600개 (+8%)</b></td></tr></table><a class="link" style="font-size:11px" href="recipes.html">배합(레시피) →</a> <a class="link" style="font-size:11px;margin-left:12px" href="qc_groups.html">검사 그룹 →</a></section><section class="panel"><div class="panel-head"><h2>제품군 구성</h2></div><div class="hbar-row" style="grid-template-columns:96px 1fr 56px"><span class="nm">두부류</span><div class="hbar"><i style="width:46%"></i></div><span class="val">46%</span></div><div class="hbar-row" style="grid-template-columns:96px 1fr 56px"><span class="nm">연식품·음료</span><div class="hbar"><i class="pos" style="width:24%"></i></div><span class="val">24%</span></div><div class="hbar-row" style="grid-template-columns:96px 1fr 56px"><span class="nm">나물류</span><div class="hbar"><i class="orange" style="width:18%"></i></div><span class="val">18%</span></div><div class="hbar-row" style="grid-template-columns:96px 1fr 56px"><span class="nm">발효·가공</span><div class="hbar"><i style="width:12%;background:var(--g05)"></i></div><span class="val">12%</span></div></section></div></div>
+</main>
+</div>
+<script src="assets/ui.js"></script>
+</body>
+</html>

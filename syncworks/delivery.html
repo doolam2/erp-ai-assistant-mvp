@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>배송 조회 · Smart SYNCWORKS</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/style.css?v=3">
+<script src="assets/theme.js"></script>
+</head>
+<body>
+<header class="gnb">
+  <a class="logo" href="dashboard.html"><em>Smart</em><b>SYNCWORKS</b></a>
+  <nav><a href="dashboard.html">기초정보</a><a href="lab.html">연구소</a><a class=on href="orders.html">주문</a><a href="confirm.html">생산량 확정</a><a href="purchase.html">발주</a><a href="production.html">생산</a><a href="warehouse.html">입출고</a><a href="inventory.html">재고</a><a href="quality.html">품질</a><a href="monitoring.html">모니터링</a><a href="prints.html">출력물</a><a href="reports.html">보고서</a><a href="bpm.html">BPM</a></nav>
+  <span class="user">홍길동 님</span>
+</header>
+<div class="app">
+<aside class="lnb">
+  <div class="grp">주문 관리</div>
+  <a href="orders.html">주문 목록</a>
+  <a href="order_new.html">주문 등록</a>
+  <a href="returns.html">반품 관리</a>
+  <a href="holdings.html">홀딩스 출고 · 마감</a>
+  <a href="client_orders.html">거래처별 주문</a>
+  <a class="on" href="delivery.html">배송 조회</a>
+  <a href="settlement.html">정산 내역</a>
+</aside>
+<main class="main">
+<div class="page-head"><h1>배송 조회</h1><span class="sub">금일 52곳 · 완료 41 · 배송 중 9 · 예정 2</span><div class="actions"><button class="btn btn-outline">CSV</button></div></div><section class="panel"><div class="filter-bar" style="margin-bottom:14px"><span class="chip on">전체</span><span class="chip">배송 중</span><span class="chip">완료</span><span class="chip">예정</span><span class="chip">지연</span></div><table class="grid"><tr><th>주문번호</th><th>거래처</th><th>품목 요약</th><th class=r>수량</th><th>차량</th><th>코스</th><th>출발</th><th>도착 예정</th><th>인수자</th><th>상태</th></tr><tr><td>SO-…-014</td><td>대상마트 성수점</td><td><span class="t-mut">두부 300g 외 3종</span></td><td class=r>1,240</td><td>87버 1023</td><td>수도권 A</td><td><span class="t-mut">04:30</span></td><td><b>07:40</b></td><td><span class="t-mut">—</span></td><td><span class="badge bg-blue">배송 중</span></td></tr><tr><td>SO-…-013</td><td>한솔유통</td><td><span class="t-mut">순두부 350g</span></td><td class=r>860</td><td>87버 1023</td><td>수도권 A</td><td><span class="t-mut">04:30</span></td><td><b>08:10</b></td><td><span class="t-mut">—</span></td><td><span class="badge bg-blue">배송 중</span></td></tr><tr><td>SO-…-012</td><td>성심식자재</td><td><span class="t-mut">콩나물 외 1종</span></td><td class=r>2,150</td><td>87버 1024</td><td>수도권 B</td><td><span class="t-mut">04:30</span></td><td><b>06:50</b></td><td><span class="t-mut">김성심</span></td><td><span class="badge bg-teal">배송 완료</span></td></tr><tr><td>SO-…-011</td><td>늘푸른급식</td><td><span class="t-mut">두부 800g(10입)</span></td><td class=r>640</td><td>91서 3310</td><td>충청권</td><td><span class="t-mut">05:00</span></td><td><b>09:20</b></td><td><span class="t-mut">—</span></td><td><span class="badge bg-blue">배송 중</span></td></tr><tr><td>SO-…-042</td><td>제일식품</td><td><span class="t-mut">숙주나물 380g</span></td><td class=r>1,720</td><td>87버 1024</td><td>수도권 B</td><td><span class="t-mut">04:30</span></td><td><b>07:30</b></td><td><span class="t-mut">이제일</span></td><td><span class="badge bg-teal">배송 완료</span></td></tr><tr><td>SO-…-041</td><td>바른유통</td><td><span class="t-mut">두부 300g</span></td><td class=r>3,400</td><td>87버 1023</td><td>수도권 A</td><td><span class="t-mut">04:30</span></td><td><b>06:20</b></td><td><span class="t-mut">최바른</span></td><td><span class="badge bg-teal">배송 완료</span></td></tr><tr><td>SO-…-039</td><td>참좋은유통</td><td><span class="t-mut">콩물 1L</span></td><td class=r>890</td><td>87버 1023</td><td>수도권 오후</td><td><span class="t-mut">13:00</span></td><td><b>15:20</b></td><td><span class="t-mut">—</span></td><td><span class="badge bg-gray">예정</span></td></tr></table><div style="display:flex;justify-content:space-between;margin-top:12px"><b style="font-size:11px;color:var(--g08)">평균 리드타임 1.4일 · 정시 도착률 98.1% · 냉장 온도 위반 0건 (배차 관리 연동)</b><span class="paging" style="margin:0"><a>← 이전</a><a class="on">1</a><a>2</a><a>다음 →</a></span></div></section>
+</main>
+</div>
+<script src="assets/ui.js"></script>
+</body>
+</html>

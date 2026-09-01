@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>안전/적정재고 설정 · Smart SYNCWORKS</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/style.css?v=3">
+<script src="assets/theme.js"></script>
+<style>
+.info-bn{display:flex;gap:12px;align-items:flex-start;background:var(--tint-blue);border-radius:10px;padding:14px 18px;margin-bottom:16px}
+.info-bn .ic{width:20px;height:20px;border-radius:50%;background:var(--brand);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.info-bn p{font-size:12px;color:var(--g08);line-height:1.5}
+.info-bn .sub2{font-size:10px;font-weight:600;color:var(--brand);margin-top:4px}
+.num-in{width:76px;height:28px;border:1px solid var(--g03);border-radius:6px;padding:0 8px;font-size:11px;font-weight:700;font-family:inherit;text-align:right;background:var(--surface);color:var(--ink)}
+.num-in:focus{outline:none;border-color:var(--brand);border-width:1.5px}
+.sw2{position:relative;display:inline-block;width:34px;height:20px}
+.sw2 input{opacity:0;width:0;height:0}
+.sw2 i{position:absolute;inset:0;background:var(--g03);border-radius:10px;transition:.25s;cursor:pointer}
+.sw2 i::before{content:'';position:absolute;left:2px;top:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:.25s}
+.sw2 input:checked + i{background:var(--brand)}
+.sw2 input:checked + i::before{transform:translateX(14px)}
+.calc{background:var(--g01);border-radius:10px;padding:14px 16px;margin-bottom:16px}
+.ai-item{display:flex;gap:10px;margin-bottom:10px}
+.ai-item i{width:8px;height:8px;border-radius:2px;background:var(--brand);flex-shrink:0;margin-top:4px}
+</style>
+</head>
+<body>
+
+<header class="gnb">
+  <a class="logo" href="dashboard.html"><em>Smart</em><b>SYNCWORKS</b></a>
+  <nav>
+    <a href="dashboard.html">기초정보</a>
+    <a href="lab.html">연구소</a>
+    <a href="orders.html">주문</a>
+    <a href="confirm.html">생산량 확정</a>
+    <a href="purchase.html">발주</a>
+    <a href="production.html">생산</a>
+    <a href="warehouse.html">입출고</a>
+    <a class="on" href="inventory.html">재고</a>
+    <a href="quality.html">품질</a>
+    <a href="monitoring.html">모니터링</a>
+    <a href="prints.html">출력물</a>
+    <a href="reports.html">보고서</a>
+    <a href="bpm.html">BPM</a>
+  </nav>
+  <span class="user">홍길동 님</span>
+</header>
+
+<div class="app">
+<aside class="lnb">
+  <div class="grp">재고 관리</div>
+  <a href="inventory.html">재고 현황</a>
+  <a href="lots.html">로트별 재고 · 추적</a>
+  <a class="on" href="safety_stock.html">안전/적정재고 설정</a>
+  <a href="stocktake.html">재고 실사</a>
+  <a href="stock_report.html">재고 분석</a>
+  <a href="ledger.html">수불 이력</a>
+</aside>
+
+<main class="main">
+  <div class="page-head">
+    <h1>안전/적정재고 설정</h1>
+    <span class="sub">품목별 기준 — 미달 시 발주 제안 자동 생성</span>
+    <div class="actions"><button class="btn btn-primary">변경사항 저장</button></div>
+  </div>
+
+  <div class="info-bn">
+    <span class="ic">i</span>
+    <div>
+      <p>안전재고 미달 품목은 발주 현황에 자동으로 발주 제안이 올라갑니다. 자동 발주 스위치를 켜면 제안 없이 초안 발주서까지 생성됩니다.</p>
+      <p class="sub2">현재 미달 14건 · 발주 제안 8건 생성됨 — <a class="link" href="purchase.html">발주 현황 보기 →</a></p>
+    </div>
+  </div>
+
+  <div class="filter-bar" style="margin-bottom:16px">
+    <span class="chip on">전 창고</span><span class="chip">중앙물류</span><span class="chip">냉장센터</span><span class="chip">제1공장</span><span class="chip">제2공장</span>
+    <span style="font-size:11px;color:var(--g05);margin-left:8px">제품 (P) · 원자재 (M) · 부자재 (S) 전체</span>
+  </div>
+
+  <div class="row grid-64">
+    <section class="panel">
+      <div class="panel-head"><h2>품목별 기준 설정</h2><span class="sub">파란 테두리 = 입력값</span></div>
+      <table class="grid">
+        <tr><th>품목</th><th class="r">현재고</th><th class="r">안전재고</th><th class="r">적정재고</th><th class="r">리드타임</th><th class="r">일소요</th><th>자동발주</th><th>상태</th></tr>
+        <tr style="background:var(--tint-blue)"><td><b>두부 300g</b></td><td class="r">2,128</td><td class="r"><input class="num-in" value="4,000" style="border-color:var(--brand);border-width:1.5px"></td><td class="r"><input class="num-in" value="6,000"></td><td class="r">1일</td><td class="r">3,470</td><td><label class="sw2"><input type="checkbox" checked><i></i></label></td><td><span class="badge bg-red">미달</span></td></tr>
+        <tr><td>순두부 350g</td><td class="r">1,860</td><td class="r"><input class="num-in" value="2,500"></td><td class="r"><input class="num-in" value="4,000"></td><td class="r">1일</td><td class="r">2,150</td><td><label class="sw2"><input type="checkbox" checked><i></i></label></td><td><span class="badge bg-red">미달</span></td></tr>
+        <tr><td>두부 800g(10입)</td><td class="r">640</td><td class="r"><input class="num-in" value="600"></td><td class="r"><input class="num-in" value="1,000"></td><td class="r">1일</td><td class="r">710</td><td><label class="sw2"><input type="checkbox" checked><i></i></label></td><td><span class="badge bg-teal">정상</span></td></tr>
+        <tr><td>콩물 1L</td><td class="r">280</td><td class="r"><input class="num-in" value="400"></td><td class="r"><input class="num-in" value="800"></td><td class="r">2일</td><td class="r">590</td><td><label class="sw2"><input type="checkbox"><i></i></label></td><td><span class="badge bg-red">미달</span></td></tr>
+        <tr><td>국산 백태</td><td class="r">9,000kg</td><td class="r"><input class="num-in" value="6,000kg"></td><td class="r"><input class="num-in" value="12,000kg"></td><td class="r">3일</td><td class="r">1,600kg</td><td><label class="sw2"><input type="checkbox" checked><i></i></label></td><td><span class="badge bg-teal">정상</span></td></tr>
+        <tr><td>응고제(간수)</td><td class="r">105kg</td><td class="r"><input class="num-in" value="60kg"></td><td class="r"><input class="num-in" value="150kg"></td><td class="r">7일</td><td class="r">14kg</td><td><label class="sw2"><input type="checkbox" checked><i></i></label></td><td><span class="badge bg-teal">정상</span></td></tr>
+        <tr><td>포장 필름 300g</td><td class="r">46,700매</td><td class="r"><input class="num-in" value="30,000매"></td><td class="r"><input class="num-in" value="60,000매"></td><td class="r">14일</td><td class="r">3,500매</td><td><label class="sw2"><input type="checkbox"><i></i></label></td><td><span class="badge bg-teal">정상</span></td></tr>
+        <tr><td>라벨 스티커</td><td class="r">11,400</td><td class="r"><input class="num-in" value="15,000"></td><td class="r"><input class="num-in" value="30,000"></td><td class="r">14일</td><td class="r">1,700</td><td><label class="sw2"><input type="checkbox"><i></i></label></td><td><span class="badge bg-red">미달</span></td></tr>
+      </table>
+      <p style="font-size:10px;color:var(--brand);font-weight:600;margin-top:12px">두부 300g 안전재고 3,000 → 4,000 수정됨 (저장 대기) — AI 제안 반영</p>
+    </section>
+
+    <div>
+      <section class="panel">
+        <div class="panel-head"><h2>기준값 계산 도우미</h2></div>
+        <div class="calc">
+          <p style="font-size:11px;font-weight:700;margin-bottom:6px">안전재고 권장 공식</p>
+          <p style="font-size:12px;color:var(--g08)">일평균 소요 × 리드타임 + 안전 버퍼(15%)</p>
+          <p style="font-size:11px;font-weight:700;color:var(--brand);margin-top:8px">두부 300g: 3,470 × 1일 × 1.15 = 3,990 ≈ 4,000</p>
+        </div>
+        <p style="font-size:11px;font-weight:700;margin-bottom:6px">AI 제안</p>
+        <p style="font-size:10px;color:var(--g05);margin-bottom:12px">최근 4주 소요 추세 기준으로 3개 품목의 기준 조정을 제안합니다.</p>
+        <div class="ai-item"><i></i><div><b style="font-size:11px">두부 300g</b><p style="font-size:10px;color:var(--g08)">3,000 → 4,000 (주문 증가 +12%)</p></div></div>
+        <div class="ai-item"><i></i><div><b style="font-size:11px">콩물 1L</b><p style="font-size:10px;color:var(--g08)">400 유지, 자동발주 ON 권장</p></div></div>
+        <div class="ai-item"><i></i><div><b style="font-size:11px">라벨 스티커</b><p style="font-size:10px;color:var(--g08)">15,000 → 9,000 (과다 기준)</p></div></div>
+        <div style="display:flex;gap:8px;margin-top:12px">
+          <button class="btn btn-primary btn-sm">일괄 반영</button>
+          <button class="btn btn-outline btn-sm">무시</button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head"><h2>최근 변경 이력</h2></div>
+        <table class="grid fit" style="font-size:11px">
+          <tr><td class="t-mut" style="white-space:nowrap">09-01 홍길동</td><td>두부 300g 안전 3,000→4,000 (저장 대기)</td></tr>
+          <tr><td class="t-mut" style="white-space:nowrap">08-28 박물류</td><td>포장 필름 자동발주 OFF — 과다 기준 검토</td></tr>
+          <tr><td class="t-mut" style="white-space:nowrap">08-21 홍길동</td><td>국산 백태 적정 10,000→12,000kg</td></tr>
+          <tr><td class="t-mut" style="white-space:nowrap">08-18 시스템</td><td>신규 품목 낫또 45g 기본값 자동 생성</td></tr>
+        </table>
+      </section>
+    </div>
+  </div>
+
+</main>
+</div>
+
+<script src="assets/ui.js"></script>
+<script src="assets/motion.js"></script>
+</body>
+</html>

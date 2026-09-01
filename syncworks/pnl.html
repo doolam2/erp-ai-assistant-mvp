@@ -8,12 +8,18 @@
 <link rel="stylesheet" href="assets/style.css?v=3">
 <script src="assets/theme.js"></script>
 <style>
-.wf{position:relative;height:280px;display:flex;gap:3.5%;align-items:stretch;padding:0 1%;border-bottom:1px solid var(--g03)}
-.wf .col{flex:1;position:relative}
-.wf .col i{position:absolute;left:0;right:0;border-radius:3px 3px 0 0;display:block}
-.wf .col .vl{position:absolute;left:0;right:0;text-align:center;font-size:10px;font-weight:700}
-.wf-x{display:flex;gap:3.5%;padding:6px 1% 0;font-size:10px;color:var(--g05)}
-.wf-x span{flex:1;text-align:center;line-height:1.3}
+.pl{display:grid;grid-template-columns:120px 1fr 90px;gap:14px;align-items:center;margin-bottom:18px}
+.pl .lb2{font-size:12px;font-weight:700}
+.pl .hbar{height:26px;border-radius:5px}
+.pl .hbar i{border-radius:5px;position:relative}
+.pl .hbar i .in{position:absolute;left:10px;top:6px;font-size:10px;font-weight:700;color:#fff}
+.pl .v{font-size:12px;font-weight:700;text-align:right}
+.pl .v small{display:block;font-size:10px;font-weight:500;color:var(--g05)}
+.pl.minus{margin:-6px 0 14px}
+.pl.minus .lb2{font-size:11px;font-weight:400;color:var(--g05);padding-left:14px}
+.pl.minus .hbar{height:8px;border-radius:4px}
+.pl.minus .hbar i{background:var(--neg);opacity:.8;border-radius:4px}
+.pl.minus .v{color:var(--neg);font-size:11px}
 </style>
 </head>
 <body>
@@ -42,13 +48,13 @@
 <aside class="lnb">
   <div class="grp">매출 관리</div>
   <a href="dashboard.html">매출 대시보드</a>
-  <a href="#">매출목표 및 계획</a>
+  <a href="targets.html">매출목표 및 계획</a>
   <a class="on" href="pnl.html">손익계산서</a>
-  <a href="#">법인별 실적</a>
+  <a href="corp.html">법인별 실적</a>
   <div class="grp">기초 정보</div>
-  <a href="#">거래처 관리</a>
-  <a href="#">제품정보 관리</a>
-  <a href="#">창고 관리</a>
+  <a href="clients.html">거래처 관리</a>
+  <a href="products.html">제품정보 관리</a>
+  <a href="warehouses.html">창고 관리</a>
 </aside>
 
 <main class="main">
@@ -71,23 +77,21 @@
 
   <div class="row grid-64">
     <section class="panel">
-      <div class="panel-head"><h2>손익 워터폴 — 매출에서 순이익까지</h2><span class="sub">당월 누적</span></div>
-      <div class="wf">
-        <div class="col"><span class="vl" style="bottom:100%">12,232</span><i style="bottom:0;height:100%;background:var(--brand)"></i></div>
-        <div class="col"><span class="vl" style="bottom:100%">-7,890</span><i style="bottom:35.5%;height:64.5%;background:var(--neg);opacity:.75"></i></div>
-        <div class="col"><span class="vl" style="bottom:36.5%">4,342</span><i style="bottom:0;height:35.5%;background:var(--brand)"></i></div>
-        <div class="col"><span class="vl" style="bottom:36.5%">-2,410</span><i style="bottom:15.8%;height:19.7%;background:var(--neg);opacity:.75"></i></div>
-        <div class="col"><span class="vl" style="bottom:16.8%">1,933</span><i style="bottom:0;height:15.8%;background:var(--brand)"></i></div>
-        <div class="col"><span class="vl" style="bottom:16.8%">-210</span><i style="bottom:14.1%;height:1.7%;background:var(--neg);opacity:.75"></i></div>
-        <div class="col"><span class="vl" style="bottom:15.1%">1,722</span><i style="bottom:0;height:14.1%;background:var(--brand-2)"></i></div>
+      <div class="panel-head"><h2>손익 단계 — 매출에서 순이익까지</h2><span class="sub">당월 누적</span></div>
+      <div style="margin-top:6px">
+        <div class="pl"><span class="lb2">매출액</span><div class="hbar"><i style="width:100%"><span class="in">100%</span></i></div><span class="v">12,232<small>100%</small></span></div>
+        <div class="pl minus"><span class="lb2">−  매출원가</span><div class="hbar"><i style="width:64.5%"></i></div><span class="v">-7,890</span></div>
+        <div class="pl"><span class="lb2">매출총이익</span><div class="hbar"><i style="width:35.5%"><span class="in">35.5%</span></i></div><span class="v">4,342<small>35.5%</small></span></div>
+        <div class="pl minus"><span class="lb2">−  판매관리비</span><div class="hbar"><i style="width:19.7%"></i></div><span class="v">-2,410</span></div>
+        <div class="pl"><span class="lb2">영업이익</span><div class="hbar"><i style="width:15.8%"></i></div><span class="v">1,933<small>15.8%</small></span></div>
+        <div class="pl minus"><span class="lb2">−  영업외손익</span><div class="hbar"><i style="width:1.7%"></i></div><span class="v">-210</span></div>
+        <div class="pl"><span class="lb2">당기순이익</span><div class="hbar"><i style="width:14.1%;background:var(--brand-2)"></i></div><span class="v">1,722<small>14.1%</small></span></div>
       </div>
-      <div class="wf-x">
-        <span>매출액</span><span>매출원가</span><span>매출총이익</span><span>판매관리비</span><span><b>영업이익</b></span><span>영업외손익</span><span><b>당기순이익</b></span>
-      </div>
+      <div style="height:1px;background:var(--g02);margin:4px 0 12px"></div>
       <div class="legend">
-        <span><span class="sw" style="background:var(--brand)"></span>합계 단계</span>
-        <span><span class="sw" style="background:var(--neg);opacity:.75"></span>차감 항목</span>
-        <span><span class="sw" style="background:var(--brand-2)"></span>최종 순이익</span>
+        <span><span class="sw" style="background:var(--brand)"></span>단계 금액 (매출 대비 비중)</span>
+        <span><span class="sw" style="background:var(--neg);opacity:.8;height:8px;vertical-align:1px"></span>차감액</span>
+        <span style="color:var(--g05)">원가율 64.5%가 최대 변수 — 우측 비용 구성 참조</span>
       </div>
     </section>
 

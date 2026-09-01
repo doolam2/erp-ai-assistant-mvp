@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>반품 관리 · Smart SYNCWORKS</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/style.css?v=3">
+<script src="assets/theme.js"></script>
+<style>
+.ph{width:120px;height:80px;background:var(--g01);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--g05)}
+</style>
+</head>
+<body>
+
+<header class="gnb">
+  <a class="logo" href="dashboard.html"><em>Smart</em><b>SYNCWORKS</b></a>
+  <nav>
+    <a href="dashboard.html">기초정보</a>
+    <a href="lab.html">연구소</a>
+    <a class="on" href="orders.html">주문</a>
+    <a href="confirm.html">생산량 확정</a>
+    <a href="purchase.html">발주</a>
+    <a href="production.html">생산</a>
+    <a href="warehouse.html">입출고</a>
+    <a href="inventory.html">재고</a>
+    <a href="quality.html">품질</a>
+    <a href="monitoring.html">모니터링</a>
+    <a href="prints.html">출력물</a>
+    <a href="reports.html">보고서</a>
+    <a href="bpm.html">BPM</a>
+  </nav>
+  <span class="user">홍길동 님</span>
+</header>
+
+<div class="app">
+<aside class="lnb">
+  <div class="grp">주문 관리</div>
+  <a href="orders.html">주문 목록</a>
+  <a href="order_new.html">주문 등록</a>
+  <a class="on" href="returns.html">반품 관리</a>
+  <a href="client_orders.html">거래처별 주문</a>
+  <a href="delivery.html">배송 조회</a>
+  <a href="settlement.html">정산 내역</a>
+</aside>
+
+<main class="main">
+  <div class="page-head">
+    <h1>반품 관리</h1>
+    <span class="sub">전체 법인 · 2026. 09. 01</span>
+    <div class="actions"><button class="btn btn-primary"><svg class="ic-plus" viewBox="0 0 10 10"><path d="M5 1v8M1 5h8"/></svg>반품 접수</button></div>
+  </div>
+
+  <div class="kpis">
+    <div class="kpi"><div class="lb">금일 반품 접수</div><div class="num">6<small>건</small></div><div class="meta">전일비 +2건</div></div>
+    <div class="kpi tint-orange"><div class="lb">처리 대기</div><div class="num t-orange">4<small>건</small></div><div class="delta t-orange">회수 2 · 검수 대기 2</div></div>
+    <div class="kpi"><div class="lb">환입 완료</div><div class="num">2<small>건</small></div><div class="delta t-pos">재고 반영됨</div></div>
+    <div class="kpi"><div class="lb">월 반품률</div><div class="num">0.4<small>%</small></div><div class="delta t-pos">목표 0.5% 이내</div></div>
+  </div>
+
+  <div class="row grid-64">
+    <section class="panel">
+      <div class="panel-head"><h2>반품 목록</h2></div>
+      <div class="filter-bar" style="margin-bottom:14px">
+        <span class="chip on">전체</span><span class="chip">접수</span><span class="chip">회수 중</span><span class="chip">검수</span><span class="chip">환입 완료</span><span class="chip">폐기</span>
+      </div>
+      <table class="grid">
+        <tr><th>반품번호</th><th>거래처</th><th>제품</th><th class="r">수량</th><th>사유</th><th>상태</th><th>원주문</th></tr>
+        <tr style="background:var(--tint-blue)"><td><b class="t-brand">RT-260901-06</b></td><td>대상마트 성수점</td><td>두부 300g</td><td class="r">24</td><td>운송 파손</td><td><span class="badge bg-gray">접수</span></td><td class="t-mut">SO-…-014</td></tr>
+        <tr><td>RT-260901-05</td><td>한솔유통</td><td>순두부 350g</td><td class="r">12</td><td>오배송</td><td><span class="badge bg-blue">회수 중</span></td><td class="t-mut">SO-…-013</td></tr>
+        <tr><td>RT-260901-04</td><td>늘푸른급식</td><td>콩나물 380g</td><td class="r">30</td><td>기한 임박</td><td><span class="badge bg-blue">회수 중</span></td><td class="t-mut">SO-…-011</td></tr>
+        <tr><td>RT-260901-03</td><td>제일식품</td><td>두부 800g</td><td class="r">8</td><td>포장 불량</td><td><span class="badge bg-orange">검수</span></td><td class="t-mut">SO-…-042</td></tr>
+        <tr><td>RT-260901-02</td><td>바른유통</td><td>콩물 1L</td><td class="r">16</td><td>운송 파손</td><td><span class="badge bg-orange">검수</span></td><td class="t-mut">SO-…-041</td></tr>
+        <tr><td>RT-260901-01</td><td>성심식자재</td><td>두부 300g</td><td class="r">40</td><td>오배송</td><td><span class="badge bg-teal">환입 완료</span></td><td class="t-mut">SO-…-012</td></tr>
+        <tr><td>RT-260831-09</td><td>해맑은식자재</td><td>순두부 350g</td><td class="r">10</td><td>기한 경과</td><td><span class="badge bg-red">폐기</span></td><td class="t-mut">SO-…-040</td></tr>
+        <tr><td>RT-260831-08</td><td>대상마트 왕십리</td><td>촌두부 550g</td><td class="r">6</td><td>운송 파손</td><td><span class="badge bg-teal">환입 완료</span></td><td class="t-mut">SO-…-010</td></tr>
+      </table>
+      <div class="paging"><a>← 이전</a><a class="on">1</a><a>2</a><a>다음 →</a></div>
+    </section>
+
+    <div>
+      <section class="panel">
+        <div class="panel-head"><h2>반품 상세 — RT-260901-06</h2><span class="badge bg-gray">접수</span></div>
+        <p style="font-size:12px;font-weight:600">대상마트 성수점 · 두부 300g · 24개</p>
+        <p style="font-size:10px;color:var(--g05);margin:4px 0 12px">원주문 SO-260826-014 · 배송 08-28 · 접수 09-01 08:40</p>
+        <div style="height:1px;background:var(--g02);margin-bottom:12px"></div>
+        <p style="font-size:11px;font-weight:700;margin-bottom:6px">사유</p>
+        <p style="font-size:11px;color:var(--g08);margin-bottom:12px">운송 중 파손 — 박스 하단 눌림, 12개 팩 손상 확인 요청</p>
+        <div style="display:flex;gap:10px;margin-bottom:14px"><div class="ph">현장 사진 2</div><div class="ph">회수 라벨</div></div>
+        <p style="font-size:11px;font-weight:700;margin-bottom:4px">처리 절차</p>
+        <p style="font-size:10px;color:var(--g05);margin-bottom:12px">회수 지시 → 검수(파손 판정) → 환입 또는 폐기 → 여신 반영</p>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-primary">회수 지시</button>
+          <button class="btn btn-outline">반려</button>
+        </div>
+        <p style="font-size:10px;color:var(--g05);margin-top:12px">검수 후 환입되면 재고·수불에 자동 반영됩니다</p>
+        <a class="link" style="font-size:11px" href="lots.html">로트 추적에서 보기 →</a>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head"><h2>반품 사유 분포</h2><span class="sub">최근 30일 · 건</span></div>
+        <div class="hbar-row" style="grid-template-columns:96px 1fr 30px"><span class="nm">운송 파손</span><div class="hbar"><i class="neg" style="width:86%"></i></div><span class="val">18</span></div>
+        <div class="hbar-row" style="grid-template-columns:96px 1fr 30px"><span class="nm">오배송</span><div class="hbar"><i class="orange" style="width:57%"></i></div><span class="val">12</span></div>
+        <div class="hbar-row" style="grid-template-columns:96px 1fr 30px"><span class="nm">기한 임박·경과</span><div class="hbar"><i class="orange" style="width:43%"></i></div><span class="val">9</span></div>
+        <div class="hbar-row" style="grid-template-columns:96px 1fr 30px"><span class="nm">포장 불량</span><div class="hbar"><i style="width:29%;background:var(--g05)"></i></div><span class="val">6</span></div>
+        <div class="hbar-row" style="grid-template-columns:96px 1fr 30px;margin-bottom:0"><span class="nm">기타</span><div class="hbar"><i style="width:14%;background:var(--g05)"></i></div><span class="val">3</span></div>
+        <p style="font-size:10px;color:var(--g05);margin-top:12px">운송 파손 집중 — 수도권 A코스 적재 방식 점검 제안됨</p>
+        <a class="link" style="font-size:11px" href="dispatch.html">배차 관리에서 보기 →</a>
+      </section>
+    </div>
+  </div>
+
+</main>
+</div>
+
+<script src="assets/ui.js"></script>
+<script src="assets/motion.js"></script>
+</body>
+</html>

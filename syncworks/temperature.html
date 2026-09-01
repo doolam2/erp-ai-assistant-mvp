@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>온습도 현황 · Smart SYNCWORKS</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/style.css?v=3">
+<script src="assets/theme.js"></script>
+<style>
+.zcard{background:var(--surface);border:1px solid var(--g02);border-radius:var(--radius);padding:14px 16px}
+.zcard.warn{border:1.5px solid var(--orange)}
+.zcard .zt{font-size:26px;font-weight:700;margin:6px 0 2px}
+.zcard .std{font-size:10px;color:var(--g05)}
+.band{position:relative;height:220px;margin:14px 0 6px}
+.band .safe{position:absolute;left:0;right:0;top:14%;bottom:12%;background:var(--tint-teal);opacity:.55;border-radius:4px}
+.dotlist i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:8px;vertical-align:-1px}
+</style>
+</head>
+<body>
+
+<header class="gnb">
+  <a class="logo" href="dashboard.html"><em>Smart</em><b>SYNCWORKS</b></a>
+  <nav>
+    <a href="dashboard.html">기초정보</a>
+    <a href="lab.html">연구소</a>
+    <a href="orders.html">주문</a>
+    <a href="confirm.html">생산량 확정</a>
+    <a href="purchase.html">발주</a>
+    <a href="production.html">생산</a>
+    <a href="warehouse.html">입출고</a>
+    <a href="inventory.html">재고</a>
+    <a href="quality.html">품질</a>
+    <a class="on" href="monitoring.html">모니터링</a>
+    <a href="prints.html">출력물</a>
+    <a href="reports.html">보고서</a>
+    <a href="bpm.html">BPM</a>
+  </nav>
+  <span class="user">홍길동 님</span>
+</header>
+
+<div class="app">
+<aside class="lnb">
+  <div class="grp">모니터링</div>
+  <a href="monitoring.html">설비 관제 (PLC)</a>
+  <a href="monitoring_live.html">실시간 관제</a>
+  <a href="monitoring_analytics.html">운영 지표 분석</a>
+  <a href="alarms.html">알람 이력</a>
+  <a class="on" href="temperature.html">온습도 현황</a>
+  <a href="finished_defects.html">완제품 불량</a>
+  <a href="shipping_mon.html">출하 현황</a>
+</aside>
+
+<main class="main">
+  <div class="page-head">
+    <h1>온습도 현황</h1>
+    <span class="sub">냉장·창고 8개 구역 · IoT 센서 · 15초 주기 갱신</span>
+    <div class="actions"><span class="badge bg-red">LIVE · 센서 24</span></div>
+  </div>
+
+  <div class="kpis">
+    <div class="zcard"><div style="display:flex;justify-content:space-between"><span style="font-size:12px;color:var(--g08)">냉장센터 A</span><span class="badge bg-teal">정상</span></div>
+      <div class="zt">2.4°C</div><p class="std">기준 0~5°C</p>
+      <svg width="100%" height="34" viewBox="0 0 100 30" preserveAspectRatio="none"><polyline fill="none" style="stroke:var(--pos-fill)" stroke-width="2" vector-effect="non-scaling-stroke" points="0,14 14,16 28,12 42,15 57,10 71,13 85,14 100,12"/></svg></div>
+    <div class="zcard warn"><div style="display:flex;justify-content:space-between"><span style="font-size:12px;color:var(--g08)">냉장센터 B</span><span class="badge bg-orange">상한 근접</span></div>
+      <div class="zt t-orange">4.8°C</div><p class="std">기준 0~5°C</p>
+      <svg width="100%" height="34" viewBox="0 0 100 30" preserveAspectRatio="none"><polyline fill="none" style="stroke:var(--orange)" stroke-width="2" vector-effect="non-scaling-stroke" points="0,18 14,17 28,16 42,14 57,12 71,9 85,6 100,4"/></svg></div>
+    <div class="zcard"><div style="display:flex;justify-content:space-between"><span style="font-size:12px;color:var(--g08)">숙성실</span><span class="badge bg-teal">정상</span></div>
+      <div class="zt">12.1°C</div><p class="std">기준 10~14°C</p>
+      <svg width="100%" height="34" viewBox="0 0 100 30" preserveAspectRatio="none"><polyline fill="none" style="stroke:var(--pos-fill)" stroke-width="2" vector-effect="non-scaling-stroke" points="0,14 14,12 28,15 42,13 57,14 71,15 85,13 100,14"/></svg></div>
+    <div class="zcard"><div style="display:flex;justify-content:space-between"><span style="font-size:12px;color:var(--g08)">상온 창고</span><span class="badge bg-teal">정상</span></div>
+      <div class="zt">21.6°C</div><p class="std">기준 15~25°C</p>
+      <svg width="100%" height="34" viewBox="0 0 100 30" preserveAspectRatio="none"><polyline fill="none" style="stroke:var(--pos-fill)" stroke-width="2" vector-effect="non-scaling-stroke" points="0,12 14,13 28,14 42,16 57,14 71,12 85,14 100,15"/></svg></div>
+  </div>
+
+  <div class="row grid-64">
+    <section class="panel">
+      <div class="panel-head"><h2>냉장센터 B — 24시간 추이</h2><span class="sub">상한 5.0°C · 하한 0°C</span></div>
+      <div class="band">
+        <div class="safe"></div>
+        <svg width="100%" height="100%" viewBox="0 0 100 60" preserveAspectRatio="none" style="position:absolute;inset:0">
+          <line x1="0" y1="9" x2="100" y2="9" style="stroke:var(--orange)" stroke-width="1" stroke-dasharray="3 3" vector-effect="non-scaling-stroke"/>
+          <line x1="0" y1="53" x2="100" y2="53" style="stroke:var(--g03)" stroke-width="1" stroke-dasharray="3 3" vector-effect="non-scaling-stroke"/>
+          <polyline fill="none" style="stroke:var(--orange)" stroke-width="2" vector-effect="non-scaling-stroke"
+            points="0,34 9,35 18,33 27,34 36,32 45,30 54,28 63,25 72,21 81,17 90,13 100,10"/>
+          <circle cx="100" cy="10" r="2" style="fill:var(--orange)"/>
+        </svg>
+        <span style="position:absolute;right:0;top:0;font-size:12px;font-weight:700;color:var(--orange)">4.8°C</span>
+        <span style="position:absolute;left:0;top:10%;font-size:9px;color:var(--g05)">5.0</span>
+        <span style="position:absolute;left:0;bottom:8%;font-size:9px;color:var(--g05)">0</span>
+      </div>
+      <div style="display:flex;font-size:10px;color:var(--g05);justify-content:space-between;padding:0 2px">
+        <span>0시</span><span>4시</span><span>8시</span><span>12시</span><span>16시</span><span>20시</span><span>현재</span>
+      </div>
+      <div style="height:1px;background:var(--g02);margin:14px 0"></div>
+      <p style="font-size:11px;color:var(--g08);line-height:1.6">20:40부터 상승 추세 — 도어 개폐 잦음(입고 작업). <b class="t-orange">5.0°C 도달 예상 21:30</b>, 도달 시 알람·담당 호출됩니다.</p>
+      <a class="link" style="font-size:11px" href="alarms.html">알람 이력 보기 →</a>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head"><h2>습도 · 센서 상태</h2></div>
+      <div class="hbar-row" style="grid-template-columns:90px 1fr 44px"><span class="nm">냉장센터 A</span><div class="hbar"><i style="width:68%"></i></div><span class="val">68%</span></div>
+      <div class="hbar-row" style="grid-template-columns:90px 1fr 44px"><span class="nm">냉장센터 B</span><div class="hbar"><i style="width:74%"></i></div><span class="val">74%</span></div>
+      <div class="hbar-row" style="grid-template-columns:90px 1fr 44px"><span class="nm">숙성실</span><div class="hbar"><i class="orange" style="width:82%"></i></div><span class="val t-orange">82%</span></div>
+      <div class="hbar-row" style="grid-template-columns:90px 1fr 44px"><span class="nm">상온 창고</span><div class="hbar"><i style="width:44%"></i></div><span class="val">44%</span></div>
+      <p style="font-size:10px;color:var(--g05)">숙성실 습도 상한(80%) 초과 — 제습기 가동 중</p>
+      <div style="height:1px;background:var(--g02);margin:14px 0"></div>
+      <p style="font-size:12px;font-weight:700;margin-bottom:10px">센서 24기 상태</p>
+      <p class="dotlist" style="font-size:11px;margin-bottom:8px"><i style="background:var(--pos-fill)"></i><b>정상 응답</b> <span class="t-mut">22기</span></p>
+      <p class="dotlist" style="font-size:11px;margin-bottom:8px"><i style="background:var(--orange)"></i><b>지연 (60초+)</b> <span class="t-mut">1기 — 숙성실 S-14</span></p>
+      <p class="dotlist" style="font-size:11px"><i style="background:var(--neg)"></i><b>무응답</b> <span class="t-mut">1기 — 상온 S-22 · 점검 요청됨</span></p>
+    </section>
+  </div>
+
+  <section class="panel">
+    <div class="panel-head"><h2>구역별 일간 요약</h2><span class="sub">금일 00시 기준</span></div>
+    <table class="grid">
+      <tr><th>구역</th><th class="r">현재</th><th class="r">최고</th><th class="r">최저</th><th class="r">평균</th><th>기준 이탈</th><th>알람</th></tr>
+      <tr><td>냉장센터 A</td><td class="r"><b>2.4°C</b></td><td class="r">4.1°C</td><td class="r">1.2°C</td><td class="r">2.6°C</td><td>0회</td><td class="t-mut">—</td></tr>
+      <tr><td>냉장센터 B</td><td class="r"><b class="t-orange">4.8°C</b></td><td class="r">4.9°C</td><td class="r">2.0°C</td><td class="r">3.4°C</td><td>0회 (근접 1회)</td><td class="t-orange">21:30 예상</td></tr>
+      <tr><td>숙성실</td><td class="r"><b>12.1°C</b></td><td class="r">13.8°C</td><td class="r">11.0°C</td><td class="r">12.4°C</td><td>0회</td><td class="t-mut">—</td></tr>
+      <tr><td>상온 창고</td><td class="r"><b>21.6°C</b></td><td class="r">24.2°C</td><td class="r">19.8°C</td><td class="r">21.9°C</td><td>0회</td><td class="t-mut">—</td></tr>
+    </table>
+  </section>
+
+</main>
+</div>
+
+<script src="assets/ui.js"></script>
+<script src="assets/motion.js"></script>
+</body>
+</html>

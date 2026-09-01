@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>로그인 · Smart SYNCWORKS</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/style.css?v=3">
+<script src="assets/theme.js"></script>
+<style>
+body.login-page{background:#E6E6E6;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.lg-card{width:500px;max-width:calc(100vw - 32px);background:var(--surface);border-radius:16px;padding:54px 50px 44px;box-shadow:0 12px 40px rgba(0,0,0,.06)}
+.lg-logo{text-align:center;line-height:1.15}
+.lg-logo em{display:block;font-size:12px;font-weight:600;color:var(--brand);font-style:normal}
+.lg-logo b{font-size:26px;font-weight:800;letter-spacing:-.3px;color:var(--ink)}
+.lg-sub{text-align:center;font-size:12px;color:var(--g05);margin:10px 0 30px}
+.lg-card label{display:block;font-size:12px;font-weight:500;color:var(--g08);margin:18px 0 8px}
+.lg-card input,.lg-card select{width:100%;height:44px;border:1px solid var(--g03);border-radius:8px;padding:0 14px;font-size:13px;font-family:inherit;background:var(--surface);color:var(--ink)}
+.lg-card input:focus{outline:none;border-color:var(--brand);border-width:1.5px}
+.lg-row{display:flex;justify-content:space-between;align-items:center;margin:16px 0 22px;font-size:12px}
+.lg-row a{color:var(--brand);font-weight:500}
+.lg-btn{width:100%;height:48px;background:var(--brand);color:#fff;border:0;border-radius:8px;font-size:14px;font-weight:700;font-family:inherit;cursor:pointer}
+.lg-btn:hover{background:var(--brand-2)}
+.lg-help{text-align:center;font-size:11px;color:var(--g05);margin-top:22px}
+.lg-foot{font-size:10px;color:var(--g05);margin-top:36px}
+</style>
+</head>
+<body class="login-page">
+  <form class="lg-card" onsubmit="location.href='dashboard.html';return false">
+    <div class="lg-logo"><em>Smart</em><b>SYNCWORKS</b></div>
+    <p class="lg-sub">사내 계정으로 로그인하세요</p>
+    <label>법인</label>
+    <select><option>맑은물에 홀딩스</option><option>꿈꾸는콩</option><option>더큰정성</option><option>맑은동해</option></select>
+    <label>아이디</label>
+    <input type="text" value="hong.gd" autocomplete="username">
+    <label>비밀번호</label>
+    <input type="password" value="········" autocomplete="current-password">
+    <div class="lg-row">
+      <label style="margin:0;display:flex;align-items:center;gap:8px;font-weight:400"><input type="checkbox" checked style="width:16px;height:16px;accent-color:var(--brand)">로그인 유지</label>
+      <a href="#">비밀번호 재설정</a>
+    </div>
+    <button class="lg-btn" type="submit">로그인</button>
+    <p class="lg-help">계정이 없으신가요?  관리자에게 문의하세요</p>
+  </form>
+  <p class="lg-foot">© Smart SYNCWORKS · CommerceLab</p>
+</body>
+</html>

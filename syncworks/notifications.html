@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>알림 센터 · Smart SYNCWORKS</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/style.css?v=3">
+<script src="assets/theme.js"></script>
+</head>
+<body>
+<header class="gnb">
+  <a class="logo" href="dashboard.html"><em>Smart</em><b>SYNCWORKS</b></a>
+  <nav><a class=on href="dashboard.html">기초정보</a><a href="lab.html">연구소</a><a href="orders.html">주문</a><a href="confirm.html">생산량 확정</a><a href="purchase.html">발주</a><a href="production.html">생산</a><a href="warehouse.html">입출고</a><a href="inventory.html">재고</a><a href="quality.html">품질</a><a href="monitoring.html">모니터링</a><a href="prints.html">출력물</a><a href="reports.html">보고서</a><a href="bpm.html">BPM</a></nav>
+  <span class="user">홍길동 님</span>
+</header>
+<div class="app">
+<aside class="lnb">
+  <div class="grp">공통</div>
+  <a class="on" href="notifications.html">알림 센터</a>
+  <a href="#">알림 규칙 설정</a>
+  <a href="#">내 알림 설정</a>
+</aside>
+<main class="main">
+<div class="page-head"><h1>알림 센터</h1><span class="sub">전 모듈 알림 통합함</span><div class="actions"></div></div><div class="kpis"><div class="kpi tint-blue"><div class="lb">안읽음</div><div class="num" class="t-brand">7<small>건</small></div><div class="meta">긴급 1건 포함</div></div><div class="kpi"><div class="lb">금일 수신</div><div class="num">32<small>건</small></div><div class="meta">업무 24 · 시스템 8</div></div><div class="kpi tint-red"><div class="lb">긴급</div><div class="num" class="t-neg">1<small>건</small></div><div class="delta t-neg">냉각온도 상한 근접</div></div><div class="kpi tint-orange"><div class="lb">내 담당 조치</div><div class="num" class="t-orange">3<small>건</small></div><div class="delta t-orange">승인 2 · 확인 1</div></div></div><div class="row grid-64"><section class="panel"><div class="panel-head"><h2>알림 피드</h2></div><table class="grid"><tr><th>시각</th><th>유형</th><th>내용</th><th>관련 화면</th><th>상태</th></tr><tr><td><span class="t-mut">21:04</span></td><td><span class="badge bg-red">긴급</span></td><td>냉각온도 #2 상한 근접 (+6.4°C) — 5호 라인</td><td><span class="t-mut">설비 관제</span></td><td><span class="badge bg-blue">안읽음</span></td></tr><tr><td><span class="t-mut">20:41</span></td><td><span class="badge bg-orange">경고</span></td><td>냉장센터 B 온도 상승 추세</td><td><span class="t-mut">온습도</span></td><td><span class="badge bg-blue">안읽음</span></td></tr><tr><td><span class="t-mut">17:05</span></td><td><span class="badge bg-blue">승인</span></td><td>생산량 확정 2건이 결재 대기입니다</td><td><span class="t-mut">생산량 확정</span></td><td><span class="badge bg-blue">안읽음</span></td></tr><tr><td><span class="t-mut">15:30</span></td><td><span class="badge bg-blue">제안</span></td><td>AI 개선 제안 1건 승낙됨 — 검토 필요</td><td><span class="t-mut">개선 제안함</span></td><td><span class="badge bg-blue">안읽음</span></td></tr><tr><td><span class="t-mut">14:20</span></td><td><span class="badge bg-orange">경고</span></td><td>3호 라인 실링 압력 편차 — 자동 플래그</td><td><span class="t-mut">완제품 불량</span></td><td><span class="badge bg-gray">읽음</span></td></tr><tr><td><span class="t-mut">06:05</span></td><td><span class="badge bg-gray">알림</span></td><td>일일 생산 리포트 발행 완료</td><td><span class="t-mut">보관함</span></td><td><span class="badge bg-gray">읽음</span></td></tr><tr><td><span class="t-mut">06:00</span></td><td><span class="badge bg-orange">경고</span></td><td>안전재고 미달 14건 — 발주 제안 8건</td><td><span class="t-mut">재고 모니터링</span></td><td><span class="badge bg-gray">읽음</span></td></tr></table><p style="font-size:10px;color:var(--g05);margin-top:12px">알림 클릭 시 해당 화면·해당 건으로 바로 이동합니다</p></section><div><section class="panel"><div class="panel-head"><h2>채널 · 규칙</h2></div><div style="display:flex;gap:10px;margin-bottom:12px"><i style="width:8px;height:8px;border-radius:2px;background:var(--brand);flex-shrink:0;margin-top:4px"></i><div><b style="font-size:11px">긴급</b><p style="font-size:10px;color:var(--g08);margin-top:3px">앱 푸시 + 전화 호출 (관제 당직)</p></div></div><div style="display:flex;gap:10px;margin-bottom:12px"><i style="width:8px;height:8px;border-radius:2px;background:var(--brand);flex-shrink:0;margin-top:4px"></i><div><b style="font-size:11px">경고·승인</b><p style="font-size:10px;color:var(--g08);margin-top:3px">앱 푸시 + 웹 알림</p></div></div><div style="display:flex;gap:10px;margin-bottom:12px"><i style="width:8px;height:8px;border-radius:2px;background:var(--brand);flex-shrink:0;margin-top:4px"></i><div><b style="font-size:11px">알림</b><p style="font-size:10px;color:var(--g08);margin-top:3px">웹 알림 — 묶음 발송(시간당)</p></div></div><div style="display:flex;gap:10px;margin-bottom:12px"><i style="width:8px;height:8px;border-radius:2px;background:var(--brand);flex-shrink:0;margin-top:4px"></i><div><b style="font-size:11px">근무 외</b><p style="font-size:10px;color:var(--g08);margin-top:3px">긴급만 통과, 나머지 아침 요약</p></div></div></section><section class="panel"><div class="panel-head"><h2>유형 분포 — 7일</h2></div><div class="hbar-row" style="grid-template-columns:96px 1fr 56px"><span class="nm">설비·온도</span><div class="hbar"><i class="neg" style="width:86%"></i></div><span class="val">38건</span></div><div class="hbar-row" style="grid-template-columns:96px 1fr 56px"><span class="nm">재고·발주</span><div class="hbar"><i class="orange" style="width:64%"></i></div><span class="val">28건</span></div><div class="hbar-row" style="grid-template-columns:96px 1fr 56px"><span class="nm">결재·승인</span><div class="hbar"><i style="width:50%"></i></div><span class="val">22건</span></div><div class="hbar-row" style="grid-template-columns:96px 1fr 56px"><span class="nm">AI 제안</span><div class="hbar"><i style="width:27%"></i></div><span class="val">12건</span></div></section></div></div>
+</main>
+</div>
+<script src="assets/ui.js"></script>
+</body>
+</html>

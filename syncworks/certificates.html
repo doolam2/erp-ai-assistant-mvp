@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>성적서 발행 · Smart SYNCWORKS</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/style.css?v=3">
+<script src="assets/theme.js"></script>
+</head>
+<body>
+<header class="gnb">
+  <a class="logo" href="dashboard.html"><em>Smart</em><b>SYNCWORKS</b></a>
+  <nav><a href="dashboard.html">기초정보</a><a href="lab.html">연구소</a><a href="orders.html">주문</a><a href="confirm.html">생산량 확정</a><a href="purchase.html">발주</a><a href="production.html">생산</a><a href="warehouse.html">입출고</a><a href="inventory.html">재고</a><a class=on href="quality.html">품질</a><a href="monitoring.html">모니터링</a><a href="prints.html">출력물</a><a href="reports.html">보고서</a><a href="bpm.html">BPM</a></nav>
+  <span class="user">홍길동 님</span>
+</header>
+<div class="app">
+<aside class="lnb">
+  <div class="grp">품질 관리</div>
+  <a href="quality.html">품질 현황</a>
+  <a href="quality_new.html">검사 등록</a>
+  <a href="defects.html">부적합 관리</a>
+  <a href="inspection_items.html">검사 항목 설정</a>
+  <a href="qc_groups.html">품질검사 그룹</a>
+  <a class="on" href="certificates.html">성적서 발행</a>
+</aside>
+<main class="main">
+<div class="page-head"><h1>성적서 발행</h1><span class="sub">시험 성적서 대외 발행 관리</span><div class="actions"><button class="btn btn-primary">+ 성적서 발행</button></div></div><div class="kpis"><div class="kpi"><div class="lb">이달 발행</div><div class="num">34<small>건</small></div><div class="meta">급식 제출 22건</div></div><div class="kpi tint-blue"><div class="lb">발행 대기</div><div class="num" class="t-brand">3<small>건</small></div><div class="meta">검사 완료분</div></div><div class="kpi"><div class="lb">영문 성적서</div><div class="num">2<small>건</small></div><div class="meta">수출 검토용</div></div><div class="kpi"><div class="lb">위변조 검증</div><div class="num">QR<small></small></div><div class="delta t-pos">대외 검증 128회</div></div></div><div class="row grid-64"><section class="panel"><div class="panel-head"><h2>발행 목록</h2></div><table class="grid"><tr><th>발행번호</th><th>대상 로트 · 품목</th><th>수신처</th><th>용도</th><th>발행일</th><th>상태</th></tr><tr><td>CT-0901-04</td><td><span class="t-mut">L-…-015 숙주나물</span></td><td>늘푸른급식</td><td><span class="t-mut">급식 제출</span></td><td><span class="t-mut">09-01</span></td><td><span class="badge bg-teal">발행 완료</span></td></tr><tr><td>CT-0901-03</td><td><span class="t-mut">L-…-012 두부 300g</span></td><td>대상마트</td><td><span class="t-mut">정기 제출</span></td><td><span class="t-mut">09-01</span></td><td><span class="badge bg-teal">발행 완료</span></td></tr><tr><td>CT-0901-02</td><td><span class="t-mut">L-…-009 순두부</span></td><td>한솔유통</td><td><span class="t-mut">거래처 요청</span></td><td><span class="t-mut">—</span></td><td><span class="badge bg-orange">대기</span></td></tr><tr><td>CT-0831-08</td><td><span class="t-mut">QC-…-038 두부 (영문)</span></td><td>해외 바이어</td><td><span class="t-mut">수출 검토</span></td><td><span class="t-mut">08-31</span></td><td><span class="badge bg-teal">발행 완료</span></td></tr><tr><td>CT-0831-07</td><td><span class="t-mut">L-…-038 두부 800g</span></td><td>꿈꾸는콩</td><td><span class="t-mut">계열사 이관</span></td><td><span class="t-mut">08-31</span></td><td><span class="badge bg-teal">발행 완료</span></td></tr><tr><td>CT-0830-06</td><td><span class="t-mut">L-…-035 나물류</span></td><td>참들찬푸드</td><td><span class="t-mut">급식 제출</span></td><td><span class="t-mut">08-30</span></td><td><span class="badge bg-teal">발행 완료</span></td></tr></table><p style="font-size:10px;color:var(--g05);margin-top:12px">발행본에는 QR 삽입 — 수신처가 진위·개정 여부를 즉시 조회</p></section><div><section class="panel"><div class="panel-head"><h2>발행 규칙</h2></div><div style="display:flex;gap:10px;margin-bottom:12px"><i style="width:8px;height:8px;border-radius:2px;background:var(--brand);flex-shrink:0;margin-top:4px"></i><div><b style="font-size:11px">발행 조건</b><p style="font-size:10px;color:var(--g08);margin-top:3px">전 항목 합격 로트만 — 불합격 차단</p></div></div><div style="display:flex;gap:10px;margin-bottom:12px"><i style="width:8px;height:8px;border-radius:2px;background:var(--brand);flex-shrink:0;margin-top:4px"></i><div><b style="font-size:11px">서명</b><p style="font-size:10px;color:var(--g08);margin-top:3px">품질팀장 전자서명 자동 삽입</p></div></div><div style="display:flex;gap:10px;margin-bottom:12px"><i style="width:8px;height:8px;border-radius:2px;background:var(--brand);flex-shrink:0;margin-top:4px"></i><div><b style="font-size:11px">개정</b><p style="font-size:10px;color:var(--g08);margin-top:3px">재발행 + 구본 회수 표기</p></div></div><div style="display:flex;gap:10px;margin-bottom:12px"><i style="width:8px;height:8px;border-radius:2px;background:var(--brand);flex-shrink:0;margin-top:4px"></i><div><b style="font-size:11px">보존</b><p style="font-size:10px;color:var(--g08);margin-top:3px">발행본 5년 — 보관함 자동 적재</p></div></div></section><section class="panel"><div class="panel-head"><h2>월 발행 용도</h2></div><div class="hbar-row" style="grid-template-columns:96px 1fr 56px"><span class="nm">급식 제출</span><div class="hbar"><i style="width:85%"></i></div><span class="val">22건</span></div><div class="hbar-row" style="grid-template-columns:96px 1fr 56px"><span class="nm">정기 (대리점)</span><div class="hbar"><i style="width:31%"></i></div><span class="val">8건</span></div><div class="hbar-row" style="grid-template-columns:96px 1fr 56px"><span class="nm">수출·영문</span><div class="hbar"><i class="pos" style="width:8%"></i></div><span class="val">2건</span></div></section></div></div>
+</main>
+</div>
+<script src="assets/ui.js"></script>
+</body>
+</html>

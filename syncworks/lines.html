@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>라인 관리 · Smart SYNCWORKS</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/style.css?v=3">
+<script src="assets/theme.js"></script>
+</head>
+<body>
+<header class="gnb">
+  <a class="logo" href="dashboard.html"><em>Smart</em><b>SYNCWORKS</b></a>
+  <nav><a href="dashboard.html">기초정보</a><a href="lab.html">연구소</a><a href="orders.html">주문</a><a href="confirm.html">생산량 확정</a><a href="purchase.html">발주</a><a class=on href="production.html">생산</a><a href="warehouse.html">입출고</a><a href="inventory.html">재고</a><a href="quality.html">품질</a><a href="monitoring.html">모니터링</a><a href="prints.html">출력물</a><a href="reports.html">보고서</a><a href="bpm.html">BPM</a></nav>
+  <span class="user">홍길동 님</span>
+</header>
+<div class="app">
+<aside class="lnb">
+  <div class="grp">생산정보 관리</div>
+  <a href="production.html">생산 현황</a>
+  <a href="plan_new.html">생산계획 등록</a>
+  <a href="process.html">공정 관리</a>
+  <a href="workorders.html">작업 지시</a>
+  <a href="material_moves.html">원/부자재 이동</a>
+  <a class="on" href="lines.html">라인 관리</a>
+</aside>
+<main class="main">
+<div class="page-head"><h1>라인 관리</h1><span class="sub">생산 라인 6기 · 가동 5 · 점검 1</span><div class="actions"><button class="btn btn-primary">+ 라인 등록</button></div></div><section class="panel"><table class="grid"><tr><th>라인</th><th>주 생산 품목</th><th>표준 CAPA</th><th>가동률(주간)</th><th>담당 반장</th><th>최근 점검</th><th>상태</th><th>관리</th></tr><tr><td>1호 라인</td><td><span class="t-mut">두부 300g · 800g</span></td><td>4,200개/일</td><td><b>87%</b></td><td>김일호</td><td><span class="t-mut">08-19</span></td><td><span class="badge bg-teal">가동 중</span></td><td><a class="link">설비 이력</a></td></tr><tr><td>2호 라인</td><td><span class="t-mut">순두부 350g</span></td><td>2,600개/일</td><td><b>82%</b></td><td>이이호</td><td><span class="t-mut">08-19</span></td><td><span class="badge bg-teal">가동 중</span></td><td><a class="link">설비 이력</a></td></tr><tr><td>3호 라인</td><td><span class="t-mut">콩물 1L</span></td><td>2,000개/일</td><td><b>71%</b></td><td>박삼호</td><td><span class="t-mut">08-26</span></td><td><span class="badge bg-teal">가동 중</span></td><td><a class="link">설비 이력</a></td></tr><tr><td>4호 라인</td><td><span class="t-mut">나물류</span></td><td>3,000개/일</td><td><b>76%</b></td><td>최사호</td><td><span class="t-mut">08-12</span></td><td><span class="badge bg-teal">가동 중</span></td><td><a class="link">설비 이력</a></td></tr><tr><td>5호 라인</td><td><span class="t-mut">낫또 · 에너지바</span></td><td>5,500개/일</td><td><b>64%</b></td><td>정오호</td><td><span class="t-mut">09-01</span></td><td><span class="badge bg-orange">점검 중</span></td><td><a class="link">점검 현황</a></td></tr><tr><td>6호 라인</td><td><span class="t-mut">시제품 · 소량</span></td><td>800개/일</td><td><b>22%</b></td><td>연구소</td><td><span class="t-mut">07-30</span></td><td><span class="badge bg-teal">가동 중</span></td><td><a class="link">설비 이력</a></td></tr></table><p style="font-size:10px;color:var(--g05);margin-top:12px">5호 점검: 실링기 교체 (BPM 결재 완료) — 예상 복귀 09-01 14:00 · PLC 관제 연동</p></section>
+</main>
+</div>
+<script src="assets/ui.js"></script>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>배합(레시피) 연구 · Smart SYNCWORKS</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/style.css?v=3">
+<script src="assets/theme.js"></script>
+<style>
+.rcard{display:flex;align-items:center;gap:12px;padding:14px 16px;border:1px solid var(--g02);border-radius:10px;margin-bottom:10px;cursor:pointer}
+.rcard.on{background:var(--tint-blue);border:1.5px solid var(--brand)}
+.rcard b{font-size:13px}.rcard.on b{color:var(--brand)}
+.rcard p{font-size:11px;color:var(--g08);margin-top:3px}
+.pgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:10px}
+.pgrid div{background:var(--g01);border-radius:8px;padding:12px 14px}
+.pgrid span{font-size:10px;color:var(--g05)}
+.pgrid b{display:block;font-size:14px;margin-top:4px}
+.vline{position:relative;padding-left:22px}
+.vline::before{content:'';position:absolute;left:4px;top:6px;bottom:6px;width:2px;background:var(--g02)}
+.vline .v{position:relative;margin-bottom:14px;font-size:11px;color:var(--g08)}
+.vline .v::before{content:'';position:absolute;left:-22px;top:3px;width:10px;height:10px;border-radius:50%;background:var(--g03)}
+.vline .v.cur::before{background:var(--brand)}
+</style>
+</head>
+<body>
+
+<header class="gnb">
+  <a class="logo" href="dashboard.html"><em>Smart</em><b>SYNCWORKS</b></a>
+  <nav>
+    <a href="dashboard.html">기초정보</a>
+    <a class="on" href="lab.html">연구소</a>
+    <a href="orders.html">주문</a>
+    <a href="confirm.html">생산량 확정</a>
+    <a href="purchase.html">발주</a>
+    <a href="production.html">생산</a>
+    <a href="warehouse.html">입출고</a>
+    <a href="inventory.html">재고</a>
+    <a href="quality.html">품질</a>
+    <a href="monitoring.html">모니터링</a>
+    <a href="prints.html">출력물</a>
+    <a href="reports.html">보고서</a>
+    <a href="bpm.html">BPM</a>
+  </nav>
+  <span class="user">홍길동 님</span>
+</header>
+
+<div class="app">
+<aside class="lnb">
+  <div class="grp">연구소</div>
+  <a href="lab.html">시험 성적</a>
+  <a class="on" href="recipes.html">배합(레시피) 연구</a>
+  <a href="samples.html">샘플 관리</a>
+  <a href="test_requests.html">시험 의뢰</a>
+  <a href="certificates.html">성적서 발행</a>
+</aside>
+
+<main class="main">
+  <div class="page-head">
+    <h1>배합(레시피) 연구</h1>
+    <span class="sub">처방전 관리 · 대체 원자재 변경 이력 포함</span>
+    <div class="actions"><button class="btn btn-primary"><svg class="ic-plus" viewBox="0 0 10 10"><path d="M5 1v8M1 5h8"/></svg>처방전 등록</button></div>
+  </div>
+
+  <div class="row" style="grid-template-columns:380px 1fr">
+    <section class="panel">
+      <div class="panel-head"><h2>처방전 목록</h2><span class="sub">제품군별</span></div>
+      <div class="rcard on"><div style="flex:1"><b>R-두부-03</b><p>두부 300g · v4</p></div><span class="badge bg-teal">적용 중</span></div>
+      <div class="rcard"><div style="flex:1"><b>R-두부-08</b><p>두부 800g(10입) · v2</p></div><span class="badge bg-teal">적용 중</span></div>
+      <div class="rcard"><div style="flex:1"><b>R-순두부-01</b><p>순두부 350g · v6</p></div><span class="badge bg-teal">적용 중</span></div>
+      <div class="rcard"><div style="flex:1"><b>R-콩물-02</b><p>콩물 1L · v3</p></div><span class="badge bg-blue">검토 중</span></div>
+      <div class="rcard"><div style="flex:1"><b>R-나물-05</b><p>콩나물 380g · v1</p></div><span class="badge bg-teal">적용 중</span></div>
+      <div class="rcard"><div style="flex:1"><b>R-낫또-01</b><p>낫또 45g · v2</p></div><span class="badge bg-teal">적용 중</span></div>
+      <div class="rcard"><div style="flex:1"><b>R-에너지바-02</b><p>에너지바 40g · v5</p></div><span class="badge bg-gray">개발 중</span></div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head"><h2>R-두부-03 — 두부 300g</h2><span class="sub">v4 · 2026-07-02 개정 · 승인 박제조</span></div>
+
+      <div style="display:flex;gap:28px;align-items:center;margin-bottom:20px">
+        <svg width="150" height="150" viewBox="0 0 42 42" style="flex-shrink:0">
+          <circle cx="21" cy="21" r="15.9" fill="none" style="stroke:var(--g02)" stroke-width="8"/>
+          <circle cx="21" cy="21" r="15.9" fill="none" style="stroke:var(--brand)" stroke-width="8" stroke-dasharray="62 38" stroke-dashoffset="25"/>
+          <circle cx="21" cy="21" r="15.9" fill="none" style="stroke:var(--pos-fill)" stroke-width="8" stroke-dasharray="30 70" stroke-dashoffset="-37"/>
+          <circle cx="21" cy="21" r="15.9" fill="none" style="stroke:var(--orange)" stroke-width="8" stroke-dasharray="5 95" stroke-dashoffset="-67"/>
+          <circle cx="21" cy="21" r="15.9" fill="none" style="stroke:var(--g03)" stroke-width="8" stroke-dasharray="3 97" stroke-dashoffset="-72"/>
+          <text x="21" y="20" text-anchor="middle" style="font-size:5px;font-weight:700;fill:var(--ink)">배합비</text>
+          <text x="21" y="26" text-anchor="middle" style="font-size:4px;fill:var(--g05)">100%</text>
+        </svg>
+        <div style="flex:1;display:grid;gap:8px;font-size:12px;max-width:280px">
+          <div><span style="display:inline-block;width:11px;height:11px;border-radius:3px;background:var(--brand);margin-right:8px;vertical-align:-1px"></span>국산 백태 <b style="float:right">62%</b></div>
+          <div><span style="display:inline-block;width:11px;height:11px;border-radius:3px;background:var(--pos-fill);margin-right:8px;vertical-align:-1px"></span>정제수 <b style="float:right">30%</b></div>
+          <div><span style="display:inline-block;width:11px;height:11px;border-radius:3px;background:var(--orange);margin-right:8px;vertical-align:-1px"></span>응고제(간수) <b style="float:right">5%</b></div>
+          <div><span style="display:inline-block;width:11px;height:11px;border-radius:3px;background:var(--g03);margin-right:8px;vertical-align:-1px"></span>소포제 외 <b style="float:right">3%</b></div>
+        </div>
+      </div>
+
+      <p style="font-size:12px;font-weight:700;margin-bottom:8px">배합표 — 1배치 (1,000모 기준)</p>
+      <table class="grid">
+        <tr><th>원료</th><th>로트 지정</th><th class="r">비율</th><th class="r">투입량</th><th>대체 가능</th></tr>
+        <tr><td>국산 백태 (1등급)</td><td class="t-mut">매입 최신 로트</td><td class="r"><b>62%</b></td><td class="r">840 kg</td><td class="t-mut">수입 대두 — 승인 필요</td></tr>
+        <tr><td>정제수</td><td class="t-mut">—</td><td class="r"><b>30%</b></td><td class="r">406 L</td><td class="t-mut">—</td></tr>
+        <tr><td>응고제(간수)</td><td class="t-mut">M-지정</td><td class="r"><b>5%</b></td><td class="r">67.7 kg</td><td class="t-mut">황산칼슘 (v3까지)</td></tr>
+        <tr><td>소포제</td><td class="t-mut">—</td><td class="r"><b>2%</b></td><td class="r">27 kg</td><td class="t-mut">—</td></tr>
+        <tr><td>비타민 강화제</td><td class="t-mut">—</td><td class="r"><b>1%</b></td><td class="r">13.5 kg</td><td class="t-mut">선택 투입</td></tr>
+      </table>
+
+      <p style="font-size:12px;font-weight:700;margin:18px 0 10px">공정 파라미터</p>
+      <div class="pgrid">
+        <div><span>응고 온도</span><b>82 ± 2°C</b></div>
+        <div><span>응고 시간</span><b>18분</b></div>
+        <div><span>압착 압력</span><b>0.35 MPa</b></div>
+        <div><span>살균</span><b>85°C · 30분</b></div>
+      </div>
+
+      <p style="font-size:12px;font-weight:700;margin:20px 0 10px">버전 이력</p>
+      <div class="vline">
+        <div class="v cur"><b class="t-brand">v4</b> <span class="t-mut">2026-07-02</span> — 응고제 간수로 변경 — 식감 개선, 관능 4.6/5</div>
+        <div class="v"><b>v3</b> <span class="t-mut">2026-03-14</span> — 황산칼슘 배합비 5.2→5.0% 조정</div>
+        <div class="v"><b>v2</b> <span class="t-mut">2025-11-20</span> — 수입 대두 혼합비 폐지 — 국산 100%</div>
+      </div>
+      <a class="link" style="font-size:11px" href="#">대체원자재 변경 신청 →</a>
+    </section>
+  </div>
+
+</main>
+</div>
+
+<script src="assets/ui.js"></script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>정산 내역 · Smart SYNCWORKS</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/style.css?v=3">
+<script src="assets/theme.js"></script>
+</head>
+<body>
+<header class="gnb">
+  <a class="logo" href="dashboard.html"><em>Smart</em><b>SYNCWORKS</b></a>
+  <nav><a href="dashboard.html">기초정보</a><a href="lab.html">연구소</a><a class=on href="orders.html">주문</a><a href="confirm.html">생산량 확정</a><a href="purchase.html">발주</a><a href="production.html">생산</a><a href="warehouse.html">입출고</a><a href="inventory.html">재고</a><a href="quality.html">품질</a><a href="monitoring.html">모니터링</a><a href="prints.html">출력물</a><a href="reports.html">보고서</a><a href="bpm.html">BPM</a></nav>
+  <span class="user">홍길동 님</span>
+</header>
+<div class="app">
+<aside class="lnb">
+  <div class="grp">주문 관리</div>
+  <a href="orders.html">주문 목록</a>
+  <a href="order_new.html">주문 등록</a>
+  <a href="returns.html">반품 관리</a>
+  <a href="holdings.html">홀딩스 출고 · 마감</a>
+  <a href="client_orders.html">거래처별 주문</a>
+  <a href="delivery.html">배송 조회</a>
+  <a class="on" href="settlement.html">정산 내역</a>
+</aside>
+<main class="main">
+<div class="page-head"><h1>정산 내역</h1><span class="sub">거래처별 월 정산 · 2026. 08 마감분</span><div class="actions"><button class="btn btn-outline">CSV</button><button class="btn btn-primary">+ 정산 실행</button></div></div><section class="panel"><div class="filter-bar" style="margin-bottom:14px"><span class="chip on">전체</span><span class="chip">정산 완료</span><span class="chip">부분 정산</span><span class="chip">미정산</span><span class="chip">미수 초과</span></div><table class="grid"><tr><th>거래처</th><th>법인</th><th class=r>공급액(천원)</th><th class=r>반품·에누리</th><th class=r>정산액</th><th class=r>수금</th><th class=r>미수 잔액</th><th>계산서</th><th>상태</th></tr><tr><td>대상마트 (5개점)</td><td>법인A</td><td class=r>1,842,400</td><td class=r><b class="t-neg">-18,200</b></td><td class=r><b>1,824,200</b></td><td class=r>1,824,200</td><td class=r><b>0</b></td><td><span class="t-mut">발행</span></td><td><span class="badge bg-teal">정산 완료</span></td></tr><tr><td>한솔유통</td><td>법인C</td><td class=r>912,800</td><td class=r><b class="t-neg">-6,400</b></td><td class=r><b>906,400</b></td><td class=r>706,400</td><td class=r><b class="t-neg">200,000</b></td><td><span class="t-mut">발행</span></td><td><span class="badge bg-orange">부분 정산</span></td></tr><tr><td>성심식자재</td><td>법인B</td><td class=r>688,100</td><td class=r><b class="t-neg">-2,100</b></td><td class=r><b>686,000</b></td><td class=r>686,000</td><td class=r><b>0</b></td><td><span class="t-mut">발행</span></td><td><span class="badge bg-teal">정산 완료</span></td></tr><tr><td>늘푸른급식</td><td>법인A</td><td class=r>512,600</td><td class=r>0</td><td class=r><b>512,600</b></td><td class=r>512,600</td><td class=r><b>0</b></td><td><span class="t-mut">발행</span></td><td><span class="badge bg-teal">정산 완료</span></td></tr><tr><td>제일식품</td><td>법인B</td><td class=r>498,200</td><td class=r><b class="t-neg">-8,800</b></td><td class=r><b>489,400</b></td><td class=r>289,400</td><td class=r><b class="t-neg">200,000</b></td><td><span class="t-mut">대기</span></td><td><span class="badge bg-red">미수 초과</span></td></tr><tr><td>바른유통</td><td>법인E</td><td class=r>402,100</td><td class=r><b class="t-neg">-1,200</b></td><td class=r><b>400,900</b></td><td class=r>400,900</td><td class=r><b>0</b></td><td><span class="t-mut">발행</span></td><td><span class="badge bg-teal">정산 완료</span></td></tr><tr><td>해맑은식자재</td><td>법인C</td><td class=r>322,000</td><td class=r><b class="t-neg">-4,100</b></td><td class=r><b>317,900</b></td><td class=r>117,900</td><td class=r><b class="t-neg">200,000</b></td><td><span class="t-mut">대기</span></td><td><span class="badge bg-orange">부분 정산</span></td></tr><tr><td>동원식자재</td><td>법인D</td><td class=r>218,400</td><td class=r>0</td><td class=r><b>218,400</b></td><td class=r>0</td><td class=r><b class="t-neg">218,400</b></td><td><span class="t-mut">대기</span></td><td><span class="badge bg-orange">미정산</span></td></tr></table><div style="display:flex;justify-content:space-between;margin-top:12px"><b style="font-size:11px;color:var(--g08)">8월 합계 — 공급 5,593,400 · 수금 4,734,200 · 미수 842,110 (12건) — 대시보드 미수금과 정합</b><span class="paging" style="margin:0"><a>← 이전</a><a class="on">1</a><a>2</a><a>다음 →</a></span></div></section>
+</main>
+</div>
+<script src="assets/ui.js"></script>
+</body>
+</html>

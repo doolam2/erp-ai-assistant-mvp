@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>작업 지시 · Smart SYNCWORKS</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/style.css?v=3">
+<script src="assets/theme.js"></script>
+</head>
+<body>
+<header class="gnb">
+  <a class="logo" href="dashboard.html"><em>Smart</em><b>SYNCWORKS</b></a>
+  <nav><a href="dashboard.html">기초정보</a><a href="lab.html">연구소</a><a href="orders.html">주문</a><a href="confirm.html">생산량 확정</a><a href="purchase.html">발주</a><a class=on href="production.html">생산</a><a href="warehouse.html">입출고</a><a href="inventory.html">재고</a><a href="quality.html">품질</a><a href="monitoring.html">모니터링</a><a href="prints.html">출력물</a><a href="reports.html">보고서</a><a href="bpm.html">BPM</a></nav>
+  <span class="user">홍길동 님</span>
+</header>
+<div class="app">
+<aside class="lnb">
+  <div class="grp">생산정보 관리</div>
+  <a href="production.html">생산 현황</a>
+  <a href="plan_new.html">생산계획 등록</a>
+  <a href="process.html">공정 관리</a>
+  <a class="on" href="workorders.html">작업 지시</a>
+  <a href="material_moves.html">원/부자재 이동</a>
+  <a href="lines.html">라인 관리</a>
+</aside>
+<main class="main">
+<div class="page-head"><h1>작업 지시</h1><span class="sub">계획 → 라인 배정 · 금일 8건</span><div class="actions"><button class="btn btn-primary">+ 지시 등록</button></div></div><div class="kpis"><div class="kpi"><div class="lb">금일 지시</div><div class="num">8<small>건</small></div><div class="meta">전 라인 배정 완료</div></div><div class="kpi tint-blue"><div class="lb">진행 중</div><div class="num" class="t-brand">4<small>건</small></div><div class="meta">1·2·3·5호</div></div><div class="kpi"><div class="lb">완료</div><div class="num">3<small>건</small></div><div class="delta t-pos">평균 달성 99.2%</div></div><div class="kpi tint-red"><div class="lb">지연</div><div class="num" class="t-neg">1<small>건</small></div><div class="delta t-neg">5호 점검 여파 40분</div></div></div><div class="row grid-64"><section class="panel"><div class="panel-head"><h2>금일 지시 보드</h2></div><table class="grid"><tr><th>지시번호</th><th>라인</th><th>제품</th><th class=r>지시 수량</th><th>교대</th><th>반장</th><th class=r>진행</th><th>상태</th></tr><tr><td>WO-0901-08</td><td>1호</td><td>두부 300g</td><td class=r><b>3,400</b></td><td><span class="t-mut">주간</span></td><td>김일호</td><td class=r><b>64%</b></td><td><span class="badge bg-blue">작업 중</span></td></tr><tr><td>WO-0901-07</td><td>2호</td><td>순두부 350g</td><td class=r><b>2,140</b></td><td><span class="t-mut">주간</span></td><td>이이호</td><td class=r><b>41%</b></td><td><span class="badge bg-blue">작업 중</span></td></tr><tr><td>WO-0901-06</td><td>3호</td><td>콩물 1L</td><td class=r><b>1,800</b></td><td><span class="t-mut">주간</span></td><td>박삼호</td><td class=r><b>55%</b></td><td><span class="badge bg-blue">작업 중</span></td></tr><tr><td>WO-0901-05</td><td>5호</td><td>에너지바 40g</td><td class=r><b>5,000</b></td><td><span class="t-mut">주간</span></td><td>정오호</td><td class=r><b class="t-neg">12%</b></td><td><span class="badge bg-red">지연</span></td></tr><tr><td>WO-0901-04</td><td>4호</td><td>콩나물 380g</td><td class=r><b>2,400</b></td><td><span class="t-mut">새벽</span></td><td>최사호</td><td class=r><b>100%</b></td><td><span class="badge bg-teal">완료</span></td></tr><tr><td>WO-0901-03</td><td>1호</td><td>두부 800g(10입)</td><td class=r><b>640</b></td><td><span class="t-mut">새벽</span></td><td>김일호</td><td class=r><b>100%</b></td><td><span class="badge bg-teal">완료</span></td></tr></table><p style="font-size:10px;color:var(--g05);margin-top:12px">지시 완료 시 생산량 확정 대기열로 자동 이동 · 원자재 이동 전표 자동 생성</p></section><div><section class="panel"><div class="panel-head"><h2>선택 지시 — WO-0901-05</h2></div><table class="grid fit" style="font-size:11px"><tr><td class="t-mut">라인 · 제품</td><td class="r"><b>5호 · 에너지바 40g</b></td></tr><tr><td class="t-mut">지시 · 진행</td><td class="r"><b>5,000개 · 12%</b></td></tr><tr><td class="t-mut">지연 사유</td><td class="r"><b>실링기 교체 점검 40분</b></td></tr><tr><td class="t-mut">만회 계획</td><td class="r"><b>야간 교대 1시간 연장</b></td></tr><tr><td class="t-mut">출하 연결</td><td class="r"><b>OEM 납품 09-03</b></td></tr></table><a class="link" style="font-size:11px" href="process.html">공정 관리 →</a></section><section class="panel"><div class="panel-head"><h2>배정 규칙</h2></div><div style="display:flex;gap:10px;margin-bottom:12px"><i style="width:8px;height:8px;border-radius:2px;background:var(--brand);flex-shrink:0;margin-top:4px"></i><div><b style="font-size:11px">자동 배정</b><p style="font-size:10px;color:var(--g08);margin-top:3px">계획 확정 시 CAPA 기준 초안 생성</p></div></div><div style="display:flex;gap:10px;margin-bottom:12px"><i style="width:8px;height:8px;border-radius:2px;background:var(--brand);flex-shrink:0;margin-top:4px"></i><div><b style="font-size:11px">교대</b><p style="font-size:10px;color:var(--g08);margin-top:3px">새벽(04~12) · 주간(12~20) · 야간(연장)</p></div></div><div style="display:flex;gap:10px;margin-bottom:12px"><i style="width:8px;height:8px;border-radius:2px;background:var(--brand);flex-shrink:0;margin-top:4px"></i><div><b style="font-size:11px">우선순위</b><p style="font-size:10px;color:var(--g08);margin-top:3px">출하 임박 > 소비기한 > CAPA 여유</p></div></div><div style="display:flex;gap:10px;margin-bottom:12px"><i style="width:8px;height:8px;border-radius:2px;background:var(--brand);flex-shrink:0;margin-top:4px"></i><div><b style="font-size:11px">현장 앱</b><p style="font-size:10px;color:var(--g08);margin-top:3px">반장이 진행률·특이사항 입력</p></div></div></section></div></div>
+</main>
+</div>
+<script src="assets/ui.js"></script>
+</body>
+</html>

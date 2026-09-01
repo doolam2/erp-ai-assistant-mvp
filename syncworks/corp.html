@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>법인 통합 현황 · Smart SYNCWORKS</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/style.css?v=3">
+<script src="assets/theme.js"></script>
+<style>
+.corp-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:20px}
+.ccard{background:var(--surface);border:1px solid var(--g02);border-radius:var(--radius);padding:14px 16px}
+.ccard .top{display:flex;justify-content:space-between;align-items:center}
+.ccard .nm{font-size:12px;font-weight:600}
+.ccard .amt{font-size:20px;font-weight:700;margin:6px 0 4px}
+.ccard .mom{font-size:10px;color:var(--g05);margin-top:4px}
+.hmw{overflow-x:auto}
+.hmt{display:grid;grid-template-columns:52px repeat(12,1fr);gap:4px;font-size:10px;min-width:820px}
+.hmc{height:26px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-weight:600}
+.hmt .rl{display:flex;align-items:center;color:var(--g05)}
+.hmt .cl{text-align:center;color:var(--g05)}
+</style>
+</head>
+<body>
+
+<header class="gnb">
+  <a class="logo" href="dashboard.html"><em>Smart</em><b>SYNCWORKS</b></a>
+  <nav>
+    <a class="on" href="dashboard.html">기초정보</a>
+    <a href="lab.html">연구소</a>
+    <a href="orders.html">주문</a>
+    <a href="confirm.html">생산량 확정</a>
+    <a href="purchase.html">발주</a>
+    <a href="production.html">생산</a>
+    <a href="warehouse.html">입출고</a>
+    <a href="inventory.html">재고</a>
+    <a href="quality.html">품질</a>
+    <a href="monitoring.html">모니터링</a>
+    <a href="prints.html">출력물</a>
+    <a href="reports.html">보고서</a>
+    <a href="bpm.html">BPM</a>
+  </nav>
+  <span class="user">홍길동 님</span>
+</header>
+
+<div class="app">
+<aside class="lnb">
+  <div class="grp">매출 관리</div>
+  <a href="dashboard.html">매출 대시보드</a>
+  <a href="targets.html">매출목표 및 계획</a>
+  <a href="pnl.html">손익계산서</a>
+  <a class="on" href="corp.html">법인별 실적</a>
+  <div class="grp">기초 정보</div>
+  <a href="clients.html">거래처 관리</a>
+  <a href="products.html">제품정보 관리</a>
+  <a href="warehouses.html">창고 관리</a>
+</aside>
+
+<main class="main">
+  <div class="page-head">
+    <h1>법인 통합 현황</h1>
+    <span class="sub">8개 법인 · 2026. 08. 26 · 단위: 천원</span>
+    <div class="actions"><button class="dd-btn sel" type="button">연 누적 ▾</button></div>
+  </div>
+
+  <div class="corp-grid">
+    <div class="ccard kpi"><div class="top"><span class="nm">법인A</span><span class="badge bg-teal">104.2%</span></div><div class="amt num">1892<small>백만</small></div>
+      <svg width="100%" height="30" viewBox="0 0 100 26" preserveAspectRatio="none"><polyline fill="none" style="stroke:var(--pos-fill)" stroke-width="2" vector-effect="non-scaling-stroke" points="0,16 17,15 34,16 50,13 67,12 84,10 100,8"/></svg>
+      <p class="mom">전월비 +9.2%p</p></div>
+    <div class="ccard kpi"><div class="top"><span class="nm">법인B</span><span class="badge bg-teal">101.8%</span></div><div class="amt num">1740<small>백만</small></div>
+      <svg width="100%" height="30" viewBox="0 0 100 26" preserveAspectRatio="none"><polyline fill="none" style="stroke:var(--pos-fill)" stroke-width="2" vector-effect="non-scaling-stroke" points="0,15 17,16 34,14 50,15 67,12 84,11 100,9"/></svg>
+      <p class="mom">전월비 +6.8%p</p></div>
+    <div class="ccard kpi"><div class="top"><span class="nm">법인C</span><span class="badge bg-blue">99.4%</span></div><div class="amt num">1655<small>백만</small></div>
+      <svg width="100%" height="30" viewBox="0 0 100 26" preserveAspectRatio="none"><polyline fill="none" style="stroke:var(--brand)" stroke-width="2" vector-effect="non-scaling-stroke" points="0,15 17,14 34,15 50,13 67,14 84,12 100,11"/></svg>
+      <p class="mom">전월비 +4.4%p</p></div>
+    <div class="ccard kpi"><div class="top"><span class="nm">법인D</span><span class="badge bg-blue">97.1%</span></div><div class="amt num">1521<small>백만</small></div>
+      <svg width="100%" height="30" viewBox="0 0 100 26" preserveAspectRatio="none"><polyline fill="none" style="stroke:var(--brand)" stroke-width="2" vector-effect="non-scaling-stroke" points="0,14 17,15 34,13 50,14 67,13 84,12 100,12"/></svg>
+      <p class="mom">전월비 +2.1%p</p></div>
+    <div class="ccard kpi"><div class="top"><span class="nm">법인E</span><span class="badge bg-blue">95%</span></div><div class="amt num">1488<small>백만</small></div>
+      <svg width="100%" height="30" viewBox="0 0 100 26" preserveAspectRatio="none"><polyline fill="none" style="stroke:var(--brand)" stroke-width="2" vector-effect="non-scaling-stroke" points="0,13 17,14 34,13 50,15 67,13 84,14 100,13"/></svg>
+      <p class="mom">전월비 0.0%p</p></div>
+    <div class="ccard kpi"><div class="top"><span class="nm">법인F</span><span class="badge bg-blue">91.3%</span></div><div class="amt num">1390<small>백만</small></div>
+      <svg width="100%" height="30" viewBox="0 0 100 26" preserveAspectRatio="none"><polyline fill="none" style="stroke:var(--brand)" stroke-width="2" vector-effect="non-scaling-stroke" points="0,12 17,13 34,14 50,13 67,15 84,14 100,15"/></svg>
+      <p class="mom">전월비 -3.7%p</p></div>
+    <div class="ccard kpi"><div class="top"><span class="nm">법인G</span><span class="badge bg-red">88.7%</span></div><div class="amt num">1245<small>백만</small></div>
+      <svg width="100%" height="30" viewBox="0 0 100 26" preserveAspectRatio="none"><polyline fill="none" style="stroke:var(--neg)" stroke-width="2" vector-effect="non-scaling-stroke" points="0,12 17,13 34,15 50,14 67,16 84,16 100,18"/></svg>
+      <p class="mom">전월비 -6.3%p</p></div>
+    <div class="ccard kpi"><div class="top"><span class="nm">법인H</span><span class="badge bg-red">82.4%</span></div><div class="amt num">1068<small>백만</small></div>
+      <svg width="100%" height="30" viewBox="0 0 100 26" preserveAspectRatio="none"><polyline fill="none" style="stroke:var(--neg)" stroke-width="2" vector-effect="non-scaling-stroke" points="0,11 17,13 34,14 50,16 67,17 84,18 100,20"/></svg>
+      <p class="mom">전월비 -12.6%p</p></div>
+  </div>
+
+  <section class="panel">
+    <div class="panel-head"><h2>법인 × 월 달성률 히트맵</h2><span class="sub">진청색은 목표 초과 · 붉은색은 90% 미만</span></div>
+    <div class="hmw"><div class="hmt" id="hm"></div></div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-head"><h2>그룹 합계 추이 — 목표 vs 실적</h2>
+      <span class="sub" style="margin-left:auto"><span style="display:inline-block;width:22px;height:2px;background:var(--g05);vertical-align:3px;margin-right:6px"></span>목표
+      <span style="display:inline-block;width:22px;height:3px;background:var(--brand);vertical-align:3px;margin:0 6px 0 16px"></span>실적</span></div>
+    <div style="position:relative;height:150px">
+      <svg width="100%" height="100%" viewBox="0 0 100 50" preserveAspectRatio="none">
+        <polyline fill="none" style="stroke:var(--g05)" stroke-width="1" stroke-dasharray="3 2" vector-effect="non-scaling-stroke"
+          points="0,34 9,36 18,33 27,32 36,30 45,26 54,22 63,18 72,22 81,20 90,17 100,15"/>
+        <polyline fill="none" style="stroke:var(--brand)" stroke-width="2" vector-effect="non-scaling-stroke"
+          points="0,35 9,39 18,34 27,33 36,29 45,27 54,21 63,16 72,25 81,21 90,19 100,14"/>
+      </svg>
+    </div>
+    <div style="display:flex;font-size:10px;color:var(--g05);justify-content:space-between;padding-top:6px">
+      <span>1월</span><span>2월</span><span>3월</span><span>4월</span><span>5월</span><span>6월</span><span>7월</span><span>8월</span><span>9월</span><span>10월</span><span>11월</span><span>12월</span>
+    </div>
+  </section>
+
+</main>
+</div>
+
+<script>
+// 히트맵 렌더 — color-mix로 테마 대응
+(function(){
+  var corps=['법인A','법인B','법인C','법인D','법인E','법인F','법인G','법인H'];
+  var data=[
+    [99,109,100,105,103,109,100,105,99,109,100,105],
+    [97,107,98,103,97,107,98,103,97,107,98,103],
+    [94,104,95,100,94,104,95,100,94,104,95,100],
+    [92,102,93,98,92,102,93,98,92,102,93,98],
+    [90,100,91,96,90,100,91,96,90,100,91,96],
+    [86,96,87,92,86,96,87,92,86,96,87,92],
+    [84,94,85,90,84,94,85,90,84,94,85,90],
+    [77,87,78,83,77,87,78,83,77,87,78,83]];
+  var el=document.getElementById('hm');
+  var h='<span class="rl"></span>';
+  for(var m=1;m<=12;m++)h+='<span class="cl">'+m+'월</span>';
+  for(var r=0;r<8;r++){
+    h+='<span class="rl">'+corps[r]+'</span>';
+    for(var c=0;c<12;c++){
+      var v=data[r][c],bg,tc;
+      if(v>=100){var p=Math.min(100,50+(v-100)*6);bg='color-mix(in srgb, var(--brand) '+p+'%, #fff)';tc='#fff';}
+      else if(v>=90){var p2=15+(v-90)*3;bg='color-mix(in srgb, var(--brand) '+p2+'%, #fff)';tc=(p2>45)?'#fff':'var(--ink)';}
+      else{var p3=Math.min(85,20+(90-v)*6);bg='color-mix(in srgb, var(--neg) '+p3+'%, #fff)';tc=(p3>45)?'#fff':'var(--neg)';}
+      h+='<span class="hmc" style="background:'+bg+';color:'+tc+'">'+v+'</span>';
+    }
+  }
+  el.innerHTML=h;
+})();
+</script>
+<script src="assets/ui.js"></script>
+<script src="assets/motion.js"></script>
+</body>
+</html>

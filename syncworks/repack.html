@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>세트/소분 재구성 · Smart SYNCWORKS</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/style.css?v=3">
+<script src="assets/theme.js"></script>
+</head>
+<body>
+<header class="gnb">
+  <a class="logo" href="dashboard.html"><em>Smart</em><b>SYNCWORKS</b></a>
+  <nav><a href="dashboard.html">기초정보</a><a href="lab.html">연구소</a><a href="orders.html">주문</a><a href="confirm.html">생산량 확정</a><a href="purchase.html">발주</a><a href="production.html">생산</a><a href="warehouse.html">입출고</a><a class=on href="inventory.html">재고</a><a href="quality.html">품질</a><a href="monitoring.html">모니터링</a><a href="prints.html">출력물</a><a href="reports.html">보고서</a><a href="bpm.html">BPM</a></nav>
+  <span class="user">홍길동 님</span>
+</header>
+<div class="app">
+<aside class="lnb">
+  <div class="grp">재고 관리</div>
+  <a href="inventory.html">재고 현황</a>
+  <a href="lots.html">로트별 재고 · 추적</a>
+  <a href="wh_stock.html">창고별 재고</a>
+  <a href="safety_stock.html">안전/적정재고 설정</a>
+  <a href="stocktake.html">재고 실사</a>
+  <a href="expiry.html">소비기한 관리</a>
+  <a class="on" href="repack.html">세트/소분 재구성</a>
+  <a href="stock_report.html">재고 분석</a>
+  <a href="ledger.html">수불 이력</a>
+</aside>
+<main class="main">
+<div class="page-head"><h1>세트/소분 재구성</h1><span class="sub">묶음 해체·세트 조립 작업 · 금일 5건</span><div class="actions"><button class="btn btn-outline">CSV</button><button class="btn btn-primary">+ 작업 등록</button></div></div><section class="panel"><div class="filter-bar" style="margin-bottom:14px"><span class="chip on">전체</span><span class="chip">세트 조립</span><span class="chip">소분 해체</span><span class="chip">승인 대기</span></div><table class="grid"><tr><th>작업번호</th><th>유형</th><th>원품목</th><th class=r>원수량</th><th>결과 품목</th><th class=r>결과 수량</th><th>창고</th><th>로트 처리</th><th>상태</th></tr><tr><td>RC-0901-05</td><td><span class="t-mut">소분 해체</span></td><td>두부 800g(10입)</td><td class=r>40세트</td><td>두부 800g 낱개</td><td class=r><b>400</b></td><td>중앙물류</td><td><span class="t-mut">원로트 승계</span></td><td><span class="badge bg-blue">작업 중</span></td></tr><tr><td>RC-0901-04</td><td><span class="t-mut">세트 조립</span></td><td>두부 300g</td><td class=r>300</td><td>명절 선물세트 A</td><td class=r><b>100세트</b></td><td>중앙물류</td><td><span class="t-mut">신규 로트 발번</span></td><td><span class="badge bg-blue">작업 중</span></td></tr><tr><td>RC-0901-03</td><td><span class="t-mut">세트 조립</span></td><td>순두부+콩물</td><td class=r>200+200</td><td>아침 세트</td><td class=r><b>200세트</b></td><td>냉장센터</td><td><span class="t-mut">신규 로트 발번</span></td><td><span class="badge bg-teal">재구성 완료</span></td></tr><tr><td>RC-0901-02</td><td><span class="t-mut">소분 해체</span></td><td>낫또 45g (20입)</td><td class=r>30박스</td><td>낫또 45g 낱개</td><td class=r><b>600</b></td><td>중앙물류</td><td><span class="t-mut">원로트 승계</span></td><td><span class="badge bg-teal">재구성 완료</span></td></tr><tr><td>RC-0901-01</td><td><span class="t-mut">세트 조립</span></td><td>에너지바 40g</td><td class=r>480</td><td>에너지바 12입</td><td class=r><b>40박스</b></td><td>중앙물류</td><td><span class="t-mut">신규 로트 발번</span></td><td><span class="badge bg-teal">재구성 완료</span></td></tr><tr><td>RC-0831-11</td><td><span class="t-mut">소분 해체</span></td><td>명절 선물세트 A</td><td class=r>20세트</td><td>두부 300g 외</td><td class=r><b>60</b></td><td>중앙물류</td><td><span class="t-mut">원로트 복원</span></td><td><span class="badge bg-orange">승인 대기</span></td></tr></table><div style="display:flex;justify-content:space-between;margin-top:12px"><b style="font-size:11px;color:var(--g08)">재구성 시 수량·로트가 수불 이력에 자동 반영 — 세트 로트는 구성품 로트로 소급 추적</b><span class="paging" style="margin:0"><a>← 이전</a><a class="on">1</a><a>2</a><a>다음 →</a></span></div></section>
+</main>
+</div>
+<script src="assets/ui.js"></script>
+</body>
+</html>
