@@ -5,10 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>법인 통합 현황 · Smart SYNCWORKS</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
-<link rel="stylesheet" href="assets/style.css?v=3">
+<link rel="stylesheet" href="assets/style.css?v=4">
 <script src="assets/theme.js"></script>
 <style>
-.corp-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:20px}
+.corp-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-bottom:20px}
+@media(max-width:768px){.corp-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .ccard{background:var(--surface);border:1px solid var(--g02);border-radius:var(--radius);padding:14px 16px}
 .ccard .top{display:flex;justify-content:space-between;align-items:center}
 .ccard .nm{font-size:12px;font-weight:600}

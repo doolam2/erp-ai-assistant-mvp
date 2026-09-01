@@ -289,6 +289,9 @@ select.ctl, .dd-block .dd-btn.ctl { appearance: none; -webkit-appearance: none; 
 
   /* 그리드 전부 1열 · KPI 2열 (인라인 스타일 덮어쓰기) */
   .row, .grid-2, .grid-64, .form-grid { grid-template-columns: 1fr !important; gap: 14px; }
+  .panel { overflow-x: auto; }
+  table.grid:not(.fit) { min-width: 640px; }
+  .kpis { grid-template-columns: 1fr 1fr; }
   .form-grid .span2 { grid-column: auto; }
   .kpis { grid-template-columns: repeat(2, 1fr) !important; gap: 10px; margin-bottom: 14px; }
   .kpi { padding: 12px 14px; }
