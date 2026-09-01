@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>홀딩스 이관 등록 · Smart SYNCWORKS</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/style.css?v=3">
+<script src="assets/theme.js"></script>
+</head>
+<body>
+<header class="gnb">
+  <a class="logo" href="dashboard.html"><em>Smart</em><b>SYNCWORKS</b></a>
+  <nav><a href="dashboard.html">기초정보</a><a href="lab.html">연구소</a><a class=on href="orders.html">주문</a><a href="confirm.html">생산량 확정</a><a href="purchase.html">발주</a><a href="production.html">생산</a><a href="warehouse.html">입출고</a><a href="inventory.html">재고</a><a href="quality.html">품질</a><a href="monitoring.html">모니터링</a><a href="prints.html">출력물</a><a href="reports.html">보고서</a><a href="bpm.html">BPM</a></nav>
+  <span class="user">홍길동 님</span>
+</header>
+<div class="app">
+<aside class="lnb">
+  <div class="grp">주문 관리</div>
+  <a href="orders.html">주문 목록</a>
+  <a href="order_new.html">주문 등록</a>
+  <a href="returns.html">반품 관리</a>
+  <a class="on" href="holdings.html">홀딩스 출고 · 마감</a>
+  <a href="client_orders.html">거래처별 주문</a>
+  <a href="delivery.html">배송 조회</a>
+  <a href="settlement.html">정산 내역</a>
+</aside>
+<main class="main">
+  <div class="page-head">
+    <h1>홀딩스 이관 등록</h1><span class="sub">전표 자동 발번 HD-0901-09</span>
+    <div class="actions"><a class="btn btn-outline" href="holdings.html">취소</a><button class="btn btn-outline">임시 저장</button><button class="btn btn-primary" onclick="location.href='holdings.html'">저장</button></div>
+  </div>
+  <div class="note-banner">내부 협정가가 자동 적용되며, 연결 손익에서 자동 제거됩니다.</div>
+  <div class="row grid-64">
+    <section class="panel"><div class="panel-head"><h2>기본 정보</h2><span class="sub"><b class="t-neg">*</b> 필수 입력</span></div>
+      <div class="form-grid"><div class="field"><label>출발 법인 <b>*</b></label><select class="ctl"><option>맑은물에 홀딩스</option><option>꿈꾸는콩</option><option>맑은식품</option></select></div><div class="field"><label>도착 법인 <b>*</b></label><select class="ctl"><option>꿈꾸는콩</option><option>맑은동해</option><option>참좋은콩</option><option>더큰정성</option></select></div><div class="field"><label>이관일</label><input class="ctl" type="date" value="2026-09-01"></div><div class="field"><label>품목 <b>*</b></label><select class="ctl"><option>두부 800g(10입)</option><option>콩나물 380g</option><option>낫또 45g</option></select></div><div class="field"><label>로트</label><select class="ctl"><option>L-260826-038</option><option>L-260828-014</option></select></div><div class="field"><label>수량 <b>*</b></label><input class="ctl" type="text" placeholder="예) 320"></div><div class="field"><label>이관 단가</label><input class="ctl" readonly value="내부 협정가 자동 적용"></div><div class="field"><label>차량</label><select class="ctl"><option>91서 3311 (셔틀)</option><option>자체 차량</option><option>외부 배차</option></select></div><div class="field span2"><label>비고</label><textarea class="ctl" style="height:88px;padding:10px 14px" placeholder=""></textarea></div></div>
+    </section>
+    <section class="panel"><div class="panel-head"><h2>저장 시 자동 처리</h2></div><div style="display:flex;gap:10px;margin-bottom:12px"><i style="width:8px;height:8px;border-radius:2px;background:var(--brand);flex-shrink:0;margin-top:4px"></i><div><b style="font-size:11px">협정가 적용</b><p style="font-size:10px;color:var(--g08);margin-top:3px">법인 간 협정 단가표에서 자동 조회</p></div></div><div style="display:flex;gap:10px;margin-bottom:12px"><i style="width:8px;height:8px;border-radius:2px;background:var(--brand);flex-shrink:0;margin-top:4px"></i><div><b style="font-size:11px">마감 집계</b><p style="font-size:10px;color:var(--g08);margin-top:3px">17:00 마감 시 당일 이관 일괄 확정</p></div></div><div style="display:flex;gap:10px;margin-bottom:12px"><i style="width:8px;height:8px;border-radius:2px;background:var(--brand);flex-shrink:0;margin-top:4px"></i><div><b style="font-size:11px">연결 제거</b><p style="font-size:10px;color:var(--g08);margin-top:3px">내부 거래분은 그룹 손익에서 자동 제거</p></div></div></section>
+  </div>
+</main>
+</div>
+<script src="assets/ui.js"></script>
+</body>
+</html>

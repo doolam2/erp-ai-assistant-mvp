@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>처방전 등록 · Smart SYNCWORKS</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/style.css?v=3">
+<script src="assets/theme.js"></script>
+</head>
+<body>
+<header class="gnb">
+  <a class="logo" href="dashboard.html"><em>Smart</em><b>SYNCWORKS</b></a>
+  <nav>
+    <a href="dashboard.html">기초정보</a>
+    <a class="on" href="lab.html">연구소</a>
+    <a href="orders.html">주문</a>
+    <a href="confirm.html">생산량 확정</a>
+    <a href="purchase.html">발주</a>
+    <a href="production.html">생산</a>
+    <a href="warehouse.html">입출고</a>
+    <a href="inventory.html">재고</a>
+    <a href="quality.html">품질</a>
+    <a href="monitoring.html">모니터링</a>
+    <a href="prints.html">출력물</a>
+    <a href="reports.html">보고서</a>
+    <a href="bpm.html">BPM</a>
+  </nav>
+  <span class="user">홍길동 님</span>
+</header>
+
+<div class="app">
+<aside class="lnb">
+  <div class="grp">연구소</div>
+  <a href="lab.html">시험 성적</a>
+  <a class="on" href="recipes.html">배합(레시피) 연구</a>
+  <a href="samples.html">샘플 관리</a>
+  <a href="test_requests.html">시험 의뢰</a>
+  <a href="certificates.html">성적서 발행</a>
+</aside>
+<main class="main">
+  <div class="page-head">
+    <h1>처방전 등록</h1><span class="sub">버전 v1 자동 시작</span>
+    <div class="actions"><a class="btn btn-outline" href="recipes.html">취소</a><button class="btn btn-outline">임시 저장</button><button class="btn btn-primary" onclick="location.href='recipes.html'">저장</button></div>
+  </div>
+  <div class="note-banner">원료와 비율을 입력하면 배합 도넛·투입량이 자동 계산됩니다.</div>
+  <div class="row grid-64">
+    <section class="panel"><div class="panel-head"><h2>기본 정보</h2><span class="sub"><b class="t-neg">*</b> 필수 입력</span></div>
+      <div class="form-grid"><div class="field"><label>처방전 ID</label><input class="ctl" readonly value="R-신규 (자동 발번)"></div><div class="field"><label>대상 품목 <b>*</b></label><select class="ctl"><option>신규 품목</option><option>두부 500g (신규)</option><option>기존 품목 개정</option></select></div><div class="field"><label>배치 기준 <b>*</b></label><input class="ctl" type="text" placeholder="예) 1,000모"></div><div class="field span2"><label>원료 구성 <b>*</b></label><textarea class="ctl" style="height:88px;padding:10px 14px" placeholder="원료 · 비율(%) · 로트 지정 방식 (행 추가)"></textarea></div><div class="field span2"><label>공정 파라미터</label><textarea class="ctl" style="height:88px;padding:10px 14px" placeholder="응고 온도·시간·압력 등"></textarea></div><div class="field"><label>개정 결재선</label><input class="ctl" readonly value="연구소장 → 공장장"></div></div>
+    </section>
+    <section class="panel"><div class="panel-head"><h2>저장 시 자동 처리</h2></div><div style="display:flex;gap:10px;margin-bottom:12px"><i style="width:8px;height:8px;border-radius:2px;background:var(--brand);flex-shrink:0;margin-top:4px"></i><div><b style="font-size:11px">배합 계산</b><p style="font-size:10px;color:var(--g08);margin-top:3px">비율 합 100% 검증 + 투입량 자동 산출</p></div></div><div style="display:flex;gap:10px;margin-bottom:12px"><i style="width:8px;height:8px;border-radius:2px;background:var(--brand);flex-shrink:0;margin-top:4px"></i><div><b style="font-size:11px">생산 연동</b><p style="font-size:10px;color:var(--g08);margin-top:3px">승인 시 작업 지시의 자재 소요에 반영</p></div></div><div style="display:flex;gap:10px;margin-bottom:12px"><i style="width:8px;height:8px;border-radius:2px;background:var(--brand);flex-shrink:0;margin-top:4px"></i><div><b style="font-size:11px">버전 이력</b><p style="font-size:10px;color:var(--g08);margin-top:3px">개정마다 v+1, 관능 결과 기록</p></div></div></section>
+  </div>
+</main>
+</div>
+<script src="assets/ui.js"></script>
+</body>
+</html>

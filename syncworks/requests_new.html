@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>시험 의뢰 등록 · Smart SYNCWORKS</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/style.css?v=3">
+<script src="assets/theme.js"></script>
+</head>
+<body>
+<header class="gnb">
+  <a class="logo" href="dashboard.html"><em>Smart</em><b>SYNCWORKS</b></a>
+  <nav><a href="dashboard.html">기초정보</a><a class=on href="lab.html">연구소</a><a href="orders.html">주문</a><a href="confirm.html">생산량 확정</a><a href="purchase.html">발주</a><a href="production.html">생산</a><a href="warehouse.html">입출고</a><a href="inventory.html">재고</a><a href="quality.html">품질</a><a href="monitoring.html">모니터링</a><a href="prints.html">출력물</a><a href="reports.html">보고서</a><a href="bpm.html">BPM</a></nav>
+  <span class="user">홍길동 님</span>
+</header>
+<div class="app">
+<aside class="lnb">
+  <div class="grp">연구소</div>
+  <a href="lab.html">시험 성적</a>
+  <a href="recipes.html">배합(레시피) 연구</a>
+  <a href="samples.html">샘플 관리</a>
+  <a class="on" href="test_requests.html">시험 의뢰</a>
+  <a href="certificates.html">성적서 발행</a>
+</aside>
+<main class="main">
+  <div class="page-head">
+    <h1>시험 의뢰 등록</h1><span class="sub">내부·외부 공용</span>
+    <div class="actions"><a class="btn btn-outline" href="test_requests.html">취소</a><button class="btn btn-outline">임시 저장</button><button class="btn btn-primary" onclick="location.href='test_requests.html'">저장</button></div>
+  </div>
+  <div class="note-banner">외부 기관 선택 시 의뢰서가 자동 생성됩니다.</div>
+  <div class="row grid-64">
+    <section class="panel"><div class="panel-head"><h2>기본 정보</h2><span class="sub"><b class="t-neg">*</b> 필수 입력</span></div>
+      <div class="form-grid"><div class="field"><label>품목·로트 <b>*</b></label><select class="ctl"><option>두부 300g · L-…-012</option><option>에너지바 · L-…-037</option></select></div><div class="field"><label>시험 항목 <b>*</b></label><input class="ctl" type="text" placeholder="예) 영양성분 재검증"></div><div class="field"><label>기관 <b>*</b></label><select class="ctl"><option>내부</option><option>한국식품연</option><option>KTR</option><option>발효연</option></select></div><div class="field"><label>연결 샘플</label><select class="ctl"><option>SP-0901-04 (자동 제안)</option><option>신규 채취</option></select></div><div class="field"><label>희망 회신일</label><input class="ctl" type="date" value="2026-09-12"></div><div class="field"><label>비용 부담</label><select class="ctl"><option>품질 예산</option><option>연구 예산</option><option>거래처 청구</option></select></div><div class="field span2"><label>의뢰 사유</label><textarea class="ctl" style="height:88px;padding:10px 14px" placeholder=""></textarea></div></div>
+    </section>
+    <section class="panel"><div class="panel-head"><h2>저장 시 자동 처리</h2></div><div style="display:flex;gap:10px;margin-bottom:12px"><i style="width:8px;height:8px;border-radius:2px;background:var(--brand);flex-shrink:0;margin-top:4px"></i><div><b style="font-size:11px">의뢰서 생성</b><p style="font-size:10px;color:var(--g08);margin-top:3px">외부 기관 양식으로 자동 작성·출력</p></div></div><div style="display:flex;gap:10px;margin-bottom:12px"><i style="width:8px;height:8px;border-radius:2px;background:var(--brand);flex-shrink:0;margin-top:4px"></i><div><b style="font-size:11px">결과 수신</b><p style="font-size:10px;color:var(--g08);margin-top:3px">회신 도착 시 성적서 발행 대기 등록</p></div></div><div style="display:flex;gap:10px;margin-bottom:12px"><i style="width:8px;height:8px;border-radius:2px;background:var(--brand);flex-shrink:0;margin-top:4px"></i><div><b style="font-size:11px">예산 기록</b><p style="font-size:10px;color:var(--g08);margin-top:3px">비용은 월 품질 비용에 자동 집계</p></div></div></section>
+  </div>
+</main>
+</div>
+<script src="assets/ui.js"></script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>목표 편성 · Smart SYNCWORKS</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/style.css?v=3">
+<script src="assets/theme.js"></script>
+</head>
+<body>
+<header class="gnb">
+  <a class="logo" href="dashboard.html"><em>Smart</em><b>SYNCWORKS</b></a>
+  <nav><a class=on href="dashboard.html">기초정보</a><a href="lab.html">연구소</a><a href="orders.html">주문</a><a href="confirm.html">생산량 확정</a><a href="purchase.html">발주</a><a href="production.html">생산</a><a href="warehouse.html">입출고</a><a href="inventory.html">재고</a><a href="quality.html">품질</a><a href="monitoring.html">모니터링</a><a href="prints.html">출력물</a><a href="reports.html">보고서</a><a href="bpm.html">BPM</a></nav>
+  <span class="user">홍길동 님</span>
+</header>
+<div class="app">
+<aside class="lnb">
+  <div class="grp">매출 관리</div>
+  <a href="dashboard.html">매출 대시보드</a>
+  <a class="on" href="targets.html">매출목표 및 계획</a>
+  <a href="pnl.html">손익계산서</a>
+  <a href="corp.html">법인별 실적</a>
+  <div class="grp">기초 정보</div>
+  <a href="clients.html">거래처 관리</a>
+  <a href="products.html">제품정보 관리</a>
+  <a href="warehouses.html">창고 관리</a>
+  <a href="users.html">사용자 · 권한</a>
+  <a href="changelog.html">업데이트 로그</a>
+</aside>
+<main class="main">
+  <div class="page-head">
+    <h1>목표 편성</h1><span class="sub">2027년 연간 편성</span>
+    <div class="actions"><a class="btn btn-outline" href="targets.html">취소</a><button class="btn btn-outline">임시 저장</button><button class="btn btn-primary" onclick="location.href='targets.html'">저장</button></div>
+  </div>
+  <div class="note-banner">전년 실적 기반 초안이 자동 생성됩니다 — 조정 후 상신하세요.</div>
+  <div class="row grid-64">
+    <section class="panel"><div class="panel-head"><h2>기본 정보</h2><span class="sub"><b class="t-neg">*</b> 필수 입력</span></div>
+      <div class="form-grid"><div class="field"><label>편성 연도</label><select class="ctl"><option>2027년</option><option>2026년 수정</option></select></div><div class="field"><label>편성 기준</label><select class="ctl"><option>전년 실적 × 성장률</option><option>제로베이스</option></select></div><div class="field"><label>그룹 성장률 <b>*</b></label><input class="ctl" type="text" placeholder="예) +9%"></div><div class="field"><label>성수기 가중</label><input class="ctl" readonly value="설·추석 1.4배 · 하계 0.9배"></div><div class="field"><label>법인별 조정</label><input class="ctl" readonly value="편성표에서 개별 입력"></div><div class="field"><label>승인 결재선</label><input class="ctl" readonly value="재무팀 → 대표이사"></div><div class="field span2"><label>편성 메모</label><textarea class="ctl" style="height:88px;padding:10px 14px" placeholder=""></textarea></div></div>
+    </section>
+    <section class="panel"><div class="panel-head"><h2>저장 시 자동 처리</h2></div><div style="display:flex;gap:10px;margin-bottom:12px"><i style="width:8px;height:8px;border-radius:2px;background:var(--brand);flex-shrink:0;margin-top:4px"></i><div><b style="font-size:11px">초안 생성</b><p style="font-size:10px;color:var(--g08);margin-top:3px">법인×월 매트릭스 초안 자동 생성</p></div></div><div style="display:flex;gap:10px;margin-bottom:12px"><i style="width:8px;height:8px;border-radius:2px;background:var(--brand);flex-shrink:0;margin-top:4px"></i><div><b style="font-size:11px">대시보드 연동</b><p style="font-size:10px;color:var(--g08);margin-top:3px">승인 즉시 달성률 기준값 교체</p></div></div><div style="display:flex;gap:10px;margin-bottom:12px"><i style="width:8px;height:8px;border-radius:2px;background:var(--brand);flex-shrink:0;margin-top:4px"></i><div><b style="font-size:11px">BPM 상신</b><p style="font-size:10px;color:var(--g08);margin-top:3px">저장 시 목표 편성 결재 자동 기안</p></div></div></section>
+  </div>
+</main>
+</div>
+<script src="assets/ui.js"></script>
+</body>
+</html>

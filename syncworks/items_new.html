@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>검사 항목 등록 · Smart SYNCWORKS</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/style.css?v=3">
+<script src="assets/theme.js"></script>
+</head>
+<body>
+<header class="gnb">
+  <a class="logo" href="dashboard.html"><em>Smart</em><b>SYNCWORKS</b></a>
+  <nav><a href="dashboard.html">기초정보</a><a href="lab.html">연구소</a><a href="orders.html">주문</a><a href="confirm.html">생산량 확정</a><a href="purchase.html">발주</a><a href="production.html">생산</a><a href="warehouse.html">입출고</a><a href="inventory.html">재고</a><a class=on href="quality.html">품질</a><a href="monitoring.html">모니터링</a><a href="prints.html">출력물</a><a href="reports.html">보고서</a><a href="bpm.html">BPM</a></nav>
+  <span class="user">홍길동 님</span>
+</header>
+<div class="app">
+<aside class="lnb">
+  <div class="grp">품질 관리</div>
+  <a href="quality.html">품질 현황</a>
+  <a href="quality_new.html">검사 등록</a>
+  <a href="defects.html">부적합 관리</a>
+  <a class="on" href="inspection_items.html">검사 항목 설정</a>
+  <a href="qc_groups.html">품질검사 그룹</a>
+  <a href="certificates.html">성적서 발행</a>
+</aside>
+<main class="main">
+  <div class="page-head">
+    <h1>검사 항목 등록</h1><span class="sub">기준 개정 결재 연동</span>
+    <div class="actions"><a class="btn btn-outline" href="inspection_items.html">취소</a><button class="btn btn-outline">임시 저장</button><button class="btn btn-primary" onclick="location.href='inspection_items.html'">저장</button></div>
+  </div>
+  <div class="note-banner">법적 필수 항목은 기준값 하향이 차단됩니다.</div>
+  <div class="row grid-64">
+    <section class="panel"><div class="panel-head"><h2>기본 정보</h2><span class="sub"><b class="t-neg">*</b> 필수 입력</span></div>
+      <div class="form-grid"><div class="field"><label>항목명 <b>*</b></label><input class="ctl" type="text" placeholder="예) 황색포도상구균"></div><div class="field"><label>분류 <b>*</b></label><select class="ctl"><option>미생물</option><option>이화학</option><option>계량</option><option>물성</option><option>관능</option></select></div><div class="field"><label>기준값 <b>*</b></label><input class="ctl" type="text" placeholder="예) 음성"></div><div class="field"><label>판정 방식</label><select class="ctl"><option>자동 (수치 입력)</option><option>수동 (판정 입력)</option><option>외부 연동</option></select></div><div class="field"><label>적용 그룹</label><select class="ctl"><option>두부류 완제품</option><option>연식품</option><option>원자재 입고</option><option>전 그룹</option></select></div><div class="field"><label>법적 필수</label><select class="ctl"><option>해당 없음</option><option>식품위생법</option><option>축산물위생법</option></select></div><div class="field span2"><label>시험 방법</label><textarea class="ctl" style="height:88px;padding:10px 14px" placeholder="시험 방법·검체 기준"></textarea></div></div>
+    </section>
+    <section class="panel"><div class="panel-head"><h2>저장 시 자동 처리</h2></div><div style="display:flex;gap:10px;margin-bottom:12px"><i style="width:8px;height:8px;border-radius:2px;background:var(--brand);flex-shrink:0;margin-top:4px"></i><div><b style="font-size:11px">결재 상신</b><p style="font-size:10px;color:var(--g08);margin-top:3px">품질 기본 결재선으로 개정안 자동 기안</p></div></div><div style="display:flex;gap:10px;margin-bottom:12px"><i style="width:8px;height:8px;border-radius:2px;background:var(--brand);flex-shrink:0;margin-top:4px"></i><div><b style="font-size:11px">그룹 반영</b><p style="font-size:10px;color:var(--g08);margin-top:3px">승인 시 해당 그룹 검사 등록에 즉시 적용</p></div></div><div style="display:flex;gap:10px;margin-bottom:12px"><i style="width:8px;height:8px;border-radius:2px;background:var(--brand);flex-shrink:0;margin-top:4px"></i><div><b style="font-size:11px">진행 검사 보호</b><p style="font-size:10px;color:var(--g08);margin-top:3px">진행 중 검사는 기존 기준 유지</p></div></div></section>
+  </div>
+</main>
+</div>
+<script src="assets/ui.js"></script>
+</body>
+</html>

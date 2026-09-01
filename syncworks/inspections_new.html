@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>검수 등록 · Smart SYNCWORKS</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/style.css?v=3">
+<script src="assets/theme.js"></script>
+</head>
+<body>
+<header class="gnb">
+  <a class="logo" href="dashboard.html"><em>Smart</em><b>SYNCWORKS</b></a>
+  <nav><a href="dashboard.html">기초정보</a><a href="lab.html">연구소</a><a href="orders.html">주문</a><a href="confirm.html">생산량 확정</a><a href="purchase.html">발주</a><a href="production.html">생산</a><a class=on href="warehouse.html">입출고</a><a href="inventory.html">재고</a><a href="quality.html">품질</a><a href="monitoring.html">모니터링</a><a href="prints.html">출력물</a><a href="reports.html">보고서</a><a href="bpm.html">BPM</a></nav>
+  <span class="user">홍길동 님</span>
+</header>
+<div class="app">
+<aside class="lnb">
+  <div class="grp">입출고 관리</div>
+  <a href="warehouse.html">입출고 현황</a>
+  <a href="goods_in.html">입고 관리</a>
+  <a href="goods_out.html">출고 관리</a>
+  <a href="dispatch.html">배차 관리</a>
+  <a class="on" href="inspections.html">검수 관리</a>
+  <a href="ledger.html">수불 이력</a>
+</aside>
+<main class="main">
+  <div class="page-head">
+    <h1>검수 등록</h1><span class="sub">입고·출고·반품 공용</span>
+    <div class="actions"><a class="btn btn-outline" href="inspections.html">취소</a><button class="btn btn-outline">임시 저장</button><button class="btn btn-primary" onclick="location.href='inspections.html'">저장</button></div>
+  </div>
+  <div class="note-banner">대상 전표를 선택하면 검사 항목이 그룹 기준으로 자동 구성됩니다.</div>
+  <div class="row grid-64">
+    <section class="panel"><div class="panel-head"><h2>기본 정보</h2><span class="sub"><b class="t-neg">*</b> 필수 입력</span></div>
+      <div class="form-grid"><div class="field"><label>검수 유형 <b>*</b></label><select class="ctl"><option>입고 검수</option><option>출고 검수</option><option>반품 검수</option></select></div><div class="field"><label>대상 전표 <b>*</b></label><select class="ctl"><option>IN-…-016 · 응고제(간수)</option><option>IN-…-014 · 수입 대두</option><option>OUT-…-019 · 에너지바</option></select></div><div class="field"><label>검수일시</label><input class="ctl" readonly value="2026-09-01 10:40"></div><div class="field"><label>검사 그룹</label><input class="ctl" readonly value="원자재 입고 (4항목)"></div><div class="field"><label>담당</label><select class="ctl"><option>정품질</option><option>김검수</option></select></div><div class="field"><label>샘플 수</label><input class="ctl" type="text" placeholder="예) 3"></div><div class="field span2"><label>판정 메모</label><textarea class="ctl" style="height:88px;padding:10px 14px" placeholder="항목별 측정값은 판정 화면에서 입력"></textarea></div></div>
+    </section>
+    <section class="panel"><div class="panel-head"><h2>저장 시 자동 처리</h2></div><div style="display:flex;gap:10px;margin-bottom:12px"><i style="width:8px;height:8px;border-radius:2px;background:var(--brand);flex-shrink:0;margin-top:4px"></i><div><b style="font-size:11px">항목 구성</b><p style="font-size:10px;color:var(--g08);margin-top:3px">품질검사 그룹의 기준값·판정 방식 자동 적용</p></div></div><div style="display:flex;gap:10px;margin-bottom:12px"><i style="width:8px;height:8px;border-radius:2px;background:var(--brand);flex-shrink:0;margin-top:4px"></i><div><b style="font-size:11px">불합격 처리</b><p style="font-size:10px;color:var(--g08);margin-top:3px">불합격 시 로트 보류 + 부적합 자동 생성</p></div></div><div style="display:flex;gap:10px;margin-bottom:12px"><i style="width:8px;height:8px;border-radius:2px;background:var(--brand);flex-shrink:0;margin-top:4px"></i><div><b style="font-size:11px">반품 연동</b><p style="font-size:10px;color:var(--g08);margin-top:3px">입고 불합격은 반품 처리로 자동 연결</p></div></div></section>
+  </div>
+</main>
+</div>
+<script src="assets/ui.js"></script>
+</body>
+</html>

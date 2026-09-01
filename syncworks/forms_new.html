@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>양식 등록 · Smart SYNCWORKS</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/style.css?v=3">
+<script src="assets/theme.js"></script>
+</head>
+<body>
+<header class="gnb">
+  <a class="logo" href="dashboard.html"><em>Smart</em><b>SYNCWORKS</b></a>
+  <nav><a href="dashboard.html">기초정보</a><a href="lab.html">연구소</a><a href="orders.html">주문</a><a href="confirm.html">생산량 확정</a><a href="purchase.html">발주</a><a href="production.html">생산</a><a href="warehouse.html">입출고</a><a href="inventory.html">재고</a><a href="quality.html">품질</a><a href="monitoring.html">모니터링</a><a href="prints.html">출력물</a><a href="reports.html">보고서</a><a class=on href="bpm.html">BPM</a></nav>
+  <span class="user">홍길동 님</span>
+</header>
+<div class="app">
+<aside class="lnb">
+  <div class="grp">BPM</div>
+  <a href="bpm.html">받은 결재</a>
+  <a href="bpm.html">올린 결재</a>
+  <a href="references.html">참조 문서</a>
+  <a href="approval_lines.html">결재선 관리</a>
+  <a class="on" href="forms.html">양식 관리</a>
+</aside>
+<main class="main">
+  <div class="page-head">
+    <h1>양식 등록</h1><span class="sub">버전 v1 자동 시작</span>
+    <div class="actions"><a class="btn btn-outline" href="forms.html">취소</a><button class="btn btn-outline">임시 저장</button><button class="btn btn-primary" onclick="location.href='forms.html'">저장</button></div>
+  </div>
+  <div class="note-banner">결재선을 연결하면 기안 화면에 즉시 노출됩니다.</div>
+  <div class="row grid-64">
+    <section class="panel"><div class="panel-head"><h2>기본 정보</h2><span class="sub"><b class="t-neg">*</b> 필수 입력</span></div>
+      <div class="form-grid"><div class="field"><label>양식명 <b>*</b></label><input class="ctl" type="text" value=""></div><div class="field"><label>용도 <b>*</b></label><input class="ctl" type="text" value=""></div><div class="field"><label>기본 결재선 <b>*</b></label><select class="ctl"><option>생산 기본</option><option>품질 기본</option><option>구매 일반</option><option>행정 간이</option><option>새 결재선</option></select></div><div class="field"><label>참조 기본값</label><select class="ctl"><option>없음</option><option>팀 전체</option><option>관련 부서장</option></select></div><div class="field"><label>첨부 필수</label><select class="ctl"><option>없음</option><option>견적서</option><option>사진</option><option>성적서</option></select></div><div class="field"><label>보존 연한</label><select class="ctl"><option>5년</option><option>3년</option><option>1년</option></select></div><div class="field span2"><label>본문 템플릿</label><textarea class="ctl" style="height:88px;padding:10px 14px" placeholder="기안 본문 기본 구성"></textarea></div></div>
+    </section>
+    <section class="panel"><div class="panel-head"><h2>저장 시 자동 처리</h2></div><div style="display:flex;gap:10px;margin-bottom:12px"><i style="width:8px;height:8px;border-radius:2px;background:var(--brand);flex-shrink:0;margin-top:4px"></i><div><b style="font-size:11px">버전 관리</b><p style="font-size:10px;color:var(--g08);margin-top:3px">수정 시 v+1 — 진행 중 결재는 기존 버전 유지</p></div></div><div style="display:flex;gap:10px;margin-bottom:12px"><i style="width:8px;height:8px;border-radius:2px;background:var(--brand);flex-shrink:0;margin-top:4px"></i><div><b style="font-size:11px">노출</b><p style="font-size:10px;color:var(--g08);margin-top:3px">저장 즉시 기안 작성 목록에 표시</p></div></div><div style="display:flex;gap:10px;margin-bottom:12px"><i style="width:8px;height:8px;border-radius:2px;background:var(--brand);flex-shrink:0;margin-top:4px"></i><div><b style="font-size:11px">결재선</b><p style="font-size:10px;color:var(--g08);margin-top:3px">부재 시 대결 규칙 자동 상속</p></div></div></section>
+  </div>
+</main>
+</div>
+<script src="assets/ui.js"></script>
+</body>
+</html>

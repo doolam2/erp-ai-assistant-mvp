@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>새 보고서 · Smart SYNCWORKS</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/style.css?v=3">
+<script src="assets/theme.js"></script>
+</head>
+<body>
+<header class="gnb">
+  <a class="logo" href="dashboard.html"><em>Smart</em><b>SYNCWORKS</b></a>
+  <nav><a href="dashboard.html">기초정보</a><a href="lab.html">연구소</a><a href="orders.html">주문</a><a href="confirm.html">생산량 확정</a><a href="purchase.html">발주</a><a href="production.html">생산</a><a href="warehouse.html">입출고</a><a href="inventory.html">재고</a><a href="quality.html">품질</a><a href="monitoring.html">모니터링</a><a href="prints.html">출력물</a><a class=on href="reports.html">보고서</a><a href="bpm.html">BPM</a></nav>
+  <span class="user">홍길동 님</span>
+</header>
+<div class="app">
+<aside class="lnb">
+  <div class="grp">보고서</div>
+  <a href="reports.html">정기 보고서</a>
+  <a href="sales_report.html">매출 분석</a>
+  <a href="production_report.html">생산 실적 분석</a>
+  <a href="stock_report.html">재고 분석</a>
+  <a class="on" href="report_builder.html">보고서 만들기</a>
+  <a href="subscriptions.html">구독 설정</a>
+  <a href="archive.html">보관함</a>
+</aside>
+<main class="main">
+  <div class="page-head">
+    <h1>새 보고서</h1><span class="sub">블록 조합형</span>
+    <div class="actions"><a class="btn btn-outline" href="report_builder.html">취소</a><button class="btn btn-outline">임시 저장</button><button class="btn btn-primary" onclick="location.href='report_builder.html'">저장</button></div>
+  </div>
+  <div class="note-banner">데이터 블록을 고르면 미리보기가 구성됩니다.</div>
+  <div class="row grid-64">
+    <section class="panel"><div class="panel-head"><h2>기본 정보</h2><span class="sub"><b class="t-neg">*</b> 필수 입력</span></div>
+      <div class="form-grid"><div class="field"><label>보고서명 <b>*</b></label><input class="ctl" type="text" value=""></div><div class="field"><label>시작 템플릿</label><select class="ctl"><option>빈 문서</option><option>경영 요약</option><option>생산 일보</option><option>재고 스냅샷</option></select></div><div class="field"><label>데이터 기간</label><select class="ctl"><option>최근 7일</option><option>전일</option><option>월 누적</option><option>직접 지정</option></select></div><div class="field span2"><label>블록 구성 <b>*</b></label><textarea class="ctl" style="height:88px;padding:10px 14px" placeholder="매출 KPI · 생산 달성 · 미수 현황 … (블록 검색)"></textarea></div><div class="field"><label>공유 범위</label><select class="ctl"><option>나만</option><option>팀</option><option>전체</option></select></div></div>
+    </section>
+    <section class="panel"><div class="panel-head"><h2>저장 시 자동 처리</h2></div><div style="display:flex;gap:10px;margin-bottom:12px"><i style="width:8px;height:8px;border-radius:2px;background:var(--brand);flex-shrink:0;margin-top:4px"></i><div><b style="font-size:11px">미리보기</b><p style="font-size:10px;color:var(--g08);margin-top:3px">블록 추가 시 실데이터로 즉시 렌더</p></div></div><div style="display:flex;gap:10px;margin-bottom:12px"><i style="width:8px;height:8px;border-radius:2px;background:var(--brand);flex-shrink:0;margin-top:4px"></i><div><b style="font-size:11px">발송 전환</b><p style="font-size:10px;color:var(--g08);margin-top:3px">완성 후 구독 설정으로 자동 발송 가능</p></div></div><div style="display:flex;gap:10px;margin-bottom:12px"><i style="width:8px;height:8px;border-radius:2px;background:var(--brand);flex-shrink:0;margin-top:4px"></i><div><b style="font-size:11px">보관</b><p style="font-size:10px;color:var(--g08);margin-top:3px">발행본은 보관함에 적재</p></div></div></section>
+  </div>
+</main>
+</div>
+<script src="assets/ui.js"></script>
+</body>
+</html>

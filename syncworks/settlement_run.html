@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>정산 실행 · Smart SYNCWORKS</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/style.css?v=3">
+<script src="assets/theme.js"></script>
+</head>
+<body>
+<header class="gnb">
+  <a class="logo" href="dashboard.html"><em>Smart</em><b>SYNCWORKS</b></a>
+  <nav><a href="dashboard.html">기초정보</a><a href="lab.html">연구소</a><a class=on href="orders.html">주문</a><a href="confirm.html">생산량 확정</a><a href="purchase.html">발주</a><a href="production.html">생산</a><a href="warehouse.html">입출고</a><a href="inventory.html">재고</a><a href="quality.html">품질</a><a href="monitoring.html">모니터링</a><a href="prints.html">출력물</a><a href="reports.html">보고서</a><a href="bpm.html">BPM</a></nav>
+  <span class="user">홍길동 님</span>
+</header>
+<div class="app">
+<aside class="lnb">
+  <div class="grp">주문 관리</div>
+  <a href="orders.html">주문 목록</a>
+  <a href="order_new.html">주문 등록</a>
+  <a href="returns.html">반품 관리</a>
+  <a href="holdings.html">홀딩스 출고 · 마감</a>
+  <a href="client_orders.html">거래처별 주문</a>
+  <a href="delivery.html">배송 조회</a>
+  <a class="on" href="settlement.html">정산 내역</a>
+</aside>
+<main class="main">
+  <div class="page-head">
+    <h1>정산 실행</h1><span class="sub">2026. 09 월 정산</span>
+    <div class="actions"><a class="btn btn-outline" href="settlement.html">취소</a><button class="btn btn-outline">임시 저장</button><button class="btn btn-primary" onclick="location.href='settlement.html'">저장</button></div>
+  </div>
+  <div class="note-banner">대상 거래처를 확인하고 실행하면 계산서 발행까지 진행됩니다.</div>
+  <div class="row grid-64">
+    <section class="panel"><div class="panel-head"><h2>기본 정보</h2><span class="sub"><b class="t-neg">*</b> 필수 입력</span></div>
+      <div class="form-grid"><div class="field"><label>정산 월</label><select class="ctl"><option>2026. 09</option><option>2026. 08 (재정산)</option></select></div><div class="field"><label>대상</label><select class="ctl"><option>전체 거래처 (84곳)</option><option>미정산만 (1곳)</option><option>선택 거래처</option></select></div><div class="field"><label>기준일</label><input class="ctl" readonly value="말일 18:00 마감분"></div><div class="field"><label>세금계산서</label><select class="ctl"><option>자동 발행</option><option>수동 발행</option></select></div><div class="field"><label>미수 처리</label><select class="ctl"><option>이월 + 여신 재평가</option><option>이월만</option></select></div><div class="field"><label>실행 승인</label><input class="ctl" readonly value="재무팀 결재 후 실행"></div><div class="field span2"><label>메모</label><textarea class="ctl" style="height:88px;padding:10px 14px" placeholder=""></textarea></div></div>
+    </section>
+    <section class="panel"><div class="panel-head"><h2>저장 시 자동 처리</h2></div><div style="display:flex;gap:10px;margin-bottom:12px"><i style="width:8px;height:8px;border-radius:2px;background:var(--brand);flex-shrink:0;margin-top:4px"></i><div><b style="font-size:11px">집계</b><p style="font-size:10px;color:var(--g08);margin-top:3px">공급·반품·에누리 자동 집계 후 확정</p></div></div><div style="display:flex;gap:10px;margin-bottom:12px"><i style="width:8px;height:8px;border-radius:2px;background:var(--brand);flex-shrink:0;margin-top:4px"></i><div><b style="font-size:11px">발행</b><p style="font-size:10px;color:var(--g08);margin-top:3px">국세청 전자계산서 일괄 발행</p></div></div><div style="display:flex;gap:10px;margin-bottom:12px"><i style="width:8px;height:8px;border-radius:2px;background:var(--brand);flex-shrink:0;margin-top:4px"></i><div><b style="font-size:11px">여신</b><p style="font-size:10px;color:var(--g08);margin-top:3px">미수 초과 거래처 자동 플래그</p></div></div></section>
+  </div>
+</main>
+</div>
+<script src="assets/ui.js"></script>
+</body>
+</html>

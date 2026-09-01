@@ -60,13 +60,13 @@
         el.style.transition = 'opacity .6s ease ' + (700 + i * 80) + 'ms';
         requestAnimationFrame(function () { el.style.opacity = '1'; });
       } else {
-        el.setAttribute('pathLength', '1');
-        el.style.strokeDasharray = '1';
-        el.style.strokeDashoffset = '1';
+        /* non-scaling-stroke에서는 dash 트릭이 화면 단위로 계산돼 선이 끊겨 보임
+           → clip-path 와이프로 좌→우 그려지는 효과를 냄 */
+        el.style.clipPath = 'inset(-10% 100% -10% 0)';
         el.style.transition = 'none';
         requestAnimationFrame(function () {
-          el.style.transition = 'stroke-dashoffset 1s ' + EASE + ' ' + (450 + i * 90) + 'ms';
-          el.style.strokeDashoffset = '0';
+          el.style.transition = 'clip-path 1s ' + EASE + ' ' + (450 + i * 90) + 'ms';
+          el.style.clipPath = 'inset(-10% 0% -10% 0)';
         });
       }
     });

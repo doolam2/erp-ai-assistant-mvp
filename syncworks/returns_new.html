@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>반품 접수 · Smart SYNCWORKS</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/style.css?v=3">
+<script src="assets/theme.js"></script>
+</head>
+<body>
+<header class="gnb">
+  <a class="logo" href="dashboard.html"><em>Smart</em><b>SYNCWORKS</b></a>
+  <nav>
+    <a href="dashboard.html">기초정보</a>
+    <a href="lab.html">연구소</a>
+    <a class="on" href="orders.html">주문</a>
+    <a href="confirm.html">생산량 확정</a>
+    <a href="purchase.html">발주</a>
+    <a href="production.html">생산</a>
+    <a href="warehouse.html">입출고</a>
+    <a href="inventory.html">재고</a>
+    <a href="quality.html">품질</a>
+    <a href="monitoring.html">모니터링</a>
+    <a href="prints.html">출력물</a>
+    <a href="reports.html">보고서</a>
+    <a href="bpm.html">BPM</a>
+  </nav>
+  <span class="user">홍길동 님</span>
+</header>
+
+<div class="app">
+<aside class="lnb">
+  <div class="grp">주문 관리</div>
+  <a href="orders.html">주문 목록</a>
+  <a href="order_new.html">주문 등록</a>
+  <a class="on" href="returns.html">반품 관리</a>
+  <a href="client_orders.html">거래처별 주문</a>
+  <a href="delivery.html">배송 조회</a>
+  <a href="settlement.html">정산 내역</a>
+</aside>
+<main class="main">
+  <div class="page-head">
+    <h1>반품 접수</h1><span class="sub">접수번호 자동 발번 RT-260901-07</span>
+    <div class="actions"><a class="btn btn-outline" href="returns.html">취소</a><button class="btn btn-outline">임시 저장</button><button class="btn btn-primary" onclick="location.href='returns.html'">저장</button></div>
+  </div>
+  <div class="note-banner">원주문을 선택하면 거래처·품목·로트가 자동으로 채워집니다.</div>
+  <div class="row grid-64">
+    <section class="panel"><div class="panel-head"><h2>기본 정보</h2><span class="sub"><b class="t-neg">*</b> 필수 입력</span></div>
+      <div class="form-grid"><div class="field"><label>원주문 <b>*</b></label><select class="ctl"><option>SO-260826-014 · 대상마트 성수점</option><option>SO-260826-013 · 한솔유통</option><option>직접 입력</option></select></div><div class="field"><label>거래처</label><input class="ctl" readonly value="대상마트 성수점"></div><div class="field"><label>접수 경로</label><select class="ctl"><option>거래처 연락</option><option>배송 기사</option><option>영업 담당</option></select></div><div class="field"><label>품목</label><input class="ctl" readonly value="두부 300g (L-…-012)"></div><div class="field"><label>반품 수량 <b>*</b></label><input class="ctl" type="text" placeholder="예) 24"></div><div class="field"><label>사유 <b>*</b></label><select class="ctl"><option>운송 파손</option><option>오배송</option><option>기한 임박</option><option>포장 불량</option><option>기타</option></select></div><div class="field"><label>현장 사진</label><input class="ctl" readonly value="모바일 앱에서 첨부 (2장)"></div><div class="field"><label>회수 방법</label><select class="ctl"><option>정기 배송 차량 회수</option><option>별도 회수</option><option>거래처 폐기</option></select></div><div class="field span2"><label>상세 내용</label><textarea class="ctl" style="height:88px;padding:10px 14px" placeholder="파손 상태 등 상세 기록"></textarea></div></div>
+    </section>
+    <section class="panel"><div class="panel-head"><h2>저장 시 자동 처리</h2></div><div style="display:flex;gap:10px;margin-bottom:12px"><i style="width:8px;height:8px;border-radius:2px;background:var(--brand);flex-shrink:0;margin-top:4px"></i><div><b style="font-size:11px">회수 지시</b><p style="font-size:10px;color:var(--g08);margin-top:3px">배차 관리의 해당 코스에 회수 스톱 자동 추가</p></div></div><div style="display:flex;gap:10px;margin-bottom:12px"><i style="width:8px;height:8px;border-radius:2px;background:var(--brand);flex-shrink:0;margin-top:4px"></i><div><b style="font-size:11px">검수 대기</b><p style="font-size:10px;color:var(--g08);margin-top:3px">회수 도착 시 반품 검수 건 자동 생성</p></div></div><div style="display:flex;gap:10px;margin-bottom:12px"><i style="width:8px;height:8px;border-radius:2px;background:var(--brand);flex-shrink:0;margin-top:4px"></i><div><b style="font-size:11px">여신 반영</b><p style="font-size:10px;color:var(--g08);margin-top:3px">환입/폐기 확정 시 정산·여신에 자동 반영</p></div></div></section>
+  </div>
+</main>
+</div>
+<script src="assets/ui.js"></script>
+</body>
+</html>

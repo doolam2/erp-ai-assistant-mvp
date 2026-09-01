@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>거래처 등록 · Smart SYNCWORKS</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/style.css?v=3">
+<script src="assets/theme.js"></script>
+</head>
+<body>
+<header class="gnb">
+  <a class="logo" href="dashboard.html"><em>Smart</em><b>SYNCWORKS</b></a>
+  <nav><a class=on href="dashboard.html">기초정보</a><a href="lab.html">연구소</a><a href="orders.html">주문</a><a href="confirm.html">생산량 확정</a><a href="purchase.html">발주</a><a href="production.html">생산</a><a href="warehouse.html">입출고</a><a href="inventory.html">재고</a><a href="quality.html">품질</a><a href="monitoring.html">모니터링</a><a href="prints.html">출력물</a><a href="reports.html">보고서</a><a href="bpm.html">BPM</a></nav>
+  <span class="user">홍길동 님</span>
+</header>
+<div class="app">
+<aside class="lnb">
+  <div class="grp">매출 관리</div>
+  <a href="dashboard.html">매출 대시보드</a>
+  <a href="targets.html">매출목표 및 계획</a>
+  <a href="pnl.html">손익계산서</a>
+  <a href="corp.html">법인별 실적</a>
+  <div class="grp">기초 정보</div>
+  <a class="on" href="clients.html">거래처 관리</a>
+  <a href="products.html">제품정보 관리</a>
+  <a href="warehouses.html">창고 관리</a>
+  <a href="users.html">사용자 · 권한</a>
+  <a href="changelog.html">업데이트 로그</a>
+</aside>
+<main class="main">
+  <div class="page-head">
+    <h1>거래처 등록</h1><span class="sub">신용 조회 연동</span>
+    <div class="actions"><a class="btn btn-outline" href="clients.html">취소</a><button class="btn btn-outline">임시 저장</button><button class="btn btn-primary" onclick="location.href='clients.html'">저장</button></div>
+  </div>
+  <div class="note-banner">사업자번호 입력 시 기본 정보가 자동 조회됩니다.</div>
+  <div class="row grid-64">
+    <section class="panel"><div class="panel-head"><h2>기본 정보</h2><span class="sub"><b class="t-neg">*</b> 필수 입력</span></div>
+      <div class="form-grid"><div class="field"><label>거래처명 <b>*</b></label><input class="ctl" type="text" placeholder="예) 참좋은유통"></div><div class="field"><label>사업자번호 <b>*</b></label><input class="ctl" type="text" value="000-00-00000"></div><div class="field"><label>채널 <b>*</b></label><select class="ctl"><option>대리점</option><option>급식</option><option>온라인</option><option>OEM</option></select></div><div class="field"><label>담당 법인</label><select class="ctl"><option>법인A</option><option>법인B</option><option>법인C</option><option>법인D</option><option>법인E</option></select></div><div class="field"><label>담당 영업</label><select class="ctl"><option>김영업</option><option>이영업</option></select></div><div class="field"><label>결제 조건</label><select class="ctl"><option>월 정산 (말일)</option><option>주 정산</option><option>현금</option></select></div><div class="field"><label>여신 한도(천원) <b>*</b></label><input class="ctl" type="text" placeholder="예) 300,000"></div><div class="field"><label>배송 코스</label><select class="ctl"><option>수도권 A</option><option>수도권 B</option><option>충청권</option><option>신규 편성</option></select></div><div class="field"><label>세금계산서 이메일</label><input class="ctl" type="text" value="tax@example.com"></div><div class="field span2"><label>메모</label><textarea class="ctl" style="height:88px;padding:10px 14px" placeholder=""></textarea></div></div>
+    </section>
+    <section class="panel"><div class="panel-head"><h2>저장 시 자동 처리</h2></div><div style="display:flex;gap:10px;margin-bottom:12px"><i style="width:8px;height:8px;border-radius:2px;background:var(--brand);flex-shrink:0;margin-top:4px"></i><div><b style="font-size:11px">여신 승인</b><p style="font-size:10px;color:var(--g08);margin-top:3px">한도 설정은 영업 여신 결재선으로 자동 상신</p></div></div><div style="display:flex;gap:10px;margin-bottom:12px"><i style="width:8px;height:8px;border-radius:2px;background:var(--brand);flex-shrink:0;margin-top:4px"></i><div><b style="font-size:11px">등급 산정</b><p style="font-size:10px;color:var(--g08);margin-top:3px">거래 3개월 후 분기 평가에 자동 편입</p></div></div><div style="display:flex;gap:10px;margin-bottom:12px"><i style="width:8px;height:8px;border-radius:2px;background:var(--brand);flex-shrink:0;margin-top:4px"></i><div><b style="font-size:11px">코스 반영</b><p style="font-size:10px;color:var(--g08);margin-top:3px">배송 코스에 신규 스톱 자동 추가</p></div></div></section>
+  </div>
+</main>
+</div>
+<script src="assets/ui.js"></script>
+</body>
+</html>
