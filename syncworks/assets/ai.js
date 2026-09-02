@@ -525,6 +525,19 @@
     if (e.key === 'Escape') close();
   });
 
+  /* ⌘K 팔레트 연동 — 질문형 입력을 챗으로 넘김 */
+  window.swai = {
+    open: open,
+    ask: function (text) {
+      open();
+      setTimeout(function () {
+        var inp = panel.querySelector('.swai-in');
+        inp.value = text || '';
+        sendFree();
+      }, 450);
+    }
+  };
+
   function sendFree() {
     var inp = panel.querySelector('.swai-in');
     var v = (inp.value || '').trim();
