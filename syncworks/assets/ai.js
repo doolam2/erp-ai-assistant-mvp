@@ -1,13 +1,15 @@
 /* AI 어시스턴트 슬라이드 챗 — 데모 연출용(정적 시나리오).
-   우하단 AI 버튼 → 우측 슬라이드 패널. 추천 질문 칩 클릭 시 타이핑 연출로 답변,
-   근거 미니표 + 딥링크(실제 화면 이동). A 키 = 패널 열고 첫 시나리오 자동 재생(촬영용).
-   실서비스에서는 답변 생성부만 API로 교체하면 됨. */
+   우하단 AI 버튼 → 우측 슬라이드 패널. 추천 질문 칩 → 타이핑 연출 답변 + 근거 미니표
+   + 딥링크(실제 이동) + 개선 제안 카드(스스로 진화 연출). 답변 뒤 남은 질문은 후속 칩으로.
+   시나리오 우선순위: 페이지 전용 → GNB 카테고리 폴백 → 공통.
+   A 키 = 패널 열고 전 시나리오 연속 자동 재생(촬영용), Esc = 닫기.
+   실서비스에서는 답변 생성부만 API로 교체. */
 (function () {
   var PAGE = (location.pathname.split('/').pop() || 'index.html');
   if (PAGE === 'login.html' || PAGE === 'index.html' || PAGE === '_cap.html') return;
   var REDUCE = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* ── 페이지별 시나리오 ── */
+  /* ── 공통 폴백 ── */
   var COMMON = [
     { q: '이번 달 실적 요약해줘',
       a: '8월 매출은 12,232,412천원으로 전년 동월 대비 +8.2%입니다. 목표 달성률은 95.6%로 4.4%p 미달이지만, 남은 영업일 추세면 월말 근접 달성이 예상됩니다.',
@@ -17,6 +19,117 @@
       a: '두 가지가 눈에 띕니다. 냉장센터 B 온도가 4.8°C로 상한(5.0°C)에 근접해 21:30경 도달이 예상되고, 부자재 장기 체류 재고가 16%로 안전재고 기준 재조정이 필요합니다.',
       link: { href: 'temperature.html', label: '온습도 현황 보기' } }
   ];
+
+  /* ── GNB 카테고리 폴백 (활성 메뉴 라벨 기준) ── */
+  var CAT = {
+    '기초정보': [
+      { q: '우리 거래처 몇 개나 돼?',
+        a: '활성 거래처 128곳입니다. 이번 분기 신규 6곳, 휴면 전환 3곳이며 상위 5곳의 매출 비중은 41.2%입니다.',
+        link: { href: 'clients.html', label: '거래처 관리 보기' } },
+      { q: '제품 마스터 최근에 바뀐 거 있어?',
+        a: '이번 주 변경 4건입니다. 두부 300g 바코드 갱신, 콩물 1L 소비기한 표기 변경이 포함되며, 전 이력은 업데이트 로그에 남아 있습니다.',
+        link: { href: 'changelog.html', label: '업데이트 로그 보기' } }
+    ],
+    '연구소': [
+      { q: '진행 중인 배합 실험 있어?',
+        a: '시험 배합 3건이 진행 중입니다. R-24(저염 두부)가 관능평가 단계로 가장 앞서 있고, 다음 주 시험 생산 예정입니다.',
+        link: { href: 'recipes.html', label: '배합 관리 보기' } },
+      { q: '신제품 샘플 요청 어디까지 갔어?',
+        a: '샘플 요청 2건 중 1건은 시제품 출고 완료, 1건은 원료 입고 대기입니다. 완료 예상은 이번 주 금요일입니다.',
+        link: { href: 'samples.html', label: '샘플 관리 보기' } }
+    ],
+    '주문': [
+      { q: '오늘 주문 얼마나 들어왔어?',
+        a: '금일 주문 36건, 총 21,480천원입니다. 어제 같은 시간 대비 +12%이며 급식 채널 증가분입니다.',
+        rows: [['금일 주문', '36건', '+12%'], ['금액', '21,480', '급식 증가']],
+        link: { href: 'orders.html', label: '주문 목록 보기' } },
+      { q: '배송 지연 위험 있어?',
+        a: '현재 지연 위험 0건입니다. 수도권 3호차가 상차 대기 중이지만 출발 여유 시간 안에 있습니다.',
+        link: { href: 'delivery.html', label: '배송 조회 보기' } }
+    ],
+    '생산량 확정': [
+      { q: '이번 주 확정 물량 몇 %야?',
+        a: '주간 계획 대비 96% 확정됐습니다. 금요일 급식분만 재고 확인 후 확정 대기 상태입니다.',
+        link: { href: 'confirm.html', label: '생산량 확정 보기' } },
+      { q: '확정 후 수정된 건 있어?',
+        a: '이번 주 수정 2건입니다. 목요일 두부 300g +1배치, 콩나물 -0.5배치이며 사유는 확정 이력에 기록돼 있습니다.',
+        link: { href: 'confirm_history.html', label: '확정 이력 보기' } }
+    ],
+    '발주': [
+      { q: '대두 발주 시점 됐어?',
+        a: '현재 소진 속도면 D+6에 안전재고를 하회합니다. 리드타임 5일을 고려하면 내일까지 발주를 권장합니다.',
+        rows: [['안전재고 하회', 'D+6', '—'], ['리드타임', '5일', '내일까지 권장']],
+        link: { href: 'purchase.html', label: '발주 화면 보기' },
+        sug: '대두 발주가 매달 비슷한 시점에 반복됩니다. 안전재고 하회 D-7에 발주 초안을 자동 생성할까요?' },
+      { q: '공급사 납기 잘 지켜지고 있어?',
+        a: '이번 달 정시 납기율 94%입니다. 지연 2건은 모두 포장 필름 공급사로, 대체 공급사 검토를 제안해 둔 상태입니다.',
+        link: { href: 'suppliers.html', label: '공급사 관리 보기' } }
+    ],
+    '생산': [
+      { q: '오늘 생산 진행 어때?',
+        a: '두부류 진도율 78%로 정시 마감 예상입니다. 5호 라인 점검 여파로 음료류는 30분 지연 전망입니다.',
+        link: { href: 'production.html', label: '생산 현황 보기' } },
+      { q: '작업지시 남은 거 있어?',
+        a: '금일 작업지시 9건 중 2건이 대기입니다. 원료 해동 완료 후 14시 투입 예정입니다.',
+        link: { href: 'workorders.html', label: '작업지시 보기' } }
+    ],
+    '입출고': [
+      { q: '오늘 입출고 현황 알려줘',
+        a: '입고 12건, 출고 18건 완료, 출고 대기 3건입니다. 냉장 출고분은 전부 상차가 끝났습니다.',
+        link: { href: 'warehouse.html', label: '입출고 현황 보기' } },
+      { q: '배차 여유 있어?',
+        a: '금일 배차 14건, 냉장 적재율 86.2%입니다. 추가 1건까지는 증차 없이 소화 가능합니다.',
+        link: { href: 'dispatch.html', label: '배차 관리 보기' } }
+    ],
+    '재고': [
+      { q: '재고 회전율 어때?',
+        a: '월 9.4회로 전월 대비 +0.6 개선됐습니다. 평균 재고일수는 3.2일로 신선 기준 목표(3일)에 근접합니다.',
+        link: { href: 'stock_report.html', label: '재고 분석 보기' } },
+      { q: '소비기한 임박 재고 있어?',
+        a: '7일 내 도래 6건입니다. 가장 급한 건 두부 300g(L-0811) D-3이며, 세 건 모두 우선 출고가 지정돼 있습니다.',
+        link: { href: 'expiry.html', label: '소비기한 관리 보기' } }
+    ],
+    '품질': [
+      { q: '이번 주 불량 추이 어때?',
+        a: '불량률 1.5%로 전주 대비 -0.2%p입니다. 포장 불량이 가장 많고, 두부 800g 라인 실링 온도 조정 후 감소 추세입니다.',
+        link: { href: 'defects.html', label: '불량 관리 보기' } },
+      { q: '검사 지연 건 있어?',
+        a: '금일 검사 예정 14건 중 지연 1건입니다. 원료 입고 검사(대두 L-0902)가 시료 대기 중이며 완료 예상은 15시입니다.',
+        link: { href: 'inspections.html', label: '검사 현황 보기' } }
+    ],
+    '모니터링': [
+      { q: '라인 가동률 어때?',
+        a: '전체 가동률 91.2%입니다. 살균기 91.2°C, 냉각 4.8°C로 공정 지표는 기준 범위이고, 5호 라인만 예방 점검으로 정지 상태입니다.',
+        link: { href: 'monitoring.html', label: '설비 관제 보기' } },
+      { q: '지금 주의할 알람 있어?',
+        a: '냉장센터 B 온도가 4.8°C로 상한(5.0°C)에 근접했습니다. 입고 작업의 도어 개폐가 원인이며 이대로면 21:30경 알람이 발생합니다.',
+        link: { href: 'temperature.html', label: '온습도 현황 보기' } }
+    ],
+    '출력물': [
+      { q: '거래명세서 양식 어디 있어?',
+        a: "서식 관리의 '거래명세서 v3'가 최신입니다. 최근 출력은 오늘 09:12 중앙물류 건입니다.",
+        link: { href: 'forms.html', label: '서식 관리 보기' } },
+      { q: '이번 달 많이 출력한 문서 뭐야?',
+        a: '거래명세서 214건으로 가장 많고, 성적서 96건, 출고증 88건 순입니다.',
+        link: { href: 'print_history.html', label: '출력 이력 보기' } }
+    ],
+    '보고서': [
+      COMMON[0],
+      { q: '정기 보고서 다음 발송 언제야?',
+        a: '주간 경영 요약이 월요일 07:00에 12명에게 발송됩니다. 수신자는 구독 설정에서 바꿀 수 있습니다.',
+        link: { href: 'subscriptions.html', label: '구독 설정 보기' } }
+    ],
+    'BPM': [
+      { q: '내 결재 대기 몇 건이야?',
+        a: '결재 대기 4건입니다. 가장 오래된 건 발주 승인으로 2일 경과했고, 지연 알림이 내일 발송됩니다.',
+        link: { href: 'bpm.html', label: 'BPM 홈 보기' } },
+      { q: '개선 제안 반영된 거 있어?',
+        a: "이번 달 제안 12건 중 7건이 반영됐습니다. 최근 반영은 '재고 질문 시 소비기한 임박분 함께 표시'입니다.",
+        link: { href: 'evolve.html', label: '개선 제안함 보기' } }
+    ]
+  };
+
+  /* ── 페이지 전용 ── */
   var SCEN = {
     'dashboard.html': [
       { q: '이번 달 매출 어때?',
@@ -25,7 +138,8 @@
         link: { href: 'sales_report.html', label: '매출 분석으로 이동' } },
       { q: '미수 잔액 늘었네?',
         a: '미수 잔액은 842,110천원으로 전월보다 2건 늘었습니다. 신규 2건 모두 급식 거래처이고 결제 조건 변경 협의 중입니다. 30일 초과 건은 없습니다.',
-        link: { href: 'settlement.html', label: '정산 내역 보기' } }
+        link: { href: 'settlement.html', label: '정산 내역 보기' },
+        sug: '매주 월요일에 미수 현황을 물어보시네요. 월요일 아침 미수 요약을 자동 발송해 드릴까요?' }
     ],
     'sales_report.html': [
       { q: '상위 거래처 집중도 괜찮아?',
@@ -59,8 +173,9 @@
         rows: [['두부 300g L-0811', '제1공장', 'D-3'], ['순두부 350g L-0812', '중앙물류', 'D-4'], ['콩나물 380g L-0815', '냉장센터', 'D-5']],
         link: { href: 'expiry.html', label: '소비기한 관리로 이동' } },
       { q: '장기 체류 재고는?',
-        a: '15일 이상 체류가 3.2%로 부자재 라벨류에 집중돼 있습니다. 과다 발주분이라 안전재고 기준 재조정을 발주 담당에 제안해 둔 상태입니다.',
-        link: { href: 'purchase.html', label: '발주 현황 보기' } }
+        a: '15일 이상 체류가 3.2%로 부자재 라벨류에 집중돼 있습니다. 과다 발주분이라 안전재고 기준 재조정이 필요해 보입니다.',
+        link: { href: 'purchase.html', label: '발주 현황 보기' },
+        sug: '라벨류 과다 발주가 3개월째 반복됩니다. 안전재고 기준을 실소비 기반으로 재계산해 발주 담당에게 제안할까요?' }
     ],
     'temperature.html': [
       { q: '냉장센터 B 왜 오르고 있어?',
@@ -76,8 +191,9 @@
         a: '금일 47건 중 미처리 3건입니다. 유형별로는 온도 이탈이 가장 많고, 반복 알람 상위는 냉장센터 B 도어 개폐입니다. 평균 조치 시간은 8.4분입니다.',
         link: { href: 'temperature.html', label: '온습도 현황 보기' } },
       { q: '반복되는 알람 패턴 있어?',
-        a: '냉장센터 B 온도 알람이 입고 시간대(20~22시)에 반복됩니다. 같은 질문이 주 5회 이상 확인돼, 입고 시간대 설정값 완화를 개선 제안함에 올려두었습니다.',
-        link: { href: 'evolve.html', label: '개선 제안함 보기' } }
+        a: '냉장센터 B 온도 알람이 입고 시간대(20~22시)에 반복됩니다. 이번 주에만 5회 발생해 패턴으로 감지했습니다.',
+        link: { href: 'evolve.html', label: '개선 제안함 보기' },
+        sug: '입고 시간대(20~22시)에 한해 냉장센터 B의 알람 기준을 +0.3°C 완화하면 불필요한 알람이 주 4회 줄어듭니다. 제안을 등록할까요?' }
     ],
     'dispatch.html': [
       { q: '배차 여유 있어?',
@@ -93,7 +209,8 @@
         link: { href: 'monitoring_analytics.html', label: '운영 지표 분석 보기' } },
       { q: '오늘 생산 목표 맞출 수 있어?',
         a: '현재 진도율 기준으로 두부류는 정시 마감, 음료류는 30분 초과가 예상됩니다. 2호 라인 속도를 5% 올리면 정시 마감 범위에 들어옵니다.',
-        link: { href: 'production.html', label: '생산 화면 보기' } }
+        link: { href: 'production.html', label: '생산 화면 보기' },
+        sug: '음료류 지연이 이번 주 3번째입니다. 점검일에는 2호 라인 속도를 자동으로 +5% 배정하도록 계획 규칙을 바꿀까요?' }
     ],
     'inventory.html': [
       { q: '재고 회전율 어때?',
@@ -129,7 +246,7 @@
     ]
   };
 
-  var qa = SCEN[PAGE] || COMMON;
+  var qa = SCEN[PAGE] || null;
 
   /* ── 스타일 ── */
   var css = ''
@@ -150,6 +267,8 @@
     + '.swai-body{flex:1;overflow-y:auto;padding:18px 18px 8px;display:flex;flex-direction:column;gap:12px}'
     + '.swai-hello{font-size:12px;color:var(--g08);line-height:1.65;background:var(--g01);border-radius:12px;padding:12px 14px}'
     + '.swai-chips{display:flex;flex-wrap:wrap;gap:8px}'
+    + '.swai-chips.mini{opacity:0;transform:translateY(8px);transition:opacity .35s,transform .35s}'
+    + '.swai-chips.mini.in{opacity:1;transform:none}'
     + '.swai-chip{border:1px solid var(--g03);background:var(--surface);border-radius:20px;padding:8px 14px;font-size:12px;color:var(--g08);cursor:pointer;transition:all .15s}'
     + '.swai-chip:hover{border-color:var(--brand);color:var(--brand);background:var(--tint-blue)}'
     + '.swai-msg{max-width:86%;font-size:13px;line-height:1.7;border-radius:14px;padding:11px 14px;opacity:0;transform:translateY(8px);transition:opacity .35s,transform .35s}'
@@ -171,6 +290,16 @@
     + '.swai-link.in{opacity:1;transform:none}'
     + '.swai-link:hover{background:var(--tint-blue)}'
     + '.swai-link svg{width:12px;height:12px}'
+    + '.swai-sug{align-self:flex-start;width:86%;background:var(--tint-blue);border:1px solid var(--brand);border-radius:12px;padding:12px 14px;'
+    + 'opacity:0;transform:translateY(8px);transition:opacity .35s,transform .35s}'
+    + '.swai-sug.in{opacity:1;transform:none}'
+    + '.swai-sug .tt{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:var(--brand);margin-bottom:6px}'
+    + '.swai-sug .tt i{width:6px;height:6px;border-radius:50%;background:var(--brand)}'
+    + '.swai-sug p{font-size:12px;line-height:1.65;color:var(--ink);margin:0 0 10px}'
+    + '.swai-sug .acts{display:flex;gap:8px}'
+    + '.swai-sug .ok{border:0;border-radius:8px;background:var(--brand);color:#fff;font:600 12px Pretendard,sans-serif;padding:7px 14px;cursor:pointer}'
+    + '.swai-sug .no{border:0;border-radius:8px;background:none;color:var(--g08);font:400 12px Pretendard,sans-serif;padding:7px 10px;cursor:pointer}'
+    + '.swai-sug .doneline{font-size:12px;font-weight:600;color:var(--pos)}'
     + '.swai-foot{border-top:1px solid var(--g02);padding:12px 14px;display:flex;gap:8px}'
     + '.swai-in{flex:1;border:1px solid var(--g03);border-radius:10px;padding:10px 12px;font:400 13px Pretendard,sans-serif;color:var(--ink);background:var(--surface)}'
     + '.swai-in:focus{outline:none;border-color:var(--brand)}'
@@ -196,25 +325,45 @@
     + '<div class="swai-foot"><input class="swai-in" placeholder="무엇이든 물어보세요"><button class="swai-send" type="button">전송</button></div>'
     + '<p class="swai-note">데모 화면 — 답변은 준비된 시나리오로 연출됩니다</p>';
 
-  function mount() {
-    document.body.appendChild(fab);
-    document.body.appendChild(panel);
-    var body = panel.querySelector('.swai-body');
-    var hello = document.createElement('div');
-    hello.className = 'swai-hello';
-    hello.textContent = '안녕하세요, 데이터를 근거로 답하는 AI 어시스턴트입니다. 아래 질문을 눌러 보세요.';
-    body.appendChild(hello);
+  function resolveQa() {
+    if (qa) return;
+    var on = document.querySelector('.gnb nav a.on');
+    var cat = on ? on.textContent.trim() : '';
+    qa = (CAT[cat] || COMMON).slice();
+  }
+  function pageTitle() {
+    var h = document.querySelector('.page-head h1');
+    return h ? h.textContent.trim() : document.title.split('·')[0].trim();
+  }
+
+  var played = {};
+  function chipsRow(mini) {
     var chips = document.createElement('div');
-    chips.className = 'swai-chips';
+    chips.className = 'swai-chips' + (mini ? ' mini' : '');
+    var n = 0;
     qa.forEach(function (s, i) {
+      if (mini && played[i]) return;
       var c = document.createElement('button');
       c.className = 'swai-chip';
       c.type = 'button';
       c.textContent = s.q;
-      c.addEventListener('click', function () { play(i); });
+      c.addEventListener('click', function () { chips.remove(); play(i); });
       chips.appendChild(c);
+      n++;
     });
-    body.appendChild(chips);
+    return n ? chips : null;
+  }
+
+  function mount() {
+    document.body.appendChild(panel);
+    resolveQa();
+    var body = panel.querySelector('.swai-body');
+    var hello = document.createElement('div');
+    hello.className = 'swai-hello';
+    hello.textContent = '안녕하세요, 지금 「' + pageTitle() + '」 화면을 보고 계시네요. 데이터를 근거로 답하는 AI 어시스턴트입니다. 아래 질문을 눌러 보세요.';
+    body.appendChild(hello);
+    var chips = chipsRow(false);
+    if (chips) body.appendChild(chips);
   }
 
   var busy = false;
@@ -229,9 +378,11 @@
     scrollEnd();
   }
 
-  function play(i, userText) {
+  function play(i, userText, thenCb) {
     if (busy) return;
     busy = true;
+    played[i] = true;
+    panel.querySelectorAll('.swai-chips.mini').forEach(function (m) { m.remove(); });
     var s = qa[i];
     var u = document.createElement('div');
     u.className = 'swai-msg u';
@@ -280,8 +431,30 @@
               + '<svg viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6.5 2.5 10 6l-3.5 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
             addIn(l);
           }, wait);
+          wait += 300;
         }
-        setTimeout(function () { busy = false; }, wait + 200);
+        if (s.sug) {
+          setTimeout(function () {
+            var g = document.createElement('div');
+            g.className = 'swai-sug';
+            g.innerHTML = '<div class="tt"><i></i>개선 제안</div><p>' + s.sug + '</p>'
+              + '<div class="acts"><button class="ok" type="button">반영하기</button><button class="no" type="button">나중에</button></div>';
+            g.querySelector('.ok').addEventListener('click', function () {
+              g.querySelector('.acts').innerHTML = '<span class="doneline">✓ 개선 제안함에 등록했습니다 — 승낙되면 다음 답변부터 반영됩니다</span>';
+              scrollEnd();
+            });
+            g.querySelector('.no').addEventListener('click', function () { g.remove(); });
+            addIn(g);
+          }, wait);
+          wait += 350;
+        }
+        setTimeout(function () {
+          busy = false;
+          /* 남은 질문 후속 칩 */
+          var mini = chipsRow(true);
+          if (mini) addIn(mini);
+          if (thenCb) thenCb();
+        }, wait + 300);
       }
     }, REDUCE ? 400 : 1250);
   }
@@ -300,11 +473,18 @@
   });
   if (document.readyState !== 'loading') document.body.appendChild(fab);
 
-  /* 패널 내부 이벤트(마운트 후 위임) */
   document.addEventListener('click', function (e) {
     if (e.target.closest && e.target.closest('.swai-x')) close();
     if (e.target.closest && e.target.closest('.swai-send')) sendFree();
   });
+
+  /* A키 = 전 시나리오 연속 자동 재생 (촬영용) */
+  function autoRun(i) {
+    if (i >= qa.length) return;
+    play(i, null, function () {
+      setTimeout(function () { autoRun(i + 1); }, 1100);
+    });
+  }
   document.addEventListener('keydown', function (e) {
     if (/input|textarea|select/i.test(e.target.tagName)) {
       if (e.key === 'Enter' && e.target.classList.contains('swai-in')) sendFree();
@@ -312,7 +492,7 @@
     }
     if (e.key === 'a' || e.key === 'A') {
       open();
-      if (!panel.dataset.auto) { panel.dataset.auto = '1'; setTimeout(function () { play(0); }, 700); }
+      if (!panel.dataset.auto) { panel.dataset.auto = '1'; setTimeout(function () { autoRun(0); }, 700); }
     }
     if (e.key === 'Escape') close();
   });
@@ -322,7 +502,7 @@
     var v = (inp.value || '').trim();
     if (!v || busy) return;
     inp.value = '';
-    /* 데모: 입력 질문과 가장 비슷한 시나리오를 골라 재생, 없으면 첫 번째 */
+    /* 데모: 입력 질문과 가장 비슷한 시나리오를 골라 재생 */
     var best = 0, score = -1;
     qa.forEach(function (s, i) {
       var sc = 0;
