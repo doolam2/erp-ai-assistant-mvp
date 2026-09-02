@@ -409,9 +409,10 @@
   function play(i, userText, thenCb) {
     if (busy) return;
     busy = true;
-    played[i] = true;
     panel.querySelectorAll('.swai-chips.mini').forEach(function (m) { m.remove(); });
-    var s = qa[i];
+    /* i가 숫자면 현재 화면 시나리오, 객체면 통합 검색 결과·안내 멘트 */
+    var s = (typeof i === 'object') ? i : qa[i];
+    if (typeof i !== 'object') played[i] = true;
     var u = document.createElement('div');
     u.className = 'swai-msg u';
     u.textContent = userText || s.q;
@@ -538,18 +539,44 @@
     }
   };
 
+  /* 통합 검색 풀 — 전 화면 전용 + 카테고리 + 공통 시나리오 (질문 중복 제거) */
+  var ALL = null;
+  function allScen() {
+    if (ALL) return ALL;
+    ALL = [];
+    var seen = {};
+    function add(s) { if (!seen[s.q]) { seen[s.q] = 1; ALL.push(s); } }
+    Object.keys(SCEN).forEach(function (k) { SCEN[k].forEach(add); });
+    Object.keys(CAT).forEach(function (k) { CAT[k].forEach(add); });
+    COMMON.forEach(add);
+    return ALL;
+  }
+  var STOP = { '어때': 1, '있어': 1, '뭐야': 1, '알려줘': 1, '해줘': 1, '보여줘': 1, '요약해줘': 1,
+    '지금': 1, '오늘': 1, '이번': 1, '어디': 1, '얼마나': 1, '괜찮아': 1, '되고': 1, '했어': 1 };
+  function scoreOf(s, v) {
+    var sc = 0;
+    v.split(/\s+/).forEach(function (w) {
+      w = w.replace(/[?.!,]+$/, '');
+      if (w.length < 2 || STOP[w]) return;
+      if (s.q.indexOf(w) > -1) sc += 2;
+      else if (s.a && s.a.indexOf(w) > -1) sc += 1;
+    });
+    return sc;
+  }
+
   function sendFree() {
     var inp = panel.querySelector('.swai-in');
     var v = (inp.value || '').trim();
     if (!v || busy) return;
     inp.value = '';
-    /* 데모: 입력 질문과 가장 비슷한 시나리오를 골라 재생 */
-    var best = 0, score = -1;
-    qa.forEach(function (s, i) {
-      var sc = 0;
-      v.split(/\s+/).forEach(function (w) { if (w.length > 1 && s.q.indexOf(w) > -1) sc++; });
-      if (sc > score) { score = sc; best = i; }
-    });
-    play(best, v);
+    /* 1) 현재 화면 시나리오 → 2) 전 화면 통합 검색 → 3) 안내 멘트 */
+    var bi = -1, bs = 0;
+    qa.forEach(function (s, i) { var sc = scoreOf(s, v); if (sc > bs) { bs = sc; bi = i; } });
+    if (bi > -1 && bs >= 2) { play(bi, v); return; }
+    var best = null; bs = Math.max(bs, 1);
+    allScen().forEach(function (s) { var sc = scoreOf(s, v); if (sc > bs) { bs = sc; best = s; } });
+    if (best) { play(best, v); return; }
+    if (bi > -1 && bs >= 1) { play(bi, v); return; }
+    play({ q: v, a: '그 질문은 데모 시나리오에 아직 준비돼 있지 않아요. 실서비스에서는 실제 데이터를 조회해 바로 답하게 됩니다. 아래 질문들은 지금 바로 답해 드릴 수 있어요.' }, v);
   }
 })();
