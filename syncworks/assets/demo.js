@@ -32,17 +32,32 @@
     + 'padding:5px;box-shadow:0 10px 28px rgba(0,0,0,.16)}'
     + '.swdm-menu div{padding:8px 12px;border-radius:7px;font-size:12px;color:var(--ink);cursor:pointer;white-space:nowrap}'
     + '.swdm-menu div:hover{background:var(--g01)}'
-    + '.swdm-menu div.cur{color:var(--brand);font-weight:600}';
+    + '.swdm-menu div.cur{color:var(--brand);font-weight:600}'
+    /* GNB 알림 벨 */
+    + '.swdm-bell{position:relative;display:flex;align-items:center;justify-content:center;width:34px;height:34px;'
+    + 'border-radius:9px;color:var(--g08);margin-right:14px;flex:none}'
+    + '.swdm-bell:hover{background:var(--g01)}'
+    + '.swdm-bell svg{width:17px;height:17px}'
+    + '.swdm-bell .bd{position:absolute;top:1px;right:0;min-width:15px;height:15px;border-radius:8px;background:var(--neg);'
+    + 'color:#fff;font-size:9px;font-weight:700;display:none;align-items:center;justify-content:center;padding:0 4px;border:2px solid var(--surface)}';
   var st = document.createElement('style');
   st.textContent = css;
   document.head.appendChild(st);
 
-  /* ── ① 알림 토스트 ── */
+  /* ── ① 알림 토스트 (알림 센터와 연동 — 세션 인박스 누적 + GNB 벨 뱃지) ── */
   var TOASTS = [
-    { tone: 'orange', title: '온도 상한 근접', body: '냉장센터 B 4.8°C — 이대로면 21:30 상한 도달 예상', href: 'temperature.html' },
-    { tone: 'red', title: '소비기한 D-3', body: '두부 300g (L-0811) — 우선 출고 지정됨, 제1공장 창고', href: 'expiry.html' },
-    { tone: 'blue', title: '결재 대기 알림', body: '발주 승인 1건이 2일째 대기 중입니다 — 확인이 필요해요', href: 'bpm.html' }
+    { tone: 'orange', title: '온도 상한 근접', body: '냉장센터 B 4.8°C — 이대로면 21:30 상한 도달 예상', href: 'temperature.html', scr: '온습도', bdg: '경고' },
+    { tone: 'red', title: '소비기한 D-3', body: '두부 300g (L-0811) — 우선 출고 지정됨, 제1공장 창고', href: 'expiry.html', scr: '소비기한 관리', bdg: '긴급' },
+    { tone: 'blue', title: '결재 대기 알림', body: '발주 승인 1건이 2일째 대기 중입니다 — 확인이 필요해요', href: 'bpm.html', scr: 'BPM', bdg: '승인' }
   ];
+  function inbox() {
+    try { return JSON.parse(sessionStorage.getItem('swdm_inbox') || '[]'); } catch (e) { return []; }
+  }
+  function unseen() {
+    var seen = 0;
+    try { seen = parseInt(sessionStorage.getItem('swdm_seen') || '0', 10); } catch (e) {}
+    return Math.max(0, inbox().length - seen);
+  }
   var TONE = {
     orange: ['var(--tint-orange)', 'var(--orange)'],
     red: ['var(--tint-red)', 'var(--neg)'],
@@ -63,6 +78,17 @@
     toastEl = el;
     void el.getBoundingClientRect();
     el.classList.add('on');
+    /* 인박스 누적(같은 제목은 한 번만) + 벨 뱃지 갱신 */
+    try {
+      var bx = inbox();
+      if (!bx.some(function (n) { return n.t === t.title; })) {
+        var now = new Date();
+        bx.push({ t: t.title, b: t.body, h: t.href, tone: t.tone, scr: t.scr, bdg: t.bdg,
+          tm: ('0' + now.getHours()).slice(-2) + ':' + ('0' + now.getMinutes()).slice(-2) });
+        sessionStorage.setItem('swdm_inbox', JSON.stringify(bx));
+      }
+    } catch (e) {}
+    updateBell();
     el.addEventListener('click', function (e) {
       if (e.target.closest('.x')) { hide(); return; }
       location.href = t.href;
@@ -81,6 +107,58 @@
       setTimeout(function () { showToast(0); tIdx = 1; }, 7000);
     }
   } catch (e) {}
+
+  /* ── ①-b GNB 알림 벨 + 미확인 뱃지 ── */
+  var bell = null;
+  function updateBell() {
+    if (!bell) return;
+    var n = unseen();
+    var bd = bell.querySelector('.bd');
+    bd.textContent = n > 9 ? '9+' : n;
+    bd.style.display = n > 0 ? 'flex' : 'none';
+  }
+  function mountBell() {
+    var user = document.querySelector('.gnb .user');
+    if (!user || bell) return;
+    bell = document.createElement('a');
+    bell.className = 'swdm-bell';
+    bell.href = 'notifications.html';
+    bell.title = '알림 센터';
+    bell.innerHTML = ICON_BELL + '<span class="bd"></span>';
+    user.parentNode.insertBefore(bell, user);
+    updateBell();
+  }
+
+  /* ── ①-c 알림 센터 — 새 알림을 피드 맨 위에 꽂기 ── */
+  function feedInject() {
+    if (PAGE !== 'notifications.html') return;
+    var bx = inbox();
+    if (!bx.length) return;
+    var table = document.querySelector('table.grid');
+    var head = table && table.querySelector('tr');
+    if (!head) return;
+    var BG = { orange: 'bg-orange', red: 'bg-red', blue: 'bg-blue' };
+    bx.slice().reverse().forEach(function (n) {
+      var tr = document.createElement('tr');
+      tr.className = 'swdm-new';
+      tr.innerHTML = '<td><span class="t-mut">' + n.tm + '</span></td>'
+        + '<td><span class="badge ' + (BG[n.tone] || 'bg-blue') + '">' + (n.bdg || '알림') + '</span></td>'
+        + '<td><b>' + n.t + '</b> — ' + n.b + '</td>'
+        + '<td><span class="t-mut">' + (n.scr || '') + '</span></td>'
+        + '<td><span class="badge bg-blue">안읽음</span></td>';
+      tr.style.cursor = 'pointer';
+      tr.addEventListener('click', function () { location.href = n.h; });
+      head.parentNode.insertBefore(tr, head.nextSibling);
+    });
+    /* 안읽음 KPI 갱신 (기본 7 + 새 알림) */
+    var kpi = document.querySelector('.kpi .num');
+    if (kpi && kpi.childNodes[0]) kpi.childNodes[0].textContent = String(7 + bx.length);
+    /* 확인 처리 → 벨 뱃지 초기화 */
+    try { sessionStorage.setItem('swdm_seen', String(bx.length)); } catch (e) {}
+    updateBell();
+  }
+  mountBell();
+  feedInject();
 
   /* ── ② 단축키 시트 ── */
   var hlp = null;
