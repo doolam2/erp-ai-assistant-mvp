@@ -60,7 +60,8 @@
         a: '현재 소진 속도면 D+6에 안전재고를 하회합니다. 리드타임 5일을 고려하면 내일까지 발주를 권장합니다.',
         rows: [['안전재고 하회', 'D+6', '—'], ['리드타임', '5일', '내일까지 권장']],
         link: { href: 'purchase.html', label: '발주 화면 보기' },
-        sug: '대두 발주가 매달 비슷한 시점에 반복됩니다. 안전재고 하회 D-7에 발주 초안을 자동 생성할까요?' },
+        sug: '대두 발주가 매달 비슷한 시점에 반복됩니다. 발주 시점 위젯을 대시보드에 추가해 드릴까요?',
+        w: { lb: '대두 발주 시점', num: 'D-6', meta: '리드타임 5일 · AI 위젯' } },
       { q: '공급사 납기 잘 지켜지고 있어?',
         a: '이번 달 정시 납기율 94%입니다. 지연 2건은 모두 포장 필름 공급사로, 대체 공급사 검토를 제안해 둔 상태입니다.',
         link: { href: 'suppliers.html', label: '공급사 관리 보기' } }
@@ -167,7 +168,8 @@
       { q: '미수 잔액 늘었네?',
         a: '미수 잔액은 842,110천원으로 전월보다 2건 늘었습니다. 신규 2건 모두 급식 거래처이고 결제 조건 변경 협의 중입니다. 30일 초과 건은 없습니다.',
         link: { href: 'settlement.html', label: '정산 내역 보기' },
-        sug: '매주 월요일에 미수 현황을 물어보시네요. 월요일 아침 미수 요약을 자동 발송해 드릴까요?' }
+        sug: '매주 월요일에 미수 현황을 물어보시네요. 미수 요약 위젯을 대시보드에 추가해 드릴까요?',
+        w: { lb: '미수 요약', num: '842,110', meta: '30일 초과 12건 · AI 위젯' } }
     ],
     'sales_report.html': [
       { q: '상위 거래처 집중도 괜찮아?',
@@ -294,6 +296,12 @@
     + '.swai-x:hover{background:var(--g01);color:var(--g08)}'
     + '.swai-body{flex:1;overflow-y:auto;padding:18px 18px 8px;display:flex;flex-direction:column;gap:12px}'
     + '.swai-hello{font-size:12px;color:var(--g08);line-height:1.65;background:var(--g01);border-radius:12px;padding:12px 14px}'
+    + '.swai-brief{border:1px solid var(--g02);border-radius:12px;padding:14px;background:var(--surface)}'
+    + '.swai-brief .bt{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;color:var(--ink);margin-bottom:10px}'
+    + '.swai-brief .bt .bdg2{font-size:9px;font-weight:700;color:var(--brand);background:var(--tint-blue);padding:2px 7px;border-radius:20px}'
+    + '.swai-brief .br{display:flex;gap:8px;font-size:11.5px;line-height:1.6;color:var(--g08);padding:5px 0;cursor:pointer;border-radius:6px}'
+    + '.swai-brief .br:hover{background:var(--g01)}'
+    + '.swai-brief .br i{width:6px;height:6px;border-radius:50%;margin-top:6px;flex:none}'
     + '.swai-chips{display:flex;flex-wrap:wrap;gap:8px}'
     + '.swai-chips.mini{opacity:0;transform:translateY(8px);transition:opacity .35s,transform .35s}'
     + '.swai-chips.mini.in{opacity:1;transform:none}'
@@ -386,6 +394,21 @@
     document.body.appendChild(panel);
     resolveQa();
     var body = panel.querySelector('.swai-body');
+    /* 오늘의 브리핑 — 패널 첫 진입 시 최상단 */
+    var brief = document.createElement('div');
+    brief.className = 'swai-brief';
+    brief.innerHTML = '<div class="bt">오늘의 브리핑 — 8/27(목)<span class="bdg2">AI</span></div>';
+    [['var(--pos-fill)', '어제 매출 6,138천원 — 일 목표 104.5% 달성, 8월 누적 95.6%', 'dashboard.html'],
+     ['var(--orange)', '냉장센터 B 온도 상승 추세 — 21:30 상한 도달 예상', 'temperature.html'],
+     ['var(--neg)', '소비기한 D-3 1건(두부 300g) 우선 출고 지정 · 발주 승인 2일째 대기', 'expiry.html']
+    ].forEach(function (r) {
+      var d = document.createElement('div');
+      d.className = 'br';
+      d.innerHTML = '<i style="background:' + r[0] + '"></i><span>' + r[1] + '</span>';
+      d.addEventListener('click', function () { location.href = r[2]; });
+      brief.appendChild(d);
+    });
+    body.appendChild(brief);
     var hello = document.createElement('div');
     hello.className = 'swai-hello';
     hello.textContent = '안녕하세요, 지금 「' + pageTitle() + '」 화면을 보고 계시네요. 데이터를 근거로 답하는 AI 어시스턴트입니다. 아래 질문을 눌러 보세요.';
@@ -439,6 +462,7 @@
         if (p >= 1) { clearInterval(iv); after(); }
       }, 30);
       function after() {
+        if (s.act) { try { s.act(); } catch (e) {} }
         var wait = 250;
         if (s.rows) {
           setTimeout(function () {
@@ -469,7 +493,20 @@
             g.innerHTML = '<div class="tt"><i></i>개선 제안</div><p>' + s.sug + '</p>'
               + '<div class="acts"><button class="ok" type="button">반영하기</button><button class="no" type="button">나중에</button></div>';
             g.querySelector('.ok').addEventListener('click', function () {
-              g.querySelector('.acts').innerHTML = '<span class="doneline">✓ 개선 제안함에 등록했습니다 — 승낙되면 다음 답변부터 반영됩니다</span>';
+              var done = '✓ 개선 제안함에 등록했습니다 — 승낙되면 다음 답변부터 반영됩니다';
+              /* 위젯형 제안: 대시보드에 실제 카드 추가 (localStorage) */
+              if (s.w) {
+                try {
+                  var ws = JSON.parse(localStorage.getItem('sw_widgets') || '[]');
+                  if (!ws.some(function (x) { return x.lb === s.w.lb; })) {
+                    ws.push(s.w);
+                    localStorage.setItem('sw_widgets', JSON.stringify(ws));
+                  }
+                  done = '✓ 대시보드에 위젯을 추가했습니다 — 경영 대시보드 상단에서 확인하세요';
+                  if (window.swdemo && window.swdemo.renderWidgets) window.swdemo.renderWidgets();
+                } catch (e) {}
+              }
+              g.querySelector('.acts').innerHTML = '<span class="doneline">' + done + '</span>';
               scrollEnd();
             });
             g.querySelector('.no').addEventListener('click', function () { g.remove(); });
@@ -564,11 +601,71 @@
     return sc;
   }
 
+  /* ── 액션 인텐트: 자연어 필터 · What-if · 보고서 초안 ── */
+  var FILTER_KW = ['미달', '지연', '경고', '긴급', '임박', '미확정', '안읽음', '미조치', '대기', '반려', '점검'];
+  function intents(v) {
+    /* 필터 해제 */
+    if (/전체\s*보기|되돌려|필터\s*해제/.test(v)) {
+      var hid = document.querySelectorAll('tr[data-swai-hide]');
+      if (!hid.length) return null;
+      return { q: v, a: '필터를 해제하고 전체 행을 다시 표시했어요.',
+        act: function () { hid.forEach(function (r) { r.style.display = ''; r.removeAttribute('data-swai-hide'); }); } };
+    }
+    /* 자연어 필터: "~만 보여줘 / 골라줘 / 추려줘" */
+    if (/만\s*(보여|남겨)|골라|추려|필터/.test(v)) {
+      var kw = null;
+      FILTER_KW.forEach(function (k) { if (!kw && v.indexOf(k) > -1) kw = k; });
+      if (kw) {
+        var rows = [].slice.call(document.querySelectorAll('table.grid tr')).slice(1);
+        if (rows.length) {
+          return { q: v, a: '표에서 "' + kw + '" 항목만 남겼어요. "전체 보기"라고 입력하면 되돌립니다.',
+            act: function () {
+              rows.forEach(function (r) {
+                if (r.textContent.indexOf(kw) === -1) { r.style.display = 'none'; r.setAttribute('data-swai-hide', '1'); }
+              });
+            } };
+        }
+      }
+    }
+    /* What-if: "3% 올리면/내리면" */
+    var m = v.match(/([\d.]+)\s*%/);
+    if (m && /(올리|늘리|인상|내리|줄이|인하)/.test(v) && /(면|시뮬|어떻)/.test(v)) {
+      var pct = parseFloat(m[1]);
+      var up = /(올리|늘리|인상)/.test(v);
+      var f = up ? (1 + pct / 100) : (1 - pct / 100);
+      var delta = Math.round(12232412 * (f - 1));
+      var rate = (95.6 * f).toFixed(1);
+      return { q: v,
+        a: '현재 추세에 ' + (up ? '+' : '-') + pct + '%를 적용하면 당월 매출 ' + (delta >= 0 ? '+' : '') + delta.toLocaleString('ko-KR')
+          + '천원, 연간 달성률은 ' + rate + '%가 됩니다. 차트에 시나리오 선(점선)을 겹쳐 표시했어요 — R 키로 원상 복구됩니다.',
+        act: function () {
+          var svg = document.querySelector('.combo svg.line');
+          if (!svg) return;
+          var ln = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+          var y = Math.max(4, Math.min(96, 40 / f));
+          ln.setAttribute('x1', 0); ln.setAttribute('x2', 100);
+          ln.setAttribute('y1', y); ln.setAttribute('y2', y);
+          ln.setAttribute('stroke', 'var(--pos-fill)'); ln.setAttribute('stroke-width', '1.6');
+          ln.setAttribute('stroke-dasharray', '5 4'); ln.setAttribute('vector-effect', 'non-scaling-stroke');
+          svg.appendChild(ln);
+        } };
+    }
+    /* 보고서 초안 */
+    if (/(보고서|리포트)/.test(v) && /(만들|써|초안|작성)/.test(v)) {
+      return { q: v,
+        a: '「' + pageTitle() + '」 화면 기준으로 주간보고 초안을 만들었어요 — 핵심 지표 요약과 특이사항 3건이 담겨 있습니다. 보고서 만들기에서 다듬어 발행하세요.',
+        link: { href: 'report_builder.html?draft=1', label: '보고서 만들기에서 열기' } };
+    }
+    return null;
+  }
+
   function sendFree() {
     var inp = panel.querySelector('.swai-in');
     var v = (inp.value || '').trim();
     if (!v || busy) return;
     inp.value = '';
+    var it = intents(v);
+    if (it) { play(it, v); return; }
     /* 1) 현재 화면 시나리오 → 2) 전 화면 통합 검색 → 3) 안내 멘트 */
     var bi = -1, bs = 0;
     qa.forEach(function (s, i) { var sc = scoreOf(s, v); if (sc > bs) { bs = sc; bi = i; } });

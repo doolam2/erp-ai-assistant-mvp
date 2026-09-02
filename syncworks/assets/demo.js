@@ -33,6 +33,26 @@
     + '.swdm-menu div{padding:8px 12px;border-radius:7px;font-size:12px;color:var(--ink);cursor:pointer;white-space:nowrap}'
     + '.swdm-menu div:hover{background:var(--g01)}'
     + '.swdm-menu div.cur{color:var(--brand);font-weight:600}'
+    /* 화면 스캔 */
+    + '.swdm-scan{position:fixed;left:0;right:0;height:3px;z-index:965;background:linear-gradient(90deg,transparent,var(--brand),transparent);'
+    + 'box-shadow:0 0 18px 4px rgba(44,127,223,.35);pointer-events:none}'
+    + '.swdm-mark{position:absolute;z-index:962;pointer-events:none;border:2px solid var(--brand);border-radius:10px;'
+    + 'box-shadow:0 0 0 4px rgba(44,127,223,.14);opacity:0;transition:opacity .3s}'
+    + '.swdm-mark.on{opacity:1}'
+    + '.swdm-mlb{position:absolute;z-index:963;background:#1C2333;color:#fff;font:600 11px Pretendard,sans-serif;'
+    + 'padding:6px 10px;border-radius:8px;box-shadow:0 6px 16px rgba(0,0,0,.25);opacity:0;transition:opacity .3s;max-width:260px;line-height:1.5}'
+    + '.swdm-mlb.on{opacity:1}'
+    /* AI 위젯 카드 */
+    + '.swdm-wg{position:relative}'
+    + '.swdm-wg .aichip{position:absolute;top:10px;right:10px;font-size:9px;font-weight:700;color:var(--brand);'
+    + 'background:var(--tint-blue);padding:2px 7px;border-radius:20px}'
+    + '.swdm-wg .wx{position:absolute;top:8px;right:38px;border:0;background:none;color:var(--g05);cursor:pointer;font-size:11px;display:none}'
+    + '.swdm-wg:hover .wx{display:block}'
+    /* 보고서 초안 */
+    + '.swdm-draft{background:var(--surface);border:1px solid var(--brand);border-radius:var(--radius);padding:18px 20px;margin-bottom:20px}'
+    + '.swdm-draft h3{font-size:14px;margin:0 0 4px}'
+    + '.swdm-draft .tag{font-size:9px;font-weight:700;color:var(--brand);background:var(--tint-blue);padding:2px 7px;border-radius:20px;margin-left:8px}'
+    + '.swdm-draft p{font-size:12px;color:var(--g08);line-height:1.7;margin:8px 0 0}'
     /* GNB 알림 벨 */
     + '.swdm-bell{position:relative;display:flex;align-items:center;justify-content:center;width:34px;height:34px;'
     + 'border-radius:9px;color:var(--g08);margin-right:14px;flex:none}'
@@ -160,6 +180,114 @@
   mountBell();
   feedInject();
 
+  /* ── ①-d AI 위젯 (대시보드 개인화 — 챗 제안 반영 시 추가) ── */
+  function renderWidgets() {
+    if (PAGE !== 'dashboard.html') return;
+    var kpis = document.querySelector('.kpis');
+    if (!kpis) return;
+    kpis.querySelectorAll('.swdm-wg').forEach(function (w) { w.remove(); });
+    var ws = [];
+    try { ws = JSON.parse(localStorage.getItem('sw_widgets') || '[]'); } catch (e) {}
+    ws.forEach(function (w) {
+      var d = document.createElement('div');
+      d.className = 'kpi swdm-wg';
+      d.innerHTML = '<div class="lb">' + w.lb + '</div><div class="num">' + w.num + '</div>'
+        + '<div class="meta">' + (w.meta || '') + '</div>'
+        + '<span class="aichip">AI</span><button class="wx" type="button" title="위젯 제거">✕</button>';
+      d.querySelector('.wx').addEventListener('click', function () {
+        try {
+          var arr = JSON.parse(localStorage.getItem('sw_widgets') || '[]').filter(function (x) { return x.lb !== w.lb; });
+          localStorage.setItem('sw_widgets', JSON.stringify(arr));
+        } catch (e) {}
+        d.remove();
+      });
+      kpis.appendChild(d);
+    });
+  }
+  renderWidgets();
+  window.swdemo = { renderWidgets: renderWidgets };
+
+  /* ── ①-e 화면 스캔 (S 키) — AI가 이상 포인트를 훑어 표시 ── */
+  var scanEls = [];
+  function clearScan() {
+    scanEls.forEach(function (e) { e.remove(); });
+    scanEls = [];
+  }
+  function runScan() {
+    clearScan();
+    var line = document.createElement('div');
+    line.className = 'swdm-scan';
+    line.style.top = '0px';
+    document.body.appendChild(line);
+    scanEls.push(line);
+    var t0 = Date.now(), DUR = 1100;
+    var iv = setInterval(function () {
+      var p = Math.min(1, (Date.now() - t0) / DUR);
+      line.style.top = (p * innerHeight) + 'px';
+      if (p >= 1) { clearInterval(iv); line.remove(); marks(); }
+    }, 16);
+    function marks() {
+      /* 이상 신호: 부정 증감·경고 배지에서 상위 3곳 */
+      var cands = [].slice.call(document.querySelectorAll('.kpi .delta.t-neg, .kpi .delta.t-orange, .badge.bg-red, .badge.bg-orange, .t-orange.zt, b.t-orange, b.t-neg'));
+      var seen = [], picked = [];
+      cands.forEach(function (el) {
+        if (picked.length >= 3) return;
+        var r = el.getBoundingClientRect();
+        if (r.width === 0 || r.top < 60) return;
+        var key = Math.round(r.top / 120);
+        if (seen.indexOf(key) > -1) return;
+        seen.push(key);
+        picked.push(el);
+      });
+      picked.forEach(function (el, i) {
+        setTimeout(function () {
+          var box = (el.closest('.kpi') || el.closest('.zcard') || el.parentElement);
+          var r = box.getBoundingClientRect();
+          var mk = document.createElement('div');
+          mk.className = 'swdm-mark';
+          mk.style.left = (r.left + scrollX - 5) + 'px';
+          mk.style.top = (r.top + scrollY - 5) + 'px';
+          mk.style.width = (r.width + 10) + 'px';
+          mk.style.height = (r.height + 10) + 'px';
+          document.body.appendChild(mk);
+          var lb = document.createElement('div');
+          lb.className = 'swdm-mlb';
+          lb.textContent = (i + 1) + ' · ' + el.textContent.trim().slice(0, 40);
+          document.body.appendChild(lb);
+          lb.style.left = Math.min(r.left + scrollX, scrollX + innerWidth - 280) + 'px';
+          lb.style.top = (r.bottom + scrollY + 8) + 'px';
+          void mk.getBoundingClientRect();
+          mk.classList.add('on'); lb.classList.add('on');
+          scanEls.push(mk, lb);
+        }, i * 220);
+      });
+      if (!picked.length) {
+        var ok = document.createElement('div');
+        ok.className = 'swdm-mlb on';
+        ok.style.left = '50%'; ok.style.top = '80px'; ok.style.transform = 'translateX(-50%)'; ok.style.position = 'fixed';
+        ok.textContent = '이 화면에서는 이상 신호가 없어요';
+        document.body.appendChild(ok);
+        scanEls.push(ok);
+        setTimeout(clearScan, 2500);
+      }
+    }
+  }
+
+  /* ── ①-f 보고서 초안 (?draft=1 — AI 챗에서 생성) ── */
+  if (PAGE === 'report_builder.html' && /[?&]draft=1/.test(location.search)) {
+    var main = document.querySelector('.main');
+    if (main) {
+      var dft = document.createElement('section');
+      dft.className = 'swdm-draft';
+      dft.innerHTML = '<h3>주간 경영 보고 초안<span class="tag">AI 생성</span></h3>'
+        + '<p>8월 4주차 매출 12,232,412천원(전년비 +8.2%), 연간 달성률 95.6%로 4.4%p 미달이나 남은 영업일 추세상 근접 달성 전망. '
+        + '특이사항 ① 냉장센터 B 온도 반복 상승 — 입고 시간대 기준 완화 제안 등록 ② 소비기한 D-3 1건 우선 출고 처리 ③ 부자재 장기 체류 16% — 안전재고 기준 재조정 필요.</p>'
+        + '<p style="color:var(--g05);font-size:11px">아래 구성에서 섹션을 다듬어 발행하세요 — 초안은 저장 전까지 유지되지 않습니다.</p>';
+      var head = main.querySelector('.page-head');
+      head.parentNode.insertBefore(dft, head.nextSibling);
+    }
+  }
+
   /* ── ② 단축키 시트 ── */
   var hlp = null;
   var KEYS = [
@@ -167,6 +295,7 @@
     ['A', 'AI 어시스턴트 — 시나리오 자동 재생'],
     ['R', '진입 모션 다시 재생'],
     ['T', '안내 비컨 표시/숨김'],
+    ['S', '화면 스캔 — AI가 이상 포인트 표시'],
     ['N', '알림 도착 연출 (누를 때마다 다른 알림)'],
     ['D', '다크 관제 테마 (모니터링 화면)'],
     ['Esc', '열린 창 닫기']
@@ -262,10 +391,11 @@
     if (/input|textarea|select/i.test(e.target.tagName)) return;
     if (e.metaKey || e.ctrlKey || e.altKey) return;
     if (e.key === 'n' || e.key === 'N') showToast(tIdx++);
+    else if (e.key === 's' || e.key === 'S') runScan();
     else if (e.key === '?' || e.key === '/') toggleHelp();
     else if ((e.key === 'd' || e.key === 'D') && isOps) {
       applyDark(document.documentElement.getAttribute('data-theme') !== 'darkops');
     }
-    else if (e.key === 'Escape') { closeMenu(); if (hlp) toggleHelp(); }
+    else if (e.key === 'Escape') { closeMenu(); clearScan(); if (hlp) toggleHelp(); }
   });
 })();
