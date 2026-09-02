@@ -25,6 +25,19 @@
 
 /* ── 테마: 맑은물에 그린 (?theme=malgeunmule) ──
    피그마 확정 레시피(2631:223): 본문 그린 + LNB 차콜, teal은 차트 보조로 유지 */
+/* ── 테마: 다크 관제 (모니터링 계열, D 키 토글 — demo.js) ──
+   토큰 재정의만으로 전 컴포넌트 전환. 차트 인라인 색도 var 기반이라 함께 따라옴 */
+[data-theme="darkops"] {
+  --surface: #171a20;
+  --g01: #101318; --g02: #262b34; --g03: #39404c;
+  --g05: #6f7684; --g08: #b4bac6;
+  --ink: #eceef2;
+  --nav: #0d1015; --nav-muted: #667082; --on-nav: #a8b0be;
+  --tint-blue: #1a2b48; --tint-teal: #0f3138;
+  --tint-orange: #3b2a14; --tint-red: #3b1d1d;
+  --chart-soft: #3d5a85;
+}
+
 [data-theme="malgeunmule"] {
   --brand: #4a9e2f;
   --brand-2: #35761f;

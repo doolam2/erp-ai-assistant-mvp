@@ -20,7 +20,7 @@
     else document.addEventListener('DOMContentLoaded', function () { setTimeout(fn, 60); });
   }
 
-  onReady(function () {
+  function runMotion() {
     /* 0. 패널·카드 라이즈 인 */
     document.querySelectorAll('.panel, .kpi, .zcard, .lg-card').forEach(function (el, i) {
       anim(el, { opacity: '0', transform: 'translateY(14px)' },
@@ -129,7 +129,10 @@
         if (el.style.transform && el.style.transform !== 'none') el.style.transform = '';
       });
     }, 5000);
-  });
+  }
+  onReady(runMotion);
+  /* 필터 리드로우 등 외부에서 재생 (demo.js) */
+  window.swmotion = { replay: runMotion };
 
   /* R 키 = 모션 다시 재생 (촬영용) */
   document.addEventListener('keydown', function (e) {
