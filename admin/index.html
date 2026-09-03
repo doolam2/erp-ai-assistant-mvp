@@ -1,280 +1,59 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>관리자 — 맑은물에 ERP AI 어시스턴트</title>
-  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
-  <link rel="stylesheet" href="admin.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>관리자 데모 색인 · 맑은물에 ERP AI</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+:root{--brand:#2C7FDF;--ink:#191F28;--sub:#4E5560;--mut:#8B95A1;--line:#E5E8EB;--bg:#F3F4F6}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Pretendard,sans-serif;background:var(--bg);color:var(--ink);padding:48px 24px}
+.wrap{max-width:860px;margin:0 auto}
+h1{font-size:24px;margin-bottom:6px}
+.sub{font-size:13px;color:var(--sub);margin-bottom:8px}
+.note{font-size:12px;color:var(--mut);margin-bottom:28px}
+h2{font-size:13px;color:var(--mut);margin:26px 0 10px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
+a.card{display:block;background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px;text-decoration:none;color:var(--ink);transition:border-color .15s}
+a.card:hover{border-color:var(--brand)}
+a.card b{display:block;font-size:14px;margin-bottom:3px}
+a.card span{font-size:11.5px;color:var(--mut)}
+.back{display:inline-block;margin-bottom:20px;font-size:12px;color:var(--brand);text-decoration:none;font-weight:600}
+</style>
 </head>
 <body>
-  <div class="app">
-    <!-- ===== LNB ===== -->
-    <aside class="lnb">
-      <div class="lnb__brand">
-        <div class="lnb__brand-title">맑은물에 ERP</div>
-        <span class="lnb__brand-badge">AI 어시스턴트 관리자</span>
-      </div>
-      <div class="lnb__group">
-        <div class="lnb__group-label">모니터링</div>
-        <div class="lnb__item is-active" data-view="dashboard">토큰 사용량 대시보드</div>
-        <div class="lnb__item" data-view="logs">응답 로그</div>
-        <div class="lnb__item" data-view="alerts">임계치 알림 <span class="badge-n">2</span></div>
-      </div>
-      <div class="lnb__group">
-        <div class="lnb__group-label">품질</div>
-        <div class="lnb__item" data-view="qa">QA 검증 리스트</div>
-        <div class="lnb__item" data-view="accuracy">응답 정확도</div>
-      </div>
-      <div class="lnb__group">
-        <div class="lnb__group-label">설정</div>
-        <div class="lnb__item" data-view="settings">모델 · API 설정</div>
-        <div class="lnb__item" data-view="db">DB 연결 (MCP)</div>
-        <div class="lnb__item" data-view="org">계정 · 권한</div>
-      </div>
-      <a class="lnb__back" href="../index.html">← 버전 비교로</a>
-    </aside>
+<div class="wrap">
+<a class="back" href="../syncworks/index.html">← SyncWorks 데모 색인으로</a>
+<h1>맑은물에 ERP AI — 관리자 시스템 데모</h1>
+<p class="sub">고객사 어드민 + 수퍼어드민 · 실동작 Flask 시스템의 정적 스냅샷</p>
+<p class="note">모든 수치·인명·이메일은 더미 데이터입니다 · 버튼·폼은 스냅샷이라 동작하지 않습니다 · 실물은 사내망(Tailscale)에서 구동</p>
 
-    <!-- ===== MAIN ===== -->
-    <main class="main">
-      <header class="topbar">
-        <div class="topbar__title">
-          <h1 id="pageTitle">토큰 사용량 대시보드</h1>
-          <p id="pageSub">Azure OpenAI · GPT-5 mini · 사내 MVP</p>
-        </div>
-        <div class="topbar__spacer"></div>
-        <div class="topbar__user"><span class="avatar"></span><span class="topbar__user-name">변두람 · 운영팀</span></div>
-      </header>
+<h2>고객사 어드민 (맑은물에)</h2>
+<div class="grid">
+<a class="card" href="dash.html"><b>대시보드</b><span>예산 게이지 · 일별 추이 · 상위 사용자</span></a>
+<a class="card" href="users.html"><b>사용자별 전체보기</b><span>비용 환산 · 사용률 · 부서 필터</span></a>
+<a class="card" href="thresholds.html"><b>임계치 설정</b><span>전체 기본값 + 사람별 예외</span></a>
+<a class="card" href="alerts.html"><b>알림 이력</b><span>80% 예고 · 100% 초과</span></a>
+<a class="card" href="logs.html"><b>응답 로그</b><span>질문·답변 · 실패 분류</span></a>
+<a class="card" href="log_detail.html"><b>응답 로그 상세</b><span>쿼리·토큰·주입 프롬프트</span></a>
+<a class="card" href="audit.html"><b>접근 감사 로그</b><span>로그인 · 잠금 · 설정 변경</span></a>
+<a class="card" href="ai_users.html"><b>AI 사용자 명단</b><span>화이트리스트 · 차단 토글</span></a>
+<a class="card" href="model.html"><b>모델 · API</b><span>조회 전용 · 프롬프트 버전</span></a>
+<a class="card" href="login.html"><b>로그인</b><span>이메일 + 비밀번호 + OTP</span></a>
+</div>
 
-      <div class="content">
-        <!-- ================= 대시보드 ================= -->
-        <section class="view" id="view-dashboard">
-          <div class="page-head">
-            <div class="page-head__actions">
-              <span class="select-pill">2026년 7월 (이번 달) <span class="caret">▾</span></span>
-              <button class="btn btn--outline">CSV 내보내기</button>
-            </div>
-          </div>
-
-          <div class="banner">
-            <span class="banner__tag">임계치 임박</span>
-            <p>박지훈(물류지원팀) 님의 이번 달 토큰 사용량이 배정량의 88%에 도달했습니다. 초과하면 본인과 운영팀에 자동 통보됩니다.</p>
-            <button class="btn btn--outline">알림 설정</button>
-          </div>
-
-          <div class="kpi-row">
-            <div class="kpi"><div class="kpi__label">이번 달 총 토큰</div><div class="kpi__value">24.8<span class="unit">M</span></div><div class="kpi__sub" style="color:var(--blue-1)">전월 대비 +18.2%</div></div>
-            <div class="kpi"><div class="kpi__label">Input 토큰</div><div class="kpi__value">18.2<span class="unit">M</span></div><div class="kpi__sub">$0.25 / 1M tokens</div></div>
-            <div class="kpi"><div class="kpi__label">Output 토큰</div><div class="kpi__value">6.6<span class="unit">M</span></div><div class="kpi__sub">$2.00 / 1M tokens</div></div>
-            <div class="kpi is-accent"><div class="kpi__label">예상 비용</div><div class="kpi__value">$17.75</div><div class="kpi__sub">약 24,500원 · 마크업 미적용</div></div>
-          </div>
-
-          <div class="card mb16">
-            <div class="card__head">
-              <div class="card__title">일별 토큰 사용량</div>
-              <div class="legend"><span><i style="background:var(--blue-1)"></i>Input</span><span><i style="background:#9ec4ef"></i>Output</span></div>
-            </div>
-            <div class="chart" id="dailyChart"></div>
-          </div>
-
-          <div class="cols">
-            <div class="card">
-              <div class="card__head"><div class="card__title">사용자별 토큰 사용량</div><div class="card__sub">배정량 기준 · 실시간 집계</div></div>
-              <table class="tbl">
-                <thead><tr><th>사용자</th><th class="num">질의 수</th><th class="num">Input</th><th class="num">Output</th><th class="num">비용</th><th>배정량 사용률</th></tr></thead>
-                <tbody>
-                  <tr><td>김민준 <span class="tag" style="background:var(--g1);color:var(--g8);margin-left:6px">생산팀</span></td><td class="num">1,284건</td><td class="num">7.1M</td><td class="num">2.6M</td><td class="num">$6.98</td><td><span class="progress"><i style="width:62%"></i></span> 62%</td></tr>
-                  <tr><td>이서연 <span class="tag" style="background:var(--g1);color:var(--g8);margin-left:6px">품질관리팀</span></td><td class="num">862건</td><td class="num">4.9M</td><td class="num">1.8M</td><td class="num">$4.83</td><td><span class="progress"><i style="width:45%"></i></span> 45%</td></tr>
-                  <tr><td>박지훈 <span class="tag" style="background:var(--g1);color:var(--g8);margin-left:6px">물류지원팀</span></td><td class="num">741건</td><td class="num">4.2M</td><td class="num">1.5M</td><td class="num">$4.05</td><td><span class="progress hot"><i style="width:88%"></i></span> 88%</td></tr>
-                  <tr><td>최수아 <span class="tag" style="background:var(--g1);color:var(--g8);margin-left:6px">영업팀</span></td><td class="num">525건</td><td class="num">2.0M</td><td class="num">0.7M</td><td class="num">$1.90</td><td><span class="progress"><i style="width:31%"></i></span> 31%</td></tr>
-                  <tr class="total"><td>합계</td><td class="num">3,412건</td><td class="num">18.2M</td><td class="num">6.6M</td><td class="num">$17.75</td><td></td></tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="card">
-              <div class="card__head"><div class="card__title">QA 난이도별 응답 정확도</div><div class="card__sub">QA 리스트 301건 기준</div></div>
-              <div class="acc-row"><div class="acc-info"><div class="t">Lv.1 단일 DB 질의</div><div class="d">하나의 DB만 조회</div></div><div class="acc-track"><i style="width:96%;background:var(--pos-2)"></i></div><div class="acc-count">142건</div><div class="acc-pct" style="color:var(--pos-2)">96.2%</div></div>
-              <div class="acc-row"><div class="acc-info"><div class="t">Lv.2 관계 DB 질의</div><div class="d">2개 DB 조인 · 매핑 이해</div></div><div class="acc-track"><i style="width:88.5%;background:var(--pos-2)"></i></div><div class="acc-count">98건</div><div class="acc-pct" style="color:var(--pos-2)">88.5%</div></div>
-              <div class="acc-row"><div class="acc-info"><div class="t">Lv.3 멀티 DB 조합 질의</div><div class="d">여러 DB를 조합해야 답이 나옴 · 핵심 목표</div></div><div class="acc-track"><i style="width:71.3%;background:var(--orange-1)"></i></div><div class="acc-count">61건</div><div class="acc-pct" style="color:var(--orange-1)">71.3%</div></div>
-              <p class="muted" style="font-size:12px;margin-top:14px;line-height:1.6;">Lv.3는 이번 MVP의 성패 기준입니다. 정확도가 낮은 유형은 프롬프트 · 컨텍스트를 보강합니다.</p>
-            </div>
-          </div>
-
-          <div class="card" style="margin-top:16px;">
-            <div class="card__head"><div class="card__title">최근 임계치 알림</div><div class="card__sub">최근 7일</div></div>
-            <div class="alert-log"><span class="dot" style="background:var(--neg)"></span><div><div class="t">박지훈(물류지원팀) · 배정량 88% 도달</div><div class="d">내부 + 고객사 통보 완료</div></div><span class="time">07-22 09:12</span></div>
-            <div class="alert-log"><span class="dot" style="background:var(--blue-1)"></span><div><div class="t">김민준(생산팀) · 배정량 상향 (15M → 20M)</div><div class="d">운영팀 변두람 승인</div></div><span class="time">07-19 14:30</span></div>
-            <div class="alert-log"><span class="dot" style="background:var(--orange-1)"></span><div><div class="t">이서연(품질관리팀) · 배정량 60% 도달</div><div class="d">내부 통보만 발송</div></div><span class="time">07-15 11:05</span></div>
-          </div>
-        </section>
-
-        <!-- ================= 응답 로그 ================= -->
-        <section class="view" id="view-logs" hidden>
-          <div class="page-head">
-            <div class="page-head__actions">
-              <span class="search-pill"><input placeholder="질문 내용 검색" /></span>
-              <button class="btn btn--outline">CSV 내보내기</button>
-            </div>
-          </div>
-
-          <div class="sum-row">
-            <div class="sum"><div class="sum__label">총 질의</div><div class="sum__value">3,412건</div><div class="sum__sub">2026년 7월 · 이번 달</div></div>
-            <div class="sum"><div class="sum__label"><span class="chip-filter" style="pointer-events:none;padding:0;border:none"><span class="dot" style="background:var(--pos-2)"></span></span>confidence · high</div><div class="sum__value" style="color:var(--pos-2)">78.2%</div><div class="sum__sub">2,668건</div></div>
-            <div class="sum"><div class="sum__label"><span class="dot" style="width:6px;height:6px;border-radius:50%;background:var(--orange-1);display:inline-block"></span> confidence · medium</div><div class="sum__value" style="color:var(--orange-1)">15.1%</div><div class="sum__sub">515건</div></div>
-            <div class="sum"><div class="sum__label"><span class="dot" style="width:6px;height:6px;border-radius:50%;background:var(--neg);display:inline-block"></span> confidence · low</div><div class="sum__value" style="color:var(--neg)">6.7%</div><div class="sum__sub">229건 · 보강 대상</div></div>
-            <div class="sum"><div class="sum__label">평균 응답 시간</div><div class="sum__value">1.8초</div><div class="sum__sub">멀티 DB 질의는 3.4초</div></div>
-          </div>
-
-          <div style="display:flex;gap:8px;align-items:center;margin-bottom:16px;flex-wrap:wrap;">
-            <span class="muted" style="font-size:12px;font-weight:700;margin-right:4px;">필터</span>
-            <button class="chip-filter is-active">전체</button>
-            <button class="chip-filter"><span class="dot" style="background:var(--pos-2)"></span>high</button>
-            <button class="chip-filter"><span class="dot" style="background:var(--orange-1)"></span>medium</button>
-            <button class="chip-filter"><span class="dot" style="background:var(--neg)"></span>low</button>
-            <button class="chip-filter">plans</button>
-            <button class="chip-filter">storage_stocks</button>
-            <button class="chip-filter">storage_stocks</button>
-            <button class="chip-filter">Lv.3 멀티 DB 조합</button>
-            <button class="chip-filter">피드백 있음</button>
-          </div>
-
-          <div class="cols">
-            <div class="card">
-              <div class="card__head"><div class="card__title">최근 질의</div><div class="card__sub">3,412건 중 1–6</div></div>
-              <table class="tbl">
-                <thead><tr><th>시각</th><th>질문 (query)</th><th>sources</th><th>confidence</th><th class="num">응답</th><th class="num">토큰</th><th>사용자</th></tr></thead>
-                <tbody id="logRows">
-                  <tr class="clickable" data-log="0"><td>09:14</td><td>이번 달 두부 확정수량은?</td><td><span class="src-chip">plans</span></td><td><span class="tag tag--high">high</span></td><td class="num">1.6s</td><td class="num">4.2K</td><td>이서연</td></tr>
-                  <tr class="clickable" data-log="1"><td>09:08</td><td>상암점 이번 주 발주 추이 정리해줘</td><td><span class="src-chip">plans</span></td><td><span class="tag tag--high">high</span></td><td class="num">1.2s</td><td class="num">3.1K</td><td>박지훈</td></tr>
-                  <tr class="clickable is-selected" data-log="2"><td>08:52</td><td>국산 백태 낫또 재고 며칠 치 남았어?</td><td><span class="src-chip">storage_stocks</span><span class="src-chip">orders</span></td><td><span class="tag tag--medium">medium</span></td><td class="num">3.4s</td><td class="num">9.8K</td><td>최수아 <span class="tag" style="background:var(--g1);color:var(--g8);margin-left:6px">영업팀</span></td></tr>
-                  <tr class="clickable" data-log="3"><td>08:41</td><td>창고별 두부 재고 알려줘</td><td><span class="src-chip">plans</span></td><td><span class="tag tag--high">high</span></td><td class="num">1.1s</td><td class="num">2.7K</td><td>박지훈</td></tr>
-                  <tr class="clickable" data-log="4"><td>08:20</td><td>원가 대비 마진율 상위 품목은?</td><td><span class="src-chip">권한 없음</span></td><td><span class="tag tag--low">low</span></td><td class="num">0.9s</td><td class="num">1.4K</td><td>김민준 <span class="tag" style="background:var(--g1);color:var(--g8);margin-left:6px">생산팀</span></td></tr>
-                  <tr class="clickable" data-log="5"><td>08:03</td><td>국산 두부 최근 4주 판매량</td><td><span class="src-chip">plans</span></td><td><span class="tag tag--high">high</span></td><td class="num">1.4s</td><td class="num">3.6K</td><td>박지훈</td></tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="card">
-              <div class="card__head"><div class="card__title">로그 상세</div><div class="card__sub" id="logDetailMeta">08:52 · 최수아</div></div>
-              <div class="detail__meta"><span class="tag tag--lv">Lv.3 멀티 DB 조합</span><span class="tag tag--medium">confidence: medium</span><span class="tag" style="background:var(--g1);color:var(--g8)">피드백 있음</span></div>
-              <pre class="code" id="logDetailJson">{
-  <span class="k">"query"</span>: <span class="s">"국산 백태 낫또 재고
-            며칠 치 남았어?"</span>,
-  <span class="k">"sources"</span>: [<span class="s">"orders"</span>, <span class="s">"plans"</span>, <span class="s">"storage_stocks"</span>],
-  <span class="k">"answer"</span>: <span class="s">"재고 1,234, 일평균 17.1 기준
-             약 72일 치입니다."</span>,
-  <span class="k">"confidence"</span>: <span class="s">"medium"</span>
-}</pre>
-              <div class="detail__feedback">사용자 피드백 · 별로예요<br />“정보가 부정확해요” — 일평균 수요에 계열사 출고분이 빠져 있습니다.</div>
-              <div style="display:flex;gap:8px;margin-top:14px;">
-                <button class="btn btn--primary">QA 리스트에 추가</button>
-                <button class="btn btn--outline">프롬프트 보강</button>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- ================= QA 검증 ================= -->
-        <section class="view" id="view-qa" hidden>
-          <div class="page-head">
-            <div class="page-head__actions">
-              <button class="btn btn--outline">질문 추가</button>
-              <button class="btn btn--primary">전체 재검증 실행</button>
-            </div>
-          </div>
-
-          <div class="sum-row" style="grid-template-columns:repeat(4,1fr);">
-            <div class="sum"><div class="sum__label">전체 질문</div><div class="sum__value">301건</div><div class="sum__sub">Lv.1 142 · Lv.2 98 · Lv.3 61</div></div>
-            <div class="sum"><div class="sum__label">통과</div><div class="sum__value" style="color:var(--pos-2)">268건</div><div class="sum__sub">전체 정확도 89.0%</div></div>
-            <div class="sum"><div class="sum__label">실패</div><div class="sum__value" style="color:var(--neg)">33건</div><div class="sum__sub">프롬프트 · 컨텍스트 보강 대상</div></div>
-            <div class="sum"><div class="sum__label">Lv.3 정확도</div><div class="sum__value" style="color:var(--orange-1)">71.3%</div><div class="sum__sub">MVP 성패 기준 · 목표 85%</div></div>
-          </div>
-
-          <div class="card">
-            <div class="card__head">
-              <div class="tabs"><button class="tab is-active">전체 301</button><button class="tab">Lv.1 142</button><button class="tab">Lv.2 98</button><button class="tab">Lv.3 61</button></div>
-              <div class="card__sub">실패 항목 우선 정렬</div>
-            </div>
-            <table class="tbl">
-              <thead><tr><th>Lv</th><th>검증 질문</th><th>기대 sources</th><th>최근 결과</th><th>최근 5회 정확도</th><th>검증일</th><th></th></tr></thead>
-              <tbody>
-                <tr><td><span class="tag tag--lv">Lv.3</span></td><td>국산 백태 낫또 재고 며칠 치 남았어?</td><td><span class="src-chip">storage_stocks</span><span class="src-chip">orders</span></td><td><span class="tag tag--fail">실패</span></td><td><span class="progress hot"><i style="width:40%"></i></span> 40%</td><td class="muted">07-21</td><td><button class="btn btn--outline">프롬프트 보강</button></td></tr>
-                <tr><td><span class="tag tag--lv">Lv.3</span></td><td>법인별 생산 확정수량과 주문 건수는?</td><td><span class="src-chip">quality</span><span class="src-chip">equipment</span></td><td><span class="tag tag--fail">실패</span></td><td><span class="progress warn"><i style="width:60%"></i></span> 60%</td><td class="muted">07-21</td><td><button class="btn btn--outline">프롬프트 보강</button></td></tr>
-                <tr><td><span class="tag tag--lv">Lv.3</span></td><td>이번 달 폐기 손실이 가장 큰 라인과 담당자는?</td><td><span class="src-chip">plans</span><span class="src-chip">quality</span></td><td><span class="tag tag--pass">통과</span></td><td><span class="progress"><i style="width:80%"></i></span> 80%</td><td class="muted">07-21</td><td><button class="btn btn--outline">재검증</button></td></tr>
-                <tr><td><span class="tag tag--lv">Lv.2</span></td><td>이번 달 두부 확정수량은?</td><td><span class="src-chip">plans</span><span class="src-chip">quality</span></td><td><span class="tag tag--pass">통과</span></td><td><span class="progress"><i style="width:100%"></i></span> 100%</td><td class="muted">07-21</td><td><button class="btn btn--outline">재검증</button></td></tr>
-                <tr><td><span class="tag tag--lv">Lv.2</span></td><td>국산 두부 최근 4주 판매량과 반품률</td><td><span class="src-chip">plans</span><span class="src-chip">quality</span></td><td><span class="tag tag--pass">통과</span></td><td><span class="progress"><i style="width:100%"></i></span> 100%</td><td class="muted">07-21</td><td><button class="btn btn--outline">재검증</button></td></tr>
-                <tr><td><span class="tag tag--lv">Lv.1</span></td><td>오늘 상암점 재고 현황 알려줘</td><td><span class="src-chip">plans</span></td><td><span class="tag tag--pass">통과</span></td><td><span class="progress"><i style="width:100%"></i></span> 100%</td><td class="muted">07-21</td><td><button class="btn btn--outline">재검증</button></td></tr>
-              </tbody>
-            </table>
-          </div>
-        </section>
-
-        <!-- ================= 모델 · API 설정 ================= -->
-        <section class="view" id="view-settings" hidden>
-          <div class="page-head">
-            <div class="page-head__actions">
-              <div class="tabs"><button class="tab is-active">dev</button><button class="tab">운영</button></div>
-              <button class="btn btn--primary">변경사항 저장</button>
-            </div>
-          </div>
-
-          <div class="card mb16">
-            <div class="card__head"><div><div class="card__title">사용 모델</div><div class="card__sub">요금 대비 성능 기준으로 선정합니다. 사용량 · 요구 수준에 따라 상위 모델로 교체할 수 있는 구조입니다.</div></div></div>
-            <div class="grid" style="gap:10px;">
-              <div class="model-card is-selected"><div class="radio"></div><div><div class="model-card__name">GPT-5 mini <span class="tag tag--current" style="margin-left:6px;">현재 적용</span></div><div class="model-card__vendor">OpenAI (Azure)</div></div><div class="model-card__price"><div><div class="p-label">Input / 1M</div><div class="p-val">$0.25</div></div><div><div class="p-label">Output / 1M</div><div class="p-val">$2.00</div></div></div></div>
-              <div class="model-card"><div class="radio"></div><div><div class="model-card__name">Claude Haiku 4.5</div><div class="model-card__vendor">Anthropic</div></div><div class="model-card__price"><div><div class="p-label">Input / 1M</div><div class="p-val">$1.00</div></div><div><div class="p-label">Output / 1M</div><div class="p-val">$5.00</div></div></div></div>
-              <div class="model-card"><div class="radio"></div><div><div class="model-card__name">Gemini 3.1 Flash-Lite</div><div class="model-card__vendor">Google</div></div><div class="model-card__price"><div><div class="p-label">Input / 1M</div><div class="p-val">$0.25</div></div><div><div class="p-label">Output / 1M</div><div class="p-val">$1.50</div></div></div></div>
-            </div>
-            <p class="muted" style="font-size:11px;margin-top:12px;">※ 2026.07 기준 각 사 공식 요금표 · 텍스트 입출력 기준 (프롬프트 캐싱 · 배치 할인 미반영)</p>
-          </div>
-
-          <div class="cols-2">
-            <div class="card">
-              <div class="card__head"><div><div class="card__title">Azure OpenAI API 연동</div><div class="card__sub">민감 값은 설정 파일(.env)에서 관리하며, 화면에는 가려진 값만 표시합니다.</div></div></div>
-              <div class="field"><span class="k">엔드포인트</span><span class="v"><code>https://mgw-erp-openai.openai.azure.com/</code></span></div>
-              <div class="field"><span class="k">배포 이름 (Deployment)</span><span class="v"><code>gpt-5-mini-mvp-dev</code></span></div>
-              <div class="field"><span class="k">API Key</span><span class="v"><code>sk-••••••••••••••••4f2a</code></span><button class="btn btn--outline">재발급</button></div>
-              <div class="field"><span class="k">API 버전</span><span class="v"><code>2026-05-01-preview</code></span></div>
-              <div class="field"><span class="status ok"><span class="dot"></span>연결 정상 · 최근 확인 2026-07-22 09:14 · 평균 응답 1.8초</span><span style="margin-left:auto"><button class="btn btn--outline">연결 테스트</button></span></div>
-            </div>
-            <div class="card">
-              <div class="card__head"><div><div class="card__title">DB 연결 (MCP)</div><div class="card__sub">병합 레이어 없이 실제 dev DB를 직접 조회합니다. AI가 스키마 · 관계를 이해하는 것이 핵심 과제입니다.</div></div></div>
-              <div class="field" style="border-bottom:1px solid var(--g1)"><span class="status ok"><span class="dot"></span>Laravel 13.2 · MCP 서버 정상 · PHP 8.3</span></div>
-              <div class="field"><span class="k">생산 DB <code style="font-weight:400;color:var(--g5)">plans</code></span><span class="v"><span class="status ok"><span class="dot"></span>연결됨</span></span><span class="muted" style="font-size:12px">스키마 정의율 100%</span></div>
-              <div class="field"><span class="k">품질 DB <code style="font-weight:400;color:var(--g5)">storage_stocks</code></span><span class="v"><span class="status ok"><span class="dot"></span>연결됨</span></span><span class="muted" style="font-size:12px">스키마 정의율 100%</span></div>
-              <div class="field"><span class="k">재고 DB <code style="font-weight:400;color:var(--g5)">storage_stocks</code></span><span class="v"><span class="status warn"><span class="dot"></span>스키마 정의 중</span></span><span class="muted" style="font-size:12px">스키마 정의율 68%</span></div>
-            </div>
-          </div>
-
-          <div class="cols-2" style="margin-top:16px;">
-            <div class="card">
-              <div class="card__head"><div><div class="card__title">응답 형식 (JSON)</div><div class="card__sub">모든 응답은 정형 JSON으로 반환되어 화면에 표시됩니다.</div></div></div>
-              <pre class="code">{
-  <span class="k">"query"</span>: <span class="s">"이번 달 두부 확정수량은?"</span>,
-  <span class="k">"sources"</span>: [<span class="s">"plans"</span>, <span class="s">"storage_stocks"</span>],
-  <span class="k">"answer"</span>: <span class="s">"이번 달 두부 확정수량은 2,352,092입니다."</span>,
-  <span class="k">"confidence"</span>: <span class="s">"high"</span>
-}</pre>
-              <p class="muted" style="font-size:12px;margin-top:12px;">sources에 조회된 DB가 명시되므로, 답변의 근거를 화면에서 바로 확인할 수 있습니다.</p>
-            </div>
-            <div class="card">
-              <div class="card__head"><div><div class="card__title">임계치 · 알림 정책</div><div class="card__sub">사용량이 기준치를 넘으면 자동 감지해 통보합니다. 상용화 이후 후불제 · 마크업 과금의 기준이 되는 설정입니다.</div></div></div>
-              <div class="field"><span class="k">사용자별 월 기본 배정량</span><span class="v">15 <span class="muted" style="font-weight:400">M tokens</span></span></div>
-              <div class="field"><span class="k">경고 임계치</span><span class="v">80 <span class="muted" style="font-weight:400">%</span></span></div>
-              <div class="field"><span class="k">위험 임계치</span><span class="v">95 <span class="muted" style="font-weight:400">%</span></span></div>
-              <div class="field"><span class="k">위험 임계치 초과 시 동작</span><span class="v">계속 허용 (알림만) <span class="muted" style="font-weight:400;font-size:12px">· MVP 검증 중 질의를 막지 않음</span></span></div>
-            </div>
-          </div>
-        </section>
-
-        <!-- placeholder views -->
-        <section class="view" id="view-placeholder" hidden>
-          <div class="page-head"><div><h2 id="phTitle"></h2><p>이 화면은 프로토타입에서 준비 중입니다.</p></div></div>
-          <div class="card"><p class="muted" style="font-size:13px;">해당 관리자 화면은 데모 범위에 아직 포함되지 않았습니다. 좌측에서 다른 화면을 선택해 주세요.</p></div>
-        </section>
-      </div>
-    </main>
-  </div>
-  <script src="admin.js"></script>
+<h2>수퍼어드민 (운영사 · 싱크웍스)</h2>
+<div class="grid">
+<a class="card" href="sa_home.html"><b>SA-01 고객사 목록</b><span>원가 · 청구 · 마진 KPI</span></a>
+<a class="card" href="sa_tenant.html"><b>SA-02 고객사 상세</b><span>월별 이력 · API 도구 토글</span></a>
+<a class="card" href="sa_pricing.html"><b>SA-03 단가 · 마크업</b><span>원가 단가 · API 키</span></a>
+<a class="card" href="sa_billing.html"><b>SA-04 월 청구</b><span>확정 → 발송 → 입금</span></a>
+<a class="card" href="sa_invoice.html"><b>인보이스</b><span>HTML 청구서 · VAT</span></a>
+<a class="card" href="sa_accounts.html"><b>SA-05 계정 관리</b><span>발급 · 정지 · 재설정</span></a>
+<a class="card" href="sa_notices.html"><b>SA-06 공지</b><span>대상 선택 · 발송 이력</span></a>
+<a class="card" href="sa_qa.html"><b>SA QA 채점</b><span>45문항 · 5판정 · 정확도</span></a>
+</div>
+</div>
 </body>
 </html>

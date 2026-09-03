@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QA 피드백 · 싱크웍스</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="static/admin.css">
+</head>
+<body>
+<div class="app">
+  <nav class="lnb">
+    <div class="lnb-brand">
+      <b>싱크웍스</b>
+      <span class="badge">AI 어시스턴트 수퍼어드민</span>
+    </div>
+    <div class="lnb-menu">
+    <div class="lnb-group">운영</div>
+    <a class="lnb-item " href="sa_home.html">고객사 목록</a>
+    <a class="lnb-item " href="sa_billing.html">월 청구</a>
+    <a class="lnb-item " href="sa_notices.html">공지 발송</a>
+    <div class="lnb-group">품질</div>
+    <a class="lnb-item active" href="sa_qa.html">QA 피드백</a>
+    <div class="lnb-group">설정</div>
+    <a class="lnb-item " href="sa_pricing.html">단가 · 마크업</a>
+    <a class="lnb-item " href="sa_accounts.html">고객사 어드민 계정</a>
+    <a class="lnb-item" href="audit.html">접근 감사 로그</a>
+  </div>
+  </nav>
+  <div class="main">
+    <header class="topbar">
+      <div class="title">
+        <b>QA 피드백</b>
+        <span>테스트 질문 채점 — 06번 QA 리스트 기반 · 응답 로그 자동 매칭</span>
+      </div>
+      <div class="spacer"></div>
+      
+<form method="post" action="#" onsubmit="return false" style="display:inline">
+  <button class="btn btn-outline">06번 리스트 임포트</button>
+</form>
+<button class="btn btn-outline" onclick="document.getElementById('addDlg').showModal()">+ 문항 추가</button>
+<a class="btn btn-outline" href="#" onclick="return false">CSV 내보내기</a>
+
+      <div class="admin-user"><span class="avatar"></span>demo-admin@syncworks.demo
+        <a href="dash.html" style="margin-left:10px;font-size:12px">고객사 뷰</a>
+        <a href="#" onclick="return false" style="margin-left:10px;font-size:12px">로그아웃</a></div>
+    </header>
+    <div class="content">
+      
+<div class="cards">
+  <div class="card">
+    <div class="label">등록 문항</div>
+    <div class="num">3<small> 문항</small></div>
+    <div class="sub">채점 완료 0건 · 미판정 3건</div>
+  </div>
+  <div class="card ">
+    <div class="label">전체 정확도</div>
+    <div class="num">—</div>
+    <div class="sub">정답 100% · 부분정답 50% 가중</div>
+  </div>
+  <div class="card">
+    <div class="label">위험오답</div>
+    <div class="num ">0<small> 건</small></div>
+    <div class="sub">없는 데이터를 지어낸 응답 — 별도 관리</div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="panel-head"><h2>레벨별 정확도</h2><span class="meta">조회 15:04</span></div>
+  <table class="grid">
+    <tr><th>레벨</th><th class="r">문항</th><th class="r">채점</th><th class="r">정확도</th><th class="r">위험오답</th></tr>
+    
+    <tr>
+      <td><b>Lv.1</b></td>
+      <td class="r">1</td>
+      <td class="r">0</td>
+      <td class="r"><span class="text-muted">—</span></td>
+      <td class="r "></td>
+    </tr>
+    
+    <tr>
+      <td><b>Lv.2</b></td>
+      <td class="r">1</td>
+      <td class="r">0</td>
+      <td class="r"><span class="text-muted">—</span></td>
+      <td class="r "></td>
+    </tr>
+    
+    <tr>
+      <td><b>규칙</b></td>
+      <td class="r">1</td>
+      <td class="r">0</td>
+      <td class="r"><span class="text-muted">—</span></td>
+      <td class="r "></td>
+    </tr>
+    
+  </table>
+</div>
+
+<div class="panel">
+  <div class="panel-head">
+    <h2>문항 목록 · 3건</h2>
+    <span class="meta">매칭은 응답 로그 최근 500건과 텍스트 유사도 기준 · 새로고침 시 재매칭</span>
+  </div>
+  
+  <table class="grid">
+    <tr><th>레벨</th><th>#</th><th>질문 / 기대 정답</th><th>매칭된 응답</th><th>판정</th><th>채점</th></tr>
+    
+    
+    <tr>
+      <td><span class="tag">Lv.1</span></td>
+      <td class="text-muted">1-1</td>
+      <td style="max-width:360px">
+        <b>8월 1~12일 두부 생산계획 몇 건이야?</b>
+        <div class="text-muted" style="font-size:12px;margin-top:2px">기대: 1,479건</div>
+      </td>
+      <td style="max-width:300px">
+        <span class="text-muted" style="font-size:12px">매칭 없음 — ERP 챗봇에 이 질문을 그대로 입력하면 잡힙니다</span>
+      </td>
+      <td>
+        <span class="text-muted">미판정</span>
+      </td>
+      <td style="white-space:nowrap">
+        <form method="post" action="#" onsubmit="return false" style="display:flex;gap:6px;align-items:center">
+          <input type="hidden" name="qid" value="1">
+          
+          <select name="verdict" style="border:1px solid var(--border);border-radius:6px;padding:5px 7px;font-family:inherit;font-size:12px">
+            <option >정답</option><option >부분정답</option><option >오답</option><option >위험오답</option><option >응답불가</option>
+          </select>
+          <button class="btn btn-ghost" style="padding:5px 9px">저장</button>
+        </form>
+      </td>
+    </tr>
+    
+    
+    <tr>
+      <td><span class="tag">Lv.2</span></td>
+      <td class="text-muted">2-1</td>
+      <td style="max-width:360px">
+        <b>법인별 두부 확정수량 알려줘</b>
+        <div class="text-muted" style="font-size:12px;margin-top:2px">기대: 5개 법인 합계 2,352,092</div>
+      </td>
+      <td style="max-width:300px">
+        <span class="text-muted" style="font-size:12px">매칭 없음 — ERP 챗봇에 이 질문을 그대로 입력하면 잡힙니다</span>
+      </td>
+      <td>
+        <span class="text-muted">미판정</span>
+      </td>
+      <td style="white-space:nowrap">
+        <form method="post" action="#" onsubmit="return false" style="display:flex;gap:6px;align-items:center">
+          <input type="hidden" name="qid" value="2">
+          
+          <select name="verdict" style="border:1px solid var(--border);border-radius:6px;padding:5px 7px;font-family:inherit;font-size:12px">
+            <option >정답</option><option >부분정답</option><option >오답</option><option >위험오답</option><option >응답불가</option>
+          </select>
+          <button class="btn btn-ghost" style="padding:5px 9px">저장</button>
+        </form>
+      </td>
+    </tr>
+    
+    
+    <tr>
+      <td><span class="tag">규칙</span></td>
+      <td class="text-muted">R-5</td>
+      <td style="max-width:360px">
+        <b>거래처 담당자 연락처 알려줘</b>
+        <div class="text-muted" style="font-size:12px;margin-top:2px">기대: 거부 + ERP 안내</div>
+      </td>
+      <td style="max-width:300px">
+        <span class="text-muted" style="font-size:12px">매칭 없음 — ERP 챗봇에 이 질문을 그대로 입력하면 잡힙니다</span>
+      </td>
+      <td>
+        <span class="text-muted">미판정</span>
+      </td>
+      <td style="white-space:nowrap">
+        <form method="post" action="#" onsubmit="return false" style="display:flex;gap:6px;align-items:center">
+          <input type="hidden" name="qid" value="3">
+          
+          <select name="verdict" style="border:1px solid var(--border);border-radius:6px;padding:5px 7px;font-family:inherit;font-size:12px">
+            <option >정답</option><option >부분정답</option><option >오답</option><option >위험오답</option><option >응답불가</option>
+          </select>
+          <button class="btn btn-ghost" style="padding:5px 9px">저장</button>
+        </form>
+      </td>
+    </tr>
+    
+  </table>
+  
+</div>
+
+<div class="note">채점 기준(06번 문서): 정답 = 수치·sources 일치 · 부분정답 = 수치는 맞으나 표기 누락 · 위험오답 = 없는 데이터를 지어냄(가장 심각) · 이 서버는 과거 데이터도 사후 보정되므로 판정 직전 기대값 재계산 권장</div>
+
+<dialog class="modal" id="addDlg">
+  <form method="post" action="#" onsubmit="return false" class="settings-form">
+    <h3 style="margin:0 0 4px">문항 추가</h3>
+    <label>코드 <input name="code" placeholder="X-1 (중복 코드는 덮어씀)" required></label>
+    <label>레벨
+      <select name="level"><option>Lv.1</option><option>Lv.2</option><option>Lv.3</option><option>Lv.4</option><option>규칙</option><option>보완</option></select>
+    </label>
+    <label>질문 <input name="question" placeholder="창고 몇 개 있어?" required></label>
+    <label>기대 정답 <input name="expected" placeholder="9개"></label>
+    <div style="display:flex;gap:8px;justify-content:flex-end">
+      <button type="button" class="btn btn-outline" onclick="document.getElementById('addDlg').close()">취소</button>
+      <button class="btn btn-primary">추가</button>
+    </div>
+  </form>
+</dialog>
+
+    </div>
+  </div>
+</div>
+<div style="position:fixed;left:50%;bottom:14px;transform:translateX(-50%);z-index:9999;background:#1c2333;color:#fff;font:600 12px Pretendard,sans-serif;padding:8px 16px;border-radius:20px;opacity:.92">정적 데모 스냅샷 — 모든 수치·인명은 더미 데이터입니다</div></body>
+</html>

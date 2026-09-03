@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>월 청구 · 싱크웍스</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="static/admin.css">
+</head>
+<body>
+<div class="app">
+  <nav class="lnb">
+    <div class="lnb-brand">
+      <b>싱크웍스</b>
+      <span class="badge">AI 어시스턴트 수퍼어드민</span>
+    </div>
+    <div class="lnb-menu">
+    <div class="lnb-group">운영</div>
+    <a class="lnb-item " href="sa_home.html">고객사 목록</a>
+    <a class="lnb-item active" href="sa_billing.html">월 청구</a>
+    <a class="lnb-item " href="sa_notices.html">공지 발송</a>
+    <div class="lnb-group">품질</div>
+    <a class="lnb-item " href="sa_qa.html">QA 피드백</a>
+    <div class="lnb-group">설정</div>
+    <a class="lnb-item " href="sa_pricing.html">단가 · 마크업</a>
+    <a class="lnb-item " href="sa_accounts.html">고객사 어드민 계정</a>
+    <a class="lnb-item" href="audit.html">접근 감사 로그</a>
+  </div>
+  </nav>
+  <div class="main">
+    <header class="topbar">
+      <div class="title">
+        <b>월 청구 · 2026-08분</b>
+        <span>청구 확정 → 인보이스 발행 → 발송 → 입금 확인(수기) · 발송 7일 경과 시 연체 표시</span>
+      </div>
+      <div class="spacer"></div>
+      
+<label class="chip">청구월:
+  <select onchange="location.href='/sa/billing?m='+this.value">
+    <option value="2026-08" selected>2026-08</option><option value="2026-07" >2026-07</option><option value="2026-06" >2026-06</option>
+  </select>
+</label>
+
+      <div class="admin-user"><span class="avatar"></span>demo-admin@syncworks.demo
+        <a href="dash.html" style="margin-left:10px;font-size:12px">고객사 뷰</a>
+        <a href="#" onclick="return false" style="margin-left:10px;font-size:12px">로그아웃</a></div>
+    </header>
+    <div class="content">
+      
+<div class="cards" style="grid-template-columns:repeat(3,minmax(180px,240px))">
+  <div class="card"><div class="label">청구 합계</div><div class="num">$5.98</div><div class="sub">2026-08 사용분</div></div>
+  <div class="card"><div class="label">입금 완료</div><div class="num">$0.00</div></div>
+  <div class="card accent"><div class="label">미수</div><div class="num">$5.98</div></div>
+</div>
+
+<div class="panel">
+  <div class="panel-head"><h2>청구 내역</h2><span class="meta">입금은 회계 통장 확인 후 [입금 확인] 수기 처리 · 조회 15:04</span></div>
+  <table class="grid">
+    <tr><th>고객사</th><th class="r">사용량</th><th class="r">원가</th><th class="r">청구액</th><th>인보이스</th><th>발송</th><th>입금 상태</th><th class="r">동작</th></tr>
+    
+    <tr>
+      <td><b>맑은물에 홀딩스</b></td>
+      <td class="r">20.6M</td>
+      <td class="r">$4.60</td>
+      <td class="r"><b>$5.98</b></td>
+      <td><a href="#" onclick="return false" target="_blank">보기 · 인쇄</a></td>
+      <td class="text-muted">—</td>
+      <td>
+        <span class="tag">입금 대기</span>
+        
+      </td>
+      <td class="r" style="white-space:nowrap">
+        
+        <form method="post" action="#" onsubmit="return false" style="display:inline">
+          <input type="hidden" name="invoice_id" value="2"><input type="hidden" name="action" value="paid"><input type="hidden" name="month" value="2026-08">
+          <button class="btn btn-outline" style="padding:5px 11px;font-size:12px">입금 확인</button>
+        </form>
+        
+      </td>
+    </tr>
+    
+  </table>
+</div>
+
+<div class="note">인보이스는 [보기 · 인쇄]에서 브라우저 인쇄(⌘P)로 PDF 저장 · 메일 자동 발송은 SMTP 확보 후 — 그전까지 발송은 수기 처리 · 확정된 금액은 이후 단가·마크업 변경에 소급되지 않습니다.</div>
+
+    </div>
+  </div>
+</div>
+<div style="position:fixed;left:50%;bottom:14px;transform:translateX(-50%);z-index:9999;background:#1c2333;color:#fff;font:600 12px Pretendard,sans-serif;padding:8px 16px;border-radius:20px;opacity:.92">정적 데모 스냅샷 — 모든 수치·인명은 더미 데이터입니다</div></body>
+</html>

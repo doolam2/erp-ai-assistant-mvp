@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>청구서 · 맑은물에 홀딩스 · 2026-07</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+body{font-family:'Pretendard',sans-serif;color:#212121;max-width:720px;margin:40px auto;padding:0 24px}
+h1{font-size:26px;margin-bottom:4px} .sub{color:#8a919c;font-size:13px;margin-bottom:28px}
+.head{display:flex;justify-content:space-between;margin-bottom:28px;font-size:13.5px;line-height:1.7}
+table{width:100%;border-collapse:collapse;margin-bottom:20px}
+th{background:#f3f4f6;text-align:left;padding:10px 12px;font-size:12.5px}
+td{padding:11px 12px;border-bottom:1px solid #eee;font-size:13.5px}
+.r{text-align:right;font-variant-numeric:tabular-nums}
+.total td{font-weight:700;font-size:15px;border-top:2px solid #212121;border-bottom:none}
+.note{font-size:11.5px;color:#8a919c;line-height:1.7;margin-top:24px}
+.print-btn{position:fixed;top:20px;right:20px;padding:9px 16px;background:#2c7fdf;color:#fff;border:none;border-radius:8px;font-family:inherit;font-weight:600;cursor:pointer}
+@media print{.print-btn{display:none}}
+</style>
+</head>
+<body>
+<button class="print-btn" onclick="window.print()">인쇄 · PDF 저장</button>
+<h1>청구서</h1>
+<div class="sub">INVOICE · 2026-07분 AI 어시스턴트 사용료</div>
+<div class="head">
+  <div><b>공급자</b><br>싱크웍스<br>AI 어시스턴트 운영팀</div>
+  <div style="text-align:right"><b>공급받는자</b><br>맑은물에 홀딩스<br>청구서 번호: INV-202607-001<br>확정일: 2026-09-03</div>
+</div>
+<table>
+  <tr><th>항목</th><th class="r">사용량</th><th class="r">금액 (USD)</th></tr>
+  <tr><td>AI 어시스턴트 사용료 (2026-07) — GPT-5 mini 토큰 사용분</td>
+      <td class="r">18,200,000 tk</td>
+      <td class="r">$5.33</td></tr>
+  <tr><td>부가가치세 (10%)</td><td class="r"></td><td class="r">$0.53</td></tr>
+  <tr class="total"><td>합계</td><td class="r"></td><td class="r">$5.86 <span style="font-size:12px;color:#8a919c">(약 7,980원)</span></td></tr>
+</table>
+<div class="note">
+  · 원화 환산은 청구서 발행 시점 환율 기준 참고값이며, 실제 결제 통화·환율은 계약 조건을 따릅니다.<br>
+  · 사용량 상세는 관리자 페이지(사용자별 사용량 · CSV)에서 확인하실 수 있습니다.<br>
+  · 입금 계좌·결제 조건은 계약서를 참조해 주세요. 문의: 싱크웍스 운영팀
+</div>
+<div style="position:fixed;left:50%;bottom:14px;transform:translateX(-50%);z-index:9999;background:#1c2333;color:#fff;font:600 12px Pretendard,sans-serif;padding:8px 16px;border-radius:20px;opacity:.92">정적 데모 스냅샷 — 모든 수치·인명은 더미 데이터입니다</div></body>
+</html>

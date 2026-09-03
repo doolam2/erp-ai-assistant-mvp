@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>접근 감사 로그 · 맑은물에 ERP</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="static/admin.css">
+</head>
+<body>
+<div class="app">
+  <nav class="lnb">
+    <div class="lnb-brand">
+      <b>맑은물에 ERP</b>
+      <span class="badge">AI 어시스턴트 관리자</span>
+    </div>
+    <div class="lnb-menu">
+    <div class="lnb-group">모니터링</div>
+    <a class="lnb-item " href="dash.html">토큰 사용량 대시보드</a>
+    <a class="lnb-item " href="users.html">사용자별 사용량</a>
+    <a class="lnb-item " href="logs.html">응답 로그</a>
+    <a class="lnb-item " href="alerts.html">임계치 알림<span class="count">4</span></a>
+    <div class="lnb-group">설정</div>
+    <a class="lnb-item " href="ai_users.html">AI 사용자 명단</a>
+    <a class="lnb-item active" href="audit.html">접근 감사 로그</a>
+    <a class="lnb-item " href="model.html">모델 · API 설정</a>
+  </div>
+  </nav>
+  <div class="main">
+    <header class="topbar">
+      <div class="title">
+        <b>설정 · 접근 감사 로그</b>
+        <span>로그인 성공/실패 · 잠금 · 설정 변경 · 화면 방문 — 90일 보관 · 수정·삭제 불가</span>
+      </div>
+      <div class="spacer"></div>
+      
+<a class="btn btn-outline" href="#" onclick="return false">CSV 내보내기</a>
+
+      <div class="admin-user"><span class="avatar"></span>demo-admin@syncworks.demo
+        <a href="sa_home.html" style="margin-left:10px;font-size:12px;font-weight:600">수퍼어드민 →</a>
+        <a href="#" onclick="return false" style="margin-left:10px;font-size:12px">로그아웃</a></div>
+    </header>
+    <div class="content">
+      
+<div class="filter-bar">
+  <label class="chip">이벤트:
+    <select onchange="location.href='/audit?event='+this.value+'&q='">
+      <option value="">전체</option>
+      
+      <option value="login" >로그인</option>
+      
+      <option value="login_fail" >로그인 실패</option>
+      
+      <option value="lockout" >계정 잠금</option>
+      
+      <option value="logout" >로그아웃</option>
+      
+      <option value="setting_change" >설정 변경</option>
+      
+      <option value="page_view" >화면 방문</option>
+      
+    </select>
+  </label>
+  <form method="get" style="display:flex;gap:8px;align-items:center">
+    <input type="hidden" name="event" value="">
+    <label class="chip"><input name="q" placeholder="이메일 · IP 검색…" value=""></label>
+    <button class="btn btn-primary">검색</button>
+  </form>
+  <span class="meta" style="margin-left:auto;font-size:11.5px;color:var(--text-muted)">
+    누적 12건 — 실패 1 · 잠금 1
+  </span>
+</div>
+
+<div class="panel">
+  <div class="panel-head">
+    <h2>접근 기록 · 12건</h2>
+    <span class="meta">최신순 · 최대 300건 표시 · 조회 15:04</span>
+  </div>
+  
+  <table class="grid">
+    <tr><th>시각</th><th>계정</th><th>이벤트</th><th>결과</th><th>IP</th><th>상세</th></tr>
+    
+    <tr>
+      <td class="text-muted" style="white-space:nowrap">2026-09-03 15:04:33</td>
+      <td>demo-admin@syncworks.demo</td>
+      <td>
+        
+        화면 방문
+      </td>
+      <td>
+        <span class="text-muted">—</span>
+      </td>
+      <td class="text-muted">127.0.0.1</td>
+      <td class="text-muted" style="font-size:12px">/audit</td>
+    </tr>
+    
+    <tr>
+      <td class="text-muted" style="white-space:nowrap">2026-09-03 15:04:33</td>
+      <td>demo-admin@syncworks.demo</td>
+      <td>
+        
+        화면 방문
+      </td>
+      <td>
+        <span class="text-muted">—</span>
+      </td>
+      <td class="text-muted">127.0.0.1</td>
+      <td class="text-muted" style="font-size:12px">/alerts</td>
+    </tr>
+    
+    <tr>
+      <td class="text-muted" style="white-space:nowrap">2026-09-03 15:04:33</td>
+      <td>demo-admin@syncworks.demo</td>
+      <td>
+        
+        화면 방문
+      </td>
+      <td>
+        <span class="text-muted">—</span>
+      </td>
+      <td class="text-muted">127.0.0.1</td>
+      <td class="text-muted" style="font-size:12px">/thresholds</td>
+    </tr>
+    
+    <tr>
+      <td class="text-muted" style="white-space:nowrap">2026-09-03 15:04:33</td>
+      <td>demo-admin@syncworks.demo</td>
+      <td>
+        
+        화면 방문
+      </td>
+      <td>
+        <span class="text-muted">—</span>
+      </td>
+      <td class="text-muted">127.0.0.1</td>
+      <td class="text-muted" style="font-size:12px">/users</td>
+    </tr>
+    
+    <tr>
+      <td class="text-muted" style="white-space:nowrap">2026-09-03 15:04:33</td>
+      <td>demo-admin@syncworks.demo</td>
+      <td>
+        
+        화면 방문
+      </td>
+      <td>
+        <span class="text-muted">—</span>
+      </td>
+      <td class="text-muted">127.0.0.1</td>
+      <td class="text-muted" style="font-size:12px">/</td>
+    </tr>
+    
+    <tr>
+      <td class="text-muted" style="white-space:nowrap">2026-09-03 15:04:33</td>
+      <td>system</td>
+      <td>
+        
+        설정 변경
+      </td>
+      <td>
+        <span class="tag ok">성공</span>
+        
+      </td>
+      <td class="text-muted">127.0.0.1</td>
+      <td class="text-muted" style="font-size:12px">환율 자동 갱신: 1380 → 1361 (open.er-api.com)</td>
+    </tr>
+    
+    <tr>
+      <td class="text-muted" style="white-space:nowrap">2026-09-03 15:04:33</td>
+      <td>demo-admin@syncworks.demo</td>
+      <td>
+        
+        로그아웃
+      </td>
+      <td>
+        <span class="text-muted">—</span>
+      </td>
+      <td class="text-muted">100.64.0.12</td>
+      <td class="text-muted" style="font-size:12px">—</td>
+    </tr>
+    
+    <tr>
+      <td class="text-muted" style="white-space:nowrap">2026-09-03 15:04:33</td>
+      <td>—</td>
+      <td>
+        
+        계정 잠금
+      </td>
+      <td>
+        <span class="text-muted">—</span>
+      </td>
+      <td class="text-muted">100.64.0.77</td>
+      <td class="text-muted" style="font-size:12px">—</td>
+    </tr>
+    
+    <tr>
+      <td class="text-muted" style="white-space:nowrap">2026-09-03 15:04:33</td>
+      <td>—</td>
+      <td>
+        
+        로그인 실패
+      </td>
+      <td>
+        <span class="text-muted">—</span>
+      </td>
+      <td class="text-muted">100.64.0.77</td>
+      <td class="text-muted" style="font-size:12px">—</td>
+    </tr>
+    
+    <tr>
+      <td class="text-muted" style="white-space:nowrap">2026-09-03 15:04:33</td>
+      <td>demo-admin@syncworks.demo</td>
+      <td>
+        
+        설정 변경
+      </td>
+      <td>
+        <span class="text-muted">—</span>
+      </td>
+      <td class="text-muted">100.64.0.12</td>
+      <td class="text-muted" style="font-size:12px">—</td>
+    </tr>
+    
+    <tr>
+      <td class="text-muted" style="white-space:nowrap">2026-09-03 15:04:33</td>
+      <td>demo-admin@syncworks.demo</td>
+      <td>
+        
+        화면 방문
+      </td>
+      <td>
+        <span class="text-muted">—</span>
+      </td>
+      <td class="text-muted">100.64.0.12</td>
+      <td class="text-muted" style="font-size:12px">—</td>
+    </tr>
+    
+    <tr>
+      <td class="text-muted" style="white-space:nowrap">2026-09-03 15:04:33</td>
+      <td>demo-admin@syncworks.demo</td>
+      <td>
+        
+        로그인
+      </td>
+      <td>
+        <span class="tag ok">성공</span>
+        
+      </td>
+      <td class="text-muted">100.64.0.12</td>
+      <td class="text-muted" style="font-size:12px">—</td>
+    </tr>
+    
+  </table>
+  
+</div>
+
+<div class="note">기록은 90일 경과 시 자동 삭제 · 이 로그는 읽기 전용이며 관리자 화면에서 수정·삭제할 수 없습니다 · 관리자 화면 사용 분석은 GA 대신 이 화면 방문 이벤트를 사용합니다(애널리틱스 정책).</div>
+
+    </div>
+  </div>
+</div>
+<div style="position:fixed;left:50%;bottom:14px;transform:translateX(-50%);z-index:9999;background:#1c2333;color:#fff;font:600 12px Pretendard,sans-serif;padding:8px 16px;border-radius:20px;opacity:.92">정적 데모 스냅샷 — 모든 수치·인명은 더미 데이터입니다</div></body>
+</html>

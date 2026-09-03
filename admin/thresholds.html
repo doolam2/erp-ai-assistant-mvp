@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>임계치 설정 · 맑은물에 ERP</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="static/admin.css">
+</head>
+<body>
+<div class="app">
+  <nav class="lnb">
+    <div class="lnb-brand">
+      <b>맑은물에 ERP</b>
+      <span class="badge">AI 어시스턴트 관리자</span>
+    </div>
+    <div class="lnb-menu">
+    <div class="lnb-group">모니터링</div>
+    <a class="lnb-item " href="dash.html">토큰 사용량 대시보드</a>
+    <a class="lnb-item " href="users.html">사용자별 사용량</a>
+    <a class="lnb-item " href="logs.html">응답 로그</a>
+    <a class="lnb-item active" href="alerts.html">임계치 알림<span class="count">4</span></a>
+    <div class="lnb-group">설정</div>
+    <a class="lnb-item " href="ai_users.html">AI 사용자 명단</a>
+    <a class="lnb-item " href="audit.html">접근 감사 로그</a>
+    <a class="lnb-item " href="model.html">모델 · API 설정</a>
+  </div>
+  </nav>
+  <div class="main">
+    <header class="topbar">
+      <div class="title">
+        <b>임계치 알림 · 설정</b>
+        <span>전체 기본값 + 사람별 예외 (R3) · 80% 예고 → 100% 초과 통지 · 매월 1일 초기화</span>
+      </div>
+      <div class="spacer"></div>
+      
+<a class="btn btn-ghost" href="alerts.html">알림 이력</a>
+<button class="btn btn-primary" onclick="document.getElementById('ovDialog').showModal()">+ 예외 추가</button>
+
+      <div class="admin-user"><span class="avatar"></span>demo-admin@syncworks.demo
+        <a href="sa_home.html" style="margin-left:10px;font-size:12px;font-weight:600">수퍼어드민 →</a>
+        <a href="#" onclick="return false" style="margin-left:10px;font-size:12px">로그아웃</a></div>
+    </header>
+    <div class="content">
+      
+<div class="panel" style="max-width:760px">
+  <div class="panel-head"><h2>기본 설정 (전체 공통)</h2><span class="meta">변경 즉시 전 화면 반영 · 감사 로그 기록</span></div>
+  <form method="post" action="#" onsubmit="return false" class="settings-form">
+    <label>기본 배정량 (토큰)
+      <input name="default_quota" value="15,000,000" inputmode="numeric">
+      <span class="hint">사람별 예외가 없는 모든 사용자에게 적용 · 현재 15M</span>
+    </label>
+    <label>월 예산 (토큰)
+      <input name="budget" value="30,000,000" inputmode="numeric">
+      <span class="hint">대시보드 예산 게이지 기준 · 현재 30M</span>
+    </label>
+    <label>원화 환율 (USD→KRW)
+      <input name="krw" value="1361" inputmode="numeric">
+      <span class="hint">예상 비용 원화 병기용 — 매일 자동 갱신(환율 API) · 수동 저장해도 다음 날 자동으로 덮입니다</span>
+    </label>
+    <button class="btn btn-primary">저장</button>
+  </form>
+</div>
+
+<div class="panel">
+  <div class="panel-head">
+    <h2>사람별 예외 · 2건</h2>
+    <span class="meta">우선순위: 사용자 예외 › 부서 예외 › 기본값 · 조회 15:04</span>
+  </div>
+  
+  <table class="grid">
+    <tr><th>대상</th><th>유형</th><th class="r">한도</th><th>사유</th><th>수정</th><th class="r"></th></tr>
+    
+    <tr>
+      <td><b>생산팀</b></td>
+      <td><span class="tag">부서</span></td>
+      <td class="r"><b>0.5M</b></td>
+      <td class="text-muted">표준 배정</td>
+      <td class="text-muted" style="font-size:12px">2026-09-03 15:04 · demo-admin</td>
+      <td class="r">
+        <button class="btn btn-ghost" style="padding:5px 10px;font-size:12px"
+          onclick="askDelete(2, '생산팀')">삭제</button>
+      </td>
+    </tr>
+    
+    <tr>
+      <td><b>김하늘 · 물류팀</b></td>
+      <td><span class="tag">사용자</span></td>
+      <td class="r"><b>0.9M</b></td>
+      <td class="text-muted">분기 결산 담당</td>
+      <td class="text-muted" style="font-size:12px">2026-09-03 15:04 · demo-admin</td>
+      <td class="r">
+        <button class="btn btn-ghost" style="padding:5px 10px;font-size:12px"
+          onclick="askDelete(1, '김하늘 · 물류팀')">삭제</button>
+      </td>
+    </tr>
+    
+  </table>
+  
+</div>
+
+<div class="note">알림 정책: 80% 도달 예고(본인) → 100% 초과 통지(본인+관리자) · 각 1회 · 메일 발송은 SMTP 확보 전까지 기록만 (알림 이력에서 확인)</div>
+
+<!-- 예외 추가 모달 (AF-09) -->
+<dialog id="ovDialog" class="modal">
+  <form method="post" action="#" onsubmit="return false">
+    <h3>임계치 예외 추가</h3>
+    <p class="modal-sub">이미 예외가 있는 대상을 선택하면 수정으로 처리됩니다 (이중 등록 없음)</p>
+    <label>대상 유형
+      <select name="target_type" id="ovType" onchange="ovTypeChange()">
+        <option value="user">사용자</option>
+        <option value="dept">부서</option>
+      </select>
+    </label>
+    <label id="ovUserRow">대상 사용자
+      <select name="target_id" id="ovUser" onchange="syncLabel(this)">
+        
+        <option value="104" data-label="정민서 · 경영지원팀">정민서 · 경영지원팀 — 이번 달 14%</option>
+        
+        <option value="101" data-label="김하늘 · 물류팀">김하늘 · 물류팀 — 이번 달 216%</option>
+        
+        <option value="108" data-label="서은우 · 경영지원팀">서은우 · 경영지원팀 — 이번 달 12%</option>
+        
+        <option value="105" data-label="최지우 · 물류팀">최지우 · 물류팀 — 이번 달 12%</option>
+        
+        <option value="107" data-label="오시우 · 품질팀">오시우 · 품질팀 — 이번 달 7%</option>
+        
+        <option value="103" data-label="이서준 · 품질팀">이서준 · 품질팀 — 이번 달 6%</option>
+        
+        <option value="110" data-label="임도담 · 물류팀">임도담 · 물류팀 — 이번 달 2%</option>
+        
+        <option value="109" data-label="문라온 · 생산팀">문라온 · 생산팀 — 이번 달 66%</option>
+        
+        <option value="106" data-label="한예린 · 생산팀">한예린 · 생산팀 — 이번 달 53%</option>
+        
+        <option value="102" data-label="박도윤 · 생산팀">박도윤 · 생산팀 — 이번 달 35%</option>
+        
+      </select>
+    </label>
+    <label id="ovDeptRow" hidden>대상 부서
+      <select name="target_id_dept" id="ovDept" disabled onchange="syncLabel(this)">
+        <option value="경영지원팀" data-label="경영지원팀">경영지원팀</option><option value="물류팀" data-label="물류팀">물류팀</option><option value="생산팀" data-label="생산팀">생산팀</option><option value="품질팀" data-label="품질팀">품질팀</option>
+        <option value="(부서 미지정)" data-label="(부서 미지정)">(부서 미지정)</option>
+      </select>
+    </label>
+    <input type="hidden" name="target_label" id="ovLabel">
+    <label>한도 (백만 토큰)
+      <input name="quota_m" placeholder="예: 20 → 20M" inputmode="decimal" required>
+    </label>
+    <label>사유
+      <input name="reason" placeholder="예: 재고 분석 업무 급증 (선택)">
+    </label>
+    <div class="modal-actions">
+      <button type="button" class="btn btn-ghost" onclick="document.getElementById('ovDialog').close()">취소</button>
+      <button class="btn btn-primary" onclick="beforeSubmit()">저장</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- 삭제 확인 (AF-09) -->
+<dialog id="delDialog" class="modal">
+  <form method="post" action="#" onsubmit="return false">
+    <h3>예외를 삭제할까요?</h3>
+    <p class="modal-sub"><b id="delTarget"></b>의 예외를 삭제하면 기본 배정량으로 돌아갑니다.<br>알림 이력은 보존됩니다.</p>
+    <input type="hidden" name="id" id="delId">
+    <div class="modal-actions">
+      <button type="button" class="btn btn-ghost" onclick="document.getElementById('delDialog').close()">취소</button>
+      <button class="btn btn-primary" style="background:var(--danger)">삭제</button>
+    </div>
+  </form>
+</dialog>
+
+<script>
+function ovTypeChange(){
+  var isUser = document.getElementById('ovType').value === 'user';
+  document.getElementById('ovUserRow').hidden = !isUser;
+  document.getElementById('ovDeptRow').hidden = isUser;
+  document.getElementById('ovUser').disabled = !isUser;
+  document.getElementById('ovUser').name = isUser ? 'target_id' : 'x';
+  document.getElementById('ovDept').disabled = isUser;
+  document.getElementById('ovDept').name = isUser ? 'x' : 'target_id';
+  syncLabel(isUser ? document.getElementById('ovUser') : document.getElementById('ovDept'));
+}
+function syncLabel(sel){
+  var opt = sel.options[sel.selectedIndex];
+  document.getElementById('ovLabel').value = opt ? (opt.dataset.label || opt.text) : '';
+}
+function beforeSubmit(){ syncLabel(document.getElementById('ovType').value==='user' ? document.getElementById('ovUser') : document.getElementById('ovDept')); }
+function askDelete(id, label){
+  document.getElementById('delId').value = id;
+  document.getElementById('delTarget').textContent = label;
+  document.getElementById('delDialog').showModal();
+}
+syncLabel(document.getElementById('ovUser'));
+</script>
+
+    </div>
+  </div>
+</div>
+<div style="position:fixed;left:50%;bottom:14px;transform:translateX(-50%);z-index:9999;background:#1c2333;color:#fff;font:600 12px Pretendard,sans-serif;padding:8px 16px;border-radius:20px;opacity:.92">정적 데모 스냅샷 — 모든 수치·인명은 더미 데이터입니다</div></body>
+</html>

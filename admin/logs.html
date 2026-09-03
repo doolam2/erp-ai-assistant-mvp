@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>응답 로그 · 맑은물에 ERP</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="static/admin.css">
+</head>
+<body>
+<div class="app">
+  <nav class="lnb">
+    <div class="lnb-brand">
+      <b>맑은물에 ERP</b>
+      <span class="badge">AI 어시스턴트 관리자</span>
+    </div>
+    <div class="lnb-menu">
+    <div class="lnb-group">모니터링</div>
+    <a class="lnb-item " href="dash.html">토큰 사용량 대시보드</a>
+    <a class="lnb-item " href="users.html">사용자별 사용량</a>
+    <a class="lnb-item active" href="logs.html">응답 로그</a>
+    <a class="lnb-item " href="alerts.html">임계치 알림<span class="count">4</span></a>
+    <div class="lnb-group">설정</div>
+    <a class="lnb-item " href="ai_users.html">AI 사용자 명단</a>
+    <a class="lnb-item " href="audit.html">접근 감사 로그</a>
+    <a class="lnb-item " href="model.html">모델 · API 설정</a>
+  </div>
+  </nav>
+  <div class="main">
+    <header class="topbar">
+      <div class="title">
+        <b>응답 로그</b>
+        <span>모든 질의의 질문·답변 기록 — 품질 저하 지점을 찾습니다 (빈 응답 = E7 후보)</span>
+      </div>
+      <div class="spacer"></div>
+      
+<a class="btn btn-outline" href="#" onclick="return false">CSV 내보내기</a>
+
+      <div class="admin-user"><span class="avatar"></span>demo-admin@syncworks.demo
+        <a href="sa_home.html" style="margin-left:10px;font-size:12px;font-weight:600">수퍼어드민 →</a>
+        <a href="#" onclick="return false" style="margin-left:10px;font-size:12px">로그아웃</a></div>
+    </header>
+    <div class="content">
+      
+<div class="filter-bar">
+  <div class="period-wrap">
+    <button type="button" class="chip period-btn" onclick="document.getElementById('periodPop').hidden=!document.getElementById('periodPop').hidden">
+      2026년 9월 (이번 달)
+      <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3.5 6l4.5 4.5L12.5 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="popover" id="periodPop" hidden>
+      <div class="pop-presets">
+        
+        <a class="pop-item " href="#" onclick="return false">오늘</a>
+        
+        <a class="pop-item " href="#" onclick="return false">최근 7일</a>
+        
+        <a class="pop-item " href="#" onclick="return false">최근 30일</a>
+        
+        <a class="pop-item on" href="#" onclick="return false">이번 달</a>
+        
+        <a class="pop-item " href="#" onclick="return false">지난달</a>
+        
+        <a class="pop-item " href="#" onclick="return false">전체</a>
+        
+        <span class="pop-item ">직접 지정</span>
+      </div>
+      <form class="pop-cal" method="get" action="#" onsubmit="return false" id="periodForm">
+        <input type="hidden" name="p" value="custom"><input type="hidden" name="q" value=""><input type="hidden" name="status" value="">
+        <input type="hidden" name="s" id="hidStart" value="">
+        <input type="hidden" name="e" id="hidEnd" value="">
+        <div class="cal-cols">
+          <div class="cal-col">
+            <div class="cal-label">시작일 <b id="lblStart">선택하세요</b></div>
+            <input type="text" class="fp-cal-input" id="fpStart" tabindex="-1">
+          </div>
+          <div class="cal-col">
+            <div class="cal-label">종료일 <b id="lblEnd">선택하세요</b></div>
+            <input type="text" class="fp-cal-input" id="fpEnd" tabindex="-1">
+          </div>
+        </div>
+        <div class="cal-foot">
+          <span class="pop-note" id="rangeNote">시작일과 종료일을 선택하세요 — 미래 날짜 선택 불가</span>
+          <span class="cal-actions">
+            <button type="button" class="btn btn-outline" onclick="document.getElementById('periodPop').hidden=true">취소</button>
+            <button class="btn btn-primary" id="applyBtn">적용</button>
+          </span>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  <span class="meta" style="margin-left:auto;font-size:11.5px;color:var(--text-muted)">프리셋은 클릭 즉시 적용됩니다</span>
+</div>
+<link rel="stylesheet" href="static/vendor/flatpickr.min.css">
+<script src="static/vendor/flatpickr.min.js"></script>
+<script src="static/vendor/flatpickr.ko.js"></script>
+<script>
+(function(){
+  var hidS = document.getElementById('hidStart'), hidE = document.getElementById('hidEnd');
+  var lblS = document.getElementById('lblStart'), lblE = document.getElementById('lblEnd');
+  var note = document.getElementById('rangeNote');
+  function upd(){
+    lblS.textContent = hidS.value || '선택하세요';
+    lblE.textContent = hidE.value || '선택하세요';
+    if (hidS.value && hidE.value) {
+      var a = new Date(hidS.value), b = new Date(hidE.value);
+      var days = Math.round(Math.abs(b - a) / 86400000) + 1;
+      note.textContent = '선택 기간 ' + days + '일 — 적용 시 화면 전체(카드·표·그래프)에 반영';
+    }
+  }
+  function koHeader(_d, _s, inst){
+    var el = inst.monthNav && inst.monthNav.querySelector('.flatpickr-current-month');
+    if (el) el.textContent = inst.currentYear + '년 ' + (inst.currentMonth + 1) + '월';
+  }
+  var opts = { locale: 'ko', inline: true, maxDate: 'today', dateFormat: 'Y-m-d', monthSelectorType: 'static',
+               onReady: koHeader, onMonthChange: koHeader, onYearChange: koHeader };
+  flatpickr('#fpStart', Object.assign({}, opts, {
+    defaultDate: hidS.value || null,
+    onChange: function(_, str){ hidS.value = str; upd(); }
+  }));
+  flatpickr('#fpEnd', Object.assign({}, opts, {
+    defaultDate: hidE.value || 'today',
+    onChange: function(_, str){ hidE.value = str; upd(); }
+  }));
+  if (!hidE.value) hidE.value = flatpickr.formatDate(new Date(), 'Y-m-d');
+  upd();
+  document.getElementById('periodForm').addEventListener('submit', function(ev){
+    if (!hidS.value || !hidE.value) {
+      ev.preventDefault();
+      note.textContent = '시작일과 종료일을 모두 선택해야 적용됩니다';
+    }
+  });
+  document.addEventListener('click', function(e){
+    var pop = document.getElementById('periodPop');
+    if (!pop || pop.hidden) return;
+    if (!e.target.closest('.period-wrap')) pop.hidden = true;
+  });
+})();
+</script>
+
+<div class="cards" style="grid-template-columns:repeat(3,minmax(160px,240px))">
+  <div class="card"><div class="label">응답 수</div><div class="num">8<small> 건</small></div><div class="sub">2026년 9월 (이번 달) · 최대 100건 표시</div></div>
+  <div class="card"><div class="label">빈 응답 (실패 후보)</div>
+    <div class="num danger">1<small> 건</small></div>
+    <div class="sub">12.5% — 세션 만료·오류 추정</div></div>
+  <div class="card"><div class="label">평균 출력 토큰</div><div class="num">330</div><div class="sub">응답 길이 지표</div></div>
+</div>
+
+<div class="filter-bar">
+  <form method="get" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+    <input type="hidden" name="p" value="month">
+    
+    <label class="chip">상태:
+      <select name="status" onchange="this.form.submit()">
+        <option value="">전체</option>
+        <option value="ok" >정상</option>
+        <option value="empty" >빈 응답</option>
+      </select>
+    </label>
+    <label class="chip"><input name="q" placeholder="질문 내용 검색…" value=""></label>
+    <button class="btn btn-primary">검색</button>
+  </form>
+</div>
+
+<div class="panel">
+  <div class="panel-head"><h2>최근 질의 · 8건</h2><span class="meta">행 클릭 → 원본 상세 · 조회 15:04</span></div>
+  
+  <table class="grid">
+    <tr><th>시각</th><th>사용자</th><th>질문</th><th>답변 미리보기</th><th class="r">In</th><th class="r">Out</th><th>상태</th></tr>
+    
+    <tr onclick="location.href='/logs/9001'" style="cursor:pointer">
+      <td class="text-muted" style="white-space:nowrap">08-25 14:50</td>
+      <td>김하늘</td>
+      <td style="max-width:280px"><b>이번 달 두부 확정수량 얼마야?</b>
+        </td>
+      <td class="text-muted" style="max-width:300px">2,352,092개입니다. 조회 테이블: plans …</td>
+      <td class="r text-muted">4,404</td>
+      <td class="r text-muted">463</td>
+      <td><span class="tag ok">정상</span></td>
+    </tr>
+    
+    <tr onclick="location.href='/logs/9002'" style="cursor:pointer">
+      <td class="text-muted" style="white-space:nowrap">08-25 14:47</td>
+      <td>박도윤</td>
+      <td style="max-width:280px"><b>창고별 재고 품목 수 알려줘</b>
+        </td>
+      <td class="text-muted" style="max-width:300px">홀딩스물류사업부 7,887개 품목 외 … sources: storage_stocks</td>
+      <td class="r text-muted">3,671</td>
+      <td class="r text-muted">481</td>
+      <td><span class="tag ok">정상</span></td>
+    </tr>
+    
+    <tr onclick="location.href='/logs/9003'" style="cursor:pointer">
+      <td class="text-muted" style="white-space:nowrap">08-25 14:44</td>
+      <td>이서준</td>
+      <td style="max-width:280px"><b>법인별 생산량 나눠서 보여줘</b>
+        </td>
+      <td class="text-muted" style="max-width:300px">꿈꾸는콩 893,137 / 맑은동해 838,420 … confidence: high</td>
+      <td class="r text-muted">3,651</td>
+      <td class="r text-muted">183</td>
+      <td><span class="tag ok">정상</span></td>
+    </tr>
+    
+    <tr onclick="location.href='/logs/9004'" style="cursor:pointer">
+      <td class="text-muted" style="white-space:nowrap">08-25 14:41</td>
+      <td>정민서</td>
+      <td style="max-width:280px"><b>지난주 주문 몇 건이야?</b>
+        </td>
+      <td class="text-muted" style="max-width:300px">1,204건입니다. 기간: 최근 7일 …</td>
+      <td class="r text-muted">3,345</td>
+      <td class="r text-muted">503</td>
+      <td><span class="tag ok">정상</span></td>
+    </tr>
+    
+    <tr onclick="location.href='/logs/9005'" style="cursor:pointer">
+      <td class="text-muted" style="white-space:nowrap">08-25 14:38</td>
+      <td>최지우</td>
+      <td style="max-width:280px"><b>소비기한 임박 재고 있어?</b>
+        </td>
+      <td class="text-muted" style="max-width:300px">7일 내 도래 6건 — 두부 300g(D-3) 우선 출고 권장 …</td>
+      <td class="r text-muted">3,320</td>
+      <td class="r text-muted">297</td>
+      <td><span class="tag ok">정상</span></td>
+    </tr>
+    
+    <tr onclick="location.href='/logs/9006'" style="cursor:pointer">
+      <td class="text-muted" style="white-space:nowrap">08-25 14:35</td>
+      <td>한예린</td>
+      <td style="max-width:280px"><b>원자재 재고 얼마나 남았어?</b>
+        </td>
+      <td class="text-muted" style="max-width:300px">storage_stocks 기준 9,137,608 — 재고 테이블 이원화 고지 …</td>
+      <td class="r text-muted">3,338</td>
+      <td class="r text-muted">196</td>
+      <td><span class="tag ok">정상</span></td>
+    </tr>
+    
+    <tr onclick="location.href='/logs/9007'" style="cursor:pointer">
+      <td class="text-muted" style="white-space:nowrap">08-25 14:32</td>
+      <td>오시우</td>
+      <td style="max-width:280px"><b>불량률 알려줘</b>
+        </td>
+      <td class="text-muted" style="max-width:300px"><span class="text-muted">—</span></td>
+      <td class="r text-muted">3,876</td>
+      <td class="r text-muted">216</td>
+      <td><span class="tag danger">빈 응답</span></td>
+    </tr>
+    
+    <tr onclick="location.href='/logs/9008'" style="cursor:pointer">
+      <td class="text-muted" style="white-space:nowrap">08-25 14:29</td>
+      <td>서은우</td>
+      <td style="max-width:280px"><b>낫또 재고 소진일 계산해줘</b>
+        </td>
+      <td class="text-muted" style="max-width:300px">재고 1,234 ÷ 일평균 17.1 = 약 72일 (30일 평균 가정) …</td>
+      <td class="r text-muted">4,252</td>
+      <td class="r text-muted">301</td>
+      <td><span class="tag ok">정상</span></td>
+    </tr>
+    
+  </table>
+  
+</div>
+
+<div class="note">빈 응답은 세션 만료(E7)·오류로 200이 온 경우가 대부분 — 개발팀 C1 항목의 실측 근거로 활용 · sources·confidence 필드는 응답 규격 구조화(C4) 이후 표시됩니다.</div>
+
+    </div>
+  </div>
+</div>
+<div style="position:fixed;left:50%;bottom:14px;transform:translateX(-50%);z-index:9999;background:#1c2333;color:#fff;font:600 12px Pretendard,sans-serif;padding:8px 16px;border-radius:20px;opacity:.92">정적 데모 스냅샷 — 모든 수치·인명은 더미 데이터입니다</div></body>
+</html>

@@ -1,0 +1,497 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>토큰 사용량 대시보드 · 맑은물에 ERP</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="static/admin.css">
+</head>
+<body>
+<div class="app">
+  <nav class="lnb">
+    <div class="lnb-brand">
+      <b>맑은물에 ERP</b>
+      <span class="badge">AI 어시스턴트 관리자</span>
+    </div>
+    <div class="lnb-menu">
+    <div class="lnb-group">모니터링</div>
+    <a class="lnb-item active" href="dash.html">토큰 사용량 대시보드</a>
+    <a class="lnb-item " href="users.html">사용자별 사용량</a>
+    <a class="lnb-item " href="logs.html">응답 로그</a>
+    <a class="lnb-item " href="alerts.html">임계치 알림<span class="count">4</span></a>
+    <div class="lnb-group">설정</div>
+    <a class="lnb-item " href="ai_users.html">AI 사용자 명단</a>
+    <a class="lnb-item " href="audit.html">접근 감사 로그</a>
+    <a class="lnb-item " href="model.html">모델 · API 설정</a>
+  </div>
+  </nav>
+  <div class="main">
+    <header class="topbar">
+      <div class="title">
+        <b>토큰 사용량 대시보드</b>
+        <span>Azure OpenAI · GPT-5 mini · 사내 MVP</span>
+      </div>
+      <div class="spacer"></div>
+      
+<a class="btn btn-outline" href="#" onclick="return false">사용자별 전체보기 →</a>
+
+      <div class="admin-user"><span class="avatar"></span>demo-admin@syncworks.demo
+        <a href="sa_home.html" style="margin-left:10px;font-size:12px;font-weight:600">수퍼어드민 →</a>
+        <a href="#" onclick="return false" style="margin-left:10px;font-size:12px">로그아웃</a></div>
+    </header>
+    <div class="content">
+      
+<div class="filter-bar">
+  <div class="period-wrap">
+    <button type="button" class="chip period-btn" onclick="document.getElementById('periodPop').hidden=!document.getElementById('periodPop').hidden">
+      2026년 9월 (이번 달)
+      <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3.5 6l4.5 4.5L12.5 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="popover" id="periodPop" hidden>
+      <div class="pop-presets">
+        
+        <a class="pop-item " href="#" onclick="return false">오늘</a>
+        
+        <a class="pop-item " href="#" onclick="return false">최근 7일</a>
+        
+        <a class="pop-item " href="#" onclick="return false">최근 30일</a>
+        
+        <a class="pop-item on" href="#" onclick="return false">이번 달</a>
+        
+        <a class="pop-item " href="#" onclick="return false">지난달</a>
+        
+        <a class="pop-item " href="#" onclick="return false">전체</a>
+        
+        <span class="pop-item ">직접 지정</span>
+      </div>
+      <form class="pop-cal" method="get" action="#" onsubmit="return false" id="periodForm">
+        <input type="hidden" name="p" value="custom">
+        <input type="hidden" name="s" id="hidStart" value="">
+        <input type="hidden" name="e" id="hidEnd" value="">
+        <div class="cal-cols">
+          <div class="cal-col">
+            <div class="cal-label">시작일 <b id="lblStart">선택하세요</b></div>
+            <input type="text" class="fp-cal-input" id="fpStart" tabindex="-1">
+          </div>
+          <div class="cal-col">
+            <div class="cal-label">종료일 <b id="lblEnd">선택하세요</b></div>
+            <input type="text" class="fp-cal-input" id="fpEnd" tabindex="-1">
+          </div>
+        </div>
+        <div class="cal-foot">
+          <span class="pop-note" id="rangeNote">시작일과 종료일을 선택하세요 — 미래 날짜 선택 불가</span>
+          <span class="cal-actions">
+            <button type="button" class="btn btn-outline" onclick="document.getElementById('periodPop').hidden=true">취소</button>
+            <button class="btn btn-primary" id="applyBtn">적용</button>
+          </span>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  <span class="meta" style="margin-left:auto;font-size:11.5px;color:var(--text-muted)">프리셋은 클릭 즉시 적용됩니다</span>
+</div>
+<link rel="stylesheet" href="static/vendor/flatpickr.min.css">
+<script src="static/vendor/flatpickr.min.js"></script>
+<script src="static/vendor/flatpickr.ko.js"></script>
+<script>
+(function(){
+  var hidS = document.getElementById('hidStart'), hidE = document.getElementById('hidEnd');
+  var lblS = document.getElementById('lblStart'), lblE = document.getElementById('lblEnd');
+  var note = document.getElementById('rangeNote');
+  function upd(){
+    lblS.textContent = hidS.value || '선택하세요';
+    lblE.textContent = hidE.value || '선택하세요';
+    if (hidS.value && hidE.value) {
+      var a = new Date(hidS.value), b = new Date(hidE.value);
+      var days = Math.round(Math.abs(b - a) / 86400000) + 1;
+      note.textContent = '선택 기간 ' + days + '일 — 적용 시 화면 전체(카드·표·그래프)에 반영';
+    }
+  }
+  function koHeader(_d, _s, inst){
+    var el = inst.monthNav && inst.monthNav.querySelector('.flatpickr-current-month');
+    if (el) el.textContent = inst.currentYear + '년 ' + (inst.currentMonth + 1) + '월';
+  }
+  var opts = { locale: 'ko', inline: true, maxDate: 'today', dateFormat: 'Y-m-d', monthSelectorType: 'static',
+               onReady: koHeader, onMonthChange: koHeader, onYearChange: koHeader };
+  flatpickr('#fpStart', Object.assign({}, opts, {
+    defaultDate: hidS.value || null,
+    onChange: function(_, str){ hidS.value = str; upd(); }
+  }));
+  flatpickr('#fpEnd', Object.assign({}, opts, {
+    defaultDate: hidE.value || 'today',
+    onChange: function(_, str){ hidE.value = str; upd(); }
+  }));
+  if (!hidE.value) hidE.value = flatpickr.formatDate(new Date(), 'Y-m-d');
+  upd();
+  document.getElementById('periodForm').addEventListener('submit', function(ev){
+    if (!hidS.value || !hidE.value) {
+      ev.preventDefault();
+      note.textContent = '시작일과 종료일을 모두 선택해야 적용됩니다';
+    }
+  });
+  document.addEventListener('click', function(e){
+    var pop = document.getElementById('periodPop');
+    if (!pop || pop.hidden) return;
+    if (!e.target.closest('.period-wrap')) pop.hidden = true;
+  });
+})();
+</script>
+
+
+<div class="panel briefing">
+  <div class="panel-head">
+    <h2>운영 브리핑</h2>
+    <span class="tag">규칙 기반 v0 · AI 문장 생성은 Azure 키 확보 후</span>
+    <span class="meta">이번 주 요약 · 접속 시 자동 생성</span>
+  </div>
+  <ul class="briefing-list">
+    <li>예산 소진(69%)이 월 경과(11%)보다 빠릅니다 — 이 속도면 월말 초과 가능성이 있습니다</li><li>배정량 80% 이상 도달: 김하늘(249%), 한예린(162%), 박도윤(84%)</li>
+  </ul>
+</div>
+
+
+
+
+<div class="banner">
+  <span class="chip-warn">임계치 임박</span>
+  <span><b>한예린 · 생산팀</b> 님의 이번 달 토큰 사용량이 배정량의 <b class="text-warn">312%</b>에 도달했습니다. 초과하면 본인과 운영팀에 자동 통보됩니다.</span>
+  <span style="margin-left:auto"><button class="btn btn-ghost" disabled title="Phase 2에서 제공">알림 설정</button></span>
+</div>
+
+
+<div class="cards">
+  <div class="card">
+    <div class="label">이번 달 총 토큰</div>
+    <div class="num">20.6<small> M</small></div>
+    <div class="gauge"><i class="" style="width:69%"></i></div>
+    <div class="sub">월 예산 30M 중 <b>69%</b> 소진</div>
+  </div>
+  <div class="card">
+    <div class="label">입력 토큰 (prompt)</div>
+    <div class="num">18,432,000</div>
+    <div class="sub">$0.25 / 1M tokens · 2026년 9월 (이번 달)</div>
+  </div>
+  <div class="card">
+    <div class="label">출력 토큰 (completion)</div>
+    <div class="num">2,150,000</div>
+    <div class="sub">$2.00 / 1M tokens · 2026년 9월 (이번 달)</div>
+  </div>
+  <div class="card">
+    <div class="label">응답 수</div>
+    <div class="num">4,821<small> 건</small></div>
+    <div class="sub">캐시 읽기 6,210,000 tk</div>
+  </div>
+  <div class="card accent">
+    <div class="label">예상 비용 (이번 달)</div>
+    <div class="num">$8.91</div>
+    <div class="sub">약 12,124원 · 마크업 미적용</div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="panel-head">
+    <h2>일별 토큰 사용량</h2>
+    <span class="tag">2026년 9월 (이번 달)</span>
+    <span class="meta"><i class="dot" style="background:var(--brand)"></i> Input&nbsp;&nbsp;<i class="dot" style="background:var(--lnb-bg)"></i> Output</span>
+  </div>
+  
+  <div class="chart">
+    
+    <div class="col" title="08-12 · In 962,275 · Out 66,361 · $0.37">
+      <div class="bars">
+        <i class="out" style="height:4.7%"></i>
+        <i class="in" style="height:68.6%"></i>
+      </div>
+      <span>12</span>
+    </div>
+    
+    <div class="col" title="08-13 · In 482,627 · Out 122,357 · $0.37">
+      <div class="bars">
+        <i class="out" style="height:8.7%"></i>
+        <i class="in" style="height:34.4%"></i>
+      </div>
+      <span>13</span>
+    </div>
+    
+    <div class="col" title="08-14 · In 1,269,693 · Out 132,397 · $0.58">
+      <div class="bars">
+        <i class="out" style="height:9.4%"></i>
+        <i class="in" style="height:90.6%"></i>
+      </div>
+      <span>14</span>
+    </div>
+    
+    <div class="col" title="08-15 · In 1,005,397 · Out 75,203 · $0.40">
+      <div class="bars">
+        <i class="out" style="height:5.4%"></i>
+        <i class="in" style="height:71.7%"></i>
+      </div>
+      <span>15</span>
+    </div>
+    
+    <div class="col" title="08-16 · In 448,050 · Out 136,673 · $0.39">
+      <div class="bars">
+        <i class="out" style="height:9.7%"></i>
+        <i class="in" style="height:32.0%"></i>
+      </div>
+      <span>16</span>
+    </div>
+    
+    <div class="col" title="08-17 · In 1,210,620 · Out 87,930 · $0.48">
+      <div class="bars">
+        <i class="out" style="height:6.3%"></i>
+        <i class="in" style="height:86.3%"></i>
+      </div>
+      <span>17</span>
+    </div>
+    
+    <div class="col" title="08-18 · In 1,296,865 · Out 80,512 · $0.49">
+      <div class="bars">
+        <i class="out" style="height:5.7%"></i>
+        <i class="in" style="height:92.5%"></i>
+      </div>
+      <span>18</span>
+    </div>
+    
+    <div class="col" title="08-19 · In 798,591 · Out 86,434 · $0.37">
+      <div class="bars">
+        <i class="out" style="height:6.2%"></i>
+        <i class="in" style="height:57.0%"></i>
+      </div>
+      <span>19</span>
+    </div>
+    
+    <div class="col" title="08-20 · In 1,066,563 · Out 159,328 · $0.59">
+      <div class="bars">
+        <i class="out" style="height:11.4%"></i>
+        <i class="in" style="height:76.1%"></i>
+      </div>
+      <span>20</span>
+    </div>
+    
+    <div class="col" title="08-21 · In 570,555 · Out 98,520 · $0.34">
+      <div class="bars">
+        <i class="out" style="height:7.0%"></i>
+        <i class="in" style="height:40.7%"></i>
+      </div>
+      <span>21</span>
+    </div>
+    
+    <div class="col" title="08-22 · In 619,684 · Out 137,841 · $0.43">
+      <div class="bars">
+        <i class="out" style="height:9.8%"></i>
+        <i class="in" style="height:44.2%"></i>
+      </div>
+      <span>22</span>
+    </div>
+    
+    <div class="col" title="08-23 · In 1,135,911 · Out 172,769 · $0.63">
+      <div class="bars">
+        <i class="out" style="height:12.3%"></i>
+        <i class="in" style="height:81.0%"></i>
+      </div>
+      <span>23</span>
+    </div>
+    
+    <div class="col" title="08-24 · In 1,038,720 · Out 133,227 · $0.53">
+      <div class="bars">
+        <i class="out" style="height:9.5%"></i>
+        <i class="in" style="height:74.1%"></i>
+      </div>
+      <span>24</span>
+    </div>
+    
+    <div class="col" title="08-25 · In 960,086 · Out 145,568 · $0.53">
+      <div class="bars">
+        <i class="out" style="height:10.4%"></i>
+        <i class="in" style="height:68.5%"></i>
+      </div>
+      <span>25</span>
+    </div>
+    
+  </div>
+  
+</div>
+
+<div class="panel">
+  <div class="panel-head">
+    <h2>사용자별 토큰 사용량</h2>
+    <span class="meta">배정량 기준 · 조회 15:04 · 새로고침 시 실시간 재집계</span>
+  </div>
+  
+  <table class="grid">
+    <tr><th>사용자</th><th>부서</th><th class="r">응답 수</th><th class="r">Input</th><th class="r">Output</th><th class="r">비용</th><th class="r">배정량 사용률</th><th class="r">임계치</th></tr>
+    
+    <tr>
+      <td class="text-warn" style="font-weight:600">문라온</td>
+      <td><span class="tag ">생산팀</span></td>
+      <td class="r">473</td>
+      <td class="r">1,657,392</td>
+      <td class="r">224,202</td>
+      <td class="r"><b>$0.86</b></td>
+      <td class="r">
+        <span class="cell-quota">
+          <span class="gauge"><i class="danger" style="width:100%"></i></span>
+          <b class="text-warn">376%</b>
+        </span>
+      </td>
+      <td class="r " style="font-weight:600">0.5M <span class="tag warn" title="예외 적용">예외</span></td>
+    </tr>
+    
+    <tr>
+      <td >정민서</td>
+      <td><span class="tag ">경영지원팀</span></td>
+      <td class="r">452</td>
+      <td class="r">1,412,952</td>
+      <td class="r">225,096</td>
+      <td class="r"><b>$0.80</b></td>
+      <td class="r">
+        <span class="cell-quota">
+          <span class="gauge"><i class="" style="width:11%"></i></span>
+          <b class="">11%</b>
+        </span>
+      </td>
+      <td class="r text-muted">15M</td>
+    </tr>
+    
+    <tr>
+      <td >이서준</td>
+      <td><span class="tag ">품질팀</span></td>
+      <td class="r">454</td>
+      <td class="r">1,277,102</td>
+      <td class="r">233,356</td>
+      <td class="r"><b>$0.79</b></td>
+      <td class="r">
+        <span class="cell-quota">
+          <span class="gauge"><i class="" style="width:10%"></i></span>
+          <b class="">10%</b>
+        </span>
+      </td>
+      <td class="r text-muted">15M</td>
+    </tr>
+    
+    <tr>
+      <td class="text-warn" style="font-weight:600">김하늘</td>
+      <td><span class="tag ">물류팀</span></td>
+      <td class="r">319</td>
+      <td class="r">1,167,221</td>
+      <td class="r">119,944</td>
+      <td class="r"><b>$0.53</b></td>
+      <td class="r">
+        <span class="cell-quota">
+          <span class="gauge"><i class="danger" style="width:100%"></i></span>
+          <b class="text-warn">143%</b>
+        </span>
+      </td>
+      <td class="r " style="font-weight:600">0.9M <span class="tag warn" title="예외 적용">예외</span></td>
+    </tr>
+    
+    <tr>
+      <td class="text-warn" style="font-weight:600">박도윤</td>
+      <td><span class="tag ">생산팀</span></td>
+      <td class="r">269</td>
+      <td class="r">1,077,614</td>
+      <td class="r">105,179</td>
+      <td class="r"><b>$0.48</b></td>
+      <td class="r">
+        <span class="cell-quota">
+          <span class="gauge"><i class="danger" style="width:100%"></i></span>
+          <b class="text-warn">237%</b>
+        </span>
+      </td>
+      <td class="r " style="font-weight:600">0.5M <span class="tag warn" title="예외 적용">예외</span></td>
+    </tr>
+    
+    <tr>
+      <td >최지우</td>
+      <td><span class="tag ">물류팀</span></td>
+      <td class="r">256</td>
+      <td class="r">894,976</td>
+      <td class="r">100,096</td>
+      <td class="r"><b>$0.42</b></td>
+      <td class="r">
+        <span class="cell-quota">
+          <span class="gauge"><i class="" style="width:7%"></i></span>
+          <b class="">7%</b>
+        </span>
+      </td>
+      <td class="r text-muted">15M</td>
+    </tr>
+    
+    <tr>
+      <td >서은우</td>
+      <td><span class="tag ">경영지원팀</span></td>
+      <td class="r">234</td>
+      <td class="r">701,532</td>
+      <td class="r">96,174</td>
+      <td class="r"><b>$0.37</b></td>
+      <td class="r">
+        <span class="cell-quota">
+          <span class="gauge"><i class="" style="width:5%"></i></span>
+          <b class="">5%</b>
+        </span>
+      </td>
+      <td class="r text-muted">15M</td>
+    </tr>
+    
+    <tr>
+      <td >오시우</td>
+      <td><span class="tag ">품질팀</span></td>
+      <td class="r">212</td>
+      <td class="r">637,908</td>
+      <td class="r">72,716</td>
+      <td class="r"><b>$0.30</b></td>
+      <td class="r">
+        <span class="cell-quota">
+          <span class="gauge"><i class="" style="width:5%"></i></span>
+          <b class="">5%</b>
+        </span>
+      </td>
+      <td class="r text-muted">15M</td>
+    </tr>
+    
+    <tr>
+      <td >임도담</td>
+      <td><span class="tag ">물류팀</span></td>
+      <td class="r">175</td>
+      <td class="r">505,400</td>
+      <td class="r">88,550</td>
+      <td class="r"><b>$0.30</b></td>
+      <td class="r">
+        <span class="cell-quota">
+          <span class="gauge"><i class="" style="width:4%"></i></span>
+          <b class="">4%</b>
+        </span>
+      </td>
+      <td class="r text-muted">15M</td>
+    </tr>
+    
+    <tr>
+      <td class="text-warn" style="font-weight:600">한예린</td>
+      <td><span class="tag ">생산팀</span></td>
+      <td class="r">119</td>
+      <td class="r">385,560</td>
+      <td class="r">61,285</td>
+      <td class="r"><b>$0.22</b></td>
+      <td class="r">
+        <span class="cell-quota">
+          <span class="gauge"><i class="warn" style="width:89%"></i></span>
+          <b class="text-warn">89%</b>
+        </span>
+      </td>
+      <td class="r " style="font-weight:600">0.5M <span class="tag warn" title="예외 적용">예외</span></td>
+    </tr>
+    
+  </table>
+  
+</div>
+
+<div class="note">데이터 원천: agent_conversation_messages.usage (dev DB · 읽기 전용) · 비용은 캐시 읽기 할인 미반영(보수적 상한) · 예산·배정량·환율은 설정값 (기본 30M / 15M / 1,380원)</div>
+
+    </div>
+  </div>
+</div>
+<div style="position:fixed;left:50%;bottom:14px;transform:translateX(-50%);z-index:9999;background:#1c2333;color:#fff;font:600 12px Pretendard,sans-serif;padding:8px 16px;border-radius:20px;opacity:.92">정적 데모 스냅샷 — 모든 수치·인명은 더미 데이터입니다</div></body>
+</html>

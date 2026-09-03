@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>고객사 어드민 계정 · 싱크웍스</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="static/admin.css">
+</head>
+<body>
+<div class="app">
+  <nav class="lnb">
+    <div class="lnb-brand">
+      <b>싱크웍스</b>
+      <span class="badge">AI 어시스턴트 수퍼어드민</span>
+    </div>
+    <div class="lnb-menu">
+    <div class="lnb-group">운영</div>
+    <a class="lnb-item " href="sa_home.html">고객사 목록</a>
+    <a class="lnb-item " href="sa_billing.html">월 청구</a>
+    <a class="lnb-item " href="sa_notices.html">공지 발송</a>
+    <div class="lnb-group">품질</div>
+    <a class="lnb-item " href="sa_qa.html">QA 피드백</a>
+    <div class="lnb-group">설정</div>
+    <a class="lnb-item " href="sa_pricing.html">단가 · 마크업</a>
+    <a class="lnb-item active" href="sa_accounts.html">고객사 어드민 계정</a>
+    <a class="lnb-item" href="audit.html">접근 감사 로그</a>
+  </div>
+  </nav>
+  <div class="main">
+    <header class="topbar">
+      <div class="title">
+        <b>고객사 어드민 계정</b>
+        <span>발급 · 정지 · 재설정 — 로그인 방식은 이메일+비밀번호+OTP 동일</span>
+      </div>
+      <div class="spacer"></div>
+      
+<button class="btn btn-primary" onclick="document.getElementById('newDialog').showModal()">+ 계정 발급</button>
+
+      <div class="admin-user"><span class="avatar"></span>demo-admin@syncworks.demo
+        <a href="dash.html" style="margin-left:10px;font-size:12px">고객사 뷰</a>
+        <a href="#" onclick="return false" style="margin-left:10px;font-size:12px">로그아웃</a></div>
+    </header>
+    <div class="content">
+      
+
+
+<div class="panel">
+  <div class="panel-head"><h2>어드민 계정 · 1개</h2><span class="meta">정지 계정은 로그인 차단 · 데이터 보존 · 조회 15:04</span></div>
+  <table class="grid">
+    <tr><th>이메일</th><th>역할</th><th>소속</th><th>상태</th><th>최근 접속</th><th class="r">동작</th></tr>
+    
+    <tr>
+      <td><b>demo-admin@syncworks.demo</b></td>
+      <td><span class="tag" style="background:var(--lnb-bg);color:#fff">수퍼어드민</span></td>
+      <td class="text-muted">—</td>
+      <td><span class="tag ok">활성</span></td>
+      <td class="text-muted">—</td>
+      <td class="r" style="white-space:nowrap">
+        <form method="post" action="#" onsubmit="return false" style="display:inline">
+          <input type="hidden" name="id" value="1"><input type="hidden" name="what" value="pw">
+          <button class="btn btn-ghost" style="padding:5px 10px;font-size:12px">비번 재설정</button>
+        </form>
+        <form method="post" action="#" onsubmit="return false" style="display:inline">
+          <input type="hidden" name="id" value="1"><input type="hidden" name="what" value="otp">
+          <button class="btn btn-ghost" style="padding:5px 10px;font-size:12px">OTP 재설정</button>
+        </form>
+        
+      </td>
+    </tr>
+    
+  </table>
+</div>
+
+<dialog id="newDialog" class="modal">
+  <form method="post" action="#" onsubmit="return false">
+    <h3>고객사 어드민 발급</h3>
+    <p class="modal-sub">발급 즉시 임시 비밀번호와 OTP QR이 한 번 표시됩니다 — 안전한 채널로 전달하세요.</p>
+    <label>이메일 <input type="email" name="email" placeholder="admin@customer.co.kr" required></label>
+    <label>소속 고객사
+      <select name="tenant"><option>맑은물에 홀딩스</option></select>
+    </label>
+    <div class="modal-actions">
+      <button type="button" class="btn btn-ghost" onclick="document.getElementById('newDialog').close()">취소</button>
+      <button class="btn btn-primary">발급</button>
+    </div>
+  </form>
+</dialog>
+
+    </div>
+  </div>
+</div>
+<div style="position:fixed;left:50%;bottom:14px;transform:translateX(-50%);z-index:9999;background:#1c2333;color:#fff;font:600 12px Pretendard,sans-serif;padding:8px 16px;border-radius:20px;opacity:.92">정적 데모 스냅샷 — 모든 수치·인명은 더미 데이터입니다</div></body>
+</html>

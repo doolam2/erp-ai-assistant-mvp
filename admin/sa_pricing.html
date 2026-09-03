@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>단가 · 마크업 · 싱크웍스</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="static/admin.css">
+</head>
+<body>
+<div class="app">
+  <nav class="lnb">
+    <div class="lnb-brand">
+      <b>싱크웍스</b>
+      <span class="badge">AI 어시스턴트 수퍼어드민</span>
+    </div>
+    <div class="lnb-menu">
+    <div class="lnb-group">운영</div>
+    <a class="lnb-item " href="sa_home.html">고객사 목록</a>
+    <a class="lnb-item " href="sa_billing.html">월 청구</a>
+    <a class="lnb-item " href="sa_notices.html">공지 발송</a>
+    <div class="lnb-group">품질</div>
+    <a class="lnb-item " href="sa_qa.html">QA 피드백</a>
+    <div class="lnb-group">설정</div>
+    <a class="lnb-item active" href="sa_pricing.html">단가 · 마크업</a>
+    <a class="lnb-item " href="sa_accounts.html">고객사 어드민 계정</a>
+    <a class="lnb-item" href="audit.html">접근 감사 로그</a>
+  </div>
+  </nav>
+  <div class="main">
+    <header class="topbar">
+      <div class="title">
+        <b>단가 · 마크업 설정</b>
+        <span>원가 단가와 청구 마크업 — 수정은 이 화면에서만 · 확정된 청구서에는 소급되지 않음</span>
+      </div>
+      <div class="spacer"></div>
+      
+      <div class="admin-user"><span class="avatar"></span>demo-admin@syncworks.demo
+        <a href="dash.html" style="margin-left:10px;font-size:12px">고객사 뷰</a>
+        <a href="#" onclick="return false" style="margin-left:10px;font-size:12px">로그아웃</a></div>
+    </header>
+    <div class="content">
+      
+<div class="panel" style="max-width:760px">
+  <div class="panel-head"><h2>모델 원가 단가 (Azure 청구 기준)</h2><span class="meta">변경 즉시 전 화면·청구 예정액에 반영 · 감사 로그 기록</span></div>
+  <form method="post" action="#" onsubmit="return false" class="settings-form">
+    <label>Input (USD / 1M tokens)
+      <input name="price_in" value="0.25" inputmode="decimal">
+    </label>
+    <label>Output (USD / 1M tokens)
+      <input name="price_out" value="2.00" inputmode="decimal">
+      <span class="hint">GPT-5 mini 기준 · 비교: Claude Haiku 4.5 $1.00/$5.00 · Gemini 3.1 Flash-Lite $0.25/$1.50</span>
+    </label>
+    <button class="btn btn-primary">단가 저장</button>
+  </form>
+</div>
+
+<div class="panel">
+  <div class="panel-head"><h2>고객사별 마크업</h2><span class="meta">청구액 = 원가 × (1+율%) 또는 원가 + 정액($/1M) · 조회 15:04</span></div>
+  <table class="grid">
+    <tr><th>고객사</th><th>방식</th><th class="r">값</th><th class="r" style="width:110px"></th></tr>
+    
+    <tr>
+      <form method="post" action="#" onsubmit="return false">
+      <input type="hidden" name="tenant_id" value="1">
+      <td><b>맑은물에 홀딩스</b></td>
+      <td>
+        <select name="markup_type" class="chip" style="padding:6px 10px">
+          <option value="percent" selected>율 (%)</option>
+          <option value="flat" >정액 ($/1M)</option>
+        </select>
+      </td>
+      <td class="r"><input name="markup_value" value="30" inputmode="decimal"
+        style="width:90px;text-align:right;border:1px solid var(--border);border-radius:8px;padding:7px 9px;font-family:inherit"></td>
+      <td class="r"><button class="btn btn-ghost" style="padding:6px 12px;font-size:12px">저장</button></td>
+      </form>
+    </tr>
+    
+  </table>
+</div>
+
+<div class="panel" style="max-width:760px">
+  <div class="panel-head"><h2>외부 API 키 · 연동 토큰</h2><span class="meta">키 값은 감사 로그에 기록되지 않습니다</span></div>
+  <form method="post" action="#" onsubmit="return false" class="settings-form">
+    <label>KAMIS 인증키 (cert_key)
+      <input name="kamis_cert_key" placeholder="kamis.or.kr OpenAPI 발급">
+    </label>
+    <label>KAMIS 인증 ID (cert_id)
+      <input name="kamis_cert_id" placeholder="KAMIS 회원 ID">
+    </label>
+    <label>공공데이터포털 서비스키 (사업자상태·특일정보·기상청 공용)
+      <input name="data_go_kr_key" placeholder="data.go.kr 활용신청 후 발급 — 세 서비스 각각 활용신청 필요">
+    </label>
+    <label>오피넷 API 키 (유가)
+      <input name="opinet_key" placeholder="opinet.co.kr Open API 발급">
+    </label>
+    <label>식품안전나라 API 키 (회수·판매중지)
+      <input name="foodsafety_key" placeholder="foodsafetykorea.go.kr OpenAPI 발급">
+    </label>
+    <button class="btn btn-primary">키 저장</button>
+    <span class="hint">키 등록 즉시 해당 도구 API가 활성화됩니다 — kamis · biz-status · weather · oil · food-safety (17번 문서)</span>
+  </form>
+  <div class="note" style="margin-top:14px">개발팀 연동용 서비스 토큰 (API 호출 시 <b>X-Service-Token</b> 헤더):<br>
+    <code style="font-family:monospace;background:#f5f6f8;padding:4px 8px;border-radius:6px;display:inline-block;margin-top:4px">HWWmjZ_8jIdy4oBWIJJ9b2tnkoITqLdi</code>
+    — 대상: /api/ai-users.json · /api/tools/* (D6·D9)</div>
+</div>
+
+<div class="note">단가·마크업 변경은 이후 청구 계산부터 적용됩니다 — 이미 확정된 청구서(월 청구)는 저장 당시 금액을 유지(소급 없음) · 변경 시 고객사 공지 발송을 권장합니다 → <a href="sa_notices.html">공지 발송</a></div>
+
+    </div>
+  </div>
+</div>
+<div style="position:fixed;left:50%;bottom:14px;transform:translateX(-50%);z-index:9999;background:#1c2333;color:#fff;font:600 12px Pretendard,sans-serif;padding:8px 16px;border-radius:20px;opacity:.92">정적 데모 스냅샷 — 모든 수치·인명은 더미 데이터입니다</div></body>
+</html>

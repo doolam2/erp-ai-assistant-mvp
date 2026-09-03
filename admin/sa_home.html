@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>고객사 목록 · 싱크웍스</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="static/admin.css">
+</head>
+<body>
+<div class="app">
+  <nav class="lnb">
+    <div class="lnb-brand">
+      <b>싱크웍스</b>
+      <span class="badge">AI 어시스턴트 수퍼어드민</span>
+    </div>
+    <div class="lnb-menu">
+    <div class="lnb-group">운영</div>
+    <a class="lnb-item active" href="sa_home.html">고객사 목록</a>
+    <a class="lnb-item " href="sa_billing.html">월 청구</a>
+    <a class="lnb-item " href="sa_notices.html">공지 발송</a>
+    <div class="lnb-group">품질</div>
+    <a class="lnb-item " href="sa_qa.html">QA 피드백</a>
+    <div class="lnb-group">설정</div>
+    <a class="lnb-item " href="sa_pricing.html">단가 · 마크업</a>
+    <a class="lnb-item " href="sa_accounts.html">고객사 어드민 계정</a>
+    <a class="lnb-item" href="audit.html">접근 감사 로그</a>
+  </div>
+  </nav>
+  <div class="main">
+    <header class="topbar">
+      <div class="title">
+        <b>고객사 목록 · 운영 홈</b>
+        <span>선결제 원가와 후청구액 관리 · 이번 달 기준</span>
+      </div>
+      <div class="spacer"></div>
+      
+      <div class="admin-user"><span class="avatar"></span>demo-admin@syncworks.demo
+        <a href="dash.html" style="margin-left:10px;font-size:12px">고객사 뷰</a>
+        <a href="#" onclick="return false" style="margin-left:10px;font-size:12px">로그아웃</a></div>
+    </header>
+    <div class="content">
+      
+<div class="cards">
+  <div class="card">
+    <div class="label">Azure 원가 (선결제)</div>
+    <div class="num">$8.91</div>
+    <div class="sub">GPT-5 mini · In $0.25 / Out $2.00</div>
+  </div>
+  <div class="card">
+    <div class="label">청구 예정액 (후청구)</div>
+    <div class="num">$11.58</div>
+    <div class="sub">고객사별 마크업 적용</div>
+  </div>
+  <div class="card accent">
+    <div class="label">예상 마진</div>
+    <div class="num">$2.67</div>
+    <div class="sub">청구 − 원가</div>
+  </div>
+  <div class="card">
+    <div class="label">경고</div>
+    <div class="num ">0<small> 개사</small></div>
+    <div class="sub">계약 한도 80% 도달 고객사 없음</div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="panel-head">
+    <h2>고객사 · 1개사</h2>
+    <span class="meta">이번 달 기준 · 조회 15:04 · 새로고침 시 실시간 재집계</span>
+  </div>
+  <table class="grid">
+    <tr><th>고객사</th><th>상태</th><th class="r">사용량</th><th class="r">원가</th><th class="r">청구액</th><th class="r">계약 한도 소진율</th><th class="r">계약 한도</th><th class="r">마크업</th></tr>
+    
+    <tr>
+      <td><a href="sa_tenant.html"><b>맑은물에 홀딩스</b></a> <span class="text-muted" style="font-size:11.5px">dev ERP 연동 · 사내 MVP</span></td>
+      <td>
+        <span class="tag ok">사용중</span>
+        
+      </td>
+      <td class="r">20.6M</td>
+      <td class="r">$8.91</td>
+      <td class="r"><b>$11.58</b></td>
+      <td class="r">
+        
+        <span class="cell-quota">
+          <span class="gauge"><i class="" style="width:69%"></i></span>
+          <b class="">69%</b>
+        </span>
+        
+      </td>
+      <td class="r text-muted">30M</td>
+      <td class="r text-muted">30%</td>
+    </tr>
+    
+  </table>
+</div>
+
+<div class="note">원가·청구액은 수퍼어드민 전용 — 고객사 어드민에게는 청구가만 표시됩니다 · 단가·마크업 변경은 <a href="sa_pricing.html">단가 · 마크업</a>에서.</div>
+
+    </div>
+  </div>
+</div>
+<div style="position:fixed;left:50%;bottom:14px;transform:translateX(-50%);z-index:9999;background:#1c2333;color:#fff;font:600 12px Pretendard,sans-serif;padding:8px 16px;border-radius:20px;opacity:.92">정적 데모 스냅샷 — 모든 수치·인명은 더미 데이터입니다</div></body>
+</html>

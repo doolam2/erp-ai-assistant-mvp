@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>응답 상세 · 맑은물에 ERP</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="static/admin.css">
+</head>
+<body>
+<div class="app">
+  <nav class="lnb">
+    <div class="lnb-brand">
+      <b>맑은물에 ERP</b>
+      <span class="badge">AI 어시스턴트 관리자</span>
+    </div>
+    <div class="lnb-menu">
+    <div class="lnb-group">모니터링</div>
+    <a class="lnb-item " href="dash.html">토큰 사용량 대시보드</a>
+    <a class="lnb-item " href="users.html">사용자별 사용량</a>
+    <a class="lnb-item active" href="logs.html">응답 로그</a>
+    <a class="lnb-item " href="alerts.html">임계치 알림<span class="count">4</span></a>
+    <div class="lnb-group">설정</div>
+    <a class="lnb-item " href="ai_users.html">AI 사용자 명단</a>
+    <a class="lnb-item " href="audit.html">접근 감사 로그</a>
+    <a class="lnb-item " href="model.html">모델 · API 설정</a>
+  </div>
+  </nav>
+  <div class="main">
+    <header class="topbar">
+      <div class="title">
+        <b>응답 로그 · 상세</b>
+        <span>2026-08-25 14:02:00 · 김하늘</span>
+      </div>
+      <div class="spacer"></div>
+      <a class="btn btn-ghost" href="logs.html">← 목록</a>
+      <div class="admin-user"><span class="avatar"></span>demo-admin@syncworks.demo
+        <a href="sa_home.html" style="margin-left:10px;font-size:12px;font-weight:600">수퍼어드민 →</a>
+        <a href="#" onclick="return false" style="margin-left:10px;font-size:12px">로그아웃</a></div>
+    </header>
+    <div class="content">
+      
+<div class="panel">
+  <div class="panel-head"><h2>질문</h2></div>
+  <div class="log-text">이번 달 두부 확정수량 얼마야?</div>
+  
+</div>
+<div class="panel">
+  <div class="panel-head"><h2>답변</h2></div>
+  <div class="log-text">두부 확정수량 조회 결과입니다. 합계 2,352,092개 — 조회 테이블: plans</div>
+</div>
+
+<div class="panel">
+  <div class="panel-head"><h2>usage</h2></div>
+  <div class="log-text mono">{
+  &#34;prompt_tokens&#34;: 4100,
+  &#34;completion_tokens&#34;: 420
+}</div>
+</div>
+
+    </div>
+  </div>
+</div>
+<div style="position:fixed;left:50%;bottom:14px;transform:translateX(-50%);z-index:9999;background:#1c2333;color:#fff;font:600 12px Pretendard,sans-serif;padding:8px 16px;border-radius:20px;opacity:.92">정적 데모 스냅샷 — 모든 수치·인명은 더미 데이터입니다</div></body>
+</html>

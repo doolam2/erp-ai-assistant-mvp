@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>관리자 로그인 · 맑은물에 ERP</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="static/admin.css">
+</head>
+<body>
+<div class="auth-wrap">
+  <div class="auth-card">
+    
+<h1>관리자 로그인</h1>
+<div class="sub">맑은물에 ERP · AI 어시스턴트</div>
+
+
+<form method="post">
+  <input type="email" name="email" placeholder="이메일" value="" required autofocus >
+  <input type="password" name="pw" placeholder="비밀번호" required >
+  <input name="otp" placeholder="Google OTP 6자리" inputmode="numeric" autocomplete="one-time-code" required >
+  <button class="btn btn-navy" >로그인</button>
+</form>
+<a class="auth-link" href="#" onclick="return false">OTP를 사용할 수 없나요? — 리커버리 코드로 로그인</a>
+<div class="auth-note">30분 동안 사용하지 않으면 자동으로 로그아웃됩니다.</div>
+
+  </div>
+</div>
+<div style="position:fixed;left:50%;bottom:14px;transform:translateX(-50%);z-index:9999;background:#1c2333;color:#fff;font:600 12px Pretendard,sans-serif;padding:8px 16px;border-radius:20px;opacity:.92">정적 데모 스냅샷 — 모든 수치·인명은 더미 데이터입니다</div></body>
+</html>

@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>모델 · API 설정 · 맑은물에 ERP</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="static/admin.css">
+</head>
+<body>
+<div class="app">
+  <nav class="lnb">
+    <div class="lnb-brand">
+      <b>맑은물에 ERP</b>
+      <span class="badge">AI 어시스턴트 관리자</span>
+    </div>
+    <div class="lnb-menu">
+    <div class="lnb-group">모니터링</div>
+    <a class="lnb-item " href="dash.html">토큰 사용량 대시보드</a>
+    <a class="lnb-item " href="users.html">사용자별 사용량</a>
+    <a class="lnb-item " href="logs.html">응답 로그</a>
+    <a class="lnb-item " href="alerts.html">임계치 알림<span class="count">4</span></a>
+    <div class="lnb-group">설정</div>
+    <a class="lnb-item " href="ai_users.html">AI 사용자 명단</a>
+    <a class="lnb-item " href="audit.html">접근 감사 로그</a>
+    <a class="lnb-item active" href="model.html">모델 · API 설정</a>
+  </div>
+  </nav>
+  <div class="main">
+    <header class="topbar">
+      <div class="title">
+        <b>모델 · API 설정 (조회 전용)</b>
+        <span>설정 변경은 운영사(싱크웍스) 수퍼어드민 권한입니다</span>
+      </div>
+      <div class="spacer"></div>
+      
+<a class="btn btn-outline" href="sa_pricing.html">수퍼어드민에서 수정 →</a>
+
+      <div class="admin-user"><span class="avatar"></span>demo-admin@syncworks.demo
+        <a href="sa_home.html" style="margin-left:10px;font-size:12px;font-weight:600">수퍼어드민 →</a>
+        <a href="#" onclick="return false" style="margin-left:10px;font-size:12px">로그아웃</a></div>
+    </header>
+    <div class="content">
+      
+<div class="cards" style="grid-template-columns:repeat(auto-fit,minmax(180px,240px))">
+  <div class="card"><div class="label">모델</div><div class="num" style="font-size:19px">GPT-5 mini</div><div class="sub">Azure OpenAI · 상위 모델 교체 가능 구조</div></div>
+  <div class="card"><div class="label">입력 단가</div><div class="num">$0.25</div><div class="sub">per 1M tokens</div></div>
+  <div class="card"><div class="label">출력 단가</div><div class="num">$2.00</div><div class="sub">per 1M tokens</div></div>
+  <div class="card"><div class="label">원화 환율 (참고)</div><div class="num">1361<small> ₩/$</small></div><div class="sub">비용 원화 병기용</div></div>
+</div>
+
+<div class="panel" style="max-width:860px">
+  <div class="panel-head"><h2>연결 상태</h2><span class="meta">조회 15:04</span></div>
+  <table class="grid">
+    <tr><th>구분</th><th>값</th><th>상태</th></tr>
+    <tr><td>ERP 데이터베이스</td><td class="text-muted">dev-erp (PostgreSQL · 읽기 전용)</td><td><span class="tag ok">연결됨</span></td></tr>
+    <tr><td>시스템 프롬프트</td><td class="text-muted">v1.1 (컨텍스트 주입 — 서버 적용은 개발팀 진행 중)</td><td><span class="tag warn">적용 대기</span></td></tr>
+    <tr><td>메일 발송 (SMTP)</td><td class="text-muted">사내 SMTP 확보 대기 — 알림·초대 메일은 기록만</td><td><span class="tag none">미연결</span></td></tr>
+  </table>
+</div>
+
+<div class="panel" style="max-width:860px">
+  <div class="panel-head"><h2>외부 API 도구</h2><span class="meta">활성화 변경은 수퍼어드민 고객사 상세에서</span></div>
+  <table class="grid">
+    <tr><th>도구</th><th>설명</th><th>상태</th></tr>
+    
+    <tr>
+      <td><b>ERP DB 조회</b></td>
+      <td class="text-muted">기본 기능 — 항상 켜짐</td>
+      <td>
+        <span class="tag ok">기본 · 항상 켜짐</span>
+        
+      </td>
+    </tr>
+    
+    <tr>
+      <td><b>환율 API</b></td>
+      <td class="text-muted">달러 환율 · 관리자 서버는 일 1회 자동 반영</td>
+      <td>
+        <span class="tag ok">켜짐</span>
+      </td>
+    </tr>
+    
+    <tr>
+      <td><b>농산물 시세 (KAMIS)</b></td>
+      <td class="text-muted">국산 콩 도매가격 — 매입 단가 비교</td>
+      <td>
+        <span class="tag none">꺼짐 — 무료 · 키 발급 후 ON</span>
+        
+      </td>
+    </tr>
+    
+    <tr>
+      <td><b>공휴일·영업일</b></td>
+      <td class="text-muted">특일정보 — 납기·생산 일정 계산</td>
+      <td>
+        <span class="tag none">꺼짐 — 무료 · 키 발급 후 ON</span>
+        
+      </td>
+    </tr>
+    
+    <tr>
+      <td><b>사업자등록 상태</b></td>
+      <td class="text-muted">거래처 휴·폐업 확인 (국세청)</td>
+      <td>
+        <span class="tag none">꺼짐 — 무료 · 키 발급 후 ON</span>
+        
+      </td>
+    </tr>
+    
+    <tr>
+      <td><b>날씨 API</b></td>
+      <td class="text-muted">기상청 단기예보 — 배송·수요 리스크</td>
+      <td>
+        <span class="tag none">꺼짐 — 무료 · 키 발급 후 ON</span>
+        
+      </td>
+    </tr>
+    
+    <tr>
+      <td><b>유가 (오피넷)</b></td>
+      <td class="text-muted">경유가 — 배송 원가 변동</td>
+      <td>
+        <span class="tag none">꺼짐 — 무료 · 키 발급 후 ON</span>
+        
+      </td>
+    </tr>
+    
+    <tr>
+      <td><b>식품안전나라</b></td>
+      <td class="text-muted">회수·판매중지 · 원재료 기준 (식약처)</td>
+      <td>
+        <span class="tag none">꺼짐 — 무료 · 키 발급 후 ON</span>
+        
+      </td>
+    </tr>
+    
+    <tr>
+      <td><b>관세·통관 (UNI-PASS)</b></td>
+      <td class="text-muted">수입 대두 관세율·통관 조회</td>
+      <td>
+        <span class="tag none">꺼짐 — 차기 검토</span>
+        
+      </td>
+    </tr>
+    
+    <tr>
+      <td><b>지도·거리 (카카오)</b></td>
+      <td class="text-muted">배송 거리·소요 시간</td>
+      <td>
+        <span class="tag none">꺼짐 — 차기 검토</span>
+        
+      </td>
+    </tr>
+    
+    <tr>
+      <td><b>물류 추적</b></td>
+      <td class="text-muted">택배사 배송 조회</td>
+      <td>
+        <span class="tag none">꺼짐 — 유료 · 계약 시 ON</span>
+        
+      </td>
+    </tr>
+    
+  </table>
+</div>
+
+<div class="note">이 화면은 조회 전용입니다 — 단가·마크업·도구 활성화 변경은 운영사 수퍼어드민 권한(SA-03 · 고객사 상세)이며, 변경 시 공지로 안내됩니다.</div>
+
+    </div>
+  </div>
+</div>
+<div style="position:fixed;left:50%;bottom:14px;transform:translateX(-50%);z-index:9999;background:#1c2333;color:#fff;font:600 12px Pretendard,sans-serif;padding:8px 16px;border-radius:20px;opacity:.92">정적 데모 스냅샷 — 모든 수치·인명은 더미 데이터입니다</div></body>
+</html>

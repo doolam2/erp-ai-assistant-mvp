@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>맑은물에 홀딩스 · 싱크웍스</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="static/admin.css">
+</head>
+<body>
+<div class="app">
+  <nav class="lnb">
+    <div class="lnb-brand">
+      <b>싱크웍스</b>
+      <span class="badge">AI 어시스턴트 수퍼어드민</span>
+    </div>
+    <div class="lnb-menu">
+    <div class="lnb-group">운영</div>
+    <a class="lnb-item active" href="sa_home.html">고객사 목록</a>
+    <a class="lnb-item " href="sa_billing.html">월 청구</a>
+    <a class="lnb-item " href="sa_notices.html">공지 발송</a>
+    <div class="lnb-group">품질</div>
+    <a class="lnb-item " href="sa_qa.html">QA 피드백</a>
+    <div class="lnb-group">설정</div>
+    <a class="lnb-item " href="sa_pricing.html">단가 · 마크업</a>
+    <a class="lnb-item " href="sa_accounts.html">고객사 어드민 계정</a>
+    <a class="lnb-item" href="audit.html">접근 감사 로그</a>
+  </div>
+  </nav>
+  <div class="main">
+    <header class="topbar">
+      <div class="title">
+        <b>맑은물에 홀딩스 · 고객사 상세</b>
+        <span>고객사 목록 › 맑은물에 홀딩스 · 마크업 30% · 상태 사용중</span>
+      </div>
+      <div class="spacer"></div>
+      
+<a class="btn btn-ghost" href="sa_home.html">← 고객사 목록</a>
+
+      <div class="admin-user"><span class="avatar"></span>demo-admin@syncworks.demo
+        <a href="dash.html" style="margin-left:10px;font-size:12px">고객사 뷰</a>
+        <a href="#" onclick="return false" style="margin-left:10px;font-size:12px">로그아웃</a></div>
+    </header>
+    <div class="content">
+      
+<div class="panel" style="max-width:760px">
+  <div class="panel-head"><h2>계약 설정</h2><span class="meta">변경은 감사 로그에 기록</span></div>
+  <form method="post" action="#" onsubmit="return false" class="settings-form">
+    <label>계약 한도 (토큰/월)
+      <input name="contract_quota" value="30,000,000" inputmode="numeric">
+      <span class="hint">현재 30M · 고객사 어드민의 전체 기본값·사람별 예외보다 상위 한도</span>
+    </label>
+    <label>상태
+      <select name="status">
+        <option value="active" selected>사용중</option>
+        <option value="onboarding" >온보딩</option>
+        <option value="suspended" >정지</option>
+      </select>
+    </label>
+    <button class="btn btn-primary">저장</button>
+  </form>
+</div>
+
+<div class="panel">
+  <div class="panel-head"><h2>월별 청구 이력</h2><span class="meta">조회 15:04 · 청구 확정은 <a href="sa_billing.html">월 청구</a>에서</span></div>
+  
+  <table class="grid">
+    <tr><th>청구월</th><th class="r">사용량</th><th class="r">원가</th><th class="r">청구액</th><th class="r">마진</th><th class="r">한도 소진율</th><th class="r">상태</th></tr>
+    
+    <tr>
+      <td><b>2026-08</b></td>
+      <td class="r">20.6M</td>
+      <td class="r">$8.91</td>
+      <td class="r"><b>$11.58</b></td>
+      <td class="r">$2.67</td>
+      <td class="r">
+        <span class="cell-quota">
+          <span class="gauge"><i class="" style="width:69%"></i></span>
+          <b>69%</b>
+        </span>
+      </td>
+      <td class="r">
+        <span class="tag">발송됨</span>
+        
+      </td>
+    </tr>
+    
+    <tr>
+      <td><b>2026-07</b></td>
+      <td class="r">18.2M</td>
+      <td class="r">$8.01</td>
+      <td class="r"><b>$10.41</b></td>
+      <td class="r">$2.40</td>
+      <td class="r">
+        <span class="cell-quota">
+          <span class="gauge"><i class="" style="width:61%"></i></span>
+          <b>61%</b>
+        </span>
+      </td>
+      <td class="r">
+        <span class="tag ok">입금 완료</span>
+        
+      </td>
+    </tr>
+    
+    <tr>
+      <td><b>2026-06</b></td>
+      <td class="r">15.6M</td>
+      <td class="r">$6.92</td>
+      <td class="r"><b>$8.99</b></td>
+      <td class="r">$2.07</td>
+      <td class="r">
+        <span class="cell-quota">
+          <span class="gauge"><i class="" style="width:52%"></i></span>
+          <b>52%</b>
+        </span>
+      </td>
+      <td class="r">
+        <span class="tag none">미청구</span>
+        
+      </td>
+    </tr>
+    
+  </table>
+  
+</div>
+
+<div class="panel">
+  <div class="panel-head"><h2>제공 기능 (외부 API 도구)</h2><span class="meta">끄면 이 고객사의 프롬프트에 도구가 주입되지 않습니다 · 유료 API는 계약 옵션</span></div>
+  <form method="post" action="#" onsubmit="return false" class="tools-form">
+    
+    <label class="tool-row">
+      <input type="checkbox" name="tool_erp_db"
+        checked disabled
+        >
+      <span class="tool-name">ERP DB 조회</span>
+      <span class="tool-desc">기본 기능 — 항상 켜짐</span>
+      <span class="tool-tag">기본</span>
+    </label>
+    
+    <label class="tool-row">
+      <input type="checkbox" name="tool_fx"
+        checked
+        >
+      <span class="tool-name">환율 API</span>
+      <span class="tool-desc">달러 환율 · 관리자 서버는 일 1회 자동 반영</span>
+      <span class="tool-tag">무료 · 키 불필요 · 기본 ON</span>
+    </label>
+    
+    <label class="tool-row">
+      <input type="checkbox" name="tool_kamis"
+        
+        >
+      <span class="tool-name">농산물 시세 (KAMIS)</span>
+      <span class="tool-desc">국산 콩 도매가격 — 매입 단가 비교</span>
+      <span class="tool-tag">무료 · 키 발급 후 ON</span>
+    </label>
+    
+    <label class="tool-row">
+      <input type="checkbox" name="tool_holiday"
+        
+        >
+      <span class="tool-name">공휴일·영업일</span>
+      <span class="tool-desc">특일정보 — 납기·생산 일정 계산</span>
+      <span class="tool-tag">무료 · 키 발급 후 ON</span>
+    </label>
+    
+    <label class="tool-row">
+      <input type="checkbox" name="tool_bizstatus"
+        
+        >
+      <span class="tool-name">사업자등록 상태</span>
+      <span class="tool-desc">거래처 휴·폐업 확인 (국세청)</span>
+      <span class="tool-tag">무료 · 키 발급 후 ON</span>
+    </label>
+    
+    <label class="tool-row">
+      <input type="checkbox" name="tool_weather"
+        
+        >
+      <span class="tool-name">날씨 API</span>
+      <span class="tool-desc">기상청 단기예보 — 배송·수요 리스크</span>
+      <span class="tool-tag">무료 · 키 발급 후 ON</span>
+    </label>
+    
+    <label class="tool-row">
+      <input type="checkbox" name="tool_oil"
+        
+        >
+      <span class="tool-name">유가 (오피넷)</span>
+      <span class="tool-desc">경유가 — 배송 원가 변동</span>
+      <span class="tool-tag">무료 · 키 발급 후 ON</span>
+    </label>
+    
+    <label class="tool-row">
+      <input type="checkbox" name="tool_foodsafety"
+        
+        >
+      <span class="tool-name">식품안전나라</span>
+      <span class="tool-desc">회수·판매중지 · 원재료 기준 (식약처)</span>
+      <span class="tool-tag">무료 · 키 발급 후 ON</span>
+    </label>
+    
+    <label class="tool-row">
+      <input type="checkbox" name="tool_customs"
+        
+        >
+      <span class="tool-name">관세·통관 (UNI-PASS)</span>
+      <span class="tool-desc">수입 대두 관세율·통관 조회</span>
+      <span class="tool-tag">차기 검토</span>
+    </label>
+    
+    <label class="tool-row">
+      <input type="checkbox" name="tool_map"
+        
+        >
+      <span class="tool-name">지도·거리 (카카오)</span>
+      <span class="tool-desc">배송 거리·소요 시간</span>
+      <span class="tool-tag">차기 검토</span>
+    </label>
+    
+    <label class="tool-row">
+      <input type="checkbox" name="tool_logistics"
+        
+        >
+      <span class="tool-name">물류 추적</span>
+      <span class="tool-desc">택배사 배송 조회</span>
+      <span class="tool-tag">유료 · 계약 시 ON</span>
+    </label>
+    
+    <button class="btn btn-primary" style="align-self:flex-start;margin-top:6px">저장</button>
+    <span class="hint" style="font-size:11.5px;color:var(--text-muted)">실서비스 프롬프트 주입 연동은 개발팀 작업 항목 — 여기서는 설정 저장까지</span>
+  </form>
+</div>
+
+    </div>
+  </div>
+</div>
+<div style="position:fixed;left:50%;bottom:14px;transform:translateX(-50%);z-index:9999;background:#1c2333;color:#fff;font:600 12px Pretendard,sans-serif;padding:8px 16px;border-radius:20px;opacity:.92">정적 데모 스냅샷 — 모든 수치·인명은 더미 데이터입니다</div></body>
+</html>

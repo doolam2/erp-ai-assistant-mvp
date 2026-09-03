@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>공지 발송 · 싱크웍스</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="static/admin.css">
+</head>
+<body>
+<div class="app">
+  <nav class="lnb">
+    <div class="lnb-brand">
+      <b>싱크웍스</b>
+      <span class="badge">AI 어시스턴트 수퍼어드민</span>
+    </div>
+    <div class="lnb-menu">
+    <div class="lnb-group">운영</div>
+    <a class="lnb-item " href="sa_home.html">고객사 목록</a>
+    <a class="lnb-item " href="sa_billing.html">월 청구</a>
+    <a class="lnb-item active" href="sa_notices.html">공지 발송</a>
+    <div class="lnb-group">품질</div>
+    <a class="lnb-item " href="sa_qa.html">QA 피드백</a>
+    <div class="lnb-group">설정</div>
+    <a class="lnb-item " href="sa_pricing.html">단가 · 마크업</a>
+    <a class="lnb-item " href="sa_accounts.html">고객사 어드민 계정</a>
+    <a class="lnb-item" href="audit.html">접근 감사 로그</a>
+  </div>
+  </nav>
+  <div class="main">
+    <header class="topbar">
+      <div class="title">
+        <b>공지 발송</b>
+        <span>고객사 어드민에게 메일 공지 — 점검 안내 · 단가 변경 고지 등</span>
+      </div>
+      <div class="spacer"></div>
+      
+      <div class="admin-user"><span class="avatar"></span>demo-admin@syncworks.demo
+        <a href="dash.html" style="margin-left:10px;font-size:12px">고객사 뷰</a>
+        <a href="#" onclick="return false" style="margin-left:10px;font-size:12px">로그아웃</a></div>
+    </header>
+    <div class="content">
+      
+<div class="split-2">
+<div class="panel">
+  <div class="panel-head"><h2>공지 작성</h2></div>
+  <form method="post" action="#" onsubmit="return false" class="settings-form" style="max-width:none">
+    <label>제목 <input name="title" placeholder="[싱크웍스] 9월 정기 점검 안내" required></label>
+    <label>본문
+      <textarea name="body" rows="7" placeholder="안녕하세요, 싱크웍스 운영팀입니다."
+        style="border:1px solid var(--border);border-radius:8px;padding:10px 11px;font-family:inherit;font-size:13.5px;font-weight:400;resize:vertical"></textarea>
+    </label>
+    <label>대상 고객사
+      <div style="display:flex;flex-direction:column;gap:6px;font-weight:400">
+        <label style="flex-direction:row;align-items:center;gap:8px;margin:0"><input type="checkbox" name="targets" value="all" checked style="width:15px;height:15px;accent-color:var(--brand)"> 전체</label>
+        
+        <label style="flex-direction:row;align-items:center;gap:8px;margin:0"><input type="checkbox" name="targets" value="맑은물에 홀딩스" style="width:15px;height:15px;accent-color:var(--brand)"> 맑은물에 홀딩스</label>
+        
+      </div>
+    </label>
+    <button class="btn btn-primary">등록</button>
+    <span class="hint">메일 자동 발송은 SMTP 확보 후 — 그전까지는 이력에 기록만 됩니다</span>
+  </form>
+</div>
+<div class="panel">
+  <div class="panel-head"><h2>발송 이력 · 2건</h2><span class="meta">조회 15:04</span></div>
+  
+  <table class="grid">
+    <tr><th>시각</th><th>제목</th><th>대상</th><th>상태</th></tr>
+    
+    <tr>
+      <td class="text-muted" style="white-space:nowrap">2026-09-03 15:04</td>
+      <td><b>환율 도구 기본 제공 시작</b><div class="text-muted" style="font-size:12px;margin-top:2px">환율 조회 도구가 기본 기능에 포함됩니다.</div></td>
+      <td class="text-muted">맑은물에 홀딩스</td>
+      <td><span class="tag">기록됨</span></td>
+    </tr>
+    
+    <tr>
+      <td class="text-muted" style="white-space:nowrap">2026-09-03 15:04</td>
+      <td><b>9월 정기 점검 안내</b><div class="text-muted" style="font-size:12px;margin-top:2px">9/15(일) 02:00~04:00 서비스 점검이 있습니다.</div></td>
+      <td class="text-muted">전체</td>
+      <td><span class="tag">기록됨</span></td>
+    </tr>
+    
+  </table>
+  
+</div>
+</div>
+
+    </div>
+  </div>
+</div>
+<div style="position:fixed;left:50%;bottom:14px;transform:translateX(-50%);z-index:9999;background:#1c2333;color:#fff;font:600 12px Pretendard,sans-serif;padding:8px 16px;border-radius:20px;opacity:.92">정적 데모 스냅샷 — 모든 수치·인명은 더미 데이터입니다</div></body>
+</html>
