@@ -49,6 +49,23 @@
   --tint-teal: #e4f8ee;  /* pos 틴트 → 민트 틴트 */
   --chart-soft: #a8d695;
 }
+
+/* ── 테마: 맑은물에 바이올렛 (?theme=violet) ──
+   피그마 "맑은물에 대시보드 시안 (Violet)" 스타일 팔레트 실측 (2026-09-08)
+   primary #7631FF · 강조 라인은 블루(#2C7FDF)로 역할 교체 */
+[data-theme="violet"] {
+  --brand: #7631ff;
+  --brand-2: #3d00b7;
+  --nav: #38393b;
+  --nav-muted: #8a8b8d; --on-nav: #c5c6c8;
+  --orange: #2c7fdf;     /* 목표선·강조 라인 — 오렌지 역할을 블루가 대체 */
+  --pos: #691eff;        /* positive 텍스트·칩 글자 */
+  --pos-fill: #916dd9;   /* 게이지·진행바 fill */
+  --tint-blue: #f1eaff;  /* 브랜드 틴트 → 연보라 */
+  --tint-teal: #e7e9ff;  /* pos 틴트 → 라벤더 */
+  --tint-orange: #e7f1ff; /* 블루 틴트 */
+  --chart-soft: #d1baff;
+}
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
   font-family: 'Pretendard', -apple-system, 'Apple SD Gothic Neo', sans-serif;
