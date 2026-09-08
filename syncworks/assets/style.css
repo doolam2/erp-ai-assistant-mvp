@@ -66,6 +66,13 @@
   --tint-orange: #e7f1ff; /* 블루 틴트 */
   --chart-soft: #d1baff;
 }
+/* ── 목업 캡처 모드 (?mock=1 — theme.js가 data-mock 세팅) ──
+   온보딩 비컨·데모 토스트 숨김, AI 플로팅 버튼은 GNB 아래 우상단으로 */
+[data-mock="1"] .swtr-bcn,
+[data-mock="1"] .swtr-pop,
+[data-mock="1"] .swdm-toast { display: none !important; }
+[data-mock="1"] .swai-fab { bottom: auto !important; top: 8px !important; right: 150px !important; width: 40px !important; height: 40px !important; font-size: 12px !important; }
+
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
   font-family: 'Pretendard', -apple-system, 'Apple SD Gothic Neo', sans-serif;
