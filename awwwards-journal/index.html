@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Awwwards Review Journal</title>
+<style>
+  :root { --bg:#111; --fg:#f5f2ec; --accent:#e14f2a; --dim:rgba(245,242,236,.5); }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--fg); font-family:"Helvetica Neue",Helvetica,"Apple SD Gothic Neo",sans-serif; }
+  .wrap { max-width:1100px; margin:0 auto; padding:4rem 1.5rem 6rem; }
+  h1 { font-size:clamp(2.2rem,6vw,4.5rem); letter-spacing:-.03em; text-transform:uppercase; line-height:1.05; }
+  h1 em { font-style:normal; color:var(--accent); }
+  .sub { margin-top:1rem; color:var(--dim); line-height:1.7; max-width:56ch; }
+  #filters { margin-top:2.5rem; display:flex; flex-wrap:wrap; gap:.5rem; }
+  .chip {
+    font-size:.8rem; padding:.35rem .9rem; border-radius:99px; cursor:pointer;
+    border:1px solid rgba(255,255,255,.2); color:var(--dim); background:transparent;
+  }
+  .chip.on { background:var(--accent); border-color:var(--accent); color:#fff; }
+  #grid { margin-top:2.5rem; display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:1.8rem; }
+  .card {
+    display:block; text-decoration:none; color:inherit; border:1px solid rgba(255,255,255,.1);
+    border-radius:12px; overflow:hidden; background:#181818; transition:transform .3s, border-color .3s;
+  }
+  .card:hover { transform:translateY(-4px); border-color:var(--accent); }
+  .card img { width:100%; aspect-ratio:16/10; object-fit:cover; object-position:top; display:block; background:#222; }
+  .card .body { padding:1.1rem 1.2rem 1.3rem; }
+  .card .date { font-size:.72rem; color:var(--dim); letter-spacing:.12em; }
+  .card h2 { font-size:1.25rem; margin:.3rem 0 .55rem; letter-spacing:-.01em; }
+  .card p { font-size:.85rem; color:rgba(245,242,236,.75); line-height:1.6; }
+  .card .tags { margin-top:.8rem; display:flex; flex-wrap:wrap; gap:.35rem; }
+  .card .tags span { font-size:.68rem; padding:.18rem .55rem; border-radius:99px; border:1px solid rgba(255,255,255,.15); color:var(--dim); }
+  .card .tags span.st { border-color:rgba(225,79,42,.5); color:var(--accent); }
+  .empty { margin-top:3rem; color:var(--dim); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Awwwards<br>Review <em>Journal</em></h1>
+  <p class="sub">매일 어워드 사이트를 1~2개씩 리뷰하는 스터디 저널.
+  카드를 클릭하면 감상평과 인터랙션 기술 분석 전문을 볼 수 있습니다. 태그를 눌러 스타일·인터랙션별로 걸러보세요.</p>
+  <div id="filters"></div>
+  <div id="grid"></div>
+  <p class="empty" id="empty" hidden>이 태그의 리뷰가 아직 없습니다.</p>
+</div>
+<script src="entries.js"></script>
+<script>
+const grid = document.getElementById('grid');
+const filtersEl = document.getElementById('filters');
+let active = null;
+
+const allTags = [...new Set(ENTRIES.flatMap(e => [...e.style, ...e.interaction]))];
+filtersEl.innerHTML = `<button class="chip on" data-t="">전체</button>` +
+  allTags.map(t => `<button class="chip" data-t="${t}">#${t}</button>`).join('');
+
+function render(){
+  const list = ENTRIES.filter(e => !active || [...e.style, ...e.industry, ...e.interaction].includes(active));
+  grid.innerHTML = list.map(e => `
+    <a class="card" href="viewer.html?e=${encodeURIComponent(e.folder)}">
+      <img src="${e.folder}/${e.thumb}" alt="${e.name}" loading="lazy">
+      <div class="body">
+        <div class="date">${e.date}</div>
+        <h2>${e.name}</h2>
+        <p>${e.comment}</p>
+        <div class="tags">
+          ${e.style.map(t=>`<span class="st">#${t}</span>`).join('')}
+          ${e.interaction.slice(0,4).map(t=>`<span>#${t}</span>`).join('')}
+        </div>
+      </div>
+    </a>`).join('');
+  document.getElementById('empty').hidden = list.length > 0;
+}
+filtersEl.addEventListener('click', ev => {
+  const btn = ev.target.closest('.chip'); if (!btn) return;
+  active = btn.dataset.t || null;
+  filtersEl.querySelectorAll('.chip').forEach(c => c.classList.toggle('on', c === btn));
+  render();
+});
+render();
+</script>
+</body>
+</html>
