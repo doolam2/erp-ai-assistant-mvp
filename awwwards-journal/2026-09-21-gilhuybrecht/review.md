@@ -30,7 +30,7 @@
 1. **리스트 → 상세 FLIP 전환 (사용자가 꼽은 그 효과)**
    - 썸네일 클릭 → 그 이미지가 **제자리에서 상세 히어로 크기로 확대**되고, 좌측에서 프로젝트 메타(Dev/Client/Agency/Year) 패널이 들어옴. 복귀 시 역재생으로 **다시 원래 그리드 칸으로 축소**.
    - 구현: GSAP **Flip** — 전환 전 위치를 `Flip.getState()`로 기록 → 라우트 전환(DOM 재배치) → `Flip.from(state)`가 두 상태의 좌표·크기 차이를 자동 보간. URL이 실제로 바뀌는 라우트 전환인데도 요소가 이어져 보이는 것이 포인트.
-   - 같은 원리 데모: 패턴 라이브러리 [뷰 트랜지션](../../interaction-patterns/view-transition.html) (getBoundingClientRect 수동 FLIP 버전)
+   - 같은 원리 데모: 패턴 라이브러리 [뷰 트랜지션](../../interaction-patterns/view-transition.html) (수동 FLIP 버전), **[FLIP 갤러리](../../interaction-patterns/flip-gallery.html)** (이 사이트를 GSAP Flip 플러그인으로 재현 — 확대·복귀·그리드/리스트 전환 포함)
 2. **WebGL 이미지 그리드** — 이미지를 Three.js 플레인으로 그려서, DOM으로는 불가능한 셰이더 왜곡·부드러운 스케일 보간이 가능. 전환 중 이미지가 "살아있는" 느낌의 근원.
 3. **Grid ↔ Gallery 뷰 토글** — 같은 콘텐츠를 두 레이아웃으로 재배열(이것도 FLIP 계열).
 4. **로딩 시퀀스** — % 카운터 + 이미지가 흩어진 상태에서 그리드로 정렬되며 시작.

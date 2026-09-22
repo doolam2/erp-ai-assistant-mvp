@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>FLIP 갤러리</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  body { background:#f2f0ec; color:#111; }
+  .stage { min-height:100vh; padding:6rem 3rem 3rem; position:relative; }
+  .meta-top { display:flex; justify-content:space-between; font-size:.8rem; color:#777; margin-bottom:3.5rem; }
+
+  /* ── 그리드(리스트) 상태 ── */
+  #board { display:grid; grid-template-columns:repeat(4, 1fr); gap:2.5rem 1.5rem; align-items:start; }
+  #board.list { grid-template-columns:1fr; gap:1.2rem; max-width:520px; }
+  .item { cursor:pointer; }
+  .item .ph { overflow:hidden; border-radius:4px; background:#ddd; }
+  .item img { width:100%; aspect-ratio:4/3; object-fit:cover; display:block; transition:transform .5s; }
+  .item:hover img { transform:scale(1.04); }
+  .item .cap { display:flex; justify-content:space-between; font-size:.75rem; color:#555; margin-top:.5rem; }
+  #board.list .item { display:grid; grid-template-columns:180px 1fr; gap:1.2rem; align-items:center; }
+  #board.list .item .cap { margin-top:0; flex-direction:column; gap:.2rem; font-size:.9rem; }
+
+  /* ── 상세 상태 ── */
+  #detail {
+    position:fixed; inset:0; z-index:500; display:grid;
+    grid-template-columns:minmax(300px,38%) 1fr; visibility:hidden;
+  }
+  #detail .panel { background:#111; color:#f5f2ec; padding:6rem 2.5rem 2.5rem; display:flex; flex-direction:column; }
+  #detail .panel h2 { font-size:2rem; letter-spacing:-.02em; overflow:hidden; }
+  #detail .panel h2 span, #detail .meta-row { display:block; }
+  #detail .meta { margin-top:2.5rem; font-size:.9rem; }
+  #detail .meta-row { display:grid; grid-template-columns:2rem 6rem 1fr; padding:.4rem 0; border-bottom:1px solid rgba(255,255,255,.12); overflow:hidden; }
+  #detail .meta-row > * { display:block; }
+  #detail .close { margin-top:auto; align-self:flex-start; font:inherit; background:none; border:1px solid #f5f2ec; color:#f5f2ec; border-radius:99px; padding:.6rem 1.6rem; cursor:pointer; }
+  #detail .close:hover { background:#e14f2a; border-color:#e14f2a; }
+  #detail .hero { position:relative; background:#f2f0ec; }
+  /* Flip으로 이동해 온 img가 이 안에서 꽉 차게 */
+  #detail .hero img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; aspect-ratio:auto; border-radius:0; }
+
+  /* ── 하단 토글 ── */
+  .toggle { position:fixed; left:1.5rem; bottom:1.2rem; z-index:600; font-size:.8rem; display:flex; gap:.8rem; }
+  .toggle button { font:inherit; border:none; background:none; cursor:pointer; color:#999; padding:.2rem .1rem; }
+  .toggle button.on { color:#111; border-bottom:2px solid #e14f2a; }
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">FLIP 갤러리 — 썸네일 클릭=상세 확대·복귀, 좌하단=그리드/리스트 전환</span><a class="ref" href="https://gilhuybrecht.com/" target="_blank" rel="noopener">레퍼런스 ↗</a></div>
+
+<div class="stage">
+  <div class="meta-top"><span>FLIP GALLERY</span><span>GSAP Flip Plugin</span></div>
+  <div id="board"></div>
+</div>
+
+<div id="detail">
+  <div class="panel">
+    <h2><span id="dTitle">—</span></h2>
+    <div class="meta">
+      <div class="meta-row"><em>1</em><span>Client</span><b id="dClient">—</b></div>
+      <div class="meta-row"><em>2</em><span>Role</span><b>Design & Development</b></div>
+      <div class="meta-row"><em>3</em><span>Year</span><b id="dYear">—</b></div>
+    </div>
+    <button class="close" id="close">← Back to grid</button>
+  </div>
+  <div class="hero" id="hero"></div>
+</div>
+
+<div class="toggle">
+  <button class="on" data-mode="grid">Grid</button>
+  <button data-mode="list">List</button>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/Flip.min.js"></script>
+<script>
+gsap.registerPlugin(Flip);
+
+const PROJECTS = [
+  { id:1015, name:"River Study",   client:"Studio North", year:2026 },
+  { id:1043, name:"Coastline",     client:"Atelier Blau", year:2026 },
+  { id:1050, name:"Neon District", client:"Ray Seoul",    year:2025 },
+  { id:1062, name:"Still Motion",  client:"DoThings",     year:2025 },
+  { id:1069, name:"Objects",       client:"Form&Co",      year:2025 },
+  { id:1080, name:"Harvest",       client:"Marché",       year:2024 },
+  { id:110,  name:"Machinery",     client:"Werk GmbH",    year:2024 },
+  { id:119,  name:"Signal",        client:"Tone Lab",     year:2024 },
+];
+
+const board = document.getElementById('board');
+board.innerHTML = PROJECTS.map((p,i) => `
+  <div class="item" data-i="${i}">
+    <div class="ph"><img src="https://picsum.photos/id/${p.id}/640/480" alt="${p.name}"></div>
+    <div class="cap"><span>${p.name}</span><span>${String(i+1).padStart(2,'0')}</span></div>
+  </div>`).join('');
+
+const detail = document.getElementById('detail');
+const hero = document.getElementById('hero');
+let busy = false, openedFrom = null; // 복귀할 원래 .ph 슬롯
+
+// ── 1) 썸네일 → 상세 (원본 사이트의 핵심 전환) ──
+board.addEventListener('click', e => {
+  const item = e.target.closest('.item');
+  if (!item || busy) return;
+  busy = true;
+  const p = PROJECTS[item.dataset.i];
+  const img = item.querySelector('img');
+  openedFrom = item.querySelector('.ph');
+
+  document.getElementById('dTitle').textContent = p.name;
+  document.getElementById('dClient').textContent = p.client;
+  document.getElementById('dYear').textContent = p.year;
+
+  const state = Flip.getState(img);        // ① 현재 위치·크기 기록
+  hero.appendChild(img);                    // ② DOM을 상세 히어로로 이동
+  gsap.set(detail, { visibility:'visible' });
+  Flip.from(state, {                        // ③ 차이를 역보간 → 제자리에서 커지는 착시
+    duration:.9, ease:'power3.inOut', absolute:true,
+    onComplete:() => busy = false
+  });
+  gsap.fromTo('#detail .panel', { xPercent:-100 }, { xPercent:0, duration:.9, ease:'power3.inOut' });
+  gsap.fromTo(['#dTitle', '#detail .meta-row > *'],
+    { yPercent:120 }, { yPercent:0, duration:.9, delay:.35, stagger:.045, ease:'expo.out' });
+  gsap.fromTo('#detail .close', { opacity:0 }, { opacity:1, duration:.5, delay:.7 });
+});
+
+// ── 2) 상세 → 그리드 복귀 (왕복 대칭이 입체감의 핵심) ──
+document.getElementById('close').addEventListener('click', () => {
+  if (busy) return; busy = true;
+  const img = hero.querySelector('img');
+  const state = Flip.getState(img);
+  openedFrom.appendChild(img);              // 원래 슬롯으로 되돌림
+  gsap.to('#detail .panel', { xPercent:-100, duration:.8, ease:'power3.inOut' });
+  Flip.from(state, {
+    duration:.8, ease:'power3.inOut', absolute:true,
+    onComplete:() => { gsap.set(detail, { visibility:'hidden' }); gsap.set('#detail .panel', { xPercent:0 }); busy = false; }
+  });
+});
+
+// ── 3) Grid ↔ List 레이아웃 전환 (원본의 Grid|Gallery 토글) ──
+document.querySelectorAll('.toggle button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (busy || btn.classList.contains('on')) return;
+    document.querySelectorAll('.toggle button').forEach(b => b.classList.toggle('on', b === btn));
+    const state = Flip.getState('#board .item, #board img'); // 전 요소 위치 기록
+    board.classList.toggle('list', btn.dataset.mode === 'list'); // 레이아웃만 교체
+    Flip.from(state, { duration:.7, ease:'power3.inOut', absolute:true, stagger:.02, nested:true });
+  });
+});
+</script>
+</body>
+</html>
