@@ -42,6 +42,16 @@
   .toggle { position:fixed; left:1.5rem; bottom:1.2rem; z-index:600; font-size:.8rem; display:flex; gap:.8rem; }
   .toggle button { font:inherit; border:none; background:none; cursor:pointer; color:#999; padding:.2rem .1rem; }
   .toggle button.on { color:#111; border-bottom:2px solid #e14f2a; }
+
+  /* ── 왜곡 강도 슬라이더 ── */
+  .warp-ctl {
+    position:fixed; right:1.5rem; bottom:1.1rem; z-index:1000;
+    display:flex; align-items:center; gap:.7rem; font-size:.75rem; color:#555;
+    background:rgba(255,255,255,.75); backdrop-filter:blur(6px);
+    padding:.5rem .9rem; border-radius:99px; border:1px solid rgba(0,0,0,.08);
+  }
+  .warp-ctl b { color:#e14f2a; font-variant-numeric:tabular-nums; min-width:2.2em; text-align:right; }
+  .warp-ctl input { accent-color:#e14f2a; width:130px; }
 </style>
 </head>
 <body>
@@ -70,6 +80,12 @@
 <div class="toggle">
   <button class="on" data-mode="grid">Grid</button>
   <button data-mode="list">List</button>
+</div>
+
+<div class="warp-ctl">
+  <span>왜곡 강도</span>
+  <input type="range" id="lag" min="0.1" max="0.8" step="0.05" value="0.35">
+  <b id="lagVal">0.35</b>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
@@ -187,7 +203,7 @@ function warpFly(img, fromRect, toRect, duration, onDone){
   gl.uniform4fv(U('uRectB'), rect4(toRect));
   gl.uniform4fv(U('uUvA'), coverUv(fromRect, img));
   gl.uniform4fv(U('uUvB'), coverUv(toRect, img));
-  gl.uniform1f(U('uLag'), 0.55);            // 왜곡 강도 — 키우면 더 출렁거림
+  gl.uniform1f(U('uLag'), WARP_LAG);        // 왜곡 강도 — 우하단 슬라이더로 조절
   img.style.visibility = 'hidden';
   cv.style.display = 'block';
   const state = { p: 0 };
@@ -205,6 +221,13 @@ function warpFly(img, fromRect, toRect, duration, onDone){
     }
   });
 }
+
+/* 왜곡 강도 슬라이더 (0.1 절제 ~ 0.8 과장) */
+let WARP_LAG = 0.35;
+document.getElementById('lag').addEventListener('input', e => {
+  WARP_LAG = parseFloat(e.target.value);
+  document.getElementById('lagVal').textContent = WARP_LAG.toFixed(2);
+});
 
 /* ═══════════ 갤러리 동작 ═══════════ */
 const detail = document.getElementById('detail');
