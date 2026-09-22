@@ -33,8 +33,10 @@
   #detail .close { margin-top:auto; align-self:flex-start; font:inherit; background:none; border:1px solid #f5f2ec; color:#f5f2ec; border-radius:99px; padding:.6rem 1.6rem; cursor:pointer; }
   #detail .close:hover { background:#e14f2a; border-color:#e14f2a; }
   #detail .hero { position:relative; background:#f2f0ec; }
-  /* Flip으로 이동해 온 img가 이 안에서 꽉 차게 */
   #detail .hero img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; aspect-ratio:auto; border-radius:0; }
+
+  /* ── WebGL 왜곡 레이어 (비행 중에만 표시) ── */
+  #warp { position:fixed; inset:0; z-index:900; pointer-events:none; display:none; }
 
   /* ── 하단 토글 ── */
   .toggle { position:fixed; left:1.5rem; bottom:1.2rem; z-index:600; font-size:.8rem; display:flex; gap:.8rem; }
@@ -43,10 +45,10 @@
 </style>
 </head>
 <body>
-<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">FLIP 갤러리 — 썸네일 클릭=상세 확대·복귀, 좌하단=그리드/리스트 전환</span><a class="ref" href="https://gilhuybrecht.com/" target="_blank" rel="noopener">레퍼런스 ↗</a></div>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">FLIP 갤러리 — 클릭=상세 확대(WebGL 왜곡)·복귀, 좌하단=그리드/리스트 전환</span><a class="ref" href="https://gilhuybrecht.com/" target="_blank" rel="noopener">레퍼런스 ↗</a></div>
 
 <div class="stage">
-  <div class="meta-top"><span>FLIP GALLERY</span><span>GSAP Flip Plugin</span></div>
+  <div class="meta-top"><span>FLIP GALLERY</span><span>GSAP Flip + WebGL Warp</span></div>
   <div id="board"></div>
 </div>
 
@@ -62,6 +64,8 @@
   </div>
   <div class="hero" id="hero"></div>
 </div>
+
+<canvas id="warp"></canvas>
 
 <div class="toggle">
   <button class="on" data-mode="grid">Grid</button>
@@ -87,15 +91,126 @@ const PROJECTS = [
 const board = document.getElementById('board');
 board.innerHTML = PROJECTS.map((p,i) => `
   <div class="item" data-i="${i}">
-    <div class="ph"><img src="https://picsum.photos/id/${p.id}/640/480" alt="${p.name}"></div>
+    <div class="ph"><img crossorigin="anonymous" src="https://picsum.photos/id/${p.id}/640/480" alt="${p.name}"></div>
     <div class="cap"><span>${p.name}</span><span>${String(i+1).padStart(2,'0')}</span></div>
   </div>`).join('');
 
+/* ═══════════ WebGL 왜곡 레이어 ═══════════
+   원본 사이트가 Three.js 플레인+셰이더로 내던 "빨려들어가는" 느낌의 재현.
+   이미지를 24×24 격자 메시로 그리고, 정점마다 진행도를 다르게 줘서
+   (중앙이 먼저 출발, 모서리가 늦게 따라옴) 비행 중에 면이 휘어지게 한다. */
+const cv = document.getElementById('warp');
+const gl = cv.getContext('webgl', { alpha:true, premultipliedAlpha:false });
+const GRID = 24;
+
+const vs = `
+attribute vec2 aUv;
+uniform vec4 uRectA, uRectB;   // 시작/끝 사각형 (x, y, w, h) — CSS 픽셀
+uniform vec4 uUvA, uUvB;       // 각 사각형의 cover 크롭 (offX, offY, w, h)
+uniform vec2 uRes;
+uniform float uP;              // 전체 진행도 0~1 (선형)
+uniform float uLag;            // 모서리 지연 강도
+varying vec2 vUv;
+float easeInOut(float t){ return t < .5 ? 4.*t*t*t : 1. - pow(-2.*t + 2., 3.) / 2.; }
+void main(){
+  float d = distance(aUv, vec2(.5)) * 1.414;                 // 중앙 0 → 모서리 1
+  float pv = clamp(uP * (1. + uLag) - d * uLag, 0., 1.);     // 정점별 진행도(모서리 지연)
+  float e = easeInOut(pv);
+  vec2 posA = uRectA.xy + aUv * uRectA.zw;
+  vec2 posB = uRectB.xy + aUv * uRectB.zw;
+  vec2 pos = mix(posA, posB, e);
+  vec2 clip = pos / uRes * 2. - 1.;
+  gl_Position = vec4(clip.x, -clip.y, 0., 1.);
+  vec2 uvA = uUvA.xy + aUv * uUvA.zw;                        // cover 크롭도 같이 보간
+  vec2 uvB = uUvB.xy + aUv * uUvB.zw;
+  vUv = mix(uvA, uvB, e);
+}`;
+const fs = `
+precision mediump float;
+uniform sampler2D uTex;
+varying vec2 vUv;
+void main(){ gl_FragColor = texture2D(uTex, vUv); }`;
+
+function mkShader(t, s){ const sh = gl.createShader(t); gl.shaderSource(sh, s); gl.compileShader(sh); return sh; }
+const prog = gl.createProgram();
+gl.attachShader(prog, mkShader(gl.VERTEX_SHADER, vs));
+gl.attachShader(prog, mkShader(gl.FRAGMENT_SHADER, fs));
+gl.linkProgram(prog); gl.useProgram(prog);
+
+// 격자 정점(uv)과 인덱스
+const uvs = [], idx = [];
+for (let y = 0; y <= GRID; y++) for (let x = 0; x <= GRID; x++) uvs.push(x/GRID, y/GRID);
+for (let y = 0; y < GRID; y++) for (let x = 0; x < GRID; x++) {
+  const a = y*(GRID+1)+x, b = a+1, c = a+GRID+1, d2 = c+1;
+  idx.push(a,b,c, b,d2,c);
+}
+gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(uvs), gl.STATIC_DRAW);
+const locUv = gl.getAttribLocation(prog, 'aUv');
+gl.enableVertexAttribArray(locUv); gl.vertexAttribPointer(locUv, 2, gl.FLOAT, false, 0, 0);
+gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, gl.createBuffer());
+gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(idx), gl.STATIC_DRAW);
+const U = n => gl.getUniformLocation(prog, n);
+
+function fitCanvas(){
+  cv.width = innerWidth * devicePixelRatio; cv.height = innerHeight * devicePixelRatio;
+  cv.style.width = innerWidth+'px'; cv.style.height = innerHeight+'px';
+  gl.viewport(0, 0, cv.width, cv.height);
+  gl.uniform2f(U('uRes'), innerWidth, innerHeight);
+}
+fitCanvas(); addEventListener('resize', fitCanvas);
+
+const texCache = new Map();
+function texture(img){
+  if (texCache.has(img)) return texCache.get(img);
+  const t = gl.createTexture();
+  gl.bindTexture(gl.TEXTURE_2D, t);
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, img);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+  texCache.set(img, t);
+  return t;
+}
+// object-fit:cover가 보여주는 UV 영역 계산
+function coverUv(rect, img){
+  const s = Math.max(rect.width / img.naturalWidth, rect.height / img.naturalHeight);
+  const w = rect.width / (img.naturalWidth * s), h = rect.height / (img.naturalHeight * s);
+  return [(1-w)/2, (1-h)/2, w, h];
+}
+const rect4 = r => [r.left, r.top, r.width, r.height];
+
+/* img를 fromRect→toRect로 휘면서 날리는 함수. DOM은 즉시 이동해 두고 비주얼만 캔버스가 담당 */
+function warpFly(img, fromRect, toRect, duration, onDone){
+  gl.bindTexture(gl.TEXTURE_2D, texture(img));
+  gl.uniform4fv(U('uRectA'), rect4(fromRect));
+  gl.uniform4fv(U('uRectB'), rect4(toRect));
+  gl.uniform4fv(U('uUvA'), coverUv(fromRect, img));
+  gl.uniform4fv(U('uUvB'), coverUv(toRect, img));
+  gl.uniform1f(U('uLag'), 0.55);            // 왜곡 강도 — 키우면 더 출렁거림
+  img.style.visibility = 'hidden';
+  cv.style.display = 'block';
+  const state = { p: 0 };
+  gsap.to(state, {
+    p: 1, duration, ease: 'none',           // 이징은 셰이더에서 정점별로 적용
+    onUpdate(){
+      gl.clearColor(0,0,0,0); gl.clear(gl.COLOR_BUFFER_BIT);
+      gl.uniform1f(U('uP'), state.p);
+      gl.drawElements(gl.TRIANGLES, idx.length, gl.UNSIGNED_SHORT, 0);
+    },
+    onComplete(){
+      cv.style.display = 'none';
+      img.style.visibility = 'visible';
+      onDone && onDone();
+    }
+  });
+}
+
+/* ═══════════ 갤러리 동작 ═══════════ */
 const detail = document.getElementById('detail');
 const hero = document.getElementById('hero');
-let busy = false, openedFrom = null; // 복귀할 원래 .ph 슬롯
+let busy = false, openedFrom = null;
 
-// ── 1) 썸네일 → 상세 (원본 사이트의 핵심 전환) ──
 board.addEventListener('click', e => {
   const item = e.target.closest('.item');
   if (!item || busy) return;
@@ -108,39 +223,37 @@ board.addEventListener('click', e => {
   document.getElementById('dClient').textContent = p.client;
   document.getElementById('dYear').textContent = p.year;
 
-  const state = Flip.getState(img);        // ① 현재 위치·크기 기록
-  hero.appendChild(img);                    // ② DOM을 상세 히어로로 이동
+  const fromRect = img.getBoundingClientRect();
+  hero.appendChild(img);                       // DOM은 즉시 이동
   gsap.set(detail, { visibility:'visible' });
-  Flip.from(state, {                        // ③ 차이를 역보간 → 제자리에서 커지는 착시
-    duration:.9, ease:'power3.inOut', absolute:true,
-    onComplete:() => busy = false
-  });
-  gsap.fromTo('#detail .panel', { xPercent:-100 }, { xPercent:0, duration:.9, ease:'power3.inOut' });
+  const toRect = hero.getBoundingClientRect(); // 목적지 측정
+  warpFly(img, fromRect, toRect, .95, () => busy = false);
+
+  gsap.fromTo('#detail .panel', { xPercent:-100 }, { xPercent:0, duration:.95, ease:'power3.inOut' });
   gsap.fromTo(['#dTitle', '#detail .meta-row > *'],
-    { yPercent:120 }, { yPercent:0, duration:.9, delay:.35, stagger:.045, ease:'expo.out' });
-  gsap.fromTo('#detail .close', { opacity:0 }, { opacity:1, duration:.5, delay:.7 });
+    { yPercent:120 }, { yPercent:0, duration:.9, delay:.4, stagger:.045, ease:'expo.out' });
+  gsap.fromTo('#detail .close', { opacity:0 }, { opacity:1, duration:.5, delay:.75 });
 });
 
-// ── 2) 상세 → 그리드 복귀 (왕복 대칭이 입체감의 핵심) ──
 document.getElementById('close').addEventListener('click', () => {
   if (busy) return; busy = true;
   const img = hero.querySelector('img');
-  const state = Flip.getState(img);
-  openedFrom.appendChild(img);              // 원래 슬롯으로 되돌림
-  gsap.to('#detail .panel', { xPercent:-100, duration:.8, ease:'power3.inOut' });
-  Flip.from(state, {
-    duration:.8, ease:'power3.inOut', absolute:true,
-    onComplete:() => { gsap.set(detail, { visibility:'hidden' }); gsap.set('#detail .panel', { xPercent:0 }); busy = false; }
-  });
+  const fromRect = img.getBoundingClientRect();
+  openedFrom.appendChild(img);                 // 원래 슬롯으로 복귀
+  const toRect = openedFrom.getBoundingClientRect();
+  gsap.to('#detail .panel', { xPercent:-100, duration:.85, ease:'power3.inOut' });
+  // 패널이 비켜야 뒤 그리드가 보이므로 detail은 즉시 숨기고 캔버스가 비행을 담당
+  gsap.set(detail, { visibility:'hidden' });
+  gsap.set('#detail .panel', { xPercent:0 });
+  warpFly(img, fromRect, toRect, .85, () => busy = false);
 });
 
-// ── 3) Grid ↔ List 레이아웃 전환 (원본의 Grid|Gallery 토글) ──
 document.querySelectorAll('.toggle button').forEach(btn => {
   btn.addEventListener('click', () => {
     if (busy || btn.classList.contains('on')) return;
     document.querySelectorAll('.toggle button').forEach(b => b.classList.toggle('on', b === btn));
-    const state = Flip.getState('#board .item, #board img'); // 전 요소 위치 기록
-    board.classList.toggle('list', btn.dataset.mode === 'list'); // 레이아웃만 교체
+    const state = Flip.getState('#board .item, #board img');
+    board.classList.toggle('list', btn.dataset.mode === 'list');
     Flip.from(state, { duration:.7, ease:'power3.inOut', absolute:true, stagger:.02, nested:true });
   });
 });
