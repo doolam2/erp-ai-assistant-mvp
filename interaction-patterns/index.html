@@ -28,6 +28,19 @@
   .row .go { color:var(--accent); font-size:.9rem; opacity:0; transform:translateX(-6px); transition:opacity .25s, transform .25s; white-space:nowrap; }
   .row:hover .go { opacity:1; transform:translateX(0); }
   .badge { display:inline-block; margin-left:.5rem; font-size:.65rem; color:var(--dim); border:1px solid rgba(255,255,255,.2); border-radius:99px; padding:.1rem .5rem; vertical-align:middle; }
+  .cat-note { font-size:.78rem; color:var(--dim); margin-left:auto; }
+  #refs { margin-top:1.6rem; display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:1.4rem; }
+  .ref-card {
+    display:block; text-decoration:none; color:inherit;
+    border:1px solid rgba(255,255,255,.12); border-radius:12px; overflow:hidden;
+    background:#181818; transition:transform .3s, border-color .3s;
+  }
+  .ref-card:hover { transform:translateY(-4px); border-color:var(--accent); }
+  .ref-card img { width:100%; aspect-ratio:16/10; object-fit:cover; object-position:top; display:block; background:#222; }
+  .ref-card .rb { padding:.9rem 1rem 1rem; }
+  .ref-card h3 { font-size:1.05rem; letter-spacing:-.01em; }
+  .ref-card .src { margin-top:.3rem; font-size:.75rem; color:var(--dim); }
+  .ref-card .src b { color:var(--accent); font-weight:400; }
   footer { margin-top:6rem; color:var(--dim); font-size:.85rem; line-height:1.8; }
   @media (max-width:760px) {
     .row { grid-template-columns: 2rem 1fr auto; }
@@ -39,9 +52,17 @@
 <div class="wrap">
   <header>
     <h1>Interaction<br>Pattern <em>Library</em></h1>
-    <p>어워드(Awwwards) 수상작에서 반복적으로 쓰이는 인터랙션 정형 패턴 54종.
-    각 항목을 클릭하면 실제로 움직이는 예제를 볼 수 있습니다. WebGL 계열 일부는 개념을 보여주는 간이 구현입니다.</p>
+    <p>어워드(Awwwards) 수상작에서 반복적으로 쓰이는 인터랙션 정형 패턴 52종 +
+    실제 사이트를 분석해 재현한 레퍼런스 컬렉션. 각 항목을 클릭하면 실제로 움직이는 예제를 볼 수 있습니다.
+    WebGL 계열 일부는 개념을 보여주는 간이 구현입니다.</p>
   </header>
+
+  <section class="cat" id="ref-sec">
+    <div class="cat-head"><span class="no">★</span><h2>레퍼런스 재현</h2>
+      <span class="cat-note">멋진 사이트를 발견하면 분석해서 여기에 계속 추가</span></div>
+    <div id="refs"></div>
+  </section>
+
   <main id="list"></main>
   <footer>
     TIP. 어워드 특유의 느낌은 「스무스 스크롤 + 텍스트 스태거 리빌 + 커스텀 커서 + 프리로더」 4개 조합만으로 80%가 완성됩니다.<br>
@@ -49,6 +70,26 @@
   </footer>
 </div>
 <script>
+// ── 레퍼런스 재현 컬렉션: 새 사이트를 분석·재현할 때마다 맨 앞에 추가 ──
+const REFS = [
+  {
+    t: "FLIP 갤러리", f: "flip-gallery.html", thumb: "thumbs/flip-gallery.png",
+    site: "gilhuybrecht.com", desc: "썸네일→상세 확대·복귀 + WebGL 빨려드는 왜곡",
+  },
+  {
+    t: "웨이트 웨이브", f: "variable-wave.html", thumb: "thumbs/variable-wave.png",
+    site: "Pretendard 공식 페이지", desc: "가변 폰트 굵기가 물결치듯 순환",
+  },
+];
+document.getElementById('refs').innerHTML = REFS.map(r => `
+  <a class="ref-card" href="${r.f}">
+    <img src="${r.thumb}" alt="${r.t}" loading="lazy">
+    <div class="rb">
+      <h3>${r.t}</h3>
+      <div class="src">${r.desc}<br>원본 <b>${r.site}</b></div>
+    </div>
+  </a>`).join('');
+
 const DATA = [
   ["커서 & 호버", [
     ["커스텀 커서", "기본 커서를 원/점으로 교체, 링크 위에서 커지거나 텍스트로 변함", "custom-cursor.html"],
@@ -83,7 +124,6 @@ const DATA = [
     ["텍스트 스크램블", "랜덤 문자로 지글거리다 원래 단어로 정착", "text-scramble.html"],
     ["타이핑 효과", "한 글자씩 타이핑되듯 나타남", "typing.html"],
     ["가변 폰트 인터랙션", "커서에 가까운 글자가 굵어짐 (X축 / 2D 거리 두 버전)", "variable-font.html"],
-    ["웨이트 웨이브", "글자 굵기가 물결치듯 순환 (Pretendard 페이지 재현)", "variable-wave.html"],
     ["키네틱 타이포", "거대한 타이포가 마우스·스크롤에 반응해 움직임", "kinetic-typo.html"],
     ["하이라이트 스크럽", "문단이 스크롤에 따라 한 단어씩 켜짐", "highlight-scrub.html"],
   ]],
@@ -100,7 +140,6 @@ const DATA = [
     ["드래그 캐러셀", "관성 있는 드래그 슬라이더", "drag-carousel.html"],
     ["호버 비디오 재생", "썸네일에 호버하면 영상이 재생됨", "hover-video.html"],
     ["이미지 그리드 → 히어로", "흩어진 이미지들이 스크롤하면 한곳으로 모임", "grid-to-hero.html"],
-    ["FLIP 갤러리", "썸네일→상세 확대·복귀 + WebGL 빨려들어가는 왜곡 (gilhuybrecht 재현)", "flip-gallery.html"],
   ]],
   ["배경 & WebGL", [
     ["그라디언트 메시", "여러 색이 유체처럼 섞이며 흐르는 배경", "gradient-mesh.html"],
