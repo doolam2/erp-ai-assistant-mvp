@@ -3,6 +3,13 @@
    T 키 = 비컨 표시/숨김 토글. 페이지 전용 스텝이 없으면 공통 4스텝.
    콘텐츠 검토 단계 — 표시 조건(첫 방문만 등)은 확정 후 붙임. */
 (function () {
+  /* 시연 모드(?tour=0)면 비컨·T키 전부 비활성 — 파라미터는 여기서도 직접 처리(캐시 무관) */
+  try {
+    var _tq = new URLSearchParams(location.search).get('tour');
+    if (_tq === '0') localStorage.setItem('sw_tour_off', '1');
+    else if (_tq !== null) localStorage.removeItem('sw_tour_off');
+    if (localStorage.getItem('sw_tour_off')) return;
+  } catch (e) {}
   var PAGE = (location.pathname.split('/').pop() || 'index.html');
   if (PAGE === 'login.html' || PAGE === 'index.html' || PAGE === '_cap.html') return;
 

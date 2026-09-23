@@ -18,5 +18,13 @@
       else localStorage.removeItem('sw_mock');
     }
     if (localStorage.getItem('sw_mock')) document.documentElement.setAttribute('data-mock', '1');
+
+    /* 시연 모드 — ?tour=0 으로 온보딩 툴팁(비컨) 끄기, ?tour=1 로 복원 (localStorage 유지).
+       비컨 펄스가 오류 표시처럼 보일 수 있는 시연·발표 자리에서 사용 */
+    var tr = new URLSearchParams(location.search).get('tour');
+    if (tr !== null) {
+      if (tr === '0') localStorage.setItem('sw_tour_off', '1');
+      else localStorage.removeItem('sw_tour_off');
+    }
   } catch (e) {}
 })();
