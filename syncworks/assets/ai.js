@@ -205,7 +205,18 @@
       { q: '장기 체류 재고는?',
         a: '15일 이상 체류가 3.2%로 부자재 라벨류에 집중돼 있습니다. 과다 발주분이라 안전재고 기준 재조정이 필요해 보입니다.',
         link: { href: 'purchase.html', label: '발주 현황 보기' },
-        sug: '라벨류 과다 발주가 3개월째 반복됩니다. 안전재고 기준을 실소비 기반으로 재계산해 발주 담당에게 제안할까요?' }
+        sug: '라벨류 과다 발주가 3개월째 반복됩니다. 안전재고 기준을 실소비 기반으로 재계산해 발주 담당에게 제안할까요?' },
+      { q: '임박 재고 목록 엑셀로 뽑아줘', hv: 1,
+        a: '소비기한 7일 이내 재고를 임박 순으로 정리해 엑셀 파일로 저장했어요. 다운로드 폴더에서 확인하세요 — 창고 담당자에게 그대로 전달할 수 있습니다.',
+        rows: [['두부 300g L-0811', '제1공장', 'D-3'], ['순두부 350g L-0812', '중앙물류', 'D-4'], ['콩나물 380g L-0815', '냉장센터', 'D-5']],
+        act: function () {
+          dlCsv('소비기한_임박재고', [
+            ['제품', '로트', '위치', '소비기한', '수량'],
+            ['두부 300g', 'L-0811', '제1공장', 'D-3', '420'],
+            ['순두부 350g', 'L-0812', '중앙물류', 'D-4', '1,240'],
+            ['콩나물 380g', 'L-0815', '냉장센터', 'D-5', '860']
+          ]);
+        } }
     ],
     'temperature.html': [
       { q: '냉장센터 B 왜 오르고 있어?',
@@ -314,6 +325,7 @@
     + '.swai-think{align-self:flex-start;display:flex;gap:5px;padding:14px 16px;background:var(--g01);border-radius:14px;border-bottom-left-radius:4px}'
     + '.swai-think i{width:6px;height:6px;border-radius:50%;background:var(--g05);animation:swaib 1s infinite}'
     + '.swai-think i:nth-child(2){animation-delay:.16s}.swai-think i:nth-child(3){animation-delay:.32s}'
+    + '.swai-think .lb{font-size:10.5px;color:var(--g06);margin-left:6px;align-self:center;white-space:nowrap}'
     + '@keyframes swaib{0%,60%,100%{opacity:.35;transform:none}30%{opacity:1;transform:translateY(-3px)}}'
     + '.swai-tbl{align-self:flex-start;width:86%;border:1px solid var(--g02);border-radius:10px;overflow:hidden;font-size:11.5px;'
     + 'opacity:0;transform:translateY(8px);transition:opacity .35s,transform .35s}'
@@ -429,6 +441,29 @@
     scrollEnd();
   }
 
+  /* ── 질의 복잡도별 로딩 시간 — 여러 테이블을 조회하는 질의는 더 오래 생각한다 ── */
+  var HEAVY_RE = /요약|원인|왜|회수|추적|어디서\s*왔|법인|통합|비교|시뮬|패턴|흐름|엑셀|뽑아/;
+  function isHeavy(s) { return !!(s && (s.hv || HEAVY_RE.test(s.q || ''))); }
+  function thinkMs(s) {
+    if (REDUCE) return 400;
+    var t = 620 + Math.random() * 380;                 /* 단순 조회: 0.6~1.0초 */
+    if (s && s.rows) t += 260 + s.rows.length * 130;   /* 근거표 = 테이블 조회 */
+    if (isHeavy(s)) t += 800 + Math.random() * 700;    /* 멀티 테이블: +0.8~1.5초 */
+    return Math.min(t, 3300);
+  }
+
+  /* ── CSV(엑셀) 다운로드 — BOM 포함이라 엑셀에서 한글 정상 ── */
+  function dlCsv(name, rows) {
+    var csv = '﻿' + rows.map(function (r) {
+      return r.map(function (c) { return '"' + String(c).replace(/"/g, '""') + '"'; }).join(',');
+    }).join('\n');
+    var d = new Date(), ymd = d.getFullYear() + ('0' + (d.getMonth() + 1)).slice(-2) + ('0' + d.getDate()).slice(-2);
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
+    a.download = name + '_' + ymd + '.csv';
+    document.body.appendChild(a); a.click(); a.remove();
+  }
+
   function play(i, userText, thenCb) {
     if (busy) return;
     busy = true;
@@ -443,8 +478,13 @@
 
     var think = document.createElement('div');
     think.className = 'swai-think';
-    think.innerHTML = '<i></i><i></i><i></i>';
+    var heavy = isHeavy(s);
+    think.innerHTML = '<i></i><i></i><i></i>' + (heavy ? '<span class="lb">여러 테이블 조회 중…</span>' : '');
     setTimeout(function () { panel.querySelector('.swai-body').appendChild(think); scrollEnd(); }, 350);
+    if (heavy) setTimeout(function () {
+      var lb = think.querySelector('.lb');
+      if (lb) lb.textContent = '결과 집계 중…';
+    }, 1450);
 
     setTimeout(function () {
       think.remove();
@@ -522,7 +562,7 @@
           if (thenCb) thenCb();
         }, wait + 300);
       }
-    }, REDUCE ? 400 : 1250);
+    }, thinkMs(s));
   }
 
   function open() {
@@ -649,6 +689,20 @@
           ln.setAttribute('stroke-dasharray', '5 4'); ln.setAttribute('vector-effect', 'non-scaling-stroke');
           svg.appendChild(ln);
         } };
+    }
+    /* 엑셀 다운로드: "엑셀로 뽑아줘 / 내보내줘 / 다운로드" — 현재 화면 표를 CSV로 저장 */
+    if (/(엑셀|excel|csv)/i.test(v) || (/(다운로드|내보내)/.test(v) && /(표|목록|내역|데이터)/.test(v))) {
+      var xt = document.querySelector('table.grid');
+      if (xt) {
+        var xr = [].slice.call(xt.rows).map(function (tr) {
+          return [].slice.call(tr.cells).map(function (td) { return td.textContent.trim(); });
+        });
+        return { q: v, hv: 1,
+          a: '「' + pageTitle() + '」 화면의 표 ' + (xr.length - 1) + '행을 정리해 엑셀 파일로 저장했어요. 다운로드 폴더에서 확인하세요 — 열 구성은 화면과 동일합니다.',
+          act: function () { dlCsv(pageTitle().replace(/\s+/g, '_'), xr); } };
+      }
+      return { q: v,
+        a: '이 화면에는 내보낼 표가 없어요. 재고 분석·주문 목록처럼 표가 있는 화면에서 다시 요청해주세요.' };
     }
     /* 보고서 초안 */
     if (/(보고서|리포트)/.test(v) && /(만들|써|초안|작성)/.test(v)) {
