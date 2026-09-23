@@ -34,7 +34,13 @@ body.login-page{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;back
 /* 오류 셰이크 */
 @keyframes lgshake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
 .lg-form.shake{animation:lgshake .4s ease}
-.lg-form input.err{border-color:var(--neg)}
+.lg-form input.err{border-color:var(--neg);border-width:1.5px}
+
+/* 오류 메시지 — 인라인 헬퍼 / 상단 배너 */
+.fld-err{display:none;font-size:11.5px;color:var(--neg);margin-top:6px}
+.fld-err.on{display:block}
+.lg-alert{display:none;background:#FDECEC;border:1px solid #F5C6C6;border-radius:8px;padding:10px 14px;margin:0 0 4px;font-size:11.5px;line-height:1.45;color:#D0342C}
+.lg-alert.on{display:block}
 
 /* ── 반응형: 세로 스택 ── */
 @media (max-width:960px){
@@ -57,12 +63,15 @@ body.login-page{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;back
     <form class="lg-form" id="lgForm">
       <h2 class="lg-title">로그인</h2>
       <p class="lg-sub">사내 계정으로 로그인하세요</p>
+      <div class="lg-alert" id="lgAlert"></div>
       <label>법인</label>
       <select><option>참살이</option></select>
       <label>아이디</label>
       <input type="text" id="lgId" value="admin" autocomplete="username">
+      <p class="fld-err" id="errId"></p>
       <label>비밀번호</label>
       <input type="password" id="lgPw" value="ckatkfdl1234" autocomplete="current-password">
+      <p class="fld-err" id="errPw"></p>
       <div class="lg-row">
         <label style="margin:0;display:flex;align-items:center;gap:8px;font-weight:400"><input type="checkbox" checked style="width:16px;height:16px;accent-color:var(--brand)">로그인 유지</label>
         <a href="#">비밀번호 재설정</a>
@@ -74,24 +83,43 @@ body.login-page{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;back
   </section>
 
 <script>
-/* 더미 로그인: admin / ckatkfdl1234 일치 시 대시보드로, 아니면 셰이크 */
+/* 더미 로그인 + 상태별 오류 메시지 (admin / ckatkfdl1234)
+   인라인 4종: 미입력(아이디·비밀번호) / 등록되지 않은 아이디 / 비밀번호 불일치
+   상단 배너: showAlert('문구') — 잠금·세션 만료·서버 오류 등 서버 연동 시 사용 */
 (function(){
   var form=document.getElementById('lgForm'),
       id=document.getElementById('lgId'),
       pw=document.getElementById('lgPw'),
-      btn=document.getElementById('lgBtn');
+      btn=document.getElementById('lgBtn'),
+      errId=document.getElementById('errId'),
+      errPw=document.getElementById('errPw'),
+      alertBox=document.getElementById('lgAlert');
+
+  function clearErrs(){
+    id.classList.remove('err'); pw.classList.remove('err');
+    errId.classList.remove('on'); errPw.classList.remove('on');
+    alertBox.classList.remove('on');
+  }
+  function fail(input,msgEl,msg){
+    input.classList.add('err');
+    msgEl.textContent=msg; msgEl.classList.add('on');
+    form.classList.remove('shake'); void form.offsetWidth;
+    form.classList.add('shake');
+    input.focus();
+  }
+  window.showAlert=function(msg){ alertBox.textContent=msg; alertBox.classList.add('on'); };
+
+  id.addEventListener('input',function(){ id.classList.remove('err'); errId.classList.remove('on'); });
+  pw.addEventListener('input',function(){ pw.classList.remove('err'); errPw.classList.remove('on'); });
+
   form.addEventListener('submit',function(e){
     e.preventDefault();
-    id.classList.remove('err'); pw.classList.remove('err');
-    var ok = id.value.trim()==='admin' && pw.value==='ckatkfdl1234';
-    if(!ok){
-      if(id.value.trim()!=='admin') id.classList.add('err');
-      if(pw.value!=='ckatkfdl1234') pw.classList.add('err');
-      form.classList.remove('shake'); void form.offsetWidth;
-      form.classList.add('shake');
-      (id.value.trim()!=='admin'?id:pw).focus();
-      return;
-    }
+    clearErrs();
+    var idv=id.value.trim(), pwv=pw.value;
+    if(!idv) return fail(id,errId,'아이디를 입력해주세요.');
+    if(!pwv) return fail(pw,errPw,'비밀번호를 입력해주세요.');
+    if(idv!=='admin') return fail(id,errId,'등록되지 않은 아이디입니다. 관리자에게 문의해주세요.');
+    if(pwv!=='ckatkfdl1234') return fail(pw,errPw,'비밀번호가 일치하지 않습니다. 다시 확인한 후 입력해주세요.');
     btn.disabled=true; btn.textContent='로그인 중…';
     setTimeout(function(){ location.href='dashboard.html'; },700);
   });
