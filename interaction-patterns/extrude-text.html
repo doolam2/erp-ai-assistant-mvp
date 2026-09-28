@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>3D 압출 텍스트</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  body { overflow:hidden; }
+  #three { position:fixed; inset:0; cursor:grab; }
+  #three.grabbing { cursor:grabbing; }
+  .note { position:fixed; bottom:1.4rem; left:50%; transform:translateX(-50%); color:var(--dim); font-size:.85rem; }
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">3D 압출 텍스트 — 두께 있는 글자를 드래그로 굴려보세요</span></div>
+<div id="three"></div>
+<p class="note">Three.js TextGeometry(베벨 압출) + 드래그 회전·관성. 가만두면 천천히 자전</p>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { FontLoader } from 'three/addons/loaders/FontLoader.js';
+import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x111111);
+const camera = new THREE.PerspectiveCamera(38, innerWidth/innerHeight, .1, 100);
+camera.position.z = 16;
+const renderer = new THREE.WebGLRenderer({ antialias:true });
+renderer.setSize(innerWidth, innerHeight);
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+document.getElementById('three').appendChild(renderer.domElement);
+
+scene.add(new THREE.AmbientLight(0xffffff, .35));
+const key = new THREE.DirectionalLight(0xffffff, 2.2); key.position.set(4, 6, 8); scene.add(key);
+const rim = new THREE.DirectionalLight(0x7db8ff, 1.1); rim.position.set(-6, -3, -6); scene.add(rim);
+
+const group = new THREE.Group();
+scene.add(group);
+
+new FontLoader().load(
+  'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/fonts/helvetiker_bold.typeface.json',
+  font => {
+    const geo = new TextGeometry('DEPTH', {
+      font, size: 3, height: 1.4, curveSegments: 10,
+      bevelEnabled: true, bevelThickness: .12, bevelSize: .08, bevelSegments: 4,
+    });
+    geo.center();
+    const mesh = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({
+      color: 0xe14f2a, metalness: .3, roughness: .35,
+    }));
+    group.add(mesh);
+  });
+
+/* 드래그 회전 + 관성 + 자전 */
+const el = document.getElementById('three');
+let dragging = false, lx = 0, ly = 0, vx = 0, vy = 0;
+el.addEventListener('pointerdown', e => {
+  dragging = true; lx = e.clientX; ly = e.clientY;
+  el.classList.add('grabbing'); el.setPointerCapture(e.pointerId);
+});
+el.addEventListener('pointermove', e => {
+  if (!dragging) return;
+  vx = (e.clientX - lx) * .006; vy = (e.clientY - ly) * .006;
+  lx = e.clientX; ly = e.clientY;
+  group.rotation.y += vx; group.rotation.x += vy;
+});
+['pointerup','pointercancel'].forEach(ev => el.addEventListener(ev, () => {
+  dragging = false; el.classList.remove('grabbing');
+}));
+addEventListener('resize', () => {
+  camera.aspect = innerWidth/innerHeight; camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+});
+(function loop(){
+  if (!dragging){
+    group.rotation.y += vx; group.rotation.x += vy;
+    vx *= .95; vy *= .95;
+    group.rotation.y += .004;                      // 자전
+    group.rotation.x += (Math.sin(Date.now() * .0006) * .15 - group.rotation.x) * .02;
+  }
+  renderer.render(scene, camera);
+  requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>
