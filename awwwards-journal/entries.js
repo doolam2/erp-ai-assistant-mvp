@@ -2,6 +2,7 @@
 const ENTRIES = [
   {
     folder: "2026-09-28-meech213",
+    demo: "../interaction-patterns/rolling-gallery.html",
     name: "Meech213",
     url: "https://www.meech213.com/",
     date: "2026-09-28",
@@ -13,6 +14,7 @@ const ENTRIES = [
   },
   {
     folder: "2026-09-28-bleibtgleich",
+    demo: "../interaction-patterns/fluid-text.html",
     name: "Maksym Bleibtgleich",
     url: "https://bleibtgleich.dev/",
     date: "2026-09-28",
@@ -24,6 +26,7 @@ const ENTRIES = [
   },
   {
     folder: "2026-09-21-gilhuybrecht",
+    demo: "../interaction-patterns/flip-gallery.html",
     name: "Gil Huybrecht",
     url: "https://gilhuybrecht.com/",
     date: "2026-09-21",
