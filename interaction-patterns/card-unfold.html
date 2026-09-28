@@ -34,7 +34,7 @@
 </style>
 </head>
 <body>
-<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">3D 카드 언폴드 — 스크롤: 카드가 돌며 커진 뒤 부채꼴로 펼쳐집니다 (간이 재현)</span><a class="ref" href="https://inkwell.tech/" target="_blank" rel="noopener">레퍼런스 ↗</a></div>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">3D 카드 언폴드 — 원형 링 → 모임 → 회전·확대 → 부채꼴 → 정렬 (간이 재현)</span><a class="ref" href="https://inkwell.tech/" target="_blank" rel="noopener">레퍼런스 ↗</a></div>
 
 <div class="intro">↓ 천천히 스크롤</div>
 <div class="stage-wrap">
@@ -51,7 +51,7 @@
     </div>
   </div>
 </div>
-<div class="outro">회전·확대(1막) → 3D 부채꼴 펼침(2막) → 정렬(3막)</div>
+<div class="outro">원형 링(0막) → 덱으로 모임 → 회전·확대(1막) → 3D 부채꼴(2막) → 정렬(3막)</div>
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
@@ -61,15 +61,42 @@ const cards = gsap.utils.toArray('.card').reverse();   // c0(맨 앞)부터 순�
 const N = cards.length, MID = (N - 1) / 2;
 
 const tl = gsap.timeline({
-  scrollTrigger: { trigger:'#stage', start:'top top', end:'+=3200', pin:true, scrub:0.6 }
+  scrollTrigger: { trigger:'#stage', start:'top top', end:'+=4200', pin:true, scrub:0.6 }
 });
 
-/* 1막 — 덱이 통째로 Y축 회전하며 커짐 ("카드가 돌아가면서 확대") */
-tl.fromTo('#deck',
-  { scale:.45, rotationY:-200, rotationX:8, y:120 },
-  { scale:1, rotationY:0, rotationX:0, y:0, duration:1.1, ease:'power2.inOut' });
+/* 0막 — 시작: 카드들이 빙 둘러선 원형 링(꽃잎 배치). 카드 윗변이 바깥을 향함 */
+const RING = 290;
+cards.forEach((c, i) => {
+  const deg = (i / N) * 360;
+  const rad = (deg * Math.PI) / 180;
+  gsap.set(c, {
+    x: Math.sin(rad) * RING,
+    y: -Math.cos(rad) * RING,
+    rotationZ: deg,
+    transformOrigin: '50% 50%',              // 링 단계에선 카드 중심 기준
+  });
+});
+gsap.set('#deck', { scale: .55, rotationZ: 0 });
 
-/* 2막 — 카드들이 3D 부채꼴로 펼쳐짐 */
+/* 0→1막 전환 — 링이 천천히 돌며 중앙 덱으로 모임 */
+tl.to('#deck', { rotationZ: 55, duration: 1, ease: 'power2.inOut' }, 0);
+cards.forEach((c, i) => {
+  tl.to(c, {
+    x: 0, y: 0, rotationZ: 0,
+    duration: 1, ease: 'power3.inOut',
+  }, i * 0.03);
+});
+
+/* 1막 — 모인 덱이 통째로 Y축 회전하며 커짐 ("카드가 돌아가면서 확대") */
+tl.to('#deck', { rotationZ: 0, scale: .45, duration: .01 }, 1.1)
+  .fromTo('#deck',
+    { rotationY: -200, rotationX: 8, y: 120 },
+    { rotationY: 0, rotationX: 0, y: 0, scale: 1, duration: 1.1, ease: 'power2.inOut',
+      immediateRender: false },              // 0막(링)에서 미리 적용되지 않도록
+    1.12);
+
+/* 2막 — 카드들이 3D 부채꼴로 펼쳐짐 (회전축을 아래 바깥으로 변경) */
+tl.set('.card', { transformOrigin: '50% 120%' }, 2.3);
 cards.forEach((c, i) => {
   const off = i - MID;                       // -3 ~ +3
   tl.to(c, {
@@ -77,9 +104,9 @@ cards.forEach((c, i) => {
     rotationY: off * 9,                      // 살짝 비틀려 입체감
     z: -Math.abs(off) * 34,                  // 바깥 카드일수록 뒤로
     duration: .9, ease: 'power3.inOut',
-  }, 1.25 + Math.abs(off) * 0.06);           // 가운데부터 바깥으로 스태거
+  }, 2.4 + Math.abs(off) * 0.06);            // 가운데부터 바깥으로 스태거
 });
-tl.to('#head', { opacity:1, y:-10, duration:.5 }, 1.6);
+tl.to('#head', { opacity:1, y:-10, duration:.5 }, 2.75);
 
 /* 3막 — 부채를 접고 가로 한 줄로 정렬 */
 cards.forEach((c, i) => {
@@ -88,9 +115,9 @@ cards.forEach((c, i) => {
     rotationZ:0, rotationY:0, z:0,
     x: off * 118, scale:.86,
     duration: .9, ease: 'power3.inOut',
-  }, 2.6 + Math.abs(off) * 0.04);
+  }, 3.75 + Math.abs(off) * 0.04);
 });
-tl.to('#deck', { rotationX:12, y:30, duration:.9 }, 2.6)
+tl.to('#deck', { rotationX:12, y:30, duration:.9 }, 3.75)
   .to({}, { duration:.4 });                  // 끝에서 잠깐 정지
 </script>
 </body>
