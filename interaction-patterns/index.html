@@ -36,7 +36,7 @@
     background:#181818; transition:transform .3s, border-color .3s;
   }
   .ref-card:hover { transform:translateY(-4px); border-color:var(--accent); }
-  .ref-card img { width:100%; aspect-ratio:16/10; object-fit:cover; object-position:top; display:block; background:#222; }
+  .ref-card img { width:100%; aspect-ratio:16/10; object-fit:cover; object-position:center; display:block; background:#222; }
   .ref-card .rb { padding:.9rem 1rem 1rem; }
   .ref-card h3 { font-size:1.05rem; letter-spacing:-.01em; }
   .ref-card .src { margin-top:.3rem; font-size:.75rem; color:var(--dim); }
@@ -72,6 +72,10 @@
 <script>
 // ── 레퍼런스 재현 컬렉션: 새 사이트를 분석·재현할 때마다 맨 앞에 추가 ──
 const REFS = [
+  {
+    t: "플루이드 텍스트", f: "fluid-text.html", thumb: "thumbs/fluid-text.png",
+    site: "bleibtgleich.dev", desc: "잉크처럼 녹아 있던 글자가 스크롤하면 굳으며 나타남",
+  },
   {
     t: "FLIP 갤러리", f: "flip-gallery.html", thumb: "thumbs/flip-gallery.png",
     site: "gilhuybrecht.com", desc: "썸네일→상세 확대·복귀 + WebGL 빨려드는 왜곡",

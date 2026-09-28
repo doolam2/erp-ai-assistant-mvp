@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>플루이드 텍스트 리빌</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  body { background:#fff; color:#111; }
+  .spacer { height:55vh; display:flex; align-items:center; justify-content:center; color:#999; font-size:.9rem; }
+  section.goo-sec { min-height:70vh; display:flex; align-items:center; justify-content:center; padding:2rem; }
+  .goo {
+    font-size:clamp(3rem,10vw,8rem); font-weight:800; letter-spacing:-.02em;
+    line-height:1.15; text-align:center; will-change:filter;
+  }
+  .note { max-width:46ch; margin:0 auto 30vh; color:#777; font-size:.9rem; line-height:1.8; text-align:center; padding:0 1.5rem; }
+  .note code { font-family:Menlo,monospace; font-size:.85em; color:#e14f2a; }
+  svg.defs { position:absolute; width:0; height:0; }
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">플루이드 텍스트 — 잉크처럼 녹아 있던 글자가 스크롤하면 굳으며 나타남</span><a class="ref" href="https://bleibtgleich.dev/" target="_blank" rel="noopener">레퍼런스 ↗</a></div>
+
+<svg class="defs" aria-hidden="true"><defs id="defs"></defs></svg>
+
+<div class="spacer">↓ 천천히 스크롤 — 올리면 다시 녹습니다</div>
+
+<section class="goo-sec"><h1 class="goo" data-goo>FLUID</h1></section>
+<section class="goo-sec"><h1 class="goo" data-goo>TYPOGRAPHY</h1></section>
+<section class="goo-sec"><h1 class="goo" data-goo>유동하는 활자</h1></section>
+<section class="goo-sec"><h1 class="goo" data-goo>the best<br>ideas flow</h1></section>
+
+<p class="note">원리: 텍스트에 SVG 필터 <code>feGaussianBlur(50)</code> +
+<code>feColorMatrix</code> 알파 대비 증폭(<code>A×20−8</code>)을 걸면 글자가 액체 덩어리로 녹고,
+스크롤 진행도에 따라 blur를 0으로, 대비를 원래대로 되돌리면 잉크가 굳으며 글자가 살아납니다.
+bleibtgleich.dev와 동일한 구성(GSAP ScrollTrigger 스크럽, 줄마다 고유 필터).<br><br>
+주의: SVG 필터는 큰 영역에 걸면 무거우므로 텍스트 블록 단위로만, 그리고 전환이 끝나면
+<code>filter</code>를 제거해 주는 것이 성능 포인트입니다.</p>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+const NS = 'http://www.w3.org/2000/svg';
+const defs = document.getElementById('defs');
+
+document.querySelectorAll('[data-goo]').forEach((el, i) => {
+  // 줄마다 고유 필터 생성 (원본 사이트와 같은 구성)
+  const id = 'goo-' + i;
+  const filter = document.createElementNS(NS, 'filter');
+  filter.setAttribute('id', id);
+  const blur = document.createElementNS(NS, 'feGaussianBlur');
+  blur.setAttribute('stdDeviation', 50);
+  const cm = document.createElementNS(NS, 'feColorMatrix');
+  const setCM = (mul, off) =>
+    cm.setAttribute('values', `1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 ${mul} ${off}`);
+  setCM(20, -8);
+  filter.appendChild(blur); filter.appendChild(cm);
+  defs.appendChild(filter);
+  el.style.filter = `url(#${id})`;
+
+  // 스크롤 스크럽: 녹은 상태(blur 50, 대비 20/-8) → 원래 글자(blur 0, 대비 1/0)
+  // 포인트: 대비는 70% 지점까지 세게 유지해야 중간에도 가장자리가 쫀득한 '액체'로 보임
+  const state = { blur: 50, mul: 20, off: -8 };
+  const apply = () => { blur.setAttribute('stdDeviation', state.blur); setCM(state.mul, state.off); };
+  gsap.timeline({
+    scrollTrigger: {
+      trigger: el, start: 'top 85%', end: 'top 40%', scrub: 0.4,
+      onLeave: () => el.style.filter = 'none',          // 끝나면 필터 제거(성능)
+      onEnterBack: () => el.style.filter = `url(#${id})`,
+    }
+  })
+  .to(state, { blur: 6, duration: .7, ease: 'none', onUpdate: apply })          // 굳는 동안 대비 유지
+  .to(state, { blur: 0, mul: 1, off: 0, duration: .3, ease: 'none', onUpdate: apply }); // 마지막에 선명하게
+});
+</script>
+</body>
+</html>
