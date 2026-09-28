@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>마그네틱 레터</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  main { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2rem; overflow:hidden; }
+  h1 { font-size:clamp(2.2rem,7vw,5.5rem); font-weight:800; letter-spacing:.02em; }
+  h1 span { display:inline-block; will-change:transform; }
+  .note { color:var(--dim); font-size:.9rem; }
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">마그네틱 레터 — 리펄전의 반대: 글자들이 커서 쪽으로 끌려옵니다</span></div>
+<main>
+  <h1 data-mag>COME CLOSER</h1>
+  <p class="note">가까운 글자일수록 강하게 끌리고 살짝 커집니다. 리펄전과 부호 하나 차이</p>
+</main>
+<script>
+const el = document.querySelector('[data-mag]');
+el.innerHTML = [...el.textContent].map(c => c === ' ' ? ' ' : `<span>${c}</span>`).join('');
+const chars = [...el.querySelectorAll('span')].map(s => ({ el:s, x:0, y:0, sc:1 }));
+let mx = -9999, my = -9999;
+addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+addEventListener('mouseout', () => { mx = my = -9999; });
+const RADIUS = 190, PULL = 0.35;    // 끌림 강도(리펄전의 FORCE 대신 비율)
+(function loop(){
+  chars.forEach(c => {
+    const b = c.el.getBoundingClientRect();
+    const cx = b.left + b.width/2 - c.x, cy = b.top + b.height/2 - c.y;
+    const dx = mx - cx, dy = my - cy;
+    const d = Math.hypot(dx, dy);
+    let tx = 0, ty = 0, ts = 1;
+    if (d < RADIUS){
+      const f = (1 - d / RADIUS);
+      tx = dx * f * PULL; ty = dy * f * PULL;
+      ts = 1 + f * .25;
+    }
+    c.x += (tx - c.x) * .14; c.y += (ty - c.y) * .14; c.sc += (ts - c.sc) * .14;
+    c.el.style.transform = `translate(${c.x}px, ${c.y}px) scale(${c.sc})`;
+  });
+  requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>

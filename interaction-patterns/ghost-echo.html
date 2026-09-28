@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>고스트 에코</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  main { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2rem; overflow:hidden; }
+  .stack { position:relative; }
+  .stack h1 {
+    font-size:clamp(2.4rem,8vw,6rem); font-weight:800; letter-spacing:-.02em; white-space:nowrap;
+    will-change:transform;
+  }
+  .stack h1.echo { position:absolute; inset:0; pointer-events:none; }
+  .note { color:var(--dim); font-size:.9rem; }
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">고스트 에코 — 마우스를 움직이면 잔상들이 시차를 두고 따라옵니다</span></div>
+<main>
+  <div class="stack" id="stack"><h1>ECHO CHAMBER</h1></div>
+  <p class="note">복제본마다 다른 lerp 속도 — 느린 놈일수록 늦게 도착해 잔상이 됩니다</p>
+</main>
+<script>
+const stack = document.getElementById('stack');
+const base = stack.querySelector('h1');
+const LAYERS = [
+  { el: base, k: .18, o: 1 },
+];
+for (let i = 1; i <= 4; i++){
+  const c = base.cloneNode(true);
+  c.className = 'echo';
+  c.style.opacity = (0.32 - i * 0.07).toFixed(2);
+  c.style.color = i % 2 ? 'var(--accent)' : 'var(--fg)';
+  stack.appendChild(c);
+  LAYERS.push({ el: c, k: .18 / (i + 1.2), x: 0, y: 0 });
+}
+LAYERS.forEach(l => { l.x = 0; l.y = 0; });
+let tx = 0, ty = 0;
+addEventListener('mousemove', e => {
+  tx = (e.clientX / innerWidth - .5) * 120;
+  ty = (e.clientY / innerHeight - .5) * 60;
+});
+(function loop(){
+  LAYERS.forEach(l => {
+    l.x += (tx - l.x) * l.k;
+    l.y += (ty - l.y) * l.k;
+    l.el.style.transform = `translate(${l.x}px, ${l.y}px)`;
+  });
+  requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>

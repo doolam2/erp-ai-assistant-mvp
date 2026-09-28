@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>네온 플리커</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  body { background:#0a0a14; }
+  main { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1.4rem; }
+  .neon {
+    font-size:clamp(2.6rem,9vw,7rem); font-weight:800; letter-spacing:.04em; color:#fff;
+    text-shadow:0 0 7px #fff, 0 0 18px #ff2ea6, 0 0 42px #ff2ea6, 0 0 82px #ff2ea6;
+  }
+  .neon span { display:inline-block; }
+  .neon span.dim { color:rgba(255,255,255,.25); text-shadow:none; }
+  .sub { color:#7de3ff; font-size:1.1rem; letter-spacing:.5em; text-transform:uppercase;
+    text-shadow:0 0 6px #7de3ff, 0 0 22px #1899c9; }
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">네온 플리커 — 간판처럼 몇 글자가 지지직 깜빡입니다</span></div>
+<main>
+  <h1 class="neon" id="n">MIDNIGHT</h1>
+  <p class="sub">open 24 hours</p>
+</main>
+<script>
+const n = document.getElementById('n');
+n.innerHTML = [...n.textContent].map(c => `<span>${c}</span>`).join('');
+const chars = n.querySelectorAll('span');
+// 불규칙 플리커: 무작위 글자가 짧게 여러 번 꺼졌다 켜짐
+function flicker(){
+  const s = chars[Math.floor(Math.random() * chars.length)];
+  let k = 0, times = 2 + Math.floor(Math.random() * 4);
+  const iv = setInterval(() => {
+    s.classList.toggle('dim');
+    if (++k >= times * 2){ clearInterval(iv); s.classList.remove('dim'); }
+  }, 55 + Math.random() * 60);
+  setTimeout(flicker, 400 + Math.random() * 2200);
+}
+flicker();
+</script>
+</body>
+</html>

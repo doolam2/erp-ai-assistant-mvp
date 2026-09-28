@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>베이스라인 웨이브</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  main { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3rem; }
+  h1 { font-size:clamp(2.2rem,7vw,5rem); font-weight:800; }
+  h1 span, h2 span { display:inline-block; will-change:transform; }
+  h2 { font-size:clamp(1.4rem,4vw,2.4rem); font-weight:700; color:var(--accent); }
+  .note { color:var(--dim); font-size:.9rem; }
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">베이스라인 웨이브 — 글자들이 파도 위에 떠 있듯 출렁입니다</span></div>
+<main>
+  <h1 data-wave data-amp="14" data-speed="2.2">OCEAN MOTION</h1>
+  <h2 data-wave data-amp="8" data-speed="3.1" data-rot="1">물결 위의 문장</h2>
+  <p class="note">sin(시간 − 글자순서×위상)으로 y·회전을 흔드는 무한 루프</p>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script>
+document.querySelectorAll('[data-wave]').forEach(el => {
+  el.innerHTML = [...el.textContent].map(c => c === ' ' ? ' ' : `<span>${c}</span>`).join('');
+  const chars = el.querySelectorAll('span');
+  const amp = +el.dataset.amp, speed = +el.dataset.speed, rot = el.dataset.rot ? 4 : 0;
+  gsap.ticker.add(t => {
+    chars.forEach((s, i) => {
+      const ph = t * speed - i * .55;
+      s.style.transform = `translateY(${Math.sin(ph) * amp}px)` +
+        (rot ? ` rotate(${Math.cos(ph) * rot}deg)` : '');
+    });
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>지우개 리빌</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  .spacer { height:60vh; display:flex; align-items:center; justify-content:center; color:var(--dim); }
+  .stage { height:100vh; display:flex; align-items:center; justify-content:center; padding:2rem; }
+  .er {
+    font-size:clamp(2rem,6vw,4.5rem); font-weight:700; line-height:1.4; text-align:center; max-width:20ch;
+    --p: 0%;
+    -webkit-mask-image: linear-gradient(105deg, #000 var(--p), transparent calc(var(--p) + 12%));
+            mask-image: linear-gradient(105deg, #000 var(--p), transparent calc(var(--p) + 12%));
+  }
+  .outro { height:60vh; display:flex; align-items:center; justify-content:center; color:var(--dim); }
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">지우개 리빌 — 김서린 유리를 닦아내듯 글자가 드러납니다 (스크럽)</span></div>
+<div class="spacer">↓ 스크롤</div>
+<div class="stage" id="stage">
+  <h1 class="er" id="er">가려져 있던 문장이 손끝을 따라 서서히 드러난다</h1>
+</div>
+<div class="outro">mask-image 그라디언트의 경계 위치(CSS 변수)를 스크럽하는 원리</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+const state = { p: -12 };
+gsap.to(state, {
+  p: 112, ease:'none',
+  scrollTrigger:{ trigger:'#stage', start:'top top', end:'+=1300', pin:true, scrub:true },
+  onUpdate(){ document.getElementById('er').style.setProperty('--p', state.p + '%'); }
+});
+</script>
+</body>
+</html>

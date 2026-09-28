@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>서클 텍스트 회전</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  main { min-height:100vh; display:flex; align-items:center; justify-content:center; }
+  .badge { position:relative; width:min(70vw,420px); }
+  svg { width:100%; height:auto; display:block; }
+  svg text { fill:var(--fg); font-size:23px; font-weight:700; letter-spacing:.35em; text-transform:uppercase; }
+  #ringOuter { animation:spin 18s linear infinite; transform-origin:250px 250px; }
+  #ringInner { animation:spin 12s linear infinite reverse; transform-origin:250px 250px; }
+  #ringInner text { fill:var(--accent); font-size:15px; }
+  @keyframes spin { to { transform:rotate(360deg); } }
+  .badge:hover #ringOuter, .badge:hover #ringInner { animation-play-state:paused; }
+  .core { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:2.2rem; }
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">서클 텍스트 — 글자가 원을 따라 배열돼 회전합니다 (호버 시 정지)</span></div>
+<main>
+  <div class="badge">
+    <svg viewBox="0 0 500 500">
+      <defs>
+        <path id="circA" d="M250,250 m-190,0 a190,190 0 1,1 380,0 a190,190 0 1,1 -380,0"/>
+        <path id="circB" d="M250,250 m-120,0 a120,120 0 1,1 240,0 a120,120 0 1,1 -240,0"/>
+      </defs>
+      <g id="ringOuter"><text><textPath href="#circA">DESIGN · DEVELOP · DELIVER · DESIGN · DEVELOP · DELIVER ·</textPath></text></g>
+      <g id="ringInner"><text><textPath href="#circB">SINCE 2026 — SEOUL — SINCE 2026 — SEOUL —</textPath></text></g>
+    </svg>
+    <div class="core">✦</div>
+  </div>
+</main>
+</body>
+</html>
