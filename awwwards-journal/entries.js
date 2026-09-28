@@ -1,6 +1,17 @@
 // 어워드 저널 엔트리 목록 — 새 리뷰마다 맨 앞에 한 객체 추가
 const ENTRIES = [
   {
+    folder: "2026-09-28-bleibtgleich",
+    name: "Maksym Bleibtgleich",
+    url: "https://bleibtgleich.dev/",
+    date: "2026-09-28",
+    thumb: "02-goo-mid.png",
+    comment: "스크롤을 내리면 폰트가 잉크처럼 녹아 있다가 굳으며 나타나는 플루이드 효과",
+    style: ["미니멀", "타이포중심", "화이트", "스위스그리드"],
+    industry: ["포트폴리오", "디자이너개인"],
+    interaction: ["플루이드텍스트", "구이필터", "스크롤리빌", "스무스스크롤"],
+  },
+  {
     folder: "2026-09-21-gilhuybrecht",
     name: "Gil Huybrecht",
     url: "https://gilhuybrecht.com/",
