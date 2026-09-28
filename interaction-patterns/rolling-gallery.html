@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>3D 롤링 갤러리</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  body { background:#f2efe9; color:#111; overflow:hidden; }
+  #three { position:fixed; inset:0; cursor:grab; }
+  #three.grabbing { cursor:grabbing; }
+  .brand {
+    position:fixed; top:1.4rem; left:50%; transform:translateX(-50%);
+    font-weight:800; letter-spacing:.3em; font-size:1rem; pointer-events:none;
+  }
+  .hint { position:fixed; bottom:1.4rem; left:50%; transform:translateX(-50%);
+    color:#8a857c; font-size:.85rem; pointer-events:none; }
+  .side { position:fixed; top:50%; font-size:.7rem; letter-spacing:.2em; color:#8a857c;
+    pointer-events:none; }
+  .side.l { left:1.2rem; transform:rotate(-90deg) translateX(50%); transform-origin:left center; }
+  .side.r { right:1.2rem; transform:rotate(90deg) translateX(-50%); transform-origin:right center; }
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">3D 롤링 갤러리 — 드래그하거나 휠을 굴리면 원통이 돌아갑니다 (영상 2개 포함)</span><a class="ref" href="https://www.meech213.com/" target="_blank" rel="noopener">레퍼런스 ↗</a></div>
+<div id="three"></div>
+<div class="brand">ROLLING</div>
+<p class="hint">← 드래그 · 휠 스크롤 → 놓으면 관성으로 굴러갑니다</p>
+<div class="side l">PHOTOGRAPHY</div>
+<div class="side r">FILM</div>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+<script>
+/* meech213.com 방식: 이미지·영상을 원통 면에 감아 배치하고 드래그/휠로 회전.
+   각 아이템을 CylinderGeometry의 한 조각(호)으로 만들어 자연스럽게 '휘어진' 패널이 됨 */
+const container = document.getElementById('three');
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0xf2efe9);
+const camera = new THREE.PerspectiveCamera(40, innerWidth/innerHeight, .1, 100);
+camera.position.set(0, 0, 38);
+const renderer = new THREE.WebGLRenderer({ antialias:true });
+renderer.setSize(innerWidth, innerHeight);
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+container.appendChild(renderer.domElement);
+
+const R = 14;                 // 원통 반지름
+const N = 10;                 // 아이템 수
+const ARC = (Math.PI * 2) / N * 0.72;   // 패널 하나가 차지하는 호(간격 남김)
+const H = 6.2;                // 패널 높이
+const group = new THREE.Group();
+group.rotation.y = -(Math.PI * 2 / N) * 1.5;   // 시작 화면에 이미지 패널이 오도록
+scene.add(group);
+
+const IMAGES = [1015,1025,1036,1043,1050,1062,1069,1080].map(id => `https://picsum.photos/id/${id}/700/900`);
+const VIDEOS = [
+  'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4',
+  'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
+];
+const texLoader = new THREE.TextureLoader();
+texLoader.setCrossOrigin('anonymous');
+
+function makeVideoTexture(src){
+  const v = document.createElement('video');
+  v.src = src; v.crossOrigin = 'anonymous';
+  v.muted = true; v.loop = true; v.playsInline = true; v.autoplay = true;
+  v.play().catch(()=>{ addEventListener('pointerdown', () => v.play(), { once:true }); });
+  const t = new THREE.VideoTexture(v);
+  t.colorSpace = THREE.SRGBColorSpace;
+  return t;
+}
+
+for (let i = 0; i < N; i++){
+  const angle = (i / N) * Math.PI * 2;
+  // 원통 조각: (반지름, 반지름, 높이, 세그먼트, 1, 옆면만, 시작각, 호 길이)
+  const geo = new THREE.CylinderGeometry(R, R, H, 24, 1, true, -ARC/2, ARC);
+  let tex;
+  if (i % 5 === 4) tex = makeVideoTexture(VIDEOS[(i/5|0) % VIDEOS.length]);  // 5번째마다 영상
+  else { tex = texLoader.load(IMAGES[i - (i/5|0)]); tex.colorSpace = THREE.SRGBColorSpace; }
+  tex.wrapS = THREE.ClampToEdgeWrapping;
+  // 바깥면만 렌더(기본 FrontSide) → 뒤쪽으로 돌아간 패널은 자동으로 사라져 깔끔
+  const mat = new THREE.MeshBasicMaterial({ map: tex });
+  const mesh = new THREE.Mesh(geo, mat);
+  mesh.rotation.y = angle;
+  group.add(mesh);
+}
+
+/* ── 회전 제어: 드래그 + 휠 + 관성 + 미세 자동회전 ── */
+let vel = 0, dragging = false, lastX = 0;
+container.addEventListener('pointerdown', e => {
+  dragging = true; lastX = e.clientX; vel = 0;
+  container.classList.add('grabbing'); container.setPointerCapture(e.pointerId);
+});
+container.addEventListener('pointermove', e => {
+  if (!dragging) return;
+  const dx = e.clientX - lastX; lastX = e.clientX;
+  const d = dx * 0.0035;
+  group.rotation.y += d; vel = d;
+});
+['pointerup','pointercancel'].forEach(ev => container.addEventListener(ev, () => {
+  dragging = false; container.classList.remove('grabbing');
+}));
+addEventListener('wheel', e => { vel += e.deltaY * 0.00012; }, { passive:true });
+addEventListener('resize', () => {
+  camera.aspect = innerWidth/innerHeight; camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+});
+
+(function loop(){
+  if (!dragging){
+    group.rotation.y += vel;
+    vel *= 0.955;                                  // 마찰
+    group.rotation.y += 0.0009;                    // 미세 자동 회전
+  }
+  renderer.render(scene, camera);
+  requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>
