@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>폭 가변 스크럽</title>
+<link rel="stylesheet" href="shared.css">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wdth,wght@8..144,25..151,100..1000&display=swap" rel="stylesheet">
+<style>
+  .spacer { height:55vh; display:flex; align-items:center; justify-content:center; color:var(--dim); }
+  .stage { height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1.2rem; overflow:hidden; }
+  .ws {
+    font-family:'Roboto Flex', sans-serif; font-weight:900;
+    font-size:clamp(3rem,11vw,9rem); line-height:1; white-space:nowrap;
+    font-variation-settings:'wdth' 25;
+  }
+  .readout { font-family:Menlo,monospace; font-size:.8rem; color:var(--dim); letter-spacing:.15em; }
+  .wave-line { font-family:'Roboto Flex', sans-serif; font-weight:800; font-size:clamp(1.6rem,4.5vw,3rem); white-space:nowrap; }
+  .wave-line span { font-variation-settings:'wdth' 100; }
+  .outro { height:80vh; display:flex; align-items:center; justify-content:center; color:var(--dim); text-align:center; line-height:1.8; }
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">폭 가변 스크럽 — 가변폰트 wdth 축이 스크롤에 매핑되어 글자가 늘었다 줄어듭니다</span></div>
+<div class="spacer">↓ 스크롤 = 글자 폭</div>
+<div class="stage" id="stage">
+  <h1 class="ws" id="big">STRETCH</h1>
+  <div class="readout">wdth <b id="val">25</b> / 151</div>
+  <p class="wave-line" id="wave">WIDTH IS AN ANIMATABLE AXIS</p>
+</div>
+<div class="outro">Roboto Flex의 wdth 축(25~151)을 ScrollTrigger progress에 직결.<br>
+아랫줄은 스크롤 위치 기준 파도 모양으로 글자별 폭이 달라집니다.<br>
+(wdth 축이 있는 한글 가변폰트는 아직 드물어 데모는 라틴으로 구성)</div>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+const big = document.getElementById('big');
+const val = document.getElementById('val');
+const wave = document.getElementById('wave');
+wave.innerHTML = [...wave.textContent].map(c => c === ' ' ? ' ' : `<span>${c}</span>`).join('');
+const waveChars = wave.querySelectorAll('span');
+
+const state = { w: 25 };
+gsap.to(state, {
+  w: 151, ease:'none',
+  scrollTrigger:{ trigger:'#stage', start:'top top', end:'+=1600', pin:true, scrub:true },
+  onUpdate(){
+    big.style.fontVariationSettings = `'wdth' ${state.w}`;
+    val.textContent = Math.round(state.w);
+    // 아랫줄: 진행도를 파도의 위상으로 사용 → 폭의 물결이 지나감
+    const t = (state.w - 25) / 126;
+    waveChars.forEach((s, i) => {
+      const w = 75 + Math.sin(i * 0.55 - t * Math.PI * 3) * 50;   // 25~125 사이
+      s.style.fontVariationSettings = `'wdth' ${Math.max(25, Math.min(151, w))}`;
+    });
+  }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>아웃라인 필 스크럽</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  .spacer { height:60vh; display:flex; align-items:center; justify-content:center; color:var(--dim); }
+  section { min-height:110vh; display:flex; align-items:center; justify-content:center; padding:2rem; }
+  .of {
+    font-size:clamp(2.6rem,7.5vw,5.5rem); font-weight:800; letter-spacing:-.02em;
+    line-height:1.25; text-align:center; max-width:16ch;
+  }
+  .of span {
+    color:transparent;
+    -webkit-text-stroke:1.5px rgba(245,242,236,.55);   /* 채워지기 전: 외곽선만 */
+  }
+  .of span.accent-word { -webkit-text-stroke-color:rgba(225,79,42,.7); }
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">아웃라인 필 스크럽 — 외곽선 글자가 스크롤에 따라 한 글자씩 채워집니다</span></div>
+<div class="spacer">↓ 천천히 스크롤 — 올리면 다시 비워집니다</div>
+<section><h1 class="of" data-of>디자인은 선에서 시작해 면으로 완성된다</h1></section>
+<section><h1 class="of" data-of>OUTLINE <span class="accent-word" data-accent>BECOMES</span> SOLID</h1></section>
+<div class="spacer">-webkit-text-stroke + color:transparent → 스크럽으로 color만 채우는 원리</div>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+document.querySelectorAll('[data-of]').forEach(el => {
+  // 글자 단위로 쪼개기 (공백·강조단어 유지)
+  const split = node => {
+    [...node.childNodes].forEach(ch => {
+      if (ch.nodeType === 3) {
+        const frag = document.createDocumentFragment();
+        [...ch.textContent].forEach(c =>
+          frag.append(Object.assign(document.createElement('span'), { textContent: c })));
+        ch.replaceWith(frag);
+      } else split(ch);
+    });
+  };
+  split(el);
+  const chars = el.querySelectorAll('span:not([data-accent])');
+  gsap.to(chars, {
+    color: el.querySelector('[data-accent]') ? '#f5f2ec' : '#f5f2ec',
+    ease:'none', stagger:0.6,
+    scrollTrigger:{ trigger:el, start:'top 75%', end:'bottom 55%', scrub:true }
+  });
+  // 강조 단어는 채워질 때 브랜드 컬러로
+  const accent = el.querySelectorAll('[data-accent] span, span.accent-word');
+  if (accent.length) gsap.to(accent, {
+    color:'#e14f2a', ease:'none', stagger:0.6,
+    scrollTrigger:{ trigger:el, start:'top 70%', end:'bottom 55%', scrub:true }
+  });
+});
+</script>
+</body>
+</html>
