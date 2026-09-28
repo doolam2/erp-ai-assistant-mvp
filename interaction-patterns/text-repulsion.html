@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>텍스트 리펄전</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  main { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2rem; overflow:hidden; }
+  h1 { font-size:clamp(2.2rem,7vw,5.5rem); font-weight:800; letter-spacing:-.02em; line-height:1.3; text-align:center; }
+  h1 span { display:inline-block; will-change:transform; }
+  .note { color:var(--dim); font-size:.9rem; }
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">텍스트 리펄전 — 커서를 글자 사이로 움직여 보세요. 피했다가 돌아옵니다</span></div>
+<main>
+  <h1 data-rep>DON'T TOUCH<br>MY LETTERS</h1>
+  <p class="note">반경 안에서 커서 반대 방향으로 밀려나고, 스프링(lerp)으로 복귀</p>
+</main>
+<script>
+const el = document.querySelector('[data-rep]');
+// 줄바꿈 유지하며 글자 분해
+el.innerHTML = el.innerHTML.split('<br>').map(line =>
+  [...line].map(c => c === ' ' ? ' ' : `<span>${c}</span>`).join('')
+).join('<br>');
+const chars = [...el.querySelectorAll('span')].map(s => ({ el:s, x:0, y:0, r:0 }));
+let mx = -9999, my = -9999;
+addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+addEventListener('mouseout', () => { mx = my = -9999; });
+const RADIUS = 150, FORCE = 90;
+(function loop(){
+  chars.forEach(c => {
+    const b = c.el.getBoundingClientRect();
+    const cx = b.left + b.width/2 - c.x;      // 원래 위치(현재 오프셋 제거)
+    const cy = b.top + b.height/2 - c.y;
+    const dx = cx - mx, dy = cy - my;
+    const d = Math.hypot(dx, dy);
+    let tx = 0, ty = 0, tr = 0;
+    if (d < RADIUS){
+      const f = (1 - d / RADIUS) * FORCE;
+      tx = (dx / d) * f; ty = (dy / d) * f;
+      tr = (dx / d) * 14;                     // 밀려나는 방향으로 살짝 기움
+    }
+    c.x += (tx - c.x) * .12; c.y += (ty - c.y) * .12; c.r += (tr - c.r) * .12;
+    c.el.style.transform = `translate(${c.x}px, ${c.y}px) rotate(${c.r}deg)`;
+  });
+  requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>

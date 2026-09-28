@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>워드 로테이터</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  main { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2.5rem; }
+  h1 { font-size:clamp(1.8rem,5vw,3.6rem); font-weight:700; display:flex; align-items:baseline; gap:.35em; }
+  .slot {
+    display:inline-block; overflow:hidden; height:1.3em; vertical-align:bottom;
+    color:var(--accent); text-align:left;
+  }
+  .slot .roll { display:block; will-change:transform; }
+  .slot .roll span { display:block; height:1.3em; line-height:1.3; white-space:nowrap; }
+  .note { color:var(--dim); font-size:.9rem; }
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">워드 로테이터 — 문장 속 한 단어만 주기적으로 굴러 교체됩니다</span></div>
+<main>
+  <h1>우리는 <span class="slot" id="slot"><span class="roll" id="roll"></span></span>을 만듭니다</h1>
+  <p class="note">단어 길이에 맞춰 슬롯 폭도 함께 애니메이션되는 것이 완성도 포인트</p>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script>
+const WORDS = ['브랜드', '인터랙션', '웹사이트', '경험', '디자인 시스템'];
+const roll = document.getElementById('roll');
+const slot = document.getElementById('slot');
+// 목록 + 첫 단어 복제(무한 루프 이음새용)
+roll.innerHTML = [...WORDS, WORDS[0]].map(w => `<span>${w}</span>`).join('');
+const items = roll.children;
+let i = 0;
+function width(el){ return el.getBoundingClientRect().width; }
+gsap.set(slot, { width: width(items[0]) });
+setInterval(() => {
+  i++;
+  gsap.to(roll, { yPercent: -100 * i / (WORDS.length), duration:.7, ease:'power3.inOut' });
+  gsap.to(slot, { width: width(items[i % (WORDS.length + 1)]), duration:.7, ease:'power3.inOut',
+    onComplete(){
+      if (i === WORDS.length){                 // 복제본에 도달하면 순간이동으로 처음으로
+        i = 0; gsap.set(roll, { yPercent: 0 });
+      }
+    }});
+}, 2000);
+</script>
+</body>
+</html>

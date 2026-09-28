@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>트래킹 리빌</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  .spacer { height:65vh; display:flex; align-items:center; justify-content:center; color:var(--dim); }
+  section { min-height:85vh; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1rem; padding:2rem; }
+  .tr { font-size:clamp(1.6rem,4.5vw,3.2rem); font-weight:300; text-transform:uppercase; white-space:nowrap; }
+  .tr.serifish { font-weight:700; }
+  .sub { font-size:.8rem; letter-spacing:.4em; color:var(--dim); text-transform:uppercase; }
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">트래킹 리빌 — 벌어져 있던 자간이 조여들며 완성 (럭셔리 무드)</span></div>
+<div class="spacer">↓ 스크롤</div>
+<section>
+  <p class="sub">Maison de</p>
+  <h1 class="tr" data-tr>ÉLÉGANCE</h1>
+</section>
+<section>
+  <h1 class="tr serifish" data-tr data-open>절제된 간격의 미학</h1>
+  <p class="sub">tracking reveal</p>
+</section>
+<div class="spacer">letter-spacing .6em → 정상값. 반대로 벌어지며 사라지는 아웃로도 응용</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+document.querySelectorAll('[data-tr]').forEach(el => {
+  // data-open: 반대로 좁은 상태에서 벌어지는 변형
+  const open = el.hasAttribute('data-open');
+  gsap.fromTo(el,
+    { letterSpacing: open ? '-0.08em' : '0.6em', opacity: 0, filter:'blur(4px)' },
+    { letterSpacing: open ? '0.12em' : '0.02em', opacity: 1, filter:'blur(0px)',
+      duration: 1.6, ease: 'power3.out',
+      scrollTrigger: { trigger: el, start: 'top 78%', toggleActions: 'play none none reverse' } });
+});
+</script>
+</body>
+</html>
