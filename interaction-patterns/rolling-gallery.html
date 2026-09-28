@@ -17,6 +17,16 @@
     pointer-events:none; }
   .side.l { left:1.2rem; transform:rotate(-90deg) translateX(50%); transform-origin:left center; }
   .side.r { right:1.2rem; transform:rotate(90deg) translateX(-50%); transform-origin:right center; }
+  .mode {
+    position:fixed; right:1.4rem; bottom:1.2rem; display:flex; gap:.5rem;
+    background:rgba(255,255,255,.75); backdrop-filter:blur(6px);
+    padding:.4rem; border-radius:99px; border:1px solid rgba(0,0,0,.08);
+  }
+  .mode button {
+    font:inherit; font-size:.75rem; border:none; background:transparent; color:#8a857c;
+    padding:.4rem .9rem; border-radius:99px; cursor:pointer;
+  }
+  .mode button.on { background:#e14f2a; color:#fff; }
 </style>
 </head>
 <body>
@@ -26,6 +36,10 @@
 <p class="hint">← 드래그 · 휠 스크롤 → 놓으면 관성으로 굴러갑니다</p>
 <div class="side l">PHOTOGRAPHY</div>
 <div class="side r">FILM</div>
+<div class="mode">
+  <button data-m="in" class="on" onclick="setMode(true)">오목 · 양옆이 큼 (레퍼런스)</button>
+  <button data-m="out" onclick="setMode(false)">볼록 · 가운데가 큼</button>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 <script>
@@ -75,11 +89,28 @@ for (let i = 0; i < N; i++){
   if (i % 5 === 4) tex = makeVideoTexture(VIDEOS[(i/5|0) % VIDEOS.length]);  // 5번째마다 영상
   else { tex = texLoader.load(IMAGES[i - (i/5|0)]); tex.colorSpace = THREE.SRGBColorSpace; }
   tex.wrapS = THREE.ClampToEdgeWrapping;
-  // 바깥면만 렌더(기본 FrontSide) → 뒤쪽으로 돌아간 패널은 자동으로 사라져 깔끔
-  const mat = new THREE.MeshBasicMaterial({ map: tex });
+  const mat = new THREE.MeshBasicMaterial({ map: tex, side: THREE.DoubleSide });
   const mesh = new THREE.Mesh(geo, mat);
   mesh.rotation.y = angle;
   group.add(mesh);
+}
+
+/* ── 시점 모드: 오목(원통 안, 레퍼런스 방식 — 양옆이 큼) / 볼록(원통 밖 — 가운데가 큼) ── */
+let concave = true, dirSign = 1;
+function setMode(inside){
+  concave = inside;
+  if (inside){
+    camera.position.set(0, 0, 7.5);   // 원통 안으로 — 정면(먼 벽)은 작고 양옆이 크게 감쌈
+    camera.fov = 52; dirSign = -1;
+    group.children.forEach(m => m.scale.x = -1);  // 안쪽에서 봐도 사진이 안 뒤집히게
+  } else {
+    camera.position.set(0, 0, 38);    // 원통 밖 — 가운데 패널이 가장 큼
+    camera.fov = 40; dirSign = 1;
+    group.children.forEach(m => m.scale.x = 1);
+  }
+  camera.updateProjectionMatrix();
+  document.querySelectorAll('.mode button').forEach(b =>
+    b.classList.toggle('on', (b.dataset.m === 'in') === inside));
 }
 
 /* ── 회전 제어: 드래그 + 휠 + 관성 + 미세 자동회전 ── */
@@ -91,13 +122,14 @@ container.addEventListener('pointerdown', e => {
 container.addEventListener('pointermove', e => {
   if (!dragging) return;
   const dx = e.clientX - lastX; lastX = e.clientX;
-  const d = dx * 0.0035;
+  const d = dx * 0.0035 * dirSign;   // 안에서 볼 땐 체감 방향이 반대라 부호 반전
   group.rotation.y += d; vel = d;
 });
 ['pointerup','pointercancel'].forEach(ev => container.addEventListener(ev, () => {
   dragging = false; container.classList.remove('grabbing');
 }));
-addEventListener('wheel', e => { vel += e.deltaY * 0.00012; }, { passive:true });
+addEventListener('wheel', e => { vel += e.deltaY * 0.00012 * dirSign; }, { passive:true });
+setMode(true);   // 기본: 레퍼런스(meech213)와 같은 오목 시점
 addEventListener('resize', () => {
   camera.aspect = innerWidth/innerHeight; camera.updateProjectionMatrix();
   renderer.setSize(innerWidth, innerHeight);
