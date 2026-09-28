@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>텍스트 줌 스루</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  .intro, .outro { height:60vh; display:flex; align-items:center; justify-content:center; color:var(--dim); }
+  .stage { height:100vh; position:relative; overflow:hidden; }
+  .scene {
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    background:url('https://picsum.photos/id/1036/1600/1000') center/cover;
+  }
+  .scene h2 { font-size:clamp(2rem,6vw,4.5rem); color:#fff; text-shadow:0 4px 30px rgba(0,0,0,.6); }
+  svg.cover { position:absolute; inset:0; width:100%; height:100%; }
+  svg.cover text {
+    font-weight:900; font-size:150px; letter-spacing:-8px;
+    text-anchor:middle; dominant-baseline:central;
+  }
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">텍스트 줌 스루 — 글자 구멍(O) 속으로 확대되며 다음 씬 진입</span></div>
+<div class="intro">↓ 스크롤 — O 안으로 들어갑니다</div>
+<div class="stage" id="stage">
+  <div class="scene"><h2>You're Through</h2></div>
+  <!-- 글자를 '구멍'으로 뚫은 덮개: mask의 검정 부분(글자)만 씬이 보임 -->
+  <svg class="cover" id="cover" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <mask id="holes">
+        <rect width="1440" height="900" fill="white"/>
+        <text x="720" y="450" fill="black">ZOOM</text>
+      </mask>
+    </defs>
+    <g id="zoomGroup">
+      <rect width="1440" height="900" fill="#111" mask="url(#holes)"/>
+    </g>
+  </svg>
+</div>
+<div class="outro">SVG mask로 글자를 뚫고, 그룹을 O의 중심 기준으로 확대하는 원리</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+// 두 번째 글자 O의 대략적 중심(뷰박스 좌표) — 확대 기준점
+const ORIGIN = '705px 450px';
+gsap.set('#zoomGroup', { transformOrigin: ORIGIN });
+gsap.to('#zoomGroup', {
+  scale: 60, ease: 'power2.in',
+  scrollTrigger: { trigger: '#stage', start: 'top top', end: '+=2200', pin: true, scrub: .5 },
+});
+</script>
+</body>
+</html>

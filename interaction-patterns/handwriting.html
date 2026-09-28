@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>핸드라이팅 드로잉</title>
+<link rel="stylesheet" href="shared.css">
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+<style>
+  main { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2rem; }
+  svg { width:min(90vw,860px); height:auto; overflow:visible; }
+  svg text {
+    font-family:'Great Vibes',cursive; font-size:150px;
+    fill:transparent; stroke:var(--fg); stroke-width:1.4;
+    text-anchor:middle;
+  }
+  button { font:inherit; padding:.7rem 1.8rem; border-radius:99px; border:1.5px solid var(--fg); background:transparent; color:var(--fg); cursor:pointer; }
+  .note { color:var(--dim); font-size:.9rem; }
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">핸드라이팅 — 필기체가 손으로 쓰이듯 획이 그려집니다</span></div>
+<main>
+  <svg viewBox="0 0 860 260"><text id="hw" x="430" y="170">Beautiful</text></svg>
+  <button id="replay">다시 쓰기</button>
+  <p class="note">글자 외곽선을 stroke-dashoffset으로 그린 뒤 fill을 서서히 채움</p>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script>
+const hw = document.getElementById('hw');
+const LEN = 3200;                               // 넉넉한 대시 길이
+function play(){
+  gsap.timeline()
+    .set(hw, { strokeDasharray: LEN, strokeDashoffset: LEN, fill: 'transparent' })
+    .to(hw, { strokeDashoffset: 0, duration: 3.2, ease: 'power1.inOut' })
+    .to(hw, { fill: 'rgba(245,242,236,1)', duration: 1, ease: 'power2.out' }, '-=0.4');
+}
+document.fonts.ready.then(play);
+document.getElementById('replay').onclick = play;
+</script>
+</body>
+</html>

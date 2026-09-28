@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>텍스트 물리 낙하</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  body { overflow:hidden; }
+  #world { position:fixed; inset:0; }
+  .chip {
+    position:absolute; top:0; left:0; padding:.35em .55em;
+    font-size:clamp(1.6rem,4.5vw,3rem); font-weight:800;
+    background:var(--fg); color:#111; border-radius:10px;
+    will-change:transform; cursor:grab; user-select:none; white-space:nowrap;
+  }
+  .chip.orange { background:var(--accent); color:#fff; }
+  .ui { position:fixed; bottom:1.4rem; left:50%; transform:translateX(-50%); display:flex; gap:.8rem; align-items:center; }
+  button { font:inherit; padding:.6rem 1.5rem; border-radius:99px; border:1.5px solid var(--fg); background:rgba(17,17,17,.6); color:var(--fg); cursor:pointer; }
+  .note { color:var(--dim); font-size:.85rem; }
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">텍스트 물리 낙하 — 단어들이 진짜 물리로 떨어져 쌓입니다. 잡아서 던져보세요</span></div>
+<div id="world"></div>
+<div class="ui"><button id="replay">다시 쏟기</button><span class="note">matter.js 강체 + 마우스 드래그</span></div>
+<script src="https://cdn.jsdelivr.net/npm/matter-js@0.19.0/build/matter.min.js"></script>
+<script>
+const { Engine, Bodies, Composite, Runner, Mouse, MouseConstraint, Body } = Matter;
+const WORDS = ['TYPE', 'HAS', 'WEIGHT', '물리', '중력', 'DROP', 'IT'];
+const world = document.getElementById('world');
+const engine = Engine.create();
+let items = [];
+
+// 벽(바닥/좌우)
+const walls = [
+  Bodies.rectangle(innerWidth/2, innerHeight + 40, innerWidth * 2, 80, { isStatic: true }),
+  Bodies.rectangle(-40, innerHeight/2, 80, innerHeight * 2, { isStatic: true }),
+  Bodies.rectangle(innerWidth + 40, innerHeight/2, 80, innerHeight * 2, { isStatic: true }),
+];
+Composite.add(engine.world, walls);
+
+function spawn(){
+  items.forEach(it => { Composite.remove(engine.world, it.body); it.el.remove(); });
+  items = [];
+  WORDS.forEach((w, i) => {
+    const el = document.createElement('div');
+    el.className = 'chip' + (i % 3 === 1 ? ' orange' : '');
+    el.textContent = w;
+    world.appendChild(el);
+    const r = el.getBoundingClientRect();
+    const body = Bodies.rectangle(
+      120 + Math.random() * (innerWidth - 240), -100 - i * 130,
+      r.width, r.height,
+      { restitution: .4, friction: .3, angle: (Math.random() - .5) * .6 });
+    Composite.add(engine.world, body);
+    items.push({ el, body, w: r.width, h: r.height });
+  });
+}
+spawn();
+document.getElementById('replay').onclick = spawn;
+
+// 마우스로 잡아 던지기
+const mouse = Mouse.create(document.body);
+const mc = MouseConstraint.create(engine, { mouse, constraint: { stiffness: .15 } });
+Composite.add(engine.world, mc);
+
+Runner.run(Runner.create(), engine);
+(function render(){
+  items.forEach(({ el, body, w, h }) => {
+    el.style.transform =
+      `translate(${body.position.x - w/2}px, ${body.position.y - h/2}px) rotate(${body.angle}rad)`;
+  });
+  requestAnimationFrame(render);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>텍스트 터널</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  .intro, .outro { height:60vh; display:flex; align-items:center; justify-content:center; color:var(--dim); }
+  .stage { height:100vh; overflow:hidden; perspective:600px; display:flex; align-items:center; justify-content:center; }
+  .tunnel { position:relative; transform-style:preserve-3d; }
+  .tunnel h2 {
+    position:absolute; left:50%; top:50%;
+    font-size:clamp(2rem,6vw,4.5rem); font-weight:800; white-space:nowrap;
+    transform:translate(-50%,-50%);
+  }
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">텍스트 터널 — 스크롤하면 문장들의 3D 터널 속을 통과합니다</span></div>
+<div class="intro">↓ 스크롤 = 전진</div>
+<div class="stage" id="stage"><div class="tunnel" id="tunnel"></div></div>
+<div class="outro">문장마다 translateZ 간격을 두고, 카메라(부모 z)를 스크럽으로 전진시키는 원리</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+const LINES = ['DEEPER', 'AND DEEPER', 'INTO THE', 'TYPE TUNNEL', 'ALMOST THERE', 'WELCOME'];
+const GAP = 700;                                   // 문장 간 z 간격
+const tunnel = document.getElementById('tunnel');
+tunnel.innerHTML = LINES.map((l, i) =>
+  `<h2 style="transform:translate(-50%,-50%) translateZ(${-i * GAP}px); color:${i % 2 ? 'var(--accent)' : 'var(--fg)'}">${l}</h2>`).join('');
+const heads = tunnel.querySelectorAll('h2');
+const state = { z: 0 };
+gsap.to(state, {
+  z: (LINES.length - 1) * GAP, ease: 'none',
+  scrollTrigger: { trigger: '#stage', start: 'top top', end: '+=3000', pin: true, scrub: .5 },
+  onUpdate(){
+    heads.forEach((h, i) => {
+      const z = -i * GAP + state.z;                // 카메라 전진 = 전체를 +z로
+      h.style.transform = `translate(-50%,-50%) translateZ(${z}px)`;
+      // 카메라를 지나쳤거나 너무 멀면 페이드
+      h.style.opacity = z > 150 ? 0 : z < -GAP * 2.2 ? .12 : 1;
+    });
+  }
+});
+</script>
+</body>
+</html>

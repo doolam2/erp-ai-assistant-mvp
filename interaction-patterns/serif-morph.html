@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>세리프 모프</title>
+<link rel="stylesheet" href="shared.css">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,700&family=Inter:wght@800&display=swap" rel="stylesheet">
+<style>
+  main { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1rem; }
+  a.morph {
+    position:relative; display:block; text-decoration:none; color:var(--fg);
+    font-size:clamp(2.2rem,7vw,5rem); line-height:1.35; padding:.1em 0;
+  }
+  a.morph .sans { font-family:'Inter',sans-serif; font-weight:800; letter-spacing:-.02em;
+    transition:opacity .45s, filter .45s, transform .45s; }
+  a.morph .serif {
+    position:absolute; inset:0; padding:.1em 0; text-align:center;
+    font-family:'Playfair Display',serif; font-style:italic; font-weight:700; color:var(--accent);
+    opacity:0; filter:blur(6px); transform:scale(1.06);
+    transition:opacity .45s, filter .45s, transform .45s;
+  }
+  a.morph:hover .sans { opacity:0; filter:blur(6px); transform:scale(.96); }
+  a.morph:hover .serif { opacity:1; filter:blur(0); transform:scale(1); }
+  .note { color:var(--dim); font-size:.9rem; margin-top:1.5rem; }
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">세리프 모프 — 호버하면 산세리프가 이탤릭 세리프로 변신합니다</span></div>
+<main>
+  <a class="morph" href="#"><span class="sans">TIMELESS</span><span class="serif">Timeless</span></a>
+  <a class="morph" href="#"><span class="sans">ELEGANT</span><span class="serif">Elegant</span></a>
+  <a class="morph" href="#"><span class="sans">CRAFTED</span><span class="serif">Crafted</span></a>
+  <p class="note">블러 크로스페이드로 서체가 '녹으며 바뀌는' 착시 — 패션·에디토리얼 단골</p>
+</main>
+</body>
+</html>

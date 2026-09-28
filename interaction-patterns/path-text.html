@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>패스 텍스트</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  main { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1rem; }
+  svg { width:min(92vw,1000px); height:auto; overflow:visible; }
+  svg text { fill:var(--fg); font-size:34px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; }
+  .note { color:var(--dim); font-size:.9rem; }
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">패스 텍스트 — 문장이 곡선 경로를 따라 뱀처럼 흘러갑니다</span></div>
+<main>
+  <svg viewBox="0 0 1000 320">
+    <path id="wavePath" fill="none" stroke="rgba(245,242,236,.12)" stroke-width="1"
+      d="M0,160 C120,40 260,40 380,160 S 640,280 760,160 S 940,40 1100,160"/>
+    <text><textPath id="tp" href="#wavePath" startOffset="0%">FOLLOW THE CURRENT — FOLLOW THE CURRENT — FOLLOW THE CURRENT —</textPath></text>
+  </svg>
+  <p class="note">textPath의 startOffset을 무한 루프. 스크롤 속도를 더하면 벨로시티 마퀴가 됩니다</p>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script>
+const tp = document.getElementById('tp');
+let off = 0, lastY = scrollY, vel = 0;
+gsap.ticker.add(() => {
+  const dy = scrollY - lastY; lastY = scrollY;
+  vel += (dy - vel) * .1;
+  off -= .045 + Math.abs(vel) * .003;          // 기본 흐름 + 스크롤 가속
+  if (off < -50) off += 50;                    // 반복 문구 절반 길이마다 리셋
+  tp.setAttribute('startOffset', off + '%');
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>슬랜트 스크럽</title>
+<link rel="stylesheet" href="shared.css">
+<link href="https://fonts.googleapis.com/css2?family=Recursive:slnt,wght@-15..0,800&display=swap" rel="stylesheet">
+<style>
+  .spacer { height:70vh; display:flex; align-items:center; justify-content:center; color:var(--dim); }
+  .rows { padding:10vh 0; display:flex; flex-direction:column; gap:2.5rem; align-items:center; }
+  .sl {
+    font-family:'Recursive',sans-serif; font-weight:800;
+    font-size:clamp(2.2rem,7vw,5rem); font-variation-settings:'slnt' 0;
+    will-change:font-variation-settings, transform;
+  }
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">슬랜트 스크럽 — 스크롤 속도·방향에 따라 글자가 실시간으로 기웁니다</span></div>
+<div class="spacer">↓ 빠르게, 천천히, 반대로 스크롤해 보세요</div>
+<div class="rows">
+  <h2 class="sl">SPEED BENDS TYPE</h2>
+  <h2 class="sl">MOMENTUM</h2>
+  <h2 class="sl">LEAN INTO IT</h2>
+  <h2 class="sl">SLOW DOWN</h2>
+</div>
+<div class="spacer">가변폰트 slnt 축(0~-15)을 스크롤 속도에 매핑. 멈추면 곧게 복귀</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script>
+const rows = document.querySelectorAll('.sl');
+let lastY = scrollY, vel = 0;
+gsap.ticker.add(() => {
+  const dy = scrollY - lastY; lastY = scrollY;
+  vel += (dy - vel) * .12;                          // 속도 스무딩
+  const slnt = gsap.utils.clamp(-15, 0, -Math.abs(vel) * .5);   // 빠를수록 눕고
+  const skew = gsap.utils.clamp(-8, 8, vel * .25);              // 방향은 skew로
+  rows.forEach(r => {
+    r.style.fontVariationSettings = `'slnt' ${slnt}`;
+    r.style.transform = `skewX(${skew}deg)`;
+  });
+});
+</script>
+</body>
+</html>
