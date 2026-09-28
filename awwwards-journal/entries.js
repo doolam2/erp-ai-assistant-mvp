@@ -1,6 +1,17 @@
 // 어워드 저널 엔트리 목록 — 새 리뷰마다 맨 앞에 한 객체 추가
 const ENTRIES = [
   {
+    folder: "2026-09-28-meech213",
+    name: "Meech213",
+    url: "https://www.meech213.com/",
+    date: "2026-09-28",
+    thumb: "02-rotated.png",
+    comment: "이미지·영상이 원통에 감겨 입체감 있게 롤링. 가운데가 작고 양옆이 크게 감싸는 오목 시점",
+    style: ["미니멀", "크림톤", "패션", "매거진"],
+    industry: ["포트폴리오", "포토그래퍼"],
+    interaction: ["롤링갤러리", "원통캐러셀", "WebGL이미지", "비디오텍스처", "다이얼내비"],
+  },
+  {
     folder: "2026-09-28-bleibtgleich",
     name: "Maksym Bleibtgleich",
     url: "https://bleibtgleich.dev/",

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>3D 카드 언폴드</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  body { background:#0c0d11; color:#f5f2ec; }
+  .intro, .outro { height:60vh; display:flex; align-items:center; justify-content:center; color:rgba(245,242,236,.4); }
+  .stage { height:100vh; display:flex; align-items:center; justify-content:center; perspective:1400px; overflow:hidden; }
+  .deck { position:relative; transform-style:preserve-3d; width:min(30vw,240px); aspect-ratio:2/3; }
+  .card {
+    position:absolute; inset:0; border-radius:14px; transform-style:preserve-3d;
+    transform-origin:50% 120%;                 /* 부채꼴로 펼쳐질 때의 회전축(아래쪽 바깥) */
+    box-shadow:0 30px 60px rgba(0,0,0,.45);
+    backface-visibility:hidden; overflow:hidden;
+  }
+  .card::after {                                /* 유리 광 */
+    content:""; position:absolute; inset:0;
+    background:linear-gradient(160deg, rgba(255,255,255,.35), transparent 45%);
+  }
+  .card i { position:absolute; left:1rem; bottom:.9rem; font-style:normal; font-size:.8rem; letter-spacing:.15em; color:rgba(255,255,255,.85); }
+  .c0 { background:linear-gradient(140deg,#1b1e2c,#3f4664); }
+  .c1 { background:linear-gradient(140deg,#e14f2a,#7c1f0a); }
+  .c2 { background:linear-gradient(140deg,#3b5bdb,#101a4d); }
+  .c3 { background:linear-gradient(140deg,#0ca678,#04331f); }
+  .c4 { background:linear-gradient(140deg,#e64980,#5c0f33); }
+  .c5 { background:linear-gradient(140deg,#f0a202,#6b4500); }
+  .c6 { background:linear-gradient(140deg,#7048e8,#241063); }
+  .headline {
+    position:absolute; text-align:center; width:100%; left:0; top:12vh;
+    font-size:clamp(1.4rem,3.2vw,2.2rem); font-weight:700; letter-spacing:-.01em; opacity:0;
+  }
+  .stage-wrap { position:relative; }
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">3D 카드 언폴드 — 스크롤: 카드가 돌며 커진 뒤 부채꼴로 펼쳐집니다 (간이 재현)</span><a class="ref" href="https://inkwell.tech/" target="_blank" rel="noopener">레퍼런스 ↗</a></div>
+
+<div class="intro">↓ 천천히 스크롤</div>
+<div class="stage-wrap">
+  <div class="stage" id="stage">
+    <h2 class="headline" id="head">Intelligence, unfolded.</h2>
+    <div class="deck" id="deck">
+      <div class="card c6"><i>07</i></div>
+      <div class="card c5"><i>06</i></div>
+      <div class="card c4"><i>05</i></div>
+      <div class="card c3"><i>04</i></div>
+      <div class="card c2"><i>03</i></div>
+      <div class="card c1"><i>02</i></div>
+      <div class="card c0"><i>01</i></div>
+    </div>
+  </div>
+</div>
+<div class="outro">회전·확대(1막) → 3D 부채꼴 펼침(2막) → 정렬(3막)</div>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+const cards = gsap.utils.toArray('.card').reverse();   // c0(맨 앞)부터 순서대로
+const N = cards.length, MID = (N - 1) / 2;
+
+const tl = gsap.timeline({
+  scrollTrigger: { trigger:'#stage', start:'top top', end:'+=3200', pin:true, scrub:0.6 }
+});
+
+/* 1막 — 덱이 통째로 Y축 회전하며 커짐 ("카드가 돌아가면서 확대") */
+tl.fromTo('#deck',
+  { scale:.45, rotationY:-200, rotationX:8, y:120 },
+  { scale:1, rotationY:0, rotationX:0, y:0, duration:1.1, ease:'power2.inOut' });
+
+/* 2막 — 카드들이 3D 부채꼴로 펼쳐짐 */
+cards.forEach((c, i) => {
+  const off = i - MID;                       // -3 ~ +3
+  tl.to(c, {
+    rotationZ: off * 14,                     // 부채 각도
+    rotationY: off * 9,                      // 살짝 비틀려 입체감
+    z: -Math.abs(off) * 34,                  // 바깥 카드일수록 뒤로
+    duration: .9, ease: 'power3.inOut',
+  }, 1.25 + Math.abs(off) * 0.06);           // 가운데부터 바깥으로 스태거
+});
+tl.to('#head', { opacity:1, y:-10, duration:.5 }, 1.6);
+
+/* 3막 — 부채를 접고 가로 한 줄로 정렬 */
+cards.forEach((c, i) => {
+  const off = i - MID;
+  tl.to(c, {
+    rotationZ:0, rotationY:0, z:0,
+    x: off * 118, scale:.86,
+    duration: .9, ease: 'power3.inOut',
+  }, 2.6 + Math.abs(off) * 0.04);
+});
+tl.to('#deck', { rotationX:12, y:30, duration:.9 }, 2.6)
+  .to({}, { duration:.4 });                  // 끝에서 잠깐 정지
+</script>
+</body>
+</html>
