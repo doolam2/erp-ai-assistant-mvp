@@ -1,6 +1,18 @@
 // 어워드 저널 엔트리 목록 — 새 리뷰마다 맨 앞에 한 객체 추가
 const ENTRIES = [
   {
+    folder: "2026-09-29-obys-experiment",
+    demo: "../interaction-patterns/formation-gallery.html",
+    name: "Obys Experiment Space",
+    url: "https://experiment.obys.agency/",
+    date: "2026-09-29",
+    thumb: "01-ring.png",
+    comment: "휠로 도는 3D 이미지 링 — 좌우로 입체감 있게 흐르고, 클릭하면 상세 갤러리로",
+    style: ["미니멀", "흑백", "화이트", "실험적", "타이포중심"],
+    industry: ["에이전시", "아카이브"],
+    interaction: ["3D링갤러리", "휠하이재킹", "포메이션전환", "클릭상세", "WebGL이미지"],
+  },
+  {
     folder: "2026-09-28-meech213",
     demo: "../interaction-patterns/rolling-gallery.html",
     name: "Meech213",
