@@ -12,7 +12,7 @@
   /* ── 공통 폴백 ── */
   var COMMON = [
     { q: '이번 달 실적 요약해줘',
-      a: '8월 매출은 12,232,412천원으로 전년 동월 대비 +8.2%입니다. 목표 달성률은 95.6%로 4.4%p 미달이지만, 남은 영업일 추세면 월말 근접 달성이 예상됩니다.',
+      a: '이번 달 매출은 12,232,412천원으로 전년 동월 대비 +8.2%입니다. 목표 달성률은 95.6%로 4.4%p 미달이지만, 남은 영업일 추세면 월말 근접 달성이 예상됩니다.',
       rows: [['당월 매출', '12,232,412', '+8.2%'], ['목표 달성률', '95.6%', '-4.4%p'], ['미수 잔액', '842,110', '+2건']],
       link: { href: 'dashboard.html', label: '경영 대시보드에서 보기' } },
     { q: '지금 주의할 게 있어?',
@@ -138,7 +138,7 @@
         rows: [['법인H', '82.4%', '-9% 추이'], ['법인G', '88.7%', '-6% 추이'], ['법인A', '104.2%', '+12% 추이']],
         link: { href: 'dashboard.html', label: '경영 대시보드 보기' } },
       { q: '법인H는 왜 떨어졌어?',
-        a: '주력이던 급식 계약 2건이 8월로 종료된 여파입니다. 신규 수주 1건이 9월 개시 예정이라 다음 달 회복이 예상되며, 그 전까지는 온라인 채널 물량으로 일부 보전 중입니다.',
+        a: '주력이던 급식 계약 2건이 지난달로 종료된 여파입니다. 신규 수주 1건이 다음 달 개시 예정이라 회복이 예상되며, 그 전까지는 온라인 채널 물량으로 일부 보전 중입니다.',
         link: { href: 'sales_report.html', label: '매출 분석 보기' },
         sug: '법인 달성률이 85%를 하회하면 원인 요약을 담당 법인장에게 자동 발송할까요? 이번 달 같은 상황에서 확인이 이틀 늦었습니다.' }
     ],
@@ -162,7 +162,7 @@
     ],
     'dashboard.html': [
       { q: '이번 달 매출 어때?',
-        a: '8월 매출은 12,232,412천원, 전년 동월 대비 +8.2%입니다. 목표 대비 95.6%로 4.4%p 미달인데, 원인은 급식 채널 단가 조정입니다. 카드 숫자를 누르면 근거 화면으로 이동합니다.',
+        a: '이번 달 매출은 12,232,412천원, 전년 동월 대비 +8.2%입니다. 목표 대비 95.6%로 4.4%p 미달인데, 원인은 급식 채널 단가 조정입니다. 카드 숫자를 누르면 근거 화면으로 이동합니다.',
         rows: [['당월 매출', '12,232,412', '+8.2%'], ['매출총이익률', '23.4%', '+0.8%p'], ['목표 달성률', '95.6%', '-4.4%p']],
         link: { href: 'sales_report.html', label: '매출 분석으로 이동' } },
       { q: '미수 잔액 늘었네?',
@@ -367,7 +367,7 @@
   var panel = document.createElement('div');
   panel.className = 'swai-panel';
   panel.innerHTML = ''
-    + '<div class="swai-head"><b>AI 어시스턴트</b><span class="bdg">BETA</span>'
+    + '<div class="swai-head"><b>AI 어시스턴트</b>'
     + '<button class="swai-x" type="button" aria-label="닫기">✕</button></div>'
     + '<div class="swai-body"></div>'
     + '<div class="swai-foot"><input class="swai-in" placeholder="무엇이든 물어보세요"><button class="swai-send" type="button">전송</button></div>'
@@ -409,8 +409,9 @@
     /* 오늘의 브리핑 — 패널 첫 진입 시 최상단 */
     var brief = document.createElement('div');
     brief.className = 'swai-brief';
-    brief.innerHTML = '<div class="bt">오늘의 브리핑 — 8/27(목)<span class="bdg2">AI</span></div>';
-    [['var(--pos-fill)', '어제 매출 6,138천원 — 일 목표 104.5% 달성, 8월 누적 95.6%', 'dashboard.html'],
+    var _d = new Date(), _wd = ['일','월','화','수','목','금','토'][_d.getDay()];
+    brief.innerHTML = '<div class="bt">오늘의 브리핑 — ' + (_d.getMonth()+1) + '/' + _d.getDate() + '(' + _wd + ')<span class="bdg2">AI</span></div>';
+    [['var(--pos-fill)', '어제 매출 6,138천원 — 일 목표 104.5% 달성, 당월 누적 95.6%', 'dashboard.html'],
      ['var(--orange)', '냉장센터 B 온도 상승 추세 — 21:30 상한 도달 예상', 'temperature.html'],
      ['var(--neg)', '소비기한 D-3 1건(두부 300g) 우선 출고 지정 · 발주 승인 2일째 대기', 'expiry.html']
     ].forEach(function (r) {

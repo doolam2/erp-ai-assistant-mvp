@@ -398,4 +398,19 @@
     }
     else if (e.key === 'Escape') { closeMenu(); clearScan(); if (hlp) toggleHelp(); }
   });
+
+  /* 화면 기준일 하드코딩(20XX. 08. XX) → 오늘 날짜로 치환 (시연 리얼리티) */
+  (function () {
+    try {
+      var t = new Date();
+      var today = t.getFullYear() + '. ' + ('0' + (t.getMonth() + 1)).slice(-2) + '. ' + ('0' + t.getDate()).slice(-2);
+      var re = /20\d{2}\. ?08\. ?\d{2}/g;
+      var w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+      var n;
+      while ((n = w.nextNode())) {
+        if (re.test(n.nodeValue)) n.nodeValue = n.nodeValue.replace(re, today);
+        re.lastIndex = 0;
+      }
+    } catch (e) {}
+  })();
 })();
