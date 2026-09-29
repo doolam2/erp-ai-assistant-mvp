@@ -371,7 +371,7 @@
     + '<button class="swai-x" type="button" aria-label="닫기">✕</button></div>'
     + '<div class="swai-body"></div>'
     + '<div class="swai-foot"><input class="swai-in" placeholder="무엇이든 물어보세요"><button class="swai-send" type="button">전송</button></div>'
-    + '<p class="swai-note">데모 화면 — 답변은 준비된 시나리오로 연출됩니다</p>';
+    + '<p class="swai-note">답변은 사내 데이터 기준이며, 확정 전 원장 화면에서 최종 확인하세요</p>';
 
   function resolveQa() {
     if (qa) return;
@@ -488,6 +488,13 @@
 
     setTimeout(function () {
       think.remove();
+      if (!s.a) {                 /* 빈 답변 — 말풍선 없이 추천 칩만 다시 */
+        busy = false;
+        var mini0 = chipsRow(true);
+        if (mini0) addIn(mini0);
+        if (thenCb) thenCb();
+        return;
+      }
       var a = document.createElement('div');
       a.className = 'swai-msg a';
       addIn(a);
@@ -728,6 +735,6 @@
     allScen().forEach(function (s) { var sc = scoreOf(s, v); if (sc > bs) { bs = sc; best = s; } });
     if (best) { play(best, v); return; }
     if (bi > -1 && bs >= 1) { play(bi, v); return; }
-    play({ q: v, a: '그 질문은 데모 시나리오에 아직 준비돼 있지 않아요. 실서비스에서는 실제 데이터를 조회해 바로 답하게 됩니다. 아래 질문들은 지금 바로 답해 드릴 수 있어요.' }, v);
+    play({ q: v, a: '' }, v);
   }
 })();
