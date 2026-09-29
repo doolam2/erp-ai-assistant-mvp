@@ -15,6 +15,22 @@
   }
   .modes button.on { color:#111; border-bottom:2px solid #e14f2a; }
   .hint { position:fixed; bottom:3.6rem; width:100%; text-align:center; color:#a9a49c; font-size:.8rem; pointer-events:none; }
+  #three { cursor:pointer; }
+
+  /* ── 클릭 상세(갤러리) 오버레이 ── */
+  .detail {
+    position:fixed; left:50%; bottom:5.5rem; transform:translateX(-50%);
+    display:flex; flex-direction:column; align-items:center; gap:.8rem;
+    opacity:0; pointer-events:none; transition:opacity .5s;
+  }
+  .detail.on { opacity:1; pointer-events:auto; }
+  .detail h2 { font-size:1.4rem; letter-spacing:-.01em; }
+  .detail .strip { display:flex; gap:.6rem; }
+  .detail .strip img { width:86px; aspect-ratio:4/3; object-fit:cover; border-radius:4px; filter:grayscale(1); }
+  .detail button {
+    font:inherit; font-size:.8rem; padding:.45rem 1.3rem; border-radius:99px;
+    border:1px solid #111; background:#111; color:#fff; cursor:pointer;
+  }
 </style>
 </head>
 <body>
@@ -22,6 +38,11 @@
 <div id="three"></div>
 <div class="head"><h1>Formation<br>Space</h1></div>
 <p class="hint">휠 스크롤 = 회전 · 이미지 뒷면이 거울상으로 비치는 것까지 원본의 맛</p>
+<div class="detail" id="detail">
+  <h2 id="dTitle">—</h2>
+  <div class="strip" id="dStrip"></div>
+  <button id="dClose">← 돌아가기</button>
+</div>
 <div class="modes" id="modes">
   <button class="on" data-m="ring">Ring</button>
   <button data-m="flower">Flower</button>
@@ -102,6 +123,49 @@ document.getElementById('modes').addEventListener('click', e => {
   if (b && b.dataset.m !== mode) apply(b.dataset.m);
 });
 
+/* ── 클릭 → 카드가 정면으로 나오는 상세(갤러리) 모드 ── */
+const raycaster = new THREE.Raycaster();
+const pointer = new THREE.Vector2();
+let focused = null, busyFocus = false;
+const detail = document.getElementById('detail');
+
+renderer.domElement.addEventListener('click', e => {
+  if (busyFocus || focused) return;
+  pointer.set((e.clientX / innerWidth) * 2 - 1, -(e.clientY / innerHeight) * 2 + 1);
+  raycaster.setFromCamera(pointer, camera);
+  const hit = raycaster.intersectObjects(meshes)[0];
+  if (!hit) return;
+  busyFocus = true;
+  const mesh = hit.object;
+  const i = meshes.indexOf(mesh);
+  focused = mesh;
+  scene.attach(mesh);                          // 월드 변환 유지한 채 그룹에서 분리
+  gsap.to(mesh.position, { x: 0, y: .75, z: 10, duration: 1, ease: 'power3.inOut' });
+  gsap.to(mesh.rotation, { x: 0, y: 0, z: 0, duration: 1, ease: 'power3.inOut' });
+  gsap.to(mesh.scale, { x: 1.05, y: 1.05, z: 1.05, duration: 1, ease: 'power3.inOut',
+    onComplete: () => busyFocus = false });
+  meshes.forEach(m => { if (m !== mesh){ m.material.transparent = true;
+    gsap.to(m.material, { opacity: .12, duration: .7 }); } });
+  // 하단 갤러리 스트립(같은 프로젝트의 추가 컷 흉내)
+  document.getElementById('dTitle').textContent = `PROJECT ${String(i + 1).padStart(2, '0')} / 2026`;
+  document.getElementById('dStrip').innerHTML = [1, 2, 3, 4]
+    .map(k => `<img src="https://picsum.photos/seed/p${i}-${k}/240/180">`).join('');
+  detail.classList.add('on');
+});
+document.getElementById('dClose').addEventListener('click', () => {
+  if (busyFocus || !focused) return;
+  busyFocus = true;
+  const mesh = focused;
+  detail.classList.remove('on');
+  group.attach(mesh);                          // 그룹으로 복귀 후 제자리로
+  const t = F[mode](meshes.indexOf(mesh));
+  gsap.to(mesh.position, { x: t.pos[0], y: t.pos[1], z: t.pos[2], duration: 1, ease: 'power3.inOut' });
+  gsap.to(mesh.rotation, { x: t.rot[0], y: t.rot[1], z: t.rot[2], duration: 1, ease: 'power3.inOut' });
+  gsap.to(mesh.scale, { x: 1, y: 1, z: 1, duration: 1, ease: 'power3.inOut',
+    onComplete: () => { focused = null; busyFocus = false; } });
+  meshes.forEach(m => gsap.to(m.material, { opacity: 1, duration: .8 }));
+});
+
 /* ── 휠 = 회전 (관성) ── */
 let vel = 0;
 addEventListener('wheel', e => { vel += e.deltaY * .00016; }, { passive: true });
@@ -110,9 +174,11 @@ addEventListener('resize', () => {
   renderer.setSize(innerWidth, innerHeight);
 });
 (function loop(){
-  if (mode === 'flower') group.rotation.z += vel + .0006;
-  else group.rotation.y += vel + .0008;
-  vel *= .94;
+  if (!focused){                               // 상세 모드에선 회전 정지
+    if (mode === 'flower') group.rotation.z += vel + .0006;
+    else group.rotation.y += vel + .0008;
+    vel *= .94;
+  }
   renderer.render(scene, camera);
   requestAnimationFrame(loop);
 })();
