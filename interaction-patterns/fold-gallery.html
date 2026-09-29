@@ -55,8 +55,10 @@ addEventListener('wheel', e => { vel += e.deltaY * .5; }, { passive: true });
     let x = (i * GAP - off + TOTAL * 1.5) % TOTAL - TOTAL / 2;
     const t = Math.min(1, Math.abs(x) / (GAP * 1.4));   // 중앙거리 0~1
     const foldDeg = 12 + t * 58;                        // 중앙 12° → 가장자리 70°
-    // 접힐수록 실제 폭이 줄어드는 만큼 x 간격도 자연스럽게 압축됨
-    f.el.style.transform = `translateX(${x}px)`;
+    // 행 전체의 3D 곡률: 옆 카드는 안쪽으로 꺾이고(rotateY) 뒤로 물러남(translateZ)
+    const bendDeg = -x * 0.045;                         // 원통 밴드처럼 휘어짐
+    const z = -(x * x) / 2200;
+    f.el.style.transform = `translateX(${x}px) translateZ(${z}px) rotateY(${bendDeg}deg)`;
     f.el.style.zIndex = Math.round(100 - t * 90);
     f.el.style.opacity = t > .98 ? 0 : 1;               // 화면 밖 여분 숨김
     f.L.style.transform = `rotateY(${ foldDeg}deg)`;    // 왼면은 안으로

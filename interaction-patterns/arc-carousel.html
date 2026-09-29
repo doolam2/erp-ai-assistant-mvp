@@ -52,7 +52,10 @@ const label = document.getElementById('label');
     // 중앙 기준 순환 좌표(-TOTAL/2 ~ TOTAL/2)
     let x = (i * GAP - off + TOTAL * 1.5) % TOTAL - TOTAL / 2;
     const y = (x * x) / (2 * R);            // 포물선 아치(중앙이 꼭대기)
-    el.style.transform = `translate(${x}px, ${y}px)`;
+    // 커버플로우 스케일: 중앙 1.55배 → 가장자리 0.55배
+    const t = Math.min(1, Math.abs(x) / 700);
+    const s = 1.55 - t * 1.0;
+    el.style.transform = `translate(${x}px, ${y}px) scale(${s})`;
     el.style.zIndex = Math.round(1000 - y); // 위(중앙)일수록 앞
     const d = Math.abs(x);
     if (d < bestD){ bestD = d; best = i; }
