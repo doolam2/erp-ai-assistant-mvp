@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>포메이션 갤러리</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  body { background:#f4f4f2; color:#111; overflow:hidden; }
+  #three { position:fixed; inset:0; }
+  .head { position:fixed; top:3.4rem; width:100%; text-align:center; pointer-events:none; }
+  .head h1 { font-size:clamp(1.8rem,5vw,3.4rem); font-weight:800; letter-spacing:-.02em; line-height:1.02; text-transform:uppercase; }
+  .modes { position:fixed; bottom:1.3rem; width:100%; display:flex; justify-content:center; gap:1.2rem; }
+  .modes button {
+    font:inherit; font-size:.85rem; border:none; background:none; cursor:pointer; color:#999;
+    padding:.2rem .1rem; letter-spacing:.02em;
+  }
+  .modes button.on { color:#111; border-bottom:2px solid #e14f2a; }
+  .hint { position:fixed; bottom:3.6rem; width:100%; text-align:center; color:#a9a49c; font-size:.8rem; pointer-events:none; }
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">포메이션 갤러리 — 휠로 회전, 하단 버튼으로 링/플라워/스피어/실린더 전환</span><a class="ref" href="https://experiment.obys.agency/" target="_blank" rel="noopener">레퍼런스 ↗</a></div>
+<div id="three"></div>
+<div class="head"><h1>Formation<br>Space</h1></div>
+<p class="hint">휠 스크롤 = 회전 · 이미지 뒷면이 거울상으로 비치는 것까지 원본의 맛</p>
+<div class="modes" id="modes">
+  <button class="on" data-m="ring">Ring</button>
+  <button data-m="flower">Flower</button>
+  <button data-m="sphere">Sphere</button>
+  <button data-m="cylinder">Cylinder</button>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script>
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0xf4f4f2);
+const camera = new THREE.PerspectiveCamera(42, innerWidth/innerHeight, .1, 100);
+camera.position.set(0, 0, 17);
+const renderer = new THREE.WebGLRenderer({ antialias:true });
+renderer.setSize(innerWidth, innerHeight);
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+document.getElementById('three').appendChild(renderer.domElement);
+
+const N = 14;
+const group = new THREE.Group();
+scene.add(group);
+const loader = new THREE.TextureLoader();
+loader.setCrossOrigin('anonymous');
+const IDS = [1015,1025,1036,1043,1050,1062,1069,1080,1084,110,119,160,180,201];
+const meshes = [];
+for (let i = 0; i < N; i++){
+  const tex = loader.load(`https://picsum.photos/id/${IDS[i]}/420/560?grayscale`);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  // DoubleSide → 반대편 카드의 뒷면이 거울상으로 비침 (원본의 그 디테일)
+  const mesh = new THREE.Mesh(
+    new THREE.PlaneGeometry(2.4, 3.2),
+    new THREE.MeshBasicMaterial({ map: tex, side: THREE.DoubleSide }));
+  group.add(mesh);
+  meshes.push(mesh);
+}
+
+/* ── 4가지 포메이션의 목표 위치·회전 계산 ── */
+const F = {
+  ring(i){                                  // 눈높이 원형 띠 (원본 기본)
+    const a = (i / N) * Math.PI * 2;
+    return { pos: [Math.sin(a) * 8.5, 0, Math.cos(a) * 8.5], rot: [0, a, 0] };
+  },
+  cylinder(i){                              // 2단 원기둥
+    const row = i % 2, a = (Math.floor(i / 2) / (N / 2)) * Math.PI * 2 + row * .45;
+    return { pos: [Math.sin(a) * 7.5, row ? 2.1 : -2.1, Math.cos(a) * 7.5], rot: [0, a, 0] };
+  },
+  sphere(i){                                // 피보나치 구
+    const y = 1 - 2 * (i + .5) / N, r = Math.sqrt(1 - y * y), t = i * 2.39996;
+    const p = new THREE.Vector3(Math.cos(t) * r, y, Math.sin(t) * r).multiplyScalar(7.5);
+    const m = new THREE.Object3D();
+    m.position.copy(p); m.lookAt(p.clone().multiplyScalar(2));
+    return { pos: [p.x, p.y, p.z], rot: [m.rotation.x, m.rotation.y, m.rotation.z] };
+  },
+  flower(i){                                // 카메라를 향한 꽃잎 로제트
+    const a = (i / N) * Math.PI * 2;
+    return { pos: [Math.sin(a) * 5.6, -Math.cos(a) * 5.6, (i % 2) * .8], rot: [0, 0, -a] };
+  },
+};
+let mode = 'ring';
+function apply(m, animate = true){
+  mode = m;
+  document.querySelectorAll('.modes button').forEach(b => b.classList.toggle('on', b.dataset.m === m));
+  meshes.forEach((mesh, i) => {
+    const t = F[m](i);
+    if (animate){
+      gsap.to(mesh.position, { x: t.pos[0], y: t.pos[1], z: t.pos[2], duration: 1.2, ease: 'power3.inOut' });
+      gsap.to(mesh.rotation, { x: t.rot[0], y: t.rot[1], z: t.rot[2], duration: 1.2, ease: 'power3.inOut' });
+    } else {
+      mesh.position.set(...t.pos); mesh.rotation.set(...t.rot);
+    }
+  });
+  // 모드에 맞는 회전축만 남기고 정리
+  gsap.to(group.rotation, { x: 0, y: mode === 'flower' ? 0 : group.rotation.y, z: mode === 'flower' ? group.rotation.z : 0, duration: 1.2, ease: 'power3.inOut' });
+}
+apply('ring', false);
+document.getElementById('modes').addEventListener('click', e => {
+  const b = e.target.closest('button');
+  if (b && b.dataset.m !== mode) apply(b.dataset.m);
+});
+
+/* ── 휠 = 회전 (관성) ── */
+let vel = 0;
+addEventListener('wheel', e => { vel += e.deltaY * .00016; }, { passive: true });
+addEventListener('resize', () => {
+  camera.aspect = innerWidth/innerHeight; camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+});
+(function loop(){
+  if (mode === 'flower') group.rotation.z += vel + .0006;
+  else group.rotation.y += vel + .0008;
+  vel *= .94;
+  renderer.render(scene, camera);
+  requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>
