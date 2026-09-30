@@ -267,10 +267,7 @@ select.ctl, .dd-block .dd-btn.ctl { appearance: none; -webkit-appearance: none; 
 .cal-note { font-size: 11px; color: var(--g05); }
 .cal-actions { display: flex; gap: 8px; }
 .pop-cal .flatpickr-calendar.inline { box-shadow: none; border: none; margin: 0 auto; }
-.flatpickr-calendar { font-family: 'Pretendard', sans-serif; }
-.flatpickr-day.selected, .flatpickr-day.selected:hover { background: var(--brand); border-color: var(--brand); }
-.flatpickr-day.today { border-color: var(--brand); }
-.flatpickr-day:hover { background: var(--tint-blue); border-color: var(--tint-blue); }
+/* flatpickr 스타일은 파일 하단 '데이트피커 디자인시스템 정합' 블록이 정본 */
 .flatpickr-day.flatpickr-disabled, .flatpickr-day.flatpickr-disabled:hover { color: #c9ced6; }
 .chip.period-on { background: var(--tint-blue); border-color: var(--brand); color: var(--brand); font-weight: 600; }
 
@@ -368,8 +365,10 @@ select.ctl, .dd-block .dd-btn.ctl { appearance: none; -webkit-appearance: none; 
 }
 
 /* ── flatpickr 데이트피커 — 디자인시스템 정합 (AF-10 시안 기준) ── */
-.flatpickr-calendar{font-family:'Pretendard',sans-serif}
-.flatpickr-day{border-radius:50%;color:var(--ink)}
+.flatpickr-calendar{font-family:'Pretendard',sans-serif;width:356px;padding:18px 24px 22px;border-radius:20px;box-shadow:0 12px 36px rgba(0,0,0,.13)}
+.flatpickr-innerContainer,.flatpickr-rContainer,.flatpickr-days{width:308px}
+.dayContainer{width:308px;min-width:308px;max-width:308px}
+.flatpickr-day{width:40px;max-width:40px;flex-basis:40px;height:40px;line-height:40px;margin:2.5px 2px;font-size:15px;border-radius:50%;color:var(--ink)}
 .flatpickr-day:hover,.flatpickr-day:focus{background:var(--tint-blue);border-color:transparent}
 .flatpickr-day.selected,.flatpickr-day.selected:hover,.flatpickr-day.selected:focus,
 .flatpickr-day.startRange,.flatpickr-day.endRange{background:var(--brand)!important;border-color:var(--brand)!important;color:#fff!important;border-radius:50%!important}
@@ -377,14 +376,19 @@ select.ctl, .dd-block .dd-btn.ctl { appearance: none; -webkit-appearance: none; 
 .flatpickr-day.today:hover,.flatpickr-day.today:focus{background:var(--tint-blue);border-color:transparent;color:var(--brand)}
 .flatpickr-day.today.selected{color:#fff}
 .flatpickr-day.prevMonthDay,.flatpickr-day.nextMonthDay{color:var(--g03)}
-span.flatpickr-weekday{color:var(--g05);font-weight:500}
+span.flatpickr-weekday{color:var(--g05);font-weight:500;font-size:13px}
+.flatpickr-weekdays{height:22px;margin:14px 0 8px}
 /* 월 헤더 — 좌측 제목 + 우측 화살표 (시안 정합) */
-.flatpickr-months{display:flex;align-items:center;padding:2px 8px 6px}
+.flatpickr-months{display:flex;align-items:center;padding:2px 0 4px}
 .flatpickr-months .flatpickr-month{order:1;flex:1;height:34px}
-.flatpickr-current-month{position:static;width:auto;left:auto;display:flex;align-items:center;text-align:left;font-size:17px;font-weight:800;color:var(--ink);padding:4px 0 0 4px;height:auto}
+.flatpickr-current-month{position:static;width:auto;left:auto;display:flex;align-items:center;text-align:left;font-size:19px;font-weight:800;color:var(--ink);padding:4px 0 0 4px;height:auto}
 .flatpickr-current-month .cur-month,.flatpickr-current-month input.cur-year{font-weight:800;font-size:17px}
 .flatpickr-months .flatpickr-prev-month,.flatpickr-months .flatpickr-next-month{position:static;order:2;height:28px;width:28px;padding:4px;display:flex;align-items:center;justify-content:center}
 .flatpickr-months .flatpickr-next-month{order:4}
-.fp-today-btn{order:3;border:0;background:none;font:600 12px Pretendard,sans-serif;color:var(--ink);padding:0 6px;height:28px;cursor:pointer}
+.fp-today-btn{order:3;border:0;background:none;font:600 14px Pretendard,sans-serif;color:var(--ink);padding:0 8px;height:28px;cursor:pointer}
 .fp-today-btn:hover{color:var(--brand)}
+/* 인라인(팝오버 내장) 달력은 카드 패딩 없이 컴팩트 — 원형 셀·오늘 버튼은 동일 */
+.flatpickr-calendar.inline{width:308px;padding:0;border-radius:0;box-shadow:none}
+.flatpickr-calendar.inline .flatpickr-day{margin:1px 2px}
+.flatpickr-calendar.inline .flatpickr-weekdays{margin:8px 0 4px}
 .flatpickr-months .flatpickr-prev-month:hover svg,.flatpickr-months .flatpickr-next-month:hover svg{fill:var(--brand)}
