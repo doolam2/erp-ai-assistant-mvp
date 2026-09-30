@@ -369,10 +369,10 @@ select.ctl, .dd-block .dd-btn.ctl { appearance: none; -webkit-appearance: none; 
 
 /* ── flatpickr 데이트피커 — 디자인시스템 정합 (AF-10 시안 기준) ── */
 .flatpickr-calendar{font-family:'Pretendard',sans-serif}
-.flatpickr-day{border-radius:8px;color:var(--ink)}
+.flatpickr-day{border-radius:50%;color:var(--ink)}
 .flatpickr-day:hover,.flatpickr-day:focus{background:var(--tint-blue);border-color:transparent}
 .flatpickr-day.selected,.flatpickr-day.selected:hover,.flatpickr-day.selected:focus,
-.flatpickr-day.startRange,.flatpickr-day.endRange{background:var(--brand)!important;border-color:var(--brand)!important;color:#fff!important;border-radius:8px!important}
+.flatpickr-day.startRange,.flatpickr-day.endRange{background:var(--brand)!important;border-color:var(--brand)!important;color:#fff!important;border-radius:50%!important}
 .flatpickr-day.today{border-color:transparent;color:var(--brand);font-weight:700}
 .flatpickr-day.today:hover,.flatpickr-day.today:focus{background:var(--tint-blue);border-color:transparent;color:var(--brand)}
 .flatpickr-day.today.selected{color:#fff}
@@ -384,5 +384,7 @@ span.flatpickr-weekday{color:var(--g05);font-weight:500}
 .flatpickr-current-month{position:static;width:auto;left:auto;display:flex;align-items:center;text-align:left;font-size:17px;font-weight:800;color:var(--ink);padding:4px 0 0 4px;height:auto}
 .flatpickr-current-month .cur-month,.flatpickr-current-month input.cur-year{font-weight:800;font-size:17px}
 .flatpickr-months .flatpickr-prev-month,.flatpickr-months .flatpickr-next-month{position:static;order:2;height:28px;width:28px;padding:4px;display:flex;align-items:center;justify-content:center}
-.flatpickr-months .flatpickr-next-month{order:3}
+.flatpickr-months .flatpickr-next-month{order:4}
+.fp-today-btn{order:3;border:0;background:none;font:600 12px Pretendard,sans-serif;color:var(--ink);padding:0 6px;height:28px;cursor:pointer}
+.fp-today-btn:hover{color:var(--brand)}
 .flatpickr-months .flatpickr-prev-month:hover svg,.flatpickr-months .flatpickr-next-month:hover svg{fill:var(--brand)}
