@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>툰 스페이스</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  :root { --cream:#ece3cf; --blue:#1640c4; --ink:#0d1b4f; }
+  body {
+    background-color:var(--cream); color:var(--ink);
+    background-image:
+      linear-gradient(rgba(13,27,79,.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(13,27,79,.07) 1px, transparent 1px);
+    background-size:14px 14px;
+  }
+  .frame { position:fixed; inset:64px 18px 18px; border:1px solid var(--ink); overflow:hidden; }
+  .frame canvas { display:block; width:100%; height:100%; }
+  .grain {
+    position:fixed; inset:64px 18px 18px; pointer-events:none;
+    mix-blend-mode:multiply; opacity:.28;
+  }
+  section { height:100vh; position:relative; }
+  .card {
+    position:absolute; left:4vw; top:50%; transform:translateY(-50%);
+    max-width:380px; padding:1.4rem 1.5rem 1.5rem;
+    background:var(--cream); border:1px solid var(--ink);
+    box-shadow:6px 6px 0 rgba(13,27,79,.18);
+  }
+  .card small { display:block; font-family:Menlo,monospace; font-size:.72rem; letter-spacing:.12em; opacity:.6; margin-bottom:.6rem; }
+  .card h2 { font-size:clamp(1.8rem,3.4vw,2.8rem); line-height:1.05; letter-spacing:-.02em; margin-bottom:.8rem; }
+  .card p { font-size:.92rem; line-height:1.7; opacity:.85; }
+  .card code { font-family:Menlo,monospace; font-size:.82em; background:rgba(22,64,196,.1); padding:.08em .35em; }
+  section.hero .card { top:auto; bottom:8vh; transform:none; }
+  section.hero h1 { font-size:clamp(2.6rem,6vw,4.6rem); line-height:.98; letter-spacing:-.03em; margin-bottom:.8rem; }
+  .demo-bar a { background:rgba(236,227,207,.85); color:var(--ink); border-color:var(--ink); }
+  .demo-bar .t { background:rgba(236,227,207,.85); color:var(--ink); }
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">툰 스페이스 — 2톤 카툰 렌더링 + 스크롤로 카메라가 씬을 여행합니다</span><a class="ref" href="https://illoca.unseen.co/" target="_blank" rel="noopener">레퍼런스 ↗</a></div>
+
+<div class="frame" id="frame"></div>
+<div class="grain" id="grain"></div>
+
+<div id="scroller">
+  <section class="hero"><div class="card">
+    <small>THREE.JS · MESHTOONMATERIAL</small>
+    <h1>Toon<br>Space</h1>
+    <p>창문으로 들어온 빛 한 줄기가 방을 크림색과 코발트로 가릅니다. ↓ 스크롤하면 카메라가 방 안을 여행합니다.</p>
+  </div></section>
+  <section><div class="card">
+    <small>01 — TOON SHADING</small>
+    <h2>빛이 단칼에<br>끊긴다</h2>
+    <p><code>MeshToonMaterial</code>에 3단 <code>gradientMap</code>을 주면 명암이 부드럽게 번지지 않고 계단처럼 끊겨 셀 애니메이션 음영이 됩니다. 램프 갓의 면이 덩어리로 갈리는 걸 보세요.</p>
+  </div></section>
+  <section><div class="card">
+    <small>02 — TWO-TONE PALETTE</small>
+    <h2>밝기를<br>색으로 바꾼다</h2>
+    <p>셰이더 마지막에서 밝기를 코발트 / 라이트블루 / 크림 3색으로 재매핑합니다. 바닥의 창문 모양 빛은 실제 <b>그림자맵</b> — 벽이 빛을 막고 창문으로만 들어옵니다.</p>
+  </div></section>
+  <section><div class="card">
+    <small>03 — INK LINES</small>
+    <h2>선이 만화를<br>완성한다</h2>
+    <p><code>EdgesGeometry</code>로 모서리에 잉크선을 긋고 종이 질감을 곱하기로 얹었습니다. 원본(illoca)은 손그림 선을 텍스처에 구워 넣어 더 삐뚤빼뚤한 손맛을 냅니다.</p>
+  </div></section>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+/* ── 렌더러 ── */
+const frame = document.getElementById('frame');
+const renderer = new THREE.WebGLRenderer({ antialias:true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFShadowMap;
+frame.appendChild(renderer.domElement);
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x1640c4);
+const camera = new THREE.PerspectiveCamera(42, 1, .1, 120);
+
+/* ── 툰 재질: gradientMap 3단 + 밝기→3색 재매핑 ── */
+const BLUE = new THREE.Color(0x1640c4), MID = new THREE.Color(0x7d93cf), CREAM = new THREE.Color(0xece3cf);
+const grad = new THREE.DataTexture(new Uint8Array([20, 115, 255]), 3, 1, THREE.RedFormat);
+grad.minFilter = grad.magFilter = THREE.NearestFilter;
+grad.generateMipmaps = false;
+grad.needsUpdate = true;
+
+function toonMat(map){
+  const m = new THREE.MeshToonMaterial({ color:0xffffff, gradientMap:grad, map:map || null });
+  m.onBeforeCompile = sh => {
+    sh.uniforms.uBlue = { value: BLUE };
+    sh.uniforms.uMid = { value: MID };
+    sh.uniforms.uCream = { value: CREAM };
+    sh.fragmentShader = 'uniform vec3 uBlue; uniform vec3 uMid; uniform vec3 uCream;\n' +
+      sh.fragmentShader.replace('#include <opaque_fragment>', `#include <opaque_fragment>
+        float lum = dot(gl_FragColor.rgb, vec3(.2126, .7152, .0722));
+        gl_FragColor.rgb = lum < .3 ? uBlue : (lum < .62 ? uMid : uCream);`);
+  };
+  return m;
+}
+const TOON = toonMat();
+const LINE = new THREE.LineBasicMaterial({ color:0x0d1b4f, transparent:true, opacity:.85 });
+
+/* 박스·원기둥 등 모든 오브젝트: 툰 재질 + 잉크 외곽선 + 그림자 */
+function add(geo, pos, rot, mat, opts = {}){
+  const mesh = new THREE.Mesh(geo, mat || TOON);
+  mesh.position.set(...pos);
+  if (rot) mesh.rotation.set(...rot);
+  mesh.castShadow = opts.cast !== false;
+  mesh.receiveShadow = true;
+  if (opts.lines !== false)
+    mesh.add(new THREE.LineSegments(new THREE.EdgesGeometry(geo, opts.edge || 25), LINE));
+  scene.add(mesh);
+  return mesh;
+}
+const B = (w, h, d) => new THREE.BoxGeometry(w, h, d);
+const C = (rt, rb, h, s = 16) => new THREE.CylinderGeometry(rt, rb, h, s);
+
+/* ── 방: 바닥 + 창문 뚫린 왼벽 + 뒷벽 + 보이지 않는 천장(그림자 차단용) ── */
+add(B(30, .2, 30), [2, -.1, 2], null, null, { cast:false, lines:false });
+// 벽 조각은 서로 겹치게(5.4) + 두껍게(.4) — 이음새로 빛이 새는 그림자맵 틈 방지
+add(B(15.6, 8, .4), [1.2, 4, -5]);                        // 뒷벽(왼벽 바깥까지 관통)
+add(B(.4, 8, 2.6), [-6, 4, -4.3]);                        // 왼벽 A(뒷벽 뒤까지 관통)
+add(B(.4, 8, 12), [-6, 4, 8]);                            // 왼벽 B
+add(B(.4, 1.5, 5.4), [-6, .75, -.5]);                     // 창 아래
+add(B(.4, 2, 5.4), [-6, 7, -.5]);                         // 창 위
+add(B(.14, 4.5, .1), [-6, 3.75, -.5]);                    // 창살 세로
+add(B(.14, .1, 5), [-6, 3.75, -.5]);                      // 창살 가로
+// 천장은 방 안쪽(x -6~9)만 — 벽 바깥까지 덮으면 창으로 나가는 햇빛까지 막아버림
+const ceil = new THREE.Mesh(B(15.2, .2, 19), new THREE.MeshBasicMaterial({ colorWrite:false, depthWrite:false }));
+ceil.position.set(1.5, 8.1, 4.5); ceil.castShadow = true; scene.add(ceil);
+
+/* ── 창밖: 하늘 + 스카이라인(그림자 없음, 단색) ── */
+const sky = new THREE.Mesh(new THREE.PlaneGeometry(80, 40), new THREE.MeshBasicMaterial({ color:0xd3dff5 }));
+sky.position.set(-30, 5, 0); sky.rotation.y = Math.PI / 2; scene.add(sky);
+[[-13,-6,9,3,'#7590d6'],[-15,-3,13,2.4,'#9fb3e6'],[-12,1,7,2.8,'#7590d6'],[-17,3.5,15,3,'#9fb3e6'],
+ [-14,-.5,11,1.8,'#5f7ccc'],[-16,-8,8,2.6,'#9fb3e6'],[-13,5,10,2.2,'#5f7ccc']].forEach(([x,z,h,w,c]) => {
+  const geo = B(w, h, w);
+  const m = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ color:c }));
+  m.position.set(x, h / 2 - 7, z);
+  m.add(new THREE.LineSegments(new THREE.EdgesGeometry(geo), new THREE.LineBasicMaterial({ color:0x4f68ad })));
+  scene.add(m);
+});
+
+/* ── 가구: 책상 중심 (-1.2, 1, -1.2) ── */
+const DX = -1.2, DZ = -1.2;
+add(B(3.2, .08, 1.6), [DX, 1, DZ]);                                            // 상판
+[[-1.5,-.7],[1.5,-.7],[-1.5,.7],[1.5,.7]].forEach(([x,z]) =>
+  add(B(.08, 1, .08), [DX + x, .5, DZ + z]));                                  // 다리
+// 램프
+add(C(.2, .22, .05), [DX - 1.15, 1.06, DZ - .45]);
+add(C(.025, .025, .9), [DX - 1.15, 1.5, DZ - .45], [0, 0, .25]);
+add(C(.025, .025, .6), [DX - 1.0, 2.0, DZ - .45], [0, 0, -1.0]);
+add(new THREE.ConeGeometry(.24, .34, 20, 1, true), [DX - .72, 1.92, DZ - .45], [0, 0, .6], null, { edge:40 });
+// 책 더미
+add(B(.9, .12, .65), [DX + 1.05, 1.1, DZ - .35], [0, .12, 0]);
+add(B(.8, .1, .6), [DX + 1.08, 1.21, DZ - .38], [0, -.08, 0]);
+add(B(.7, .14, .55), [DX + 1.02, 1.33, DZ - .33], [0, .2, 0]);
+// 연필꽂이
+add(C(.12, .1, .3, 14), [DX + .95, 1.19, DZ + .45]);
+[[-.03,.06,.1],[.04,-.02,-.12],[0,.05,.05]].forEach(([x,z,r]) =>
+  add(C(.012, .012, .5, 6), [DX + .95 + x, 1.38, DZ + .45 + z], [r, 0, r * .6], null, { edge:60 }));
+// 도면 종이(평면도 텍스처) — 선은 어두워서 셰이더가 파랑으로 매핑
+const pc = document.createElement('canvas'); pc.width = 512; pc.height = 360;
+const g = pc.getContext('2d');
+g.fillStyle = '#fff'; g.fillRect(0, 0, 512, 360);
+g.strokeStyle = '#000'; g.lineWidth = 6;
+g.strokeRect(60, 50, 390, 260);
+g.lineWidth = 3;
+[[60,170,250,170],[250,50,250,310],[250,210,450,210],[340,50,340,210],[150,170,150,310]].forEach(([a,b,c,d]) => {
+  g.beginPath(); g.moveTo(a, b); g.lineTo(c, d); g.stroke(); });
+g.beginPath(); g.arc(250, 120, 34, 0, Math.PI / 2); g.stroke();
+g.beginPath(); g.arc(150, 240, 30, Math.PI, Math.PI * 1.5); g.stroke();
+const paperTex = new THREE.CanvasTexture(pc); paperTex.colorSpace = THREE.SRGBColorSpace;
+add(B(1.3, .01, .9), [DX - .05, 1.045, DZ + .1], [0, -.18, 0], toonMat(paperTex));
+add(B(1.1, .01, .8), [DX + .3, 1.042, DZ - .1], [0, .3, 0]);
+// 의자
+add(B(.75, .07, .7), [DX + .3, .62, DZ + 1.35]);
+add(B(.75, .7, .07), [DX + .3, 1.02, DZ + 1.7], [-.12, 0, 0]);
+[[-.32,-.3],[.32,-.3],[-.32,.3],[.32,.3]].forEach(([x,z]) =>
+  add(C(.03, .03, .62, 8), [DX + .3 + x, .31, DZ + 1.35 + z]));
+// 화분
+add(C(.42, .32, .75, 18), [-4.5, .38, -3.6]);
+for (let i = 0; i < 9; i++){
+  const a = i / 9 * Math.PI * 2;
+  const leaf = add(new THREE.SphereGeometry(1, 6, 4), [-4.5 + Math.cos(a) * .45, 1.4 + (i % 3) * .3, -3.6 + Math.sin(a) * .45],
+    [Math.sin(a) * .7, -a, Math.cos(a) * .7], null, { edge:70 });
+  leaf.scale.set(.16, .75, .05);
+}
+// 스툴
+add(C(.32, .32, .07, 18), [2.6, .85, -2.8]);
+[[-.2,-.2],[.2,-.2],[-.2,.2],[.2,.2]].forEach(([x,z]) =>
+  add(C(.025, .03, .85, 6), [2.6 + x, .42, -2.8 + z], [z * .25, 0, -x * .25]));
+// 뒷벽 메모들
+[[-2.6,4.6,.1],[-1.6,4.9,-.08],[-.5,4.4,.05],[.6,4.8,-.12],[-1.1,3.6,.07]].forEach(([x,y,r]) =>
+  add(B(.85, 1.05, .02), [x, y, -4.88], [0, 0, r]));
+
+/* ── 조명: 창밖 높은 곳의 해 + 약한 앰비언트 ── */
+scene.add(new THREE.AmbientLight(0xffffff, .4));
+// 보조광(그림자 없음): 카메라 쪽 수평광 → 카메라를 향한 벽·면이 라이트블루 중간톤
+const fill = new THREE.DirectionalLight(0xffffff, .8);
+fill.position.set(12, 1, 9);
+scene.add(fill);
+const sun = new THREE.DirectionalLight(0xffffff, 3.2);
+sun.position.set(-14, 10, 8);                              // 빛줄기가 책상 위로 떨어지는 각도
+sun.castShadow = true;
+sun.shadow.mapSize.set(4096, 4096);
+Object.assign(sun.shadow.camera, { left:-14, right:14, top:14, bottom:-14, near:.5, far:60 });
+sun.shadow.bias = -.0006; sun.shadow.normalBias = .01;
+scene.add(sun);
+
+/* ── 스크롤 = 카메라 여행 (4개 키프레임) ── */
+const K = [
+  { px:7.5, py:5.2, pz:7.5, tx:-2,   ty:1.8, tz:-1.5 },   // 전경
+  { px:1.6, py:2.6, pz:1.4, tx:-1.9, ty:1.4, tz:-1.7 },   // 램프·책
+  { px:2.2, py:2.4, pz:3.5, tx:-6,   ty:3.4, tz:-1   },   // 창문·스카이라인
+  { px:-1.0,py:4.4, pz:-.4, tx:-1.15,ty:1.05,tz:-1.15 },  // 도면 탑뷰
+];
+const cam = { ...K[0] };
+const tl = gsap.timeline({
+  scrollTrigger:{ trigger:'#scroller', start:'top top', end:'bottom bottom', scrub:1.2 }
+});
+K.slice(1).forEach(k => tl.to(cam, { ...k, ease:'power1.inOut', duration:1 }));
+
+/* ── 종이 질감 오버레이 ── */
+const gc = document.createElement('canvas'); gc.width = gc.height = 220;
+const gx = gc.getContext('2d'), gd = gx.createImageData(220, 220);
+for (let i = 0; i < gd.data.length; i += 4){
+  const v = 150 + Math.random() * 105;
+  gd.data[i] = gd.data[i + 1] = gd.data[i + 2] = v; gd.data[i + 3] = 255;
+}
+gx.putImageData(gd, 0, 0);
+document.getElementById('grain').style.backgroundImage = `url(${gc.toDataURL()})`;
+
+function fit(){
+  const w = frame.clientWidth, h = frame.clientHeight;
+  renderer.setSize(w, h);
+  camera.aspect = w / h; camera.updateProjectionMatrix();
+}
+fit(); addEventListener('resize', fit);
+(function loop(t){
+  const s = t * .0004;                                     // 숨쉬듯 미세한 흔들림
+  camera.position.set(cam.px + Math.sin(s) * .08, cam.py + Math.cos(s * 1.3) * .05, cam.pz);
+  camera.lookAt(cam.tx, cam.ty, cam.tz);
+  renderer.render(scene, camera);
+  requestAnimationFrame(loop);
+})(0);
+</script>
+</body>
+</html>
