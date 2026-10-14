@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><title>스카이 미션</title>
+<link rel="stylesheet" href="shared.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  body { background:#0a0d0a; color:#fff; font-family:'Inter',sans-serif; }
+  #gl { position:fixed; inset:0; }
+  #gl canvas { display:block; width:100%; height:100%; }
+  .grain { position:fixed; inset:0; pointer-events:none; opacity:.14; mix-blend-mode:overlay; }
+  #track { height:600vh; }
+  .mono { font-family:'JetBrains Mono',monospace; font-size:.68rem; letter-spacing:.14em; text-transform:uppercase; }
+
+  .chap { position:fixed; top:1.1rem; left:50%; transform:translateX(-50%); display:flex; align-items:center; gap:.5rem; color:rgba(255,255,255,.85); }
+  .chap i { display:block; width:1px; height:8px; background:rgba(255,255,255,.35); }
+  .chap i.on { background:#fff; height:12px; }
+  .chap b { margin:0 .6rem; font-weight:500; }
+
+  .copy { position:fixed; inset:0; pointer-events:none; }
+  .scene { position:absolute; inset:0; padding:5.5rem 2.2rem 2.2rem; opacity:0; transition:opacity .5s; }
+  .scene.on { opacity:1; }
+  .scene h1 { font-size:clamp(2.6rem,6vw,5.2rem); font-weight:600; letter-spacing:-.035em; line-height:.98; max-width:11ch; }
+  .scene p { position:absolute; left:2.2rem; bottom:2.4rem; max-width:34ch; font-size:clamp(1.1rem,1.9vw,1.6rem); line-height:1.3; font-weight:500; letter-spacing:-.01em; }
+  .scene p.right { left:auto; right:2.2rem; bottom:4.6rem; }
+  .scene .tele { position:absolute; right:2.2rem; bottom:2.4rem; text-align:right; color:rgba(255,255,255,.7); line-height:1.9; }
+  .scene .tele em { font-style:normal; color:#ff5a4e; }
+  .scene .tele em.y { color:#ffd166; }
+  .cta { display:inline-flex; align-items:center; gap:2.6rem; margin-top:1.2rem; padding:.9rem 1.3rem; background:rgba(255,255,255,.14); border-radius:99px; font-size:.95rem; backdrop-filter:blur(8px); }
+
+  /* 탐지 HUD 박스 */
+  #hud { position:fixed; inset:0; pointer-events:none; opacity:0; transition:opacity .4s; }
+  .box { position:absolute; width:46px; height:46px; border:1.5px solid #ffd166; }
+  .box.g { border-color:#8df07a; }
+  .box span { position:absolute; left:-1.5px; top:-17px; padding:1px 5px; background:#ffd166; color:#111; font-family:'JetBrains Mono',monospace; font-size:.6rem; letter-spacing:.06em; white-space:nowrap; }
+  .box.g span { background:#8df07a; }
+  .demo-bar a, .demo-bar .t { background:rgba(10,13,10,.7); }
+</style>
+</head>
+<body>
+<div class="demo-bar"><a href="index.html">← 목록</a><span class="t">스카이 미션 — 블렌더식 카메라·드론 애니메이션 클립을 스크롤로 스크럽</span><a class="ref" href="https://www.usavionix.com/" target="_blank" rel="noopener">레퍼런스 ↗</a></div>
+
+<div id="gl"></div>
+<div class="grain" id="grain"></div>
+<div id="hud"></div>
+
+<div class="chap mono" id="chap"></div>
+<div class="copy">
+  <div class="scene on" data-s="0">
+    <h1>Securing the skies with autonomous intelligence</h1>
+    <p class="right">The first agent in the air, built with the speed, range, and onboard intelligence to search vast areas on its own.<br><span class="cta">Scroll To Explore <span>↓</span></span></p>
+  </div>
+  <div class="scene" data-s="1">
+    <h1>Coordinated formation</h1>
+    <p>Three agents share one map. Each knows where the others are looking.</p>
+    <div class="tele mono">FORMATION: DELTA<br>SPACING 420 M<br>ALT 2,100 M | SPEED 410 KM/H</div>
+  </div>
+  <div class="scene" data-s="2">
+    <h1>Real-time detection</h1>
+    <p>Real-time detection and classification of tens of thousands of objects across the battlespace.</p>
+    <div class="tele mono">SCAN MODE: ACTIVE<br>COORD: [37.4419°N / 119.8772°W]<br>ALT 1,240M | SPEED 74 KM/H<br>32 CAR / 4 TRUCK / 1 PERSON / 2 UAV</div>
+  </div>
+  <div class="scene" data-s="3">
+    <h1>Integrated notifications</h1>
+    <p>Automatically notifies authorities through its integrations, keeping ground teams informed.</p>
+    <div class="tele mono">ALERT: POTENTIAL THREATS<br>2 DRONES ASSIGNED TO TARGET AREA<br><em>2 WILDFIRES</em> + <em class="y">1 ROADBLOCK</em> DETECTED<br>AUTHORITIES CONTACTED</div>
+  </div>
+</div>
+<div id="track"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+<script>
+/* ═══ 렌더러·씬 ═══ */
+const holder = document.getElementById('gl');
+const renderer = new THREE.WebGLRenderer({ antialias:true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.shadowMap.enabled = true;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+holder.appendChild(renderer.domElement);
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x0a0d0a);
+scene.fog = new THREE.FogExp2(0x0b100c, .0045);
+const camera = new THREE.PerspectiveCamera(38, 1, .5, 600);
+camera.name = 'cam';
+scene.add(camera);
+
+scene.add(new THREE.HemisphereLight(0xcfd8c8, 0x1a2414, .9));
+const sun = new THREE.DirectionalLight(0xfff1d6, 2.4);
+sun.position.set(60, 90, 30); sun.castShadow = true;
+sun.shadow.mapSize.set(2048, 2048);
+Object.assign(sun.shadow.camera, { left:-90, right:90, top:90, bottom:-90, near:10, far:260 });
+scene.add(sun);
+
+/* ═══ 지형: 노이즈 높이 + 위성사진풍 절차 텍스처 ═══ */
+function hash(x, y){ const s = Math.sin(x * 127.1 + y * 311.7) * 43758.5453; return s - Math.floor(s); }
+function vnoise(x, y){
+  const xi = Math.floor(x), yi = Math.floor(y), xf = x - xi, yf = y - yi;
+  const u = xf * xf * (3 - 2 * xf), v = yf * yf * (3 - 2 * yf);
+  const a = hash(xi, yi), b = hash(xi + 1, yi), c = hash(xi, yi + 1), d = hash(xi + 1, yi + 1);
+  return a + (b - a) * u + (c - a) * v + (a - b - c + d) * u * v;
+}
+function fbm(x, y){ let f = 0, a = .5; for (let i = 0; i < 5; i++){ f += a * vnoise(x, y); x *= 2.03; y *= 2.03; a *= .5; } return f; }
+
+const SIZE = 520, SEG = 200;
+const tgeo = new THREE.PlaneGeometry(SIZE, SIZE, SEG, SEG);
+tgeo.rotateX(-Math.PI / 2);
+const pos = tgeo.attributes.position;
+for (let i = 0; i < pos.count; i++){
+  const x = pos.getX(i), z = pos.getZ(i);
+  const h = fbm(x * .018 + 7, z * .018 + 3);
+  pos.setY(i, Math.pow(h, 1.6) * 34 - 4);
+}
+tgeo.computeVertexNormals();
+// 텍스처: 높이에 따라 계곡(짙은 초록) → 능선(황갈색), 노이즈 얼룩
+const tc = document.createElement('canvas'); tc.width = tc.height = 1024;
+const tx = tc.getContext('2d');
+const img = tx.createImageData(1024, 1024);
+for (let y = 0; y < 1024; y++) for (let x = 0; x < 1024; x++){
+  const wx = (x / 1024 - .5) * SIZE, wz = (y / 1024 - .5) * SIZE;
+  const h = Math.pow(fbm(wx * .018 + 7, wz * .018 + 3), 1.6);
+  const hx = Math.pow(fbm((wx + 2.5) * .018 + 7, wz * .018 + 3), 1.6);
+  const slope = Math.max(-1, Math.min(1, (hx - h) * 18));      // 베이크된 경사 음영(능선 입체감)
+  const det = fbm(wx * .11, wz * .11), fine = fbm(wx * .45, wz * .45);
+  const t = Math.min(1, Math.max(0, (h - .12) * 1.9));
+  // 계곡 짙은 초록 → 중턱 올리브 → 능선 황갈색
+  let r = 22 + t * t * 150 + det * 34 + fine * 14, g = 44 + t * 92 + det * 30 + fine * 12, b = 20 + t * 40 + det * 16 + fine * 8;
+  const sh = 1 + slope * .35; r *= sh; g *= sh; b *= sh;
+  const i = (y * 1024 + x) * 4; img.data[i] = r; img.data[i + 1] = g; img.data[i + 2] = b; img.data[i + 3] = 255;
+}
+tx.putImageData(img, 0, 0);
+const ttex = new THREE.CanvasTexture(tc); ttex.colorSpace = THREE.SRGBColorSpace;
+const tmat = new THREE.MeshStandardMaterial({ map:ttex, roughness:.95, metalness:0, transparent:true });
+const terrain = new THREE.Mesh(tgeo, tmat);
+terrain.receiveShadow = true;
+scene.add(terrain);
+
+// 다크 그리드 맵(마지막 장에서 지형과 교차 페이드)
+const grid = new THREE.GridHelper(SIZE, 64, 0x8a9a8c, 0x56635a);
+grid.position.y = 4; grid.material.transparent = true; grid.material.opacity = 0; grid.material.fog = false;
+scene.add(grid);
+const glowC = document.createElement('canvas'); glowC.width = glowC.height = 128;
+const gg = glowC.getContext('2d'), rg = gg.createRadialGradient(64, 64, 0, 64, 64, 64);
+rg.addColorStop(0, 'rgba(255,90,70,1)'); rg.addColorStop(.18, 'rgba(255,60,50,.85)');
+rg.addColorStop(.5, 'rgba(255,40,40,.22)'); rg.addColorStop(1, 'rgba(255,40,40,0)');
+gg.fillStyle = rg; gg.fillRect(0, 0, 128, 128);
+const glowTex = new THREE.CanvasTexture(glowC);
+const threats = [];
+for (const [x, z] of [[-18, -74], [22, -84], [6, -62]]){
+  const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map:glowTex, color:0xffffff, transparent:true, opacity:0, depthWrite:false, fog:false }));
+  sp.scale.set(16, 16, 1); sp.position.set(x, 8, z); scene.add(sp); threats.push(sp);
+}
+
+/* ═══ 드론: 델타 윙 (삼각 Shape 압출) ═══ */
+function makeDrone(){
+  const s = new THREE.Shape();
+  s.moveTo(0, 3.1); s.lineTo(3.3, -1.5); s.lineTo(1.3, -1.2); s.lineTo(0.9, -2.3);
+  s.lineTo(-0.9, -2.3); s.lineTo(-1.3, -1.2); s.lineTo(-3.3, -1.5); s.closePath();
+  const g = new THREE.ExtrudeGeometry(s, { depth:.3, bevelEnabled:true, bevelThickness:.12, bevelSize:.1, bevelSegments:2 });
+  g.rotateX(Math.PI / 2); g.translate(0, .15, 0);           // 평평하게, 기수 +z
+  const body = new THREE.Mesh(g, new THREE.MeshStandardMaterial({ color:0x2a2d30, roughness:.55, metalness:.45 }));
+  body.castShadow = true;
+  const grp = new THREE.Group(); grp.add(body);
+  const canopy = new THREE.Mesh(new THREE.CapsuleGeometry(.28, 1.6, 4, 10),
+    new THREE.MeshStandardMaterial({ color:0x15181b, roughness:.3, metalness:.6 }));
+  canopy.rotation.x = Math.PI / 2; canopy.position.set(0, .45, .6); grp.add(canopy);
+  const marks = new THREE.Mesh(new THREE.PlaneGeometry(1.2, .22), new THREE.MeshBasicMaterial({ color:0xd8d8d8 }));
+  marks.rotation.x = -Math.PI / 2; marks.position.set(-1.9, .36, -.6); grp.add(marks);
+  // 배기 화염
+  const flame = new THREE.Mesh(new THREE.ConeGeometry(.22, 1.4, 10),
+    new THREE.MeshBasicMaterial({ color:0xffe3b0, transparent:true, opacity:.85 }));
+  flame.rotation.x = Math.PI / 2; flame.position.set(0, .3, -2.9); grp.add(flame);
+  grp.userData.flame = flame;
+  return grp;
+}
+const droneA = makeDrone(); droneA.name = 'droneA'; scene.add(droneA);
+const wing = [makeDrone(), makeDrone()];
+wing.forEach(w => { w.traverse(o => { if (o.material){ o.material = o.material.clone(); o.material.transparent = true; o.material.opacity = 0; } }); scene.add(w); });
+
+/* ═══ 애니메이션 클립 (원본의 camera-animations.glb / drone-animations.glb 역할) ═══ */
+const DUR = 10;                                                  // 클립 길이(초) — 스크롤 0~1이 0~10초에 대응
+const camDummy = new THREE.PerspectiveCamera(), objDummy = new THREE.Object3D();
+function camQ(p, look){ camDummy.position.set(...p); camDummy.lookAt(...look); return camDummy.quaternion.toArray(); }
+function droneQ(p, next, roll){
+  objDummy.position.set(...p); objDummy.lookAt(...next);
+  objDummy.rotateZ(roll || 0); return objDummy.quaternion.toArray();
+}
+// t: 0 히어로(뒤·위에서 비스듬히, 뱅크 비행) → 3.2 편대 탑뷰 → 6.2 탐지(근접 탑뷰) → 9 경보(먼 탑뷰, 다크 그리드)
+const KEY = [
+  { t:0,   cam:[14, 34, 12],  look:[0, 10, 46],  drone:[0, 18, 40],  next:[-2, 17.5, 20], roll:.55 },
+  { t:1.6, cam:[8, 44, 10],   look:[0, 16, 24],  drone:[-1, 18, 24], next:[0, 20, 6],    roll:.3 },
+  { t:3.2, cam:[0, 92, 0],    look:[0, 20, -2],  drone:[0, 22, 2],   next:[0, 22, -16],  roll:0 },
+  { t:4.8, cam:[0, 80, -22],  look:[0, 22, -26], drone:[0, 22, -22], next:[0, 22, -40],  roll:0 },
+  { t:6.2, cam:[3, 62, -36],  look:[0, 20, -46], drone:[0, 22, -44], next:[0, 22, -60],  roll:.08 },
+  { t:7.6, cam:[0, 84, -56],  look:[0, 10, -66], drone:[0, 22, -62], next:[0, 22, -80],  roll:0 },
+  { t:9,   cam:[0, 98, -70],  look:[0, 8, -76],  drone:[0, 23, -82], next:[0, 23, -100], roll:0 },
+  { t:10,  cam:[0, 98, -74],  look:[0, 8, -80],  drone:[0, 23, -92], next:[0, 23, -110], roll:0 },
+];
+const times = KEY.map(k => k.t);
+const clip = new THREE.AnimationClip('scroll', DUR, [
+  new THREE.VectorKeyframeTrack('cam.position', times, KEY.flatMap(k => k.cam)),
+  new THREE.QuaternionKeyframeTrack('cam.quaternion', times, KEY.flatMap(k => camQ(k.cam, k.look))),
+  new THREE.VectorKeyframeTrack('droneA.position', times, KEY.flatMap(k => k.drone)),
+  new THREE.QuaternionKeyframeTrack('droneA.quaternion', times, KEY.flatMap(k => droneQ(k.drone, k.next, k.roll))),
+]);
+const mixer = new THREE.AnimationMixer(scene);
+const action = mixer.clipAction(clip); action.play();
+
+/* ═══ HUD 박스 / 챕터 표시 / 스크롤 ═══ */
+const LABELS = ['CAR 93%','MOTORCYCLE 85%','POWER LINE 83%','CAMPFIRE 81%','ROAD BLOCK 89%','PERSON 81%','ROAD OBSTRUCTION 90%','TRUCK 88%'];
+const hud = document.getElementById('hud');
+hud.innerHTML = Array.from({ length:16 }, (_, i) => {
+  const l = LABELS[i % LABELS.length];
+  return `<div class="box ${/CAR|TRUCK/.test(l) ? 'g' : ''}" style="left:${4 + Math.random() * 90}%;top:${8 + Math.random() * 82}%"><span>${l}</span></div>`;
+}).join('');
+const CHAPS = ['INTRO', 'MISSION', 'DETECTION', 'INT ALERTS'];
+const chap = document.getElementById('chap');
+function setChapter(i){
+  chap.innerHTML = CHAPS.map((c, k) => `<i class="${k === i ? 'on' : ''}"></i>` + (k === i ? `<b>${c}</b>` : '')).join('');
+  document.querySelectorAll('.scene').forEach(s => s.classList.toggle('on', +s.dataset.s === i));
+  hud.style.opacity = i === 2 ? 1 : 0;
+}
+setChapter(0);
+let target = 0, prog = 0, curChap = 0;
+addEventListener('scroll', () => {
+  target = scrollY / (document.documentElement.scrollHeight - innerHeight);
+}, { passive:true });
+
+const gc = document.createElement('canvas'); gc.width = gc.height = 160;
+const gx = gc.getContext('2d'), gd = gx.createImageData(160, 160);
+for (let i = 0; i < gd.data.length; i += 4){ const v = Math.random() * 255; gd.data[i] = gd.data[i+1] = gd.data[i+2] = v; gd.data[i+3] = 255; }
+gx.putImageData(gd, 0, 0); document.getElementById('grain').style.background = `url(${gc.toDataURL()})`;
+
+function fit(){ renderer.setSize(innerWidth, innerHeight); camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); }
+fit(); addEventListener('resize', fit);
+const lerp = (a, b, t) => a + (b - a) * t;
+(function loop(ms){
+  prog += (target - prog) * .06;                                // Lenis풍 스무딩
+  mixer.setTime(prog * DUR);                                    // ★ 핵심: 스크롤 → 클립 재생 시간
+  const t = prog * DUR;
+  // 편대 2기: MISSION 장에서 나타났다 DETECTION 전에 사라짐
+  const wingA = Math.min(1, Math.max(0, (t - 1.4) / 1.2)) * (1 - Math.min(1, Math.max(0, (t - 5.4) / .8)));
+  wing.forEach((w, i) => {
+    const side = i ? 1 : -1;
+    w.position.copy(droneA.position).add(new THREE.Vector3(side * 17, .5, 11));
+    w.quaternion.copy(droneA.quaternion);
+    w.visible = wingA > .02;                                    // 투명해도 그림자가 남으니 아예 숨김
+    w.traverse(o => { if (o.material) o.material.opacity = wingA * (o === w.userData.flame ? .85 : 1); });
+  });
+  // INT ALERTS: 지형 → 다크 그리드, 위협 점 깜빡임
+  const dark = Math.min(1, Math.max(0, (t - 7.4) / 1.4));
+  tmat.opacity = 1 - dark * .92; grid.material.opacity = dark * .9;
+  scene.background.setRGB(lerp(.04, .02, dark), lerp(.05, .02, dark), lerp(.04, .02, dark));
+  threats.forEach((s, i) => {
+    s.material.opacity = dark * (.7 + .3 * Math.sin(ms * .004 + i * 2));
+    s.material.color.setRGB(2.6, 1.1, .9);               // 톤매핑 후에도 붉게 남도록 HDR 과노출
+  });
+  // 미세 호버·배기 흔들림
+  droneA.position.y += Math.sin(ms * .003) * .15;
+  droneA.userData.flame.scale.setScalar(.85 + Math.random() * .3);
+  const c = t < 1.5 ? 0 : t < 5.2 ? 1 : t < 7.6 ? 2 : 3;
+  if (c !== curChap){ curChap = c; setChapter(c); }
+  renderer.render(scene, camera);
+  requestAnimationFrame(loop);
+})(0);
+</script>
+</body>
+</html>
