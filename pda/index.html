@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>맑은물에 PDA 입출고 — 리디자인 시안</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+:root{
+  --green:#4a9e2f; --green-dark:#35761f; --nav:#676767; --orange:#ff7802; --neg:#ff4040; --info:#5dd3ff;
+  --g00:#fafafb; --g01:#f3f4f6; --g02:#eaebed; --g03:#d9dadc; --g04:#c5c6c8; --g05:#a7a8aa; --g06:#8a8b8d; --g07:#6e6f71; --g08:#545557; --g09:#38393b; --g10:#1c1d1f;
+  --t-green:#eaf6e4; --t-mint:#e4f8ee; --t-orange:#fff1e3; --t-red:#fff5f5;
+  --r-sm:4px; --r-md:6px; --r-lg:8px; --r-pill:20px;
+  --sh-sm:0 1px 3px rgba(0,0,0,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:Pretendard,-apple-system,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;background:#e9eaec;color:var(--g10);-webkit-font-smoothing:antialiased;letter-spacing:-.01em}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+
+/* ===== 보고용 셸 ===== */
+.shell{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+.side{background:#fff;border-right:1px solid var(--g03);padding:24px 20px;position:sticky;top:0;height:100vh;overflow:auto}
+.side h1{font-size:17px;font-weight:700;line-height:24px}
+.side .sub{font-size:12px;color:var(--g07);margin-top:4px;line-height:17px}
+.side .group{margin-top:22px;font-size:11px;font-weight:700;color:var(--g06);letter-spacing:.04em}
+.side nav{display:flex;flex-direction:column;gap:4px;margin-top:8px}
+.side nav button{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:9px 10px;border-radius:var(--r-md);font-size:13px;font-weight:500;color:var(--g08)}
+.side nav button b{display:inline-flex;align-items:center;justify-content:center;width:26px;height:22px;border-radius:5px;background:var(--g02);font-size:11px;font-weight:700;color:var(--g07)}
+.side nav button:hover{background:var(--g01)}
+.side nav button.on{background:var(--g10);color:#fff}
+.side nav button.on b{background:rgba(255,255,255,.18);color:#fff}
+.side .foot{margin-top:28px;padding-top:16px;border-top:1px solid var(--g02);font-size:11px;line-height:17px;color:var(--g06)}
+.side .mode{display:flex;gap:6px;margin-top:14px}
+.side .mode button{flex:1;padding:8px;border:1.5px solid var(--g03);border-radius:var(--r-md);font-size:12px;font-weight:600;color:var(--g08);background:#fff}
+.side .mode button.on{background:var(--green-dark);border-color:var(--green-dark);color:#fff}
+.stage{padding:32px;display:flex;justify-content:center;align-items:flex-start}
+.stage.single .device{display:block}
+.stage .grid{display:none;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:28px;width:100%;max-width:1400px}
+.stage.all .grid{display:grid}
+.stage.all > .device{display:none}
+.grid figure{display:flex;flex-direction:column;gap:10px}
+.grid figcaption{font-size:12px;font-weight:600;color:var(--g08)}
+.grid .thumb{width:100%;aspect-ratio:480/800;overflow:hidden;border-radius:14px;box-shadow:0 2px 12px rgba(0,0,0,.08);background:#fff;position:relative;cursor:pointer}
+.grid .thumb .screen{position:absolute;left:0;top:0;width:480px;height:800px;transform-origin:0 0;display:flex}
+
+/* ===== 디바이스 ===== */
+.device{width:480px;height:800px;border-radius:18px;overflow:hidden;box-shadow:0 10px 40px rgba(0,0,0,.18);background:var(--g01);position:relative;flex:none}
+.device .screen{display:none;width:480px;height:800px}
+.device .screen.on{display:flex}
+.screen{flex-direction:column;background:var(--g01);overflow:hidden;font-size:13px;line-height:19px}
+
+/* ===== 컴포넌트 ===== */
+.appbar{height:64px;flex:none;background:var(--nav);color:#fff;display:flex;align-items:center;padding:0 16px;gap:8px}
+.appbar .slot{width:88px;flex:none;display:flex;align-items:center}
+.appbar .slot.r{flex-direction:column;align-items:flex-end;gap:2px}
+.appbar .back{display:inline-flex;align-items:center;gap:2px;padding:8px 12px 8px 8px;border-radius:8px;background:rgba(255,255,255,.14);font-size:13px;font-weight:500;color:#fff}
+.appbar .back svg{width:20px;height:20px}
+.appbar .titles{flex:1;text-align:center}
+.appbar .titles h2{font-size:18px;font-weight:700;line-height:26px}
+.appbar .titles p{font-size:11px;line-height:16px;color:rgba(255,255,255,.7)}
+.appbar .r .c{font-size:12px;font-weight:500;line-height:18px}
+.appbar .r .t{font-size:11px;line-height:16px;color:rgba(255,255,255,.7)}
+.appbar .iconbtn{width:42px;height:34px;border-radius:8px;background:rgba(255,255,255,.14);display:inline-flex;align-items:center;justify-content:center}
+.appbar .iconbtn svg{width:18px;height:18px}
+.body{flex:1;min-height:0;overflow:hidden;padding:16px 20px;display:flex;flex-direction:column;gap:12px}
+.body.g16{gap:16px}
+.body.nb{padding-bottom:0}
+.foot-scan{flex:none;background:var(--g10);color:#fff;display:flex;align-items:center;gap:10px;padding:14px 20px;font-size:12px;font-weight:500;line-height:18px}
+.foot-scan svg{width:20px;height:20px;flex:none}
+.foot-action{flex:none;background:var(--g00);border-top:1px solid var(--g03);padding:12px 20px 16px}
+.ic{width:24px;height:24px;flex:none;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;border-radius:var(--r-lg);padding:0 16px;font-weight:700;white-space:nowrap}
+.btn.lg{height:56px;font-size:17px;line-height:22px}
+.btn.md{height:44px;font-size:13px}
+.btn.primary{background:var(--green);color:#fff}
+.btn.secondary{background:var(--g00);color:var(--g10);border:1.5px solid var(--g04)}
+.btn.ghost{background:var(--g02);color:var(--g10)}
+.btn.block{display:flex;width:100%}
+
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-size:12px;font-weight:500;line-height:18px;color:var(--g08)}
+.field .box{height:52px;border-radius:var(--r-lg);background:var(--g00);border:1.5px solid var(--g04);display:flex;align-items:center;padding:0 14px;gap:8px;font-size:15px;font-weight:500;line-height:22px}
+.field .box .ph{color:var(--g05)}
+.field .box .v{flex:1}
+.field .box svg{width:20px;height:20px;color:var(--g07)}
+
+.pill{display:inline-flex;align-items:center;padding:3px 8px;border-radius:var(--r-sm);font-size:11px;font-weight:700;line-height:16px;white-space:nowrap}
+.pill.neutral{background:var(--g02);color:var(--g08)}
+.pill.pos{background:var(--t-green);color:var(--green-dark)}
+.pill.warn{background:var(--t-orange);color:var(--orange)}
+.pill.danger{background:var(--t-red);color:var(--neg)}
+
+.chips{display:flex;gap:8px;align-items:center}
+.chip{display:inline-flex;align-items:center;padding:8px 14px;border-radius:var(--r-pill);font-size:13px;font-weight:500;line-height:19px;background:var(--g00);border:1.5px solid var(--g04);color:var(--g09);white-space:nowrap}
+.chip.on{background:var(--g10);border-color:var(--g10);color:#fff}
+
+.sec-head{display:flex;align-items:center;gap:8px}
+.sec-head h3{font-size:15px;font-weight:700;line-height:22px}
+.sec-head .sub{flex:1;font-size:11px;line-height:16px;color:var(--g07)}
+.sec-head .cnt{font-size:12px;font-weight:700;line-height:18px;color:var(--g08)}
+.section{display:flex;flex-direction:column;gap:10px}
+.cards2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+.card{background:var(--g00);border:1px solid var(--g03);border-radius:var(--r-lg)}
+.menu-card{height:132px;padding:16px;display:flex;flex-direction:column;justify-content:space-between;text-align:left}
+.menu-card.tall{height:180px}
+.menu-card .top{display:flex;justify-content:space-between;align-items:flex-start}
+.menu-card .ibox{width:40px;height:40px;border-radius:var(--r-md);background:var(--t-green);color:var(--green-dark);display:flex;align-items:center;justify-content:center}
+.menu-card .nums{text-align:right}
+.menu-card .nums .n{display:flex;align-items:baseline;justify-content:flex-end;gap:2px}
+.menu-card .nums b{font-size:26px;font-weight:700;line-height:34px;color:var(--green-dark)}
+.menu-card .nums span{font-size:13px;font-weight:500;color:var(--g06)}
+.menu-card .nums .cap{font-size:11px;line-height:16px;color:var(--g06)}
+.menu-card h4{font-size:20px;font-weight:700;line-height:26px}
+.menu-card .s{font-size:11px;line-height:16px;color:var(--g07);margin-top:2px}
+
+.type-card{height:116px;padding:14px;display:flex;flex-direction:column;justify-content:space-between;text-align:left}
+.type-card .top{display:flex;justify-content:space-between;align-items:center;color:var(--green-dark)}
+.type-card .n{display:flex;align-items:baseline;gap:2px}
+.type-card .n b{font-size:22px;font-weight:700;line-height:26px;color:var(--green-dark)}
+.type-card .n span{font-size:12px;font-weight:500;color:var(--g06)}
+.type-card h4{font-size:16px;font-weight:700;line-height:22px}
+.type-card .s{font-size:11px;line-height:16px;color:var(--g07);margin-top:2px}
+
+.row{height:64px;padding:0 14px;display:flex;align-items:center;gap:12px}
+.row.sm{height:58px}
+.row .cb{width:22px;height:22px;border-radius:5px;border:1.5px solid var(--g05);background:var(--g00);flex:none}
+.row .tx{flex:1;min-width:0}
+.row .tx .t{font-size:15px;font-weight:600;line-height:22px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row .tx .m{font-size:11px;line-height:16px;color:var(--g07);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row .qty{display:flex;align-items:baseline;gap:3px;white-space:nowrap}
+.row .qty b{font-size:18px;font-weight:700;line-height:26px}
+.row .qty span{font-size:11px;color:var(--g07)}
+.list{display:flex;flex-direction:column;gap:8px;flex:1;min-height:0;overflow:hidden}
+
+.scanbar{height:56px;border-radius:var(--r-lg);background:var(--g00);border:2px solid var(--green);display:flex;align-items:center;gap:10px;padding:0 6px 0 14px;color:var(--green-dark)}
+.scanbar .ph{flex:1;font-size:15px;font-weight:500;color:var(--g06)}
+.scanbar .btn{height:44px;width:72px;padding:0}
+.hint{background:var(--g02);border-radius:var(--r-md);padding:8px 12px;font-size:11px;font-weight:500;line-height:16px;color:var(--g07)}
+.search{height:44px;border-radius:var(--r-lg);background:var(--g00);border:1px solid var(--g03);display:flex;align-items:center;gap:8px;padding:0 12px;color:var(--g06);font-size:13px;font-weight:500}
+.search svg{width:18px;height:18px}
+.label-row{display:flex;align-items:center;padding-top:4px}
+.label-row .l{flex:1;font-size:12px;font-weight:500;color:var(--g08)}
+.label-row .r{font-size:11px;color:var(--g07)}
+
+.seg{display:flex;gap:4px;padding:4px;background:var(--g02);border-radius:var(--r-lg)}
+.seg button{flex:1;padding:10px;border-radius:var(--r-md);font-size:13px;font-weight:500;color:var(--g07)}
+.seg button.on{background:var(--g00);color:var(--g10);font-weight:700;box-shadow:var(--sh-sm)}
+.select{height:36px;border-radius:var(--r-lg);background:var(--g00);border:1.5px solid var(--g04);display:flex;align-items:center;gap:4px;padding:0 8px 0 12px;font-size:13px;font-weight:500;flex:1;min-width:0}
+.select span{flex:1}
+.select svg{width:18px;height:18px;color:var(--g07)}
+.summary{display:flex;align-items:center}
+.summary .l{flex:1;font-size:12px;font-weight:500;color:var(--g07)}
+.summary .btn{height:36px;width:96px;padding:0}
+
+.loc-card{height:64px;padding:0 14px;display:flex;align-items:center;gap:8px;text-align:left}
+.loc-card .tx{flex:1}
+.loc-card .c{font-size:16px;font-weight:700;line-height:22px}
+.loc-card .w{font-size:11px;line-height:16px;color:var(--g07);margin-top:3px}
+.loc-card .n{font-size:12px;font-weight:700;color:var(--g08)}
+.loc-card .n.zero{color:var(--g05)}
+
+.step{padding:12px 14px;display:flex;flex-direction:column;gap:10px}
+.step .hd{display:flex;align-items:center;gap:8px}
+.step .num{width:24px;height:24px;border-radius:999px;background:var(--g03);color:var(--g07);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.step.on .num{background:var(--green-dark);color:#fff}
+.step .hd h4{font-size:15px;font-weight:600;line-height:22px}
+.step .select{height:48px;font-size:14px;padding:0 10px 0 14px}
+.step .select svg{width:20px;height:20px}
+.step .d{font-size:11px;line-height:16px;color:var(--g06)}
+
+.empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center}
+.empty .circ{width:64px;height:64px;border-radius:999px;background:var(--g02);color:var(--g06);display:flex;align-items:center;justify-content:center}
+.empty .circ svg{width:28px;height:28px}
+.empty h4{font-size:15px;font-weight:700;line-height:22px;color:var(--g08)}
+.empty p{font-size:13px;line-height:19px;color:var(--g06)}
+
+/* 홈 */
+.home-head{height:64px;flex:none;background:var(--nav);color:#fff;display:flex;align-items:center;padding:0 16px;justify-content:space-between}
+.home-head .sp{width:42px}
+.home-head .c{text-align:center}
+.home-head .c h2{font-size:18px;font-weight:700;line-height:26px}
+.home-head .c p{font-size:11px;line-height:16px;color:rgba(255,255,255,.7)}
+.today{background:var(--green-dark);color:#fff;border-radius:var(--r-lg);padding:18px 20px;display:flex;flex-direction:column;gap:16px}
+.today .top{display:flex;align-items:center}
+.today .top .t{flex:1}
+.today .top h3{font-size:18px;font-weight:700;line-height:26px}
+.today .top p{font-size:11px;line-height:16px;color:rgba(255,255,255,.75)}
+.today .rem{background:rgba(255,255,255,.16);border-radius:var(--r-pill);padding:5px 10px;font-size:12px;font-weight:700;line-height:18px}
+.today .stats{display:flex;gap:8px}
+.today .stat{flex:1;background:rgba(255,255,255,.12);border-radius:var(--r-md);padding:10px 12px;display:flex;flex-direction:column;gap:4px}
+.today .stat .l{font-size:11px;font-weight:700;color:rgba(255,255,255,.8)}
+.today .stat .n{display:flex;align-items:baseline;gap:2px}
+.today .stat b{font-size:24px;font-weight:700;line-height:28px}
+.today .stat span{font-size:12px;font-weight:500;color:rgba(255,255,255,.75)}
+.today .stat.hi{background:var(--g00);color:var(--g10)}
+.today .stat.hi .l{color:var(--g08)}
+.today .stat.hi b{color:var(--green-dark)}
+.today .stat.hi span{color:var(--g06)}
+.menu{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+/* 로그인 */
+.login{background:var(--g00);align-items:center}
+.login .brand{padding:120px 0 48px;text-align:center}
+.login .brand h1{font-size:30px;font-weight:700;line-height:38px;color:var(--green-dark)}
+.login .brand p{font-size:13px;line-height:19px;color:var(--g07);margin-top:10px}
+.login form{width:100%;padding:0 24px;display:flex;flex-direction:column;gap:16px}
+.login .ft{padding-top:40px;text-align:center;font-size:11px;line-height:16px;color:var(--g06);display:flex;flex-direction:column;gap:4px}
+
+/* 피킹리스트 진입행 */
+.pick-entry{padding:12px 14px;display:flex;align-items:center;gap:12px;text-align:left;width:100%}
+.pick-entry .ibox{width:40px;height:40px;border-radius:var(--r-md);background:var(--t-green);color:var(--green-dark);display:flex;align-items:center;justify-content:center;flex:none}
+.pick-entry .tx{flex:1}
+.pick-entry .t{font-size:16px;font-weight:700;line-height:22px}
+.pick-entry .m{font-size:11px;line-height:16px;color:var(--g07);margin-top:3px}
+.pick-entry .chev{width:24px;height:24px;color:var(--g07);transform:rotate(180deg)}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <symbol id="i-scan" viewBox="0 0 24 24"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3M4 12h16"/></symbol>
+  <symbol id="i-inbound" viewBox="0 0 24 24"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v3h16v-3"/></symbol>
+  <symbol id="i-outbound" viewBox="0 0 24 24"><path d="M12 15V3m0 0L8 7m4-4l4 4M4 17v3h16v-3"/></symbol>
+  <symbol id="i-box" viewBox="0 0 24 24"><path d="M3 7l9-4 9 4v10l-9 4-9-4V7zM3 7l9 4 9-4M12 11v10"/></symbol>
+  <symbol id="i-swap" viewBox="0 0 24 24"><path d="M4 7h13m0 0l-3-3m3 3l-3 3M20 17H7m0 0l3-3m-3 3l3 3"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><path d="M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM20 20l-4-4"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2"/></symbol>
+  <symbol id="i-chev-l" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></symbol>
+  <symbol id="i-chev-d" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
+  <symbol id="i-truck" viewBox="0 0 24 24"><path d="M3 6h11v10H3zM14 10h4l3 3v3h-7zM6 19a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zM17 19a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/></symbol>
+  <symbol id="i-factory" viewBox="0 0 24 24"><path d="M3 21V10l5 3V10l5 3V7l5 3v11H3zM7 17h2M12 17h2"/></symbol>
+  <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M5 19c0-8 5-13 14-14-1 9-6 14-14 14zM5 19l8-8"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 8v8M8 12h8"/></symbol>
+  <symbol id="i-undo" viewBox="0 0 24 24"><path d="M9 14l-4-4 4-4M5 10h10a4 4 0 0 1 0 8h-3"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"/></symbol>
+  <symbol id="i-clipboard" viewBox="0 0 24 24"><path d="M9 4h6v3H9zM6 6h2v14h8V6h2M9 12h6M9 16h6"/></symbol>
+  <symbol id="i-logout" viewBox="0 0 24 24"><path d="M10 17l5-5-5-5M15 12H3M13 4h6v16h-6"/></symbol>
+</svg>
+
+<div class="shell">
+  <aside class="side">
+    <h1>맑은물에 PDA 입출고</h1>
+    <p class="sub">리디자인 시안 · 480×800 · 2026-11-16</p>
+    <div class="mode"><button class="on" data-mode="single">한 화면씩</button><button data-mode="all">모아보기</button></div>
+    <div class="group">화면</div>
+    <nav id="nav"></nav>
+    <p class="foot">맑은물에 Green 토큰(브랜드 그린 1색 + 중립 회색) · Pretendard · 카드 R8 · 8pt 그리드. 화면 속 숫자는 예시입니다.</p>
+  </aside>
+  <main class="stage single" id="stage">
+    <div class="device" id="device"></div>
+    <div class="grid" id="grid"></div>
+  </main>
+</div>
+
+<template id="screens">
+
+<section class="screen login" data-id="01" data-title="로그인">
+  <div class="brand"><h1>맑은물에</h1><p>PDA 물류관리 · 싱크웍스</p></div>
+  <form onsubmit="return false">
+    <div class="field"><label>법인</label><div class="box"><span class="v">맑은식품</span><svg class="ic"><use href="#i-chev-d"/></svg></div></div>
+    <div class="field"><label>아이디</label><div class="box"><span class="v ph">아이디 선택</span><svg class="ic"><use href="#i-chev-d"/></svg></div></div>
+    <div class="field"><label>비밀번호</label><div class="box"><span class="v ph">비밀번호 입력</span></div></div>
+    <div style="height:8px"></div>
+    <button class="btn lg primary block" data-go="02">로그인</button>
+  </form>
+  <div class="ft"><span>기기 PDA-07 · v1.0.0</span><span>아이디를 고르면 해당 법인의 문서와 재고를 불러옵니다</span></div>
+</section>
+
+<section class="screen" data-id="02" data-title="홈">
+  <div class="home-head"><div class="sp"></div><div class="c"><h2>맑은식품</h2><p>맑은물에 PDA · 현장01 (mf-in01)</p></div><button class="iconbtn appbar-ib" data-go="01" style="width:42px;height:34px;border-radius:8px;background:rgba(255,255,255,.14);display:inline-flex;align-items:center;justify-content:center"><svg class="ic" style="width:18px;height:18px"><use href="#i-logout"/></svg></button></div>
+  <div class="body g16">
+    <div class="today">
+      <div class="top"><div class="t"><h3>오늘의 작업</h3><p>2026-11-06 (금)</p></div><span class="rem">남은 작업 28건</span></div>
+      <div class="stats">
+        <div class="stat"><span class="l">입고</span><div class="n"><b>009</b><span>/024</span></div></div>
+        <div class="stat"><span class="l">출고</span><div class="n"><b>010</b><span>/023</span></div></div>
+        <div class="stat hi"><span class="l">완료</span><div class="n"><b>019</b><span>/047</span></div></div>
+      </div>
+    </div>
+    <div class="menu">
+      <button class="card menu-card" data-go="03"><div class="top"><div class="ibox"><svg class="ic"><use href="#i-inbound"/></svg></div><div class="nums"><div class="n"><b>195</b><span>/320</span></div><div class="cap">완료/전체</div></div></div><div><h4>입고</h4><div class="s">미완료 125건</div></div></button>
+      <button class="card menu-card" data-go="04"><div class="top"><div class="ibox"><svg class="ic"><use href="#i-outbound"/></svg></div><div class="nums"><div class="n"><b>135</b><span>/240</span></div><div class="cap">완료/전체</div></div></div><div><h4>출고</h4><div class="s">미완료 105건</div></div></button>
+      <button class="card menu-card" data-go="07"><div class="top"><div class="ibox"><svg class="ic"><use href="#i-clipboard"/></svg></div><div class="nums"><div class="n"><b>0</b><span>/011</span></div><div class="cap">완료 로케이션</div></div></div><div><h4>재고 실사</h4><div class="s">실사 대기 11곳</div></div></button>
+      <button class="card menu-card" data-go="09"><div class="top"><div class="ibox"><svg class="ic"><use href="#i-swap"/></svg></div><div class="nums"><div class="n"><b>0</b><span>/003</span></div><div class="cap">완료/전체</div></div></div><div><h4>창고 이동</h4><div class="s">이동지시 3건</div></div></button>
+      <button class="card menu-card" data-go="06"><div class="top"><div class="ibox"><svg class="ic"><use href="#i-search"/></svg></div><div class="nums"><div class="n"><b>118</b><span>/126</span></div><div class="cap">재고 보유/전체</div></div></div><div><h4>재고 조회</h4><div class="s">품목 126종</div></div></button>
+      <button class="card menu-card" data-go="10"><div class="top"><div class="ibox"><svg class="ic"><use href="#i-clock"/></svg></div><div class="nums"><div class="n"><b>0</b><span></span></div><div class="cap">오늘 처리</div></div></div><div><h4>처리 이력</h4><div class="s">확정 내역 없음</div></div></button>
+    </div>
+  </div>
+  <div class="foot-scan"><svg class="ic"><use href="#i-scan"/></svg><span>SCAN 버튼을 누르면 현재 화면에서 바로 스캔합니다</span></div>
+</section>
+
+<section class="screen" data-id="03" data-title="입고 유형 선택">
+  <div class="appbar"><div class="slot"><button class="back" data-go="02"><svg class="ic"><use href="#i-chev-l"/></svg>뒤로</button></div><div class="titles"><h2>입고</h2><p>입고 유형 선택</p></div><div class="slot r"><span class="c">맑은식품</span><span class="t">15:28</span></div></div>
+  <div class="body g16">
+    <div class="section"><div class="sec-head"><h3>계열사·OEM 입고</h3><span class="sub">계열사 차량 · 위탁생산 제품</span><span class="cnt">50/080</span></div><div class="cards2">
+      <div class="card type-card"><div class="top"><svg class="ic"><use href="#i-truck"/></svg><div class="n"><b>25</b><span>/040</span></div></div><div><h4>계열사 차량별 입고</h4><div class="s">제품 냉장창고 · 미완료 15건</div></div></div>
+      <div class="card type-card"><div class="top"><svg class="ic"><use href="#i-factory"/></svg><div class="n"><b>25</b><span>/040</span></div></div><div><h4>OEM 입고</h4><div class="s">제품 냉장창고 · 미완료 15건</div></div></div></div></div>
+    <div class="section"><div class="sec-head"><h3>원자재 입고</h3><span class="sub">발주 기준 · 추가입고</span><span class="cnt">41/080</span></div><div class="cards2">
+      <div class="card type-card"><div class="top"><svg class="ic"><use href="#i-leaf"/></svg><div class="n"><b>17</b><span>/040</span></div></div><div><h4>원자재</h4><div class="s">원자재창고 · 미완료 23건</div></div></div>
+      <div class="card type-card"><div class="top"><svg class="ic"><use href="#i-plus"/></svg><div class="n"><b>24</b><span>/040</span></div></div><div><h4>추가입고</h4><div class="s">원자재창고 · 미완료 16건</div></div></div></div></div>
+    <div class="section"><div class="sec-head"><h3>부자재 입고</h3><span class="sub">발주 기준 · 추가입고</span><span class="cnt">50/080</span></div><div class="cards2">
+      <div class="card type-card"><div class="top"><svg class="ic"><use href="#i-box"/></svg><div class="n"><b>26</b><span>/040</span></div></div><div><h4>부자재</h4><div class="s">부자재창고 · 미완료 14건</div></div></div>
+      <div class="card type-card"><div class="top"><svg class="ic"><use href="#i-plus"/></svg><div class="n"><b>24</b><span>/040</span></div></div><div><h4>추가입고</h4><div class="s">부자재창고 · 미완료 16건</div></div></div></div></div>
+    <div class="section"><div class="sec-head"><h3>환품·반품 입고</h3><span class="sub">거래처 회수 제품</span><span class="cnt">54/080</span></div><div class="cards2">
+      <div class="card type-card"><div class="top"><svg class="ic"><use href="#i-undo"/></svg><div class="n"><b>26</b><span>/040</span></div></div><div><h4>환품입고</h4><div class="s">제품 냉장창고 · 미완료 14건</div></div></div>
+      <div class="card type-card"><div class="top"><svg class="ic"><use href="#i-undo"/></svg><div class="n"><b>28</b><span>/040</span></div></div><div><h4>반품입고</h4><div class="s">제품 냉장창고 · 미완료 12건</div></div></div></div></div>
+  </div>
+</section>
+
+<section class="screen" data-id="04" data-title="출고 유형 선택">
+  <div class="appbar"><div class="slot"><button class="back" data-go="02"><svg class="ic"><use href="#i-chev-l"/></svg>뒤로</button></div><div class="titles"><h2>출고</h2><p>출고 유형 선택</p></div><div class="slot r"><span class="c">맑은식품</span><span class="t">15:28</span></div></div>
+  <div class="body g16">
+    <div class="section"><div class="sec-head"><h3>주문·기타 출고</h3><span class="sub">주문 출하 · 폐기·샘플·반품</span><span class="cnt">39/080</span></div>
+      <button class="card pick-entry" data-go="05"><div class="ibox"><svg class="ic"><use href="#i-list"/></svg></div><div class="tx"><div class="t">피킹리스트</div><div class="m">주문 선택 → 개별·통합 출력 → 주문출고</div></div><span class="pill warn">미출력 23건</span><svg class="ic chev"><use href="#i-chev-l"/></svg></button>
+      <div class="cards2">
+      <div class="card type-card"><div class="top"><svg class="ic"><use href="#i-truck"/></svg><div class="n"><b>17</b><span>/040</span></div></div><div><h4>주문출고</h4><div class="s">제품 냉장창고 · 미완료 23건</div></div></div>
+      <div class="card type-card"><div class="top"><svg class="ic"><use href="#i-grid"/></svg><div class="n"><b>22</b><span>/040</span></div></div><div><h4>기타출고</h4><div class="s">폐기·샘플·반품 · 미완료 18건</div></div></div></div></div>
+    <div class="section"><div class="sec-head"><h3>생산 출고</h3><span class="sub">생산투입 지시 기준</span><span class="cnt">44/080</span></div><div class="cards2">
+      <div class="card type-card"><div class="top"><svg class="ic"><use href="#i-leaf"/></svg><div class="n"><b>20</b><span>/040</span></div></div><div><h4>원자재</h4><div class="s">원자재창고 · 미완료 20건</div></div></div>
+      <div class="card type-card"><div class="top"><svg class="ic"><use href="#i-box"/></svg><div class="n"><b>24</b><span>/040</span></div></div><div><h4>부자재</h4><div class="s">부자재창고 · 미완료 16건</div></div></div></div></div>
+    <div class="section"><div class="sec-head"><h3>발주 출고</h3><span class="sub">거래처·타 법인 발주 기준</span><span class="cnt">52/080</span></div><div class="cards2">
+      <div class="card type-card"><div class="top"><svg class="ic"><use href="#i-leaf"/></svg><div class="n"><b>28</b><span>/040</span></div></div><div><h4>원자재</h4><div class="s">원자재창고 · 미완료 12건</div></div></div>
+      <div class="card type-card"><div class="top"><svg class="ic"><use href="#i-box"/></svg><div class="n"><b>24</b><span>/040</span></div></div><div><h4>부자재</h4><div class="s">부자재창고 · 미완료 16건</div></div></div></div></div>
+  </div>
+</section>
+
+<section class="screen" data-id="05" data-title="피킹리스트">
+  <div class="appbar"><div class="slot"><button class="back" data-go="04"><svg class="ic"><use href="#i-chev-l"/></svg>뒤로</button></div><div class="titles"><h2>피킹리스트</h2><p>주문 선택 → 개별·통합 출력</p></div><div class="slot r"><span class="c">맑은식품</span><span class="t">15:28</span></div></div>
+  <div class="body nb">
+    <div class="seg"><button class="on">주문 선택</button><button>발행 이력 0</button></div>
+    <div class="chips"><span class="chip">오늘</span><span class="chip">지연</span><span class="chip">예정</span><span class="chip on">전체</span><div class="select"><span>전체 배송처</span><svg class="ic"><use href="#i-chev-d"/></svg></div></div>
+    <div class="summary"><span class="l">선택 0건 · 0품목 · 총 0박스</span><button class="btn md secondary">전체 선택</button></div>
+    <div class="list">
+      <div class="card row"><span class="cb"></span><div class="tx"><div class="t">한빛유통</div><div class="m">SO-261028-013 · 10-28 · 3품목 · 70박스</div></div><span class="pill neutral">대기</span></div>
+      <div class="card row"><span class="cb"></span><div class="tx"><div class="t">맑은물에 유통 · 용인센터</div><div class="m">SO-261029-012 · 10-29 · 3품목 · 100박스</div></div><span class="pill neutral">대기</span></div>
+      <div class="card row"><span class="cb"></span><div class="tx"><div class="t">푸른마트 성수점</div><div class="m">SO-261029-013 · 10-29 · 1품목 · 30박스</div></div><span class="pill neutral">대기</span></div>
+      <div class="card row"><span class="cb"></span><div class="tx"><div class="t">맑은물에 유통 · 이천센터</div><div class="m">SO-261102-012 · 11-02 · 2품목 · 130박스</div></div><span class="pill neutral">대기</span></div>
+      <div class="card row"><span class="cb"></span><div class="tx"><div class="t">맑은물에 유통 · 이천센터</div><div class="m">SO-261106-001 · 11-06 · 2품목 · 100박스</div></div><span class="pill neutral">대기</span></div>
+      <div class="card row"><span class="cb"></span><div class="tx"><div class="t">맑은물에 유통 · 이천센터</div><div class="m">SO-261106-013 · 11-06 · 2품목 · 110박스</div></div><span class="pill neutral">대기</span></div>
+      <div class="card row"><span class="cb"></span><div class="tx"><div class="t">푸른마트 성수점</div><div class="m">SO-261106-014 · 11-06 · 2품목 · 70박스</div></div><span class="pill neutral">대기</span></div>
+      <div class="card row"><span class="cb"></span><div class="tx"><div class="t">새벽배송 · 신선물류</div><div class="m">SO-261107-011 · 11-07 · 1품목 · 20박스</div></div><span class="pill neutral">대기</span></div>
+    </div>
+  </div>
+  <div class="foot-action"><button class="btn lg primary block">선택 주문 피킹리스트 출력</button></div>
+</section>
+
+<section class="screen" data-id="06" data-title="재고 조회">
+  <div class="appbar"><div class="slot"><button class="back" data-go="02"><svg class="ic"><use href="#i-chev-l"/></svg>뒤로</button></div><div class="titles"><h2>재고 조회</h2><p>LOT·로케이션별 현재고</p></div><div class="slot r"><span class="c">맑은식품</span><span class="t">15:28</span></div></div>
+  <div class="body nb">
+    <div class="scanbar"><svg class="ic"><use href="#i-scan"/></svg><span class="ph">품목·로케이션 라벨 스캔</span><button class="btn md primary">입력</button></div>
+    <div class="hint">스캔 대기 중 · 스캐너 버튼이나 하단 SCAN을 누르세요</div>
+    <div class="search"><svg class="ic"><use href="#i-search"/></svg><span>품목명·코드·LOT·로케이션 검색</span></div>
+    <div class="chips"><span class="chip on">전체</span><span class="chip">원자재</span><span class="chip">부자재</span><span class="chip">제품</span></div>
+    <div class="list">
+      <div class="card row"><div class="tx"><div class="t">국산 백태(대두)</div><div class="m">RM1001 · 원자재 · 20kg/포</div></div><div class="qty"><b>42</b><span>포</span></div></div>
+      <div class="card row"><div class="tx"><div class="t">나물콩(소립)</div><div class="m">RM1002 · 원자재 · 20kg/포</div></div><div class="qty"><b>18</b><span>포</span></div></div>
+      <div class="card row"><div class="tx"><div class="t">수입 대두(미국산)</div><div class="m">RM1003 · 원자재 · 25kg/포</div></div><div class="qty"><b>40</b><span>포</span></div></div>
+      <div class="card row"><div class="tx"><div class="t">콩물 PET병 1L</div><div class="m">SM2001 · 부자재 · 200개/박스</div></div><div class="qty"><b>25</b><span>박스</span></div></div>
+      <div class="card row"><div class="tx"><div class="t">PET 캡 38mm</div><div class="m">SM2002 · 부자재 · 1,000개/봉</div></div><div class="qty"><b>14</b><span>봉</span></div></div>
+      <div class="card row"><div class="tx"><div class="t">콩나물 포장봉투 300g</div><div class="m">SM2003 · 부자재 · 500매/묶음</div></div><div class="qty"><b>9</b><span>묶음</span></div></div>
+      <div class="card row"><div class="tx"><div class="t">맑은 콩나물 300g <span class="pill danger" style="margin-left:6px;vertical-align:2px">임박</span></div><div class="m">FG3001 · 제품 · 20입/박스</div></div><div class="qty"><b>106</b><span>박스</span></div></div>
+      <div class="card row"><div class="tx"><div class="t">무농약 콩나물 500g</div><div class="m">FG3002 · 제품 · 12입/박스</div></div><div class="qty"><b>30</b><span>박스</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="screen" data-id="07" data-title="재고 실사 유형">
+  <div class="appbar"><div class="slot"><button class="back" data-go="02"><svg class="ic"><use href="#i-chev-l"/></svg>뒤로</button></div><div class="titles"><h2>재고</h2><p>실사재고 유형 선택</p></div><div class="slot r"><span class="c">맑은식품</span><span class="t">15:28</span></div></div>
+  <div class="body">
+    <div class="hint">실사는 로케이션 단위로 진행되며, 저장 시 차이만큼 재고 조정 이력이 생성됩니다</div>
+    <div class="menu">
+      <div class="card menu-card tall"><div class="top"><div class="ibox"><svg class="ic"><use href="#i-box"/></svg></div><div class="nums"><div class="n"><b>0</b><span>/005</span></div><div class="cap">실사 완료 LOT</div></div></div><div><h4>제품 실사재고</h4><div class="s">제품 냉장창고 · 3품목 · 5 LOT</div></div></div>
+      <div class="card menu-card tall"><div class="top"><div class="ibox"><svg class="ic"><use href="#i-leaf"/></svg></div><div class="nums"><div class="n"><b>0</b><span>/004</span></div><div class="cap">실사 완료 LOT</div></div></div><div><h4>원자재 실사재고</h4><div class="s">원자재창고 · 3품목 · 4 LOT</div></div></div>
+      <div class="card menu-card tall"><div class="top"><div class="ibox"><svg class="ic"><use href="#i-box"/></svg></div><div class="nums"><div class="n"><b>0</b><span>/003</span></div><div class="cap">실사 완료 LOT</div></div></div><div><h4>부자재 실사재고</h4><div class="s">부자재창고 · 3품목 · 3 LOT</div></div></div>
+      <button class="card menu-card tall" data-go="08"><div class="top"><div class="ibox"><svg class="ic"><use href="#i-grid"/></svg></div><div class="nums"><div class="n"><b>0</b><span>/011</span></div><div class="cap">실사 완료 로케이션</div></div></div><div><h4>창고별 실사재고</h4><div class="s">전 창고 · 11 로케이션</div></div></button>
+    </div>
+  </div>
+</section>
+
+<section class="screen" data-id="08" data-title="창고별 실사">
+  <div class="appbar"><div class="slot"><button class="back" data-go="07"><svg class="ic"><use href="#i-chev-l"/></svg>뒤로</button></div><div class="titles"><h2>창고별 실사재고</h2><p>로케이션 선택</p></div><div class="slot r"><span class="c">맑은식품</span><span class="t">15:28</span></div></div>
+  <div class="body">
+    <div class="scanbar"><svg class="ic"><use href="#i-scan"/></svg><span class="ph">실사할 로케이션 바코드 스캔</span><button class="btn md primary">입력</button></div>
+    <div class="hint">스캔 대기 중 · 스캐너 버튼이나 하단 SCAN을 누르세요</div>
+    <div class="label-row"><span class="l">로케이션 선택</span><span class="r">11곳 · 실사 완료 0</span></div>
+    <div class="cards2" style="gap:10px 12px">
+      <div class="card loc-card"><div class="tx"><div class="c">RM-A-01</div><div class="w">원자재창고</div></div><span class="n">2 LOT</span></div>
+      <div class="card loc-card"><div class="tx"><div class="c">RM-A-02</div><div class="w">원자재창고</div></div><span class="n">1 LOT</span></div>
+      <div class="card loc-card"><div class="tx"><div class="c">RM-B-01</div><div class="w">원자재창고</div></div><span class="n">1 LOT</span></div>
+      <div class="card loc-card"><div class="tx"><div class="c">RM-B-02</div><div class="w">원자재창고</div></div><span class="n zero">0 LOT</span></div>
+      <div class="card loc-card"><div class="tx"><div class="c">SM-A-01</div><div class="w">부자재창고</div></div><span class="n">1 LOT</span></div>
+      <div class="card loc-card"><div class="tx"><div class="c">SM-A-02</div><div class="w">부자재창고</div></div><span class="n">1 LOT</span></div>
+      <div class="card loc-card"><div class="tx"><div class="c">SM-B-01</div><div class="w">부자재창고</div></div><span class="n">1 LOT</span></div>
+      <div class="card loc-card"><div class="tx"><div class="c">FG-C-01</div><div class="w">제품 냉장창고</div></div><span class="n">2 LOT</span></div>
+      <div class="card loc-card"><div class="tx"><div class="c">FG-C-02</div><div class="w">제품 냉장창고</div></div><span class="n">1 LOT</span></div>
+      <div class="card loc-card"><div class="tx"><div class="c">FG-C-03</div><div class="w">제품 냉장창고</div></div><span class="n">2 LOT</span></div>
+      <div class="card loc-card"><div class="tx"><div class="c">FG-D-01</div><div class="w">제품 냉장창고</div></div><span class="n zero">0 LOT</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="screen" data-id="09" data-title="창고 이동">
+  <div class="appbar"><div class="slot"><button class="back" data-go="02"><svg class="ic"><use href="#i-chev-l"/></svg>뒤로</button></div><div class="titles"><h2>창고 이동</h2><p>로케이션 간 재고 이동</p></div><div class="slot r"><span class="c">맑은식품</span><span class="t">15:28</span></div></div>
+  <div class="body">
+    <div class="scanbar"><svg class="ic"><use href="#i-scan"/></svg><span class="ph">출발 로케이션 → 품목 라벨 → 도착 로케이션</span><button class="btn md primary">입력</button></div>
+    <div class="hint">스캔 대기 중 · 스캐너 버튼이나 하단 SCAN을 누르세요</div>
+    <div class="label-row"><span class="l">이동 지시</span><span class="r">완료 0 / 3</span></div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div class="card row sm"><div class="tx"><div class="t">맑은 콩나물 300g 20박스</div><div class="m">MV-261106-01 · L261104 · FG-C-01 → FG-D-01</div></div><span class="pill neutral">대기</span></div>
+      <div class="card row sm"><div class="tx"><div class="t">국산 백태(대두) 12포</div><div class="m">MV-261106-02 · L260920 · RM-A-01 → RM-B-02</div></div><span class="pill neutral">대기</span></div>
+      <div class="card row sm"><div class="tx"><div class="t">콩물 PET병 1L 5박스</div><div class="m">MV-261106-03 · L261010 · SM-A-01 → SM-B-01</div></div><span class="pill neutral">대기</span></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px;padding-top:4px">
+      <div class="card step on"><div class="hd"><span class="num">1</span><h4>출발 로케이션</h4></div><div class="select"><span>직접 선택</span><svg class="ic"><use href="#i-chev-d"/></svg></div></div>
+      <div class="card step"><div class="hd"><span class="num">2</span><h4>이동 수량</h4></div><div class="d">출발 로케이션에서 LOT를 선택하거나 라벨을 스캔하세요</div></div>
+      <div class="card step"><div class="hd"><span class="num">3</span><h4>도착 로케이션</h4></div><div class="select"><span>직접 선택</span><svg class="ic"><use href="#i-chev-d"/></svg></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="screen" data-id="10" data-title="처리 이력">
+  <div class="appbar"><div class="slot"><button class="back" data-go="02"><svg class="ic"><use href="#i-chev-l"/></svg>뒤로</button></div><div class="titles"><h2>처리 이력</h2><p>2026-11-06 (금)</p></div><div class="slot r"><span class="c">맑은식품</span><span class="t">15:28</span></div></div>
+  <div class="body">
+    <div class="chips"><span class="chip on">오늘</span><span class="chip">입고</span><span class="chip">출고</span><span class="chip">이동</span><span class="chip">실사</span></div>
+    <div class="empty"><div class="circ"><svg class="ic"><use href="#i-clock"/></svg></div><h4>오늘 처리한 내역이 없습니다</h4><p>입고·출고·이동·실사를 확정하면<br>여기에 시간순으로 기록됩니다</p></div>
+  </div>
+  <div class="foot-scan"><svg class="ic"><use href="#i-scan"/></svg><span>SCAN 버튼을 누르면 현재 화면에서 바로 스캔합니다</span></div>
+</section>
+
+</template>
+
+<script>
+(function(){
+  const tpl=document.getElementById('screens').content;
+  const screens=[...tpl.querySelectorAll('.screen')];
+  const device=document.getElementById('device'), nav=document.getElementById('nav'), grid=document.getElementById('grid'), stage=document.getElementById('stage');
+  screens.forEach(s=>{
+    device.appendChild(s.cloneNode(true));
+    const b=document.createElement('button'); b.innerHTML='<b>'+s.dataset.id+'</b>'+s.dataset.title; b.dataset.id=s.dataset.id; b.onclick=()=>show(s.dataset.id); nav.appendChild(b);
+    const fig=document.createElement('figure'); const th=document.createElement('div'); th.className='thumb'; const c=s.cloneNode(true); c.classList.add('on'); th.appendChild(c); th.onclick=()=>{setMode('single');show(s.dataset.id)}; fig.appendChild(th); const cap=document.createElement('figcaption'); cap.textContent=s.dataset.id+' '+s.dataset.title; fig.appendChild(cap); grid.appendChild(fig);
+  });
+  function fitThumbs(){ grid.querySelectorAll('.thumb').forEach(t=>{ const k=t.clientWidth/480; t.querySelector('.screen').style.transform='scale('+k+')'; }); }
+  function show(id){ device.querySelectorAll('.screen').forEach(s=>s.classList.toggle('on',s.dataset.id===id)); nav.querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.id===id)); location.hash=id; }
+  function setMode(m){ stage.classList.toggle('single',m==='single'); stage.classList.toggle('all',m==='all'); document.querySelectorAll('.mode button').forEach(b=>b.classList.toggle('on',b.dataset.mode===m)); if(m==='all') requestAnimationFrame(fitThumbs); }
+  document.querySelectorAll('.mode button').forEach(b=>b.onclick=()=>setMode(b.dataset.mode));
+  device.addEventListener('click',e=>{ const g=e.target.closest('[data-go]'); if(g) show(g.dataset.go); });
+  window.addEventListener('resize',()=>{ if(stage.classList.contains('all')) fitThumbs(); });
+  window.addEventListener('hashchange',()=>{ const id=location.hash.slice(1); if(device.querySelector('.screen[data-id="'+id+'"]')) show(id); });
+  show((location.hash||'#01').slice(1));
+})();
+</script>
+</body>
+</html>
