@@ -92,9 +92,33 @@
       .join("")}</div>`;
   }
 
+  /* ---------- 추천 질문 칩 ---------- */
+  const STARTERS = [
+    "상암점 내일 발주 짜줘",
+    "이번 달 법인별 주문 건수 보여줘",
+    "올해 월별 주문 금액 추이 보여줘",
+    "두부 로트 추적",
+  ];
+  const FOLLOWUPS = {
+    order: ["유통기한 임박 품목 전체 보여줘", "지난주 발주량과 비교해줘", "발주 이력 보여줘"],
+    corp: ["맑은식품 거래처별로 보여줘", "지난달이랑 비교해줘", "주문 많은 품목 순위 보여줘"],
+    trend: ["법인별로 나눠서 보여줘", "작년 같은 기간과 비교해줘", "표로 정리해줘"],
+    lot: ["같은 제품 최근 생산 로트 알려줘", "이 로트의 출고처 보여줘"],
+  };
+  function followupRow(list) {
+    if (!list || !list.length) return null;
+    return el(`<div class="followups">${list
+      .map((q) => `<button class="chip chip--q">${esc(q)}</button>`)
+      .join("")}</div>`);
+  }
+
   /* ---------- scenarios (mock backend) ---------- */
   function scenarioFor(text) {
     const t = text.replace(/\s/g, "");
+    if (/연락처|전화번호|개인정보/.test(t)) return "refuse";
+    if (/법인별주문|주문건수/.test(t)) return "corp";
+    if (/월별|추이/.test(t)) return "trend";
+    if (/^맑은물에매출알려줘$|매출어때/.test(t)) return "clarify";
     if (/발주|주문|상암/.test(t)) return "order";
     if (/폐기|손실/.test(t)) return "waste";
     if (/유통기한|임박|재고/.test(t)) return "stock";
@@ -153,6 +177,66 @@
           ${evidence(["재고 DB", "품질 DB"], "high")}
         </div>`;
     }
+    if (kind === "corp") {
+      return `
+        <div class="bubble bubble--ai">
+          <p>이번 달(10월 1일 ~ 10월 23일) 전체 법인 주문 건수 합계는 <strong>3,513건</strong>입니다. 화면 기준(등록 법인 9개)으로는 <strong>3,204건</strong>이에요.</p>
+          <div class="answer-table"><table>
+            <thead><tr><th>법인</th><th>주문 건수</th><th>비중</th></tr></thead>
+            <tbody>
+              <tr><td>맑은식품</td><td><strong>1,118건</strong></td><td>31.8%</td></tr>
+              <tr><td>꿈꾸는콩</td><td>842건</td><td>24.0%</td></tr>
+              <tr><td>맑은동해</td><td>486건</td><td>13.8%</td></tr>
+              <tr><td>맑은물에홀딩스</td><td>312건</td><td>8.9%</td></tr>
+              <tr><td>참좋은콩</td><td>207건</td><td>5.9%</td></tr>
+              <tr><td>외 4개 법인</td><td>239건</td><td>6.8%</td></tr>
+              <tr class="row--subtotal"><td>등록 법인 9개 소계</td><td>3,204건</td><td>91.2%</td></tr>
+              <tr class="row--subtotal"><td>위탁생산처</td><td>309건</td><td>8.8%</td></tr>
+              <tr class="row--total"><td>합계</td><td>3,513건</td><td>100%</td></tr>
+            </tbody></table></div>
+          <p style="font-size:12px;color:var(--g8);margin-top:10px;">주문 관리 화면은 등록 법인 9개 기준으로 집계되어 소계(3,204건)와 화면 건수가 일치합니다.</p>
+          ${evidence(["주문 DB", "법인 DB"], "high")}
+          ${deepLinks(["주문정보 관리"])}
+        </div>`;
+    }
+    if (kind === "trend") {
+      return `
+        <div class="bubble bubble--ai">
+          <p>올해 1월~10월 월별 주문 금액 추이입니다. 10월 누적은 <strong>21.4억 원</strong>으로 전월 대비 <strong style="color:var(--pos-2)">+8.2%</strong>예요.</p>
+          <div class="mini-chart">
+            <svg viewBox="0 0 560 190" xmlns="http://www.w3.org/2000/svg">
+              <g stroke="#eaebed"><line x1="40" y1="20" x2="540" y2="20"/><line x1="40" y1="70" x2="540" y2="70"/><line x1="40" y1="120" x2="540" y2="120"/><line x1="40" y1="160" x2="540" y2="160"/></g>
+              <text x="34" y="24" font-size="10" fill="#a7a8aa" text-anchor="end">25억</text>
+              <text x="34" y="124" font-size="10" fill="#a7a8aa" text-anchor="end">15억</text>
+              <polyline fill="none" stroke="#2c7fdf" stroke-width="2.5" points="40,128 95,122 150,131 205,110 260,97 315,104 370,84 425,88 480,64 540,46"/>
+              <g fill="#2c7fdf"><circle cx="480" cy="64" r="3.5"/><circle cx="540" cy="46" r="4.5"/></g>
+              <text x="540" y="34" font-size="11" font-weight="700" fill="#034bb4" text-anchor="end">21.4억</text>
+              <g font-size="10" fill="#a7a8aa" text-anchor="middle"><text x="40" y="180">1월</text><text x="150" y="180">3월</text><text x="260" y="180">5월</text><text x="370" y="180">7월</text><text x="480" y="180">9월</text><text x="540" y="180">10월</text></g>
+            </svg>
+          </div>
+          ${evidence(["주문 DB"], "high")}
+          ${deepLinks(["주문정보 관리"])}
+        </div>`;
+    }
+    if (kind === "clarify") {
+      return `
+        <div class="bubble bubble--ai">
+          <p>어떤 매출을 말씀하시는 걸까요? 기준을 골라 주시면 바로 조회할게요.</p>
+          <div class="followups" style="margin-top:10px">
+            <button class="chip chip--q">맑은물에 법인 최근 1개월 매출 (접수일 기준)</button>
+            <button class="chip chip--q">맑은물에 그룹 전체 이번 달 매출</button>
+            <button class="chip chip--q">맑은물에홀딩스 올해 누적 매출</button>
+          </div>
+        </div>`;
+    }
+    if (kind === "refuse") {
+      return `
+        <div class="bubble bubble--ai">
+          <p>거래처 담당자 연락처는 <strong>개인정보</strong>라 답변해 드릴 수 없어요.</p>
+          <p style="font-size:12px;color:var(--g8);margin-top:8px;">연락처는 권한이 있는 계정으로 기초정보 관리 &gt; 거래처 관리 화면에서 확인할 수 있습니다.</p>
+          ${deepLinks(["거래처 관리"])}
+        </div>`;
+    }
     return `
       <div class="bubble bubble--ai">
         <p>질문을 이해했어요. 발주·재고·유통기한·안전재고·로트 추적 등 ERP 데이터를 조회해 답변할 수 있습니다.</p>
@@ -199,7 +283,9 @@
       }
       loading.remove();
       col.appendChild(el(answerContent(kind)));
-      col.appendChild(actionBar());
+      if (kind !== "clarify") col.appendChild(actionBar());
+      const fu = followupRow(FOLLOWUPS[kind]);
+      if (fu) col.appendChild(fu);
       col.appendChild(el(`<span class="msg__stamp">${now()}</span>`));
       setGenerating(false);
       scrollDown();
@@ -213,7 +299,7 @@
     const card = el(`
       <div class="excel-card">
         <div class="excel-card__file"><div class="excel-card__badge">XLS</div>
-          <div class="excel-card__meta"><div class="excel-card__name">상암점_발주초안_20260723.xlsx</div><div class="excel-card__sub">2개 시트 · 내려받는 중…</div></div>
+          <div class="excel-card__meta"><div class="excel-card__name">상암점_발주초안_20261023.xlsx</div><div class="excel-card__sub">2개 시트 · 내려받는 중…</div></div>
         </div>
         <div class="progress"><div class="progress__fill"></div></div>
       </div>`);
@@ -264,6 +350,9 @@
 
   /* ---------- thread delegation ---------- */
   thread.addEventListener("click", (e) => {
+    // 추천 질문 칩 → 그대로 질의
+    const qChip = e.target.closest(".chip--q");
+    if (qChip) { sendMessage(qChip.textContent.replace(/\s*\(.*\)\s*$/, "")); return; }
     // deep-link (inline or button)
     const dl = e.target.closest(".dl-inline, .dl-btn");
     if (dl) { toast(`${dl.dataset.screen} 화면으로 이동합니다 (프로토타입)`, false); return; }
@@ -326,9 +415,28 @@
     thread.innerHTML = "";
   }
 
+  /* ---------- 대화 이어보기 (localStorage 복원 목업) ---------- */
+  function renderRestore() {
+    thread.appendChild(el(`
+      <div class="restore-banner">
+        <div class="restore-banner__txt"><strong>지난 대화를 이어서 보여드려요</strong><span> · 마지막 대화 10월 22일 17:41 · 저장된 메시지 41개</span></div>
+        <button class="btn btn--ghost" id="freshBtn">새 대화 시작</button>
+      </div>`));
+    thread.appendChild(el('<div class="date-divider"><span>10월 22일</span></div>'));
+    const u = el(`<div class="msg msg--user"><div class="msg__col"><div class="bubble bubble--user"></div><span class="msg__stamp msg__stamp--past">이전 대화 · 17:41</span></div></div>`);
+    u.querySelector(".bubble").textContent = "이번 달 법인별 주문 건수 보여줘";
+    thread.appendChild(u);
+    const aiRow = addAiRow();
+    const col = aiRow.querySelector(".msg__col");
+    col.appendChild(el(answerContent("corp")));
+    col.appendChild(el('<span class="msg__stamp msg__stamp--past">이전 대화 · 17:41</span>'));
+    thread.querySelector("#freshBtn").addEventListener("click", () => { renderInitial(); toast("새 대화를 시작했어요"); });
+  }
+
   function renderInitial() {
     thread.innerHTML = "";
-    thread.appendChild(el('<div class="date-divider"><span>오늘 · 7월 24일</span></div>'));
+    if (new URLSearchParams(location.search).get("restore") === "1") { renderRestore(); }
+    thread.appendChild(el('<div class="date-divider"><span>오늘 · 10월 23일</span></div>'));
     const aiRow = addAiRow();
     const col = aiRow.querySelector(".msg__col");
     col.appendChild(el(`
@@ -342,6 +450,7 @@
         ${evidence(["재고 DB", "품질 DB"], "high")}
       </div>`));
     col.appendChild(actionBar());
+    col.appendChild(followupRow(STARTERS));
     col.appendChild(el(`<span class="msg__stamp">${now()}</span>`));
     scrollDown();
   }
