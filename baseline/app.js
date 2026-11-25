@@ -59,11 +59,32 @@
     scrollDown();
     return row;
   }
+  /* 진행 단계 문구 — 실제 화면이 서버 진행 신호(해석 → 조회 → 확인 → 정리 → 작성)에 맞춰 바꾸는 순서를 본뜸.
+     [시작 ms, 문구]. query = 데이터를 조회하는 질문, quick = 조회 없이 바로 답하는 질문(되묻기·거부 등) */
+  const STAGE_FLOW = {
+    query: [[0, "질문을 해석하고 있어요"], [700, "데이터를 조회하고 있어요"], [1700, "조회 결과를 확인하고 있어요"],
+            [2400, "답변을 정리하고 있어요"], [3000, "답변을 작성하고 있어요"]],
+    quick: [[0, "질문을 해석하고 있어요"], [800, "답변을 작성하고 있어요"]],
+  };
   function loadingBubble(label) {
     return el(`
-      <div class="bubble bubble--ai"><span>${esc(label)}</span>
-        <div class="loading"><span class="loading__dot"></span><span class="loading__dot"></span><span class="loading__dot"></span><span class="loading__label">답변 생성 중…</span></div>
+      <div class="bubble bubble--ai"><span class="loading__stage">${esc(label)}</span>
+        <div class="loading"><span class="loading__dot"></span><span class="loading__dot"></span><span class="loading__dot"></span><span class="loading__label">0초</span></div>
       </div>`);
+  }
+  /* 오류 말풍선 + [다시 보내기] — 서버가 처리 중 실패했을 때 실제 화면이 보여주는 모양 */
+  function failBubble(question) {
+    const b = el(`
+      <div class="bubble bubble--ai bubble--warn">
+        <p>데이터를 조회하는 중에 서버 오류가 났어요. 아래 버튼으로 같은 질문을 다시 보내주세요.</p>
+        <div class="bubble__actions"><button class="btn btn--retry">다시 보내기</button></div>
+      </div>`);
+    b.querySelector(".btn--retry").addEventListener("click", () => {
+      if (generating) return;
+      b.querySelector(".bubble__actions").remove();
+      sendMessage(question, true);
+    });
+    return b;
   }
   function actionBar() {
     return el(`
@@ -261,27 +282,49 @@
     bindSendBtn();
   }
 
-  function sendMessage(text) {
+  /* 오류 화면 시연: 주소에 ?error=1 을 붙이면 첫 질문 한 번만 서버 오류로 끝난다. [다시 보내기]는 정상 답변 */
+  let failNext = new URLSearchParams(location.search).get("error") === "1";
+
+  function sendMessage(text, isRetry) {
     if (!text.trim() || generating) return;
     addUserMessage(text.trim());
     input.value = "";
     autoGrow();
     const kind = scenarioFor(text);
+    const fail = failNext && !isRetry;
+    failNext = false;
+    const flow = STAGE_FLOW[/^(refuse|clarify|default)$/.test(kind) ? "quick" : "query"];
     const aiRow = addAiRow();
     const col = aiRow.querySelector(".msg__col");
-    const loading = loadingBubble("데이터를 조회하고 있어요.");
+    const loading = loadingBubble(flow[0][1]);
+    const stageEl = loading.querySelector(".loading__stage");
+    const secEl = loading.querySelector(".loading__label");
     col.appendChild(loading);
     scrollDown();
     setGenerating(true);
     stopRequested = false;
+    const t0 = Date.now();
+    const stageTimers = flow.slice(1).map(([ms, label]) => setTimeout(() => { if (!stopRequested) stageEl.textContent = label; }, ms));
+    const secTimer = setInterval(() => { secEl.textContent = Math.floor((Date.now() - t0) / 1000) + "초"; }, 250);
+    /* 오류 시연은 조회 단계(2번째 문구)까지만 진행하고 끊는다 */
+    const endAt = fail ? 2000 : flow[flow.length - 1][0] + 600;
     setTimeout(() => {
+      stageTimers.forEach(clearTimeout);
+      clearInterval(secTimer);
       if (stopRequested) {
         loading.querySelector(".loading").remove();
-        loading.querySelector("span").textContent = "답변 생성을 멈췄어요.";
+        stageEl.textContent = "답변 생성을 멈췄어요.";
         setGenerating(false);
         return;
       }
       loading.remove();
+      if (fail) {
+        col.appendChild(failBubble(text.trim()));
+        col.appendChild(el(`<span class="msg__stamp">${now()}</span>`));
+        setGenerating(false);
+        scrollDown();
+        return;
+      }
       col.appendChild(el(answerContent(kind)));
       if (kind !== "clarify") col.appendChild(actionBar());
       const fu = followupRow(FOLLOWUPS[kind]);
@@ -289,7 +332,7 @@
       col.appendChild(el(`<span class="msg__stamp">${now()}</span>`));
       setGenerating(false);
       scrollDown();
-    }, 1400);
+    }, endAt);
   }
 
   /* ---------- excel download ---------- */

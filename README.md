@@ -17,6 +17,7 @@
 
 - 라이브: `https://doolam2.github.io/erp-ai-assistant-mvp/`
 - git 태그로 스냅샷 고정: `v1.0-baseline`, `v1.1-history`
+- 기본 버전 챗 화면의 시연용 주소: `baseline/chat.html?restore=1`(지난 대화 이어보기), `baseline/chat.html?error=1`(첫 질문이 서버 오류로 끝남 → [다시 보내기]로 복구). 답을 기다리는 동안 로딩 말풍선의 단계 문구(해석 → 조회 → 확인 → 정리 → 작성)가 실제 화면과 같은 순서로 바뀐다.
 
 ## 각 버전 화면
 
